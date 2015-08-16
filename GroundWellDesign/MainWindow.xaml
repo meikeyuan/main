@@ -1,8 +1,127 @@
 ﻿<Window x:Class="GroundWellDesign.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:local="clr-namespace:GroundWellDesign"
+        xmlns:assembly="clr-namespace:System;assembly=mscorlib"
+        Title="覆岩参数录入" Width="1000">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="yanXingEnum" MethodName="GetValues" 
+                            ObjectType="{x:Type assembly:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local:YanXingOpt"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
     <Grid>
-        
+        <!-- 效果部分-->
+        <Border Background="Transparent" BorderThickness="1" BorderBrush="Black" Margin="-1" Grid.ColumnSpan="2">
+            <Border.Effect>
+                <BlurEffect/>
+            </Border.Effect>
+        </Border>
+
+        <!-- 主体部分 -->
+        <Border BorderBrush="Black" BorderThickness="1" ClipToBounds="True" SnapsToDevicePixels="True" Grid.ColumnSpan="2">
+            <TabControl x:Name="tabControl"  Style="{DynamicResource TabControlStyle2}" Margin="0,0,0,0">
+                <TabItem Header="表格式录入" IsSelected="True" Style="{DynamicResource TabItemStyle2}">
+                    <Grid>
+                        <DataGrid x:Name="dataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" ItemsSource="{Binding}" CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridComboBoxColumn Header="岩性" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" 
+                                        ItemsSource="{Binding Source={StaticResource ResourceKey=yanXingEnum}}"/>
+                                <DataGridTextColumn Binding="{Binding LeiJiShenDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="累计深度/m"/>
+                                <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="距离煤层深度"/>
+                                <DataGridTextColumn Binding="{Binding CengHou, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="层厚"/>
+                                <DataGridTextColumn Binding="{Binding ZiRanMiDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="自然视密度"/>
+                                <DataGridTextColumn Binding="{Binding BianXingMoLiang, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="变形模量/MPa"/>
+                                <DataGridTextColumn Binding="{Binding KangLaQiangDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="抗拉强度/MPa"/>
+                                <DataGridTextColumn Binding="{Binding KangYaQiangDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="抗压强度"/>
+                                <DataGridTextColumn Binding="{Binding TanXingMoLiang, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="弹性模量/MPa"/>
+                                <DataGridTextColumn Binding="{Binding BoSonBi, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="泊松比"/>
+                                <DataGridTextColumn Binding="{Binding NeiMoCaJiao, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="内摩擦角"/>
+                                <DataGridTextColumn Binding="{Binding NianJuLi, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="粘聚力"/>
+                                <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="岩性描述" Width="*"/>
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu Name="dgMenu" StaysOpen="true">
+                                    <MenuItem Header="下方增行" Click="MenuItem_Click_1"/>
+                                    <MenuItem Header="上移" Click="MenuItem_Click_2" />
+                                    <MenuItem Header="下移" Click="MenuItem_Click_3" />
+                                    <MenuItem Header="删除此行" Click="MenuItem_Click"/>
+
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="向导式录入" Style="{DynamicResource TabItemStyle2}">
+
+
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28*"/>
+                            <ColumnDefinition Width="75*"/>
+                            <ColumnDefinition Width="106*"/>
+                            <ColumnDefinition Width="98*"/>
+                            <ColumnDefinition Width="122*"/>
+                            <ColumnDefinition Width="97*"/>
+                            <ColumnDefinition Width="91*"/>
+                            <ColumnDefinition Width="51*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="31*"/>
+                            <RowDefinition Height="45*"/>
+                            <RowDefinition Height="43*"/>
+                            <RowDefinition Height="45*"/>
+                            <RowDefinition Height="43*"/>
+                            <RowDefinition Height="51*"/>
+                            <RowDefinition Height="49*"/>
+                            <RowDefinition Height="43*"/>
+                            <RowDefinition Height="19*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Column="1" Grid.Row="2" Text="描述" />
+                        <TextBox x:Name="miaoshuTb" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="5" />
+                        <TextBlock Grid.Column="1" Text="当前层号" Grid.Row="1"/>
+                        <TextBox x:Name="currLayerTb" Grid.Column="2" Grid.Row="1" Text="1" Grid.ColumnSpan="2"/>
+
+                        <TextBlock Text="岩性" Grid.Column="1" Grid.Row="3" />
+                        <ComboBox x:Name="yanXingCB"  Grid.Column="2" Grid.Row="3" ItemsSource="{Binding Source={StaticResource ResourceKey=yanXingEnum}}"/>
+                        <TextBlock Grid.Column="3" Grid.Row="3" Text="累计深度/m" />
+                        <TextBox x:Name="leiJiShenDuTb" Grid.Column="4" Grid.Row="3" />
+                        <TextBlock Grid.Column="5" Grid.Row="3" Text="距离煤层深度" />
+                        <TextBox x:Name="juLiMeiShenDuTb" Grid.Column="6" Grid.Row="3" />
+                        <TextBlock Grid.Column="1" Grid.Row="4" Text="层厚/m" />
+                        <TextBox x:Name="cengHouTb" Grid.Column="2" Grid.Row="4" />
+                        <TextBlock Grid.Column="3"  Grid.Row="4" Text="自然视密度"/>
+                        <TextBox x:Name="ziRanMiDuTb" Grid.Column="4" Grid.Row="4" />
+                        <TextBlock Grid.Column="5" Grid.Row="4" Text="变形模量" />
+                        <TextBox x:Name="bianXingMoLiangTb" Grid.Column="6" Grid.Row="4" />
+                        <TextBlock Grid.Column="1" Grid.Row="5" Text="抗拉强度" />
+                        <TextBox x:Name="kangLaQiangDuTb" Grid.Column="2" Grid.Row="5" />
+                        <TextBlock Grid.Column="3" Grid.Row="5" Text="抗压强度"/>
+                        <TextBox x:Name="kangYaQiangDuTb" Grid.Column="4" Grid.Row="5" />
+                        <TextBlock Grid.Column="5" Grid.Row="5" Text="弹性模量" />
+                        <TextBox x:Name="tanXingMoLiangTb" Grid.Column="6" Grid.Row="5" />
+                        <TextBlock Grid.Column="1" Grid.Row="6" Text="泊松比"/>
+                        <TextBox x:Name="boSonBiTb" Grid.Column="2" Grid.Row="6"  />
+                        <TextBlock Grid.Column="3" Grid.Row="6" Text="内摩擦角" />
+                        <TextBox x:Name="neiMoCaJiaoTb" Grid.Column="4" Grid.Row="6" />
+                        <TextBlock Grid.Column="5" Grid.Row="6" Text="粘聚力" />
+                        <TextBox x:Name="nianJuLiTb" Grid.Column="6" Grid.Row="6"/>
+
+                        <Button x:Name="saveBtn" Content="保存并继续输入" Grid.Row="7" Grid.Column="3" Click="saveBtn_Click" />
+
+                        <Button x:Name="stopBtn" Content="停止输入并查看" Grid.Column="5"  Grid.Row="7" Click="stopBtn_Click"/>
+
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+        </Border>
+
     </Grid>
 </Window>
