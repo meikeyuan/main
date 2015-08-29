@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections;
 using System.Windows.Data;
+using System.Windows.Forms.Integration;
 
 namespace GroundWellDesign
 {
@@ -21,6 +22,9 @@ namespace GroundWellDesign
         //向导式当前编辑的岩层参数
         LayerParams editLayer = new LayerParams();
 
+        AxMxDrawXLib.AxMxDrawX mxDraw;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,21 +35,40 @@ namespace GroundWellDesign
             dataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
             //向导式binding
-           miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu"){Source=editLayer});
-           yanXingCB.SetBinding(ComboBox.TextProperty, new Binding("YanXing") { Source = editLayer, UpdateSourceTrigger= UpdateSourceTrigger.PropertyChanged });
-           leiJiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("LeiJiShenDu") { Source = editLayer });
-           juLiMeiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("JuLiMeiShenDu") { Source = editLayer });
-           cengHouTb.SetBinding(TextBox.TextProperty, new Binding("CengHou") { Source = editLayer });
-           ziRanMiDuTb.SetBinding(TextBox.TextProperty, new Binding("ZiRanMiDu") { Source = editLayer });
-           bianXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("BianXingMoLiang") { Source = editLayer });
-           kangLaQiangDuTb.SetBinding(TextBox.TextProperty, new Binding("KangLaQiangDu") { Source = editLayer });
-           kangYaQiangDuTb.SetBinding(TextBox.TextProperty, new Binding("KangYaQiangDu") { Source = editLayer });
-           tanXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("TanXingMoLiang") { Source = editLayer});
-           boSonBiTb.SetBinding(TextBox.TextProperty, new Binding("BoSonBi") { Source = editLayer });
-           neiMoCaJiaoTb.SetBinding(TextBox.TextProperty, new Binding("NeiMoCaJiao") { Source = editLayer});
-           nianJuLiTb.SetBinding(TextBox.TextProperty, new Binding("NianJuLi") { Source = editLayer });
+            miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu") { Source = editLayer });
+            yanXingCB.SetBinding(ComboBox.TextProperty, new Binding("YanXing") { Source = editLayer, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            leiJiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("LeiJiShenDu") { Source = editLayer });
+            juLiMeiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("JuLiMeiShenDu") { Source = editLayer });
+            cengHouTb.SetBinding(TextBox.TextProperty, new Binding("CengHou") { Source = editLayer });
+            ziRanMiDuTb.SetBinding(TextBox.TextProperty, new Binding("ZiRanMiDu") { Source = editLayer });
+            bianXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("BianXingMoLiang") { Source = editLayer });
+            kangLaQiangDuTb.SetBinding(TextBox.TextProperty, new Binding("KangLaQiangDu") { Source = editLayer });
+            kangYaQiangDuTb.SetBinding(TextBox.TextProperty, new Binding("KangYaQiangDu") { Source = editLayer });
+            tanXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("TanXingMoLiang") { Source = editLayer });
+            boSonBiTb.SetBinding(TextBox.TextProperty, new Binding("BoSonBi") { Source = editLayer });
+            neiMoCaJiaoTb.SetBinding(TextBox.TextProperty, new Binding("NeiMoCaJiao") { Source = editLayer });
+            nianJuLiTb.SetBinding(TextBox.TextProperty, new Binding("NianJuLi") { Source = editLayer });
 
 
+            // 创建 host 对象作为cad控件容器
+            WindowsFormsHost host = new WindowsFormsHost();
+
+            mxDraw = new AxMxDrawXLib.AxMxDrawX();
+
+            host.Child = mxDraw;
+
+
+            mxDraw.BeginInit();
+
+            cadGrid.Children.Add(host);
+
+            mxDraw.EndInit();
+
+        }
+
+        private void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+            // Get the AxHost wrapper from the WindowsFormsHost control.
 
         }
 
@@ -117,8 +140,9 @@ namespace GroundWellDesign
         private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
             int layerNum = int.Parse(currLayerTb.Text);
-            if(layerNum > layers.Count + 1){
-                currLayerTb.Text += "       已经录入" + layers.Count + "层,请修改层号。"; 
+            if (layerNum > layers.Count + 1)
+            {
+                currLayerTb.Text += "       已经录入" + layers.Count + "层,请修改层号。";
                 return;
             }
 
@@ -141,7 +165,7 @@ namespace GroundWellDesign
 
     }
 
-    public enum YanXingOpt {黄土,细粒砂岩,泥岩,中粒砂岩,粉砂岩,砂质泥岩,粗粒砂岩,细砂岩,中砂岩, 煤};
+    public enum YanXingOpt { 黄土, 细粒砂岩, 泥岩, 中粒砂岩, 粉砂岩, 砂质泥岩, 粗粒砂岩, 细砂岩, 中砂岩, 煤 };
 
     public class LayerParams
     {
