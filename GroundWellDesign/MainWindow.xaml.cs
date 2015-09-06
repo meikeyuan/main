@@ -17,13 +17,10 @@ namespace GroundWellDesign
 
         //所有已经录入岩层参数
         ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
-
-
         //向导式当前编辑的岩层参数
         LayerParams editLayer = new LayerParams();
 
         AxMxDrawXLib.AxMxDrawX mxDraw;
-
 
         public MainWindow()
         {
@@ -34,9 +31,13 @@ namespace GroundWellDesign
             dataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
             dataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
+
             //向导式binding
             miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu") { Source = editLayer });
             yanXingCB.SetBinding(ComboBox.TextProperty, new Binding("YanXing") { Source = editLayer, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            caiDongCB.SetBinding(ComboBox.TextProperty, new Binding("CaiDong") { Source = editLayer, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            qValueTb.SetBinding(TextBox.TextProperty, new Binding("QValue") { Source = editLayer });
+            
             leiJiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("LeiJiShenDu") { Source = editLayer });
             juLiMeiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("JuLiMeiShenDu") { Source = editLayer });
             cengHouTb.SetBinding(TextBox.TextProperty, new Binding("CengHou") { Source = editLayer });
@@ -66,11 +67,6 @@ namespace GroundWellDesign
 
         }
 
-        private void WindowLoaded(object sender, RoutedEventArgs e)
-        {
-            // Get the AxHost wrapper from the WindowsFormsHost control.
-
-        }
 
         void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
@@ -102,8 +98,11 @@ namespace GroundWellDesign
         //删除
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            layers.RemoveAt(dataGrid.SelectedIndex);
-            dataGrid.UpdateLayout();
+            int selectedIndex = dataGrid.SelectedIndex;
+            if (selectedIndex == -1)
+                return;
+            layers.RemoveAt(selectedIndex);
+
         }
 
         //下方插入
@@ -163,9 +162,21 @@ namespace GroundWellDesign
 
         }
 
+
+        public void resetControl()
+        {
+
+
+
+        }
+
+
     }
 
     public enum YanXingOpt { 黄土, 细粒砂岩, 泥岩, 中粒砂岩, 粉砂岩, 砂质泥岩, 粗粒砂岩, 细砂岩, 中砂岩, 煤 };
+    public enum CaiDongOpt { 初次采动Q0, 重复采动Q1, 重复采动Q2 };
+
+
 
     public class LayerParams
     {
@@ -177,7 +188,19 @@ namespace GroundWellDesign
 
         public LayerParams(LayerParams layer)
         {
+            copy(layer);
+        }
+
+
+        public void reset()
+        {
+            copy(new LayerParams());
+        }
+
+        public void copy(LayerParams layer){
             YanXing = layer.YanXing;
+            CaiDong = layer.CaiDong;
+            QValue = layer.QValue;
             LeiJiShenDu = layer.LeiJiShenDu;
             JuLiMeiShenDu = layer.JuLiMeiShenDu;
             CengHou = layer.CengHou;
@@ -193,18 +216,22 @@ namespace GroundWellDesign
         }
 
         public YanXingOpt YanXing { get; set; }
-        public string LeiJiShenDu { get; set; }
-        public string JuLiMeiShenDu { get; set; }
-        public string CengHou { get; set; }
-        public string ZiRanMiDu { get; set; }
-        public string BianXingMoLiang { get; set; }
-        public string KangLaQiangDu { get; set; }
-        public string KangYaQiangDu { get; set; }
-        public string TanXingMoLiang { get; set; }
-        public string BoSonBi { get; set; }
-        public string NeiMoCaJiao { get; set; }
-        public string NianJuLi { get; set; }
-        public string MiaoShu { get; set; }
+
+        public CaiDongOpt CaiDong{get;set;}
+
+        public String QValue { get; set; }
+        public String LeiJiShenDu { get; set; }
+        public String JuLiMeiShenDu { get; set; }
+        public String CengHou { get; set; }
+        public String ZiRanMiDu { get; set; }
+        public String BianXingMoLiang { get; set; }
+        public String KangLaQiangDu { get; set; }
+        public String KangYaQiangDu { get; set; }
+        public String TanXingMoLiang { get; set; }
+        public String BoSonBi { get; set; }
+        public String NeiMoCaJiao { get; set; }
+        public String NianJuLi { get; set; }
+        public String MiaoShu { get; set; }
     }
 
 }

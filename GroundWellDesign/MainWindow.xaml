@@ -5,7 +5,7 @@
     xmlns:ax="clr-namespace:AxMxDrawXLib;assembly=AxInterop.MxDrawXLib" 
         xmlns:local="clr-namespace:GroundWellDesign"
         xmlns:assembly="clr-namespace:System;assembly=mscorlib"
-        Title="覆岩参数录入" Width="1000">
+        Title="覆岩参数录入" >
     <Window.Resources>
         <ObjectDataProvider x:Key="yanXingEnum" MethodName="GetValues" 
                             ObjectType="{x:Type assembly:Enum}">
@@ -13,6 +13,13 @@
                 <x:Type Type="local:YanXingOpt"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <ObjectDataProvider x:Key="caiDongEnum" MethodName="GetValues" 
+                            ObjectType="{x:Type assembly:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local:CaiDongOpt"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
     </Window.Resources>
 
     <Grid>
@@ -32,18 +39,23 @@
                             <DataGrid.Columns>
                                 <DataGridComboBoxColumn Header="岩性" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" 
                                         ItemsSource="{Binding Source={StaticResource ResourceKey=yanXingEnum}}"/>
-                                <DataGridTextColumn Binding="{Binding LeiJiShenDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="累计深度/m"/>
-                                <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="距离煤层深度"/>
-                                <DataGridTextColumn Binding="{Binding CengHou, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="层厚"/>
-                                <DataGridTextColumn Binding="{Binding ZiRanMiDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="自然视密度"/>
-                                <DataGridTextColumn Binding="{Binding BianXingMoLiang, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="变形模量/MPa"/>
-                                <DataGridTextColumn Binding="{Binding KangLaQiangDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="抗拉强度/MPa"/>
-                                <DataGridTextColumn Binding="{Binding KangYaQiangDu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="抗压强度"/>
-                                <DataGridTextColumn Binding="{Binding TanXingMoLiang, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="弹性模量/MPa"/>
-                                <DataGridTextColumn Binding="{Binding BoSonBi, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="泊松比"/>
-                                <DataGridTextColumn Binding="{Binding NeiMoCaJiao, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="内摩擦角"/>
-                                <DataGridTextColumn Binding="{Binding NianJuLi, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="粘聚力"/>
-                                <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="岩性描述" Width="*"/>
+
+                                <DataGridComboBoxColumn Header="采动情况" SelectedItemBinding="{Binding CaiDong, UpdateSourceTrigger=PropertyChanged}" 
+                                        ItemsSource="{Binding Source={StaticResource ResourceKey=caiDongEnum}}"/>
+
+                                <DataGridTextColumn Binding="{Binding QValue, UpdateSourceTrigger=PropertyChanged}"   Header="岩性评价系数"/>
+                                <DataGridTextColumn Binding="{Binding LeiJiShenDu, UpdateSourceTrigger=PropertyChanged}"   Header="累计深度/m"/>
+                                <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, UpdateSourceTrigger=PropertyChanged}"   Header="距离煤层深度"/>
+                                <DataGridTextColumn Binding="{Binding CengHou, UpdateSourceTrigger=PropertyChanged}"   Header="层厚"/>
+                                <DataGridTextColumn Binding="{Binding ZiRanMiDu, UpdateSourceTrigger=PropertyChanged}"   Header="自然视密度"/>
+                                <DataGridTextColumn Binding="{Binding BianXingMoLiang, UpdateSourceTrigger=PropertyChanged}"   Header="变形模量/MPa"/>
+                                <DataGridTextColumn Binding="{Binding KangLaQiangDu, UpdateSourceTrigger=PropertyChanged}"   Header="抗拉强度/MPa"/>
+                                <DataGridTextColumn Binding="{Binding KangYaQiangDu, UpdateSourceTrigger=PropertyChanged}"   Header="抗压强度"/>
+                                <DataGridTextColumn Binding="{Binding TanXingMoLiang, UpdateSourceTrigger=PropertyChanged}"   Header="弹性模量/MPa"/>
+                                <DataGridTextColumn Binding="{Binding BoSonBi, UpdateSourceTrigger=PropertyChanged}"   Header="泊松比"/>
+                                <DataGridTextColumn Binding="{Binding NeiMoCaJiao, UpdateSourceTrigger=PropertyChanged}"   Header="内摩擦角"/>
+                                <DataGridTextColumn Binding="{Binding NianJuLi, UpdateSourceTrigger=PropertyChanged}"   Header="粘聚力"/>
+                                <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=PropertyChanged}"   Header="岩性描述" Width="*"/>
                             </DataGrid.Columns>
                             <DataGrid.ContextMenu>
                                 <ContextMenu Name="dgMenu" StaysOpen="true">
@@ -85,10 +97,17 @@
                             <RowDefinition Height="19*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Column="1" Grid.Row="2" Text="描述" />
-                        <TextBox x:Name="miaoshuTb" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="5" />
+                        <TextBlock Grid.Column="3" Grid.Row="1" Text="描述"  />
+                        <TextBox x:Name="miaoshuTb" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" />
                         <TextBlock Grid.Column="1" Text="当前层号" Grid.Row="1"/>
-                        <TextBox x:Name="currLayerTb" Grid.Column="2" Grid.Row="1" Text="1" Grid.ColumnSpan="2"/>
+                        <TextBox x:Name="currLayerTb" Grid.Column="2" Grid.Row="1" Text="1" />
+                        
+                        
+                        <TextBlock Text="采动情况" Grid.Column="1" Grid.Row="2" />
+                        <ComboBox x:Name="caiDongCB"  Grid.Column="2" Grid.Row="2" ItemsSource="{Binding Source={StaticResource ResourceKey=caiDongEnum}}"/>
+                        <TextBlock Grid.Column="3" Text="岩性评价系数" Grid.Row="2"/>
+                        <TextBox x:Name="qValueTb" Grid.Column="4" Grid.Row="2"/>
+                        
 
                         <TextBlock Text="岩性" Grid.Column="1" Grid.Row="3" />
                         <ComboBox x:Name="yanXingCB"  Grid.Column="2" Grid.Row="3" ItemsSource="{Binding Source={StaticResource ResourceKey=yanXingEnum}}"/>
@@ -122,8 +141,8 @@
                     </Grid>
                 </TabItem>
 
-                
-                
+
+
                 <TabItem Header="CAD插件" Style="{DynamicResource TabItemStyle2}">
                     <Grid x:Name="cadGrid">
                         <WindowsFormsHost Name="wfh">
@@ -131,9 +150,9 @@
                         </WindowsFormsHost>
                     </Grid>
                 </TabItem>
-                
-                
-                
+
+
+
             </TabControl>
         </Border>
     </Grid>
