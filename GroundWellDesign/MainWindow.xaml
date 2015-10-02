@@ -23,14 +23,14 @@
         <Border BorderBrush="Black" BorderThickness="1" ClipToBounds="True" SnapsToDevicePixels="True" Grid.ColumnSpan="2">
             <TabControl x:Name="tabControl"  Style="{DynamicResource TabControlStyle2}" Margin="0,0,0,0">
                 <TabItem Header="岩性评价系数" IsSelected="True" Style="{DynamicResource TabItemStyle2}">
-                    <Grid>
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                         <DataGrid x:Name="pjxsGrid" Margin="0,0,0,0" AutoGenerateColumns="False" ItemsSource="{Binding}" CanUserAddRows="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                             <DataGrid.Columns>
                                 <DataGridComboBoxColumn Header="岩性" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" 
                                         ItemsSource="{x:Static local:LayerParams.YanXingOpt}" IsReadOnly="True"/>
                                 <DataGridTextColumn Binding="{Binding Q0, UpdateSourceTrigger=PropertyChanged}"   Header="初次采动Q0"/>
                                 <DataGridTextColumn Binding="{Binding Q1, UpdateSourceTrigger=PropertyChanged}"   Header="重复采动Q1"/>
-                                <DataGridTextColumn Binding="{Binding Q2, UpdateSourceTrigger=PropertyChanged}"   Header="重复采动Q2" Width="*"/>
+                                <DataGridTextColumn Binding="{Binding Q2, UpdateSourceTrigger=PropertyChanged}"   Header="重复采动Q2" />
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -47,18 +47,19 @@
 
                                 <DataGridComboBoxColumn Header="采动情况" SelectedItemBinding="{Binding CaiDong, UpdateSourceTrigger=PropertyChanged}" 
                                         ItemsSource="{x:Static local:LayerParams.CaiDongOpt}"/>
-                                <DataGridTextColumn Binding="{Binding LeiJiShenDu, UpdateSourceTrigger=PropertyChanged}"   Header="累计深度/m"/>
-                                <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, UpdateSourceTrigger=PropertyChanged}"   Header="距离煤层深度"/>
-                                <DataGridTextColumn Binding="{Binding CengHou, UpdateSourceTrigger=PropertyChanged}"   Header="层厚"/>
-                                <DataGridTextColumn Binding="{Binding ZiRanMiDu, UpdateSourceTrigger=PropertyChanged}"   Header="自然视密度"/>
-                                <DataGridTextColumn Binding="{Binding BianXingMoLiang, UpdateSourceTrigger=PropertyChanged}"   Header="变形模量/MPa"/>
-                                <DataGridTextColumn Binding="{Binding KangLaQiangDu, UpdateSourceTrigger=PropertyChanged}"   Header="抗拉强度/MPa"/>
-                                <DataGridTextColumn Binding="{Binding KangYaQiangDu, UpdateSourceTrigger=PropertyChanged}"   Header="抗压强度"/>
-                                <DataGridTextColumn Binding="{Binding TanXingMoLiang, UpdateSourceTrigger=PropertyChanged}"   Header="弹性模量/MPa"/>
-                                <DataGridTextColumn Binding="{Binding BoSonBi, UpdateSourceTrigger=PropertyChanged}"   Header="泊松比"/>
-                                <DataGridTextColumn Binding="{Binding NeiMoCaJiao, UpdateSourceTrigger=PropertyChanged}"   Header="内摩擦角"/>
-                                <DataGridTextColumn Binding="{Binding NianJuLi, UpdateSourceTrigger=PropertyChanged}"   Header="粘聚力"/>
-                                <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=PropertyChanged}"   Header="岩性描述" Width="*"/>
+                                
+                                <DataGridTextColumn Binding="{Binding LeiJiShenDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="累计深度/m"/>
+                                <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="距离煤层深度"/>
+                                <DataGridTextColumn Binding="{Binding CengHou, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="层厚"/>
+                                <DataGridTextColumn Binding="{Binding ZiRanMiDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="自然视密度"/>
+                                <DataGridTextColumn Binding="{Binding BianXingMoLiang, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="变形模量/MPa"/>
+                                <DataGridTextColumn Binding="{Binding KangLaQiangDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="抗拉强度/MPa"/>
+                                <DataGridTextColumn Binding="{Binding KangYaQiangDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="抗压强度"/>
+                                <DataGridTextColumn Binding="{Binding TanXingMoLiang, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="弹性模量/MPa"/>
+                                <DataGridTextColumn Binding="{Binding BoSonBi, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="泊松比"/>
+                                <DataGridTextColumn Binding="{Binding NeiMoCaJiao, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="内摩擦角"/>
+                                <DataGridTextColumn Binding="{Binding NianJuLi, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="粘聚力"/>
+                                <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=LostFocus}"   Header="岩性描述" Width="*"/>
                             </DataGrid.Columns>
                             <DataGrid.ContextMenu>
                                 <ContextMenu Name="dgMenu" StaysOpen="true">
@@ -79,14 +80,14 @@
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="28*"/>
-                            <ColumnDefinition Width="75*"/>
-                            <ColumnDefinition Width="106*"/>
-                            <ColumnDefinition Width="98*"/>
-                            <ColumnDefinition Width="122*"/>
-                            <ColumnDefinition Width="97*"/>
-                            <ColumnDefinition Width="91*"/>
-                            <ColumnDefinition Width="51*"/>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="50*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="31*"/>
@@ -100,35 +101,35 @@
                             <RowDefinition Height="19*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Column="3" Grid.Row="1" Text="描述"  />
+                        <TextBlock Grid.Column="3" Grid.Row="1" Text="描述"  HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <TextBox x:Name="miaoshuTb" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" />
-                        <TextBlock Grid.Column="1" Text="层号" Grid.Row="1"/>
-                        <TextBox x:Name="currLayerTb" Grid.Column="2" Grid.Row="1" Text="1" />
-                        <TextBlock Text="采动情况" Grid.Column="1" Grid.Row="2" />
+                        <TextBlock Grid.Column="1" Text="层号" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="currLayerTb" Grid.Column="2" Grid.Row="1" Text="1"  />
+                        <TextBlock Text="采动情况" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <ComboBox x:Name="caiDongCB"  Grid.Column="2" Grid.Row="2" ItemsSource="{x:Static local:LayerParams.CaiDongOpt}"/>
-                        <TextBlock Text="岩性" Grid.Column="1" Grid.Row="3" />
+                        <TextBlock Text="岩性" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <ComboBox x:Name="yanXingCB"  Grid.Column="2" Grid.Row="3" ItemsSource="{x:Static local:LayerParams.YanXingOpt}"/>
-                        <TextBlock Grid.Column="3" Grid.Row="3" Text="累计深度/m" />
+                        <TextBlock Grid.Column="3" Grid.Row="3" Text="累计深度/m"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="leiJiShenDuTb" Grid.Column="4" Grid.Row="3" />
-                        <TextBlock Grid.Column="5" Grid.Row="3" Text="距离煤层深度" />
+                        <TextBlock Grid.Column="5" Grid.Row="3" Text="距离煤层深度"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="juLiMeiShenDuTb" Grid.Column="6" Grid.Row="3" />
-                        <TextBlock Grid.Column="1" Grid.Row="4" Text="层厚/m" />
+                        <TextBlock Grid.Column="1" Grid.Row="4" Text="层厚/m"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="cengHouTb" Grid.Column="2" Grid.Row="4" />
-                        <TextBlock Grid.Column="3"  Grid.Row="4" Text="自然视密度"/>
+                        <TextBlock Grid.Column="3"  Grid.Row="4" Text="自然视密度" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="ziRanMiDuTb" Grid.Column="4" Grid.Row="4" />
-                        <TextBlock Grid.Column="5" Grid.Row="4" Text="变形模量" />
+                        <TextBlock Grid.Column="5" Grid.Row="4" Text="变形模量"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="bianXingMoLiangTb" Grid.Column="6" Grid.Row="4" />
-                        <TextBlock Grid.Column="1" Grid.Row="5" Text="抗拉强度" />
+                        <TextBlock Grid.Column="1" Grid.Row="5" Text="抗拉强度"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="kangLaQiangDuTb" Grid.Column="2" Grid.Row="5" />
-                        <TextBlock Grid.Column="3" Grid.Row="5" Text="抗压强度"/>
+                        <TextBlock Grid.Column="3" Grid.Row="5" Text="抗压强度" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="kangYaQiangDuTb" Grid.Column="4" Grid.Row="5" />
-                        <TextBlock Grid.Column="5" Grid.Row="5" Text="弹性模量" />
+                        <TextBlock Grid.Column="5" Grid.Row="5" Text="弹性模量"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="tanXingMoLiangTb" Grid.Column="6" Grid.Row="5" />
-                        <TextBlock Grid.Column="1" Grid.Row="6" Text="泊松比"/>
+                        <TextBlock Grid.Column="1" Grid.Row="6" Text="泊松比" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="boSonBiTb" Grid.Column="2" Grid.Row="6"  />
-                        <TextBlock Grid.Column="3" Grid.Row="6" Text="内摩擦角" />
+                        <TextBlock Grid.Column="3" Grid.Row="6" Text="内摩擦角" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <TextBox x:Name="neiMoCaJiaoTb" Grid.Column="4" Grid.Row="6" />
-                        <TextBlock Grid.Column="5" Grid.Row="6" Text="粘聚力" />
+                        <TextBlock Grid.Column="5" Grid.Row="6" Text="粘聚力"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox x:Name="nianJuLiTb" Grid.Column="6" Grid.Row="6"/>
 
                         <Button Content="保存" Grid.Row="7" Grid.Column="2" Click="saveBtn_Click" />
