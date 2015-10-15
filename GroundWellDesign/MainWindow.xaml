@@ -1,15 +1,12 @@
-﻿<Window x:Class="GroundWellDesign.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
         xmlns:ax="clr-namespace:AxMxDrawXLib;assembly=AxInterop.MxDrawXLib" 
         xmlns:local="clr-namespace:GroundWellDesign"
         xmlns:assembly="clr-namespace:System;assembly=mscorlib"
-        Title="地面井设计程序" >
-
-    <Window.Resources>
-
-    </Window.Resources>
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="GroundWellDesign.MainWindow"
+        Title="地面井设计程序" d:DesignWidth="1487.662" d:DesignHeight="1117.815" >
 
     <Grid>
         <!-- 效果部分-->
@@ -27,7 +24,7 @@
                         <DataGrid x:Name="pjxsGrid" Margin="0,0,0,0" AutoGenerateColumns="False" ItemsSource="{Binding}" CanUserAddRows="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                             <DataGrid.Columns>
                                 <DataGridComboBoxColumn Header="岩性" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" 
-                                        ItemsSource="{x:Static local:LayerParams.YanXingOpt}" IsReadOnly="True"/>
+									ItemsSource="{x:Static local:LayerParams.YanXingOpt}" IsReadOnly="True"/>
                                 <DataGridTextColumn Binding="{Binding Q0, UpdateSourceTrigger=PropertyChanged}"   Header="初次采动Q0"/>
                                 <DataGridTextColumn Binding="{Binding Q1, UpdateSourceTrigger=PropertyChanged}"   Header="重复采动Q1"/>
                                 <DataGridTextColumn Binding="{Binding Q2, UpdateSourceTrigger=PropertyChanged}"   Header="重复采动Q2" />
@@ -43,26 +40,26 @@
                         <DataGrid x:Name="dataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" ItemsSource="{Binding}" CanUserAddRows="False">
                             <DataGrid.Columns>
                                 <DataGridComboBoxColumn Header="岩性" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" 
-                                        ItemsSource="{x:Static local:LayerParams.YanXingOpt}"/>
+									ItemsSource="{x:Static local:LayerParams.YanXingOpt}"/>
 
                                 <DataGridComboBoxColumn Header="采动情况" SelectedItemBinding="{Binding CaiDong, UpdateSourceTrigger=PropertyChanged}" 
-                                        ItemsSource="{x:Static local:LayerParams.CaiDongOpt}"/>
-                                
-                                <DataGridTextColumn Binding="{Binding LeiJiShenDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="累计深度/m"/>
-                                <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="距离煤层深度"/>
-                                <DataGridTextColumn Binding="{Binding CengHou, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="层厚"/>
-                                <DataGridTextColumn Binding="{Binding ZiRanMiDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="自然视密度"/>
-                                <DataGridTextColumn Binding="{Binding BianXingMoLiang, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="变形模量/MPa"/>
-                                <DataGridTextColumn Binding="{Binding KangLaQiangDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="抗拉强度/MPa"/>
-                                <DataGridTextColumn Binding="{Binding KangYaQiangDu, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="抗压强度"/>
-                                <DataGridTextColumn Binding="{Binding TanXingMoLiang, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="弹性模量/MPa"/>
-                                <DataGridTextColumn Binding="{Binding BoSonBi, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="泊松比"/>
-                                <DataGridTextColumn Binding="{Binding NeiMoCaJiao, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="内摩擦角"/>
-                                <DataGridTextColumn Binding="{Binding NianJuLi, UpdateSourceTrigger=LostFocus, StringFormat='n3'}"   Header="粘聚力"/>
+									ItemsSource="{x:Static local:LayerParams.CaiDongOpt}"/>
+
+                                <DataGridTextColumn Binding="{Binding LeiJiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="累计深度/m"/>
+                                <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="距离煤层深度"/>
+                                <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="层厚"/>
+                                <DataGridTextColumn Binding="{Binding ZiRanMiDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="自然视密度"/>
+                                <DataGridTextColumn Binding="{Binding BianXingMoLiang, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="变形模量/MPa"/>
+                                <DataGridTextColumn Binding="{Binding KangLaQiangDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="抗拉强度/MPa"/>
+                                <DataGridTextColumn Binding="{Binding KangYaQiangDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="抗压强度"/>
+                                <DataGridTextColumn Binding="{Binding TanXingMoLiang, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="弹性模量/MPa"/>
+                                <DataGridTextColumn Binding="{Binding BoSonBi, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="泊松比"/>
+                                <DataGridTextColumn Binding="{Binding NeiMoCaJiao, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="内摩擦角"/>
+                                <DataGridTextColumn Binding="{Binding NianJuLi, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="粘聚力"/>
                                 <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=LostFocus}"   Header="岩性描述" Width="*"/>
                             </DataGrid.Columns>
                             <DataGrid.ContextMenu>
-                                <ContextMenu Name="dgMenu" StaysOpen="true">
+                                <ContextMenu x:Name="dgMenu" StaysOpen="true">
                                     <MenuItem Header="下方增行" Click="MenuItem_Click_1"/>
                                     <MenuItem Header="上移" Click="MenuItem_Click_2" />
                                     <MenuItem Header="下移" Click="MenuItem_Click_3" />
