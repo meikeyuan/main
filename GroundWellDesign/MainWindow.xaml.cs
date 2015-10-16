@@ -35,12 +35,11 @@ namespace GroundWellDesign
 
 
             //岩层其他参数录入初始化
-            layers.Add(new LayerParams());
-            dataGrid.DataContext = layers;
+            paramGrid.DataContext = layers;
 
             //自动更新层号 层号不保存在集合中
-            dataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
-            dataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
+            paramGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
+            paramGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
 
             //向导式binding
@@ -59,6 +58,14 @@ namespace GroundWellDesign
             boSonBiTb.SetBinding(TextBox.TextProperty, new Binding("BoSonBi") { Source = editLayer });
             neiMoCaJiaoTb.SetBinding(TextBox.TextProperty, new Binding("NeiMoCaJiao") { Source = editLayer });
             nianJuLiTb.SetBinding(TextBox.TextProperty, new Binding("NianJuLi") { Source = editLayer });
+
+
+
+            otherDataGrid.DataContext = keyLayers;
+
+
+
+            mxDraw.OpenDwgFile("示意钻井结构.dwg");
 
 
 

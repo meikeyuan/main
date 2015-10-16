@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GroundWellDesign"
         xmlns:assembly="clr-namespace:System;assembly=mscorlib"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="GroundWellDesign.MainWindow"
-        Title="地面井设计程序" d:DesignWidth="1487.662" d:DesignHeight="1117.815" >
+        Title="地面井设计程序" >
 
     <Grid>
         <!-- 效果部分-->
@@ -25,9 +25,9 @@
                             <DataGrid.Columns>
                                 <DataGridComboBoxColumn Header="岩性" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" 
 									ItemsSource="{x:Static local:LayerParams.YanXingOpt}" IsReadOnly="True"/>
-                                <DataGridTextColumn Binding="{Binding Q0, UpdateSourceTrigger=PropertyChanged}"   Header="初次采动Q0"/>
-                                <DataGridTextColumn Binding="{Binding Q1, UpdateSourceTrigger=PropertyChanged}"   Header="重复采动Q1"/>
-                                <DataGridTextColumn Binding="{Binding Q2, UpdateSourceTrigger=PropertyChanged}"   Header="重复采动Q2" />
+                                <DataGridTextColumn Binding="{Binding Q0, StringFormat=n1, UpdateSourceTrigger=LostFocus}"   Header="初次采动Q0"/>
+                                <DataGridTextColumn Binding="{Binding Q1, StringFormat=n1, UpdateSourceTrigger=LostFocus}"   Header="重复采动Q1"/>
+                                <DataGridTextColumn Binding="{Binding Q2, StringFormat=n1, UpdateSourceTrigger=LostFocus}"   Header="重复采动Q2" />
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -35,9 +35,13 @@
                 </TabItem>
 
 
-                <TabItem Header="表格式录入"  Style="{DynamicResource TabItemStyle2}">
+                <TabItem Header="岩层参数录入-表格式"  Style="{DynamicResource TabItemStyle2}">
                     <Grid>
-                        <DataGrid x:Name="dataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" ItemsSource="{Binding}" CanUserAddRows="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid x:Name="paramGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectedCellsChanged="paramGrid_SelectedCellsChanged" SelectionUnit="CellOrRowHeader">
                             <DataGrid.Columns>
                                 <DataGridComboBoxColumn Header="岩性" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" 
 									ItemsSource="{x:Static local:LayerParams.YanXingOpt}"/>
@@ -60,18 +64,30 @@
                             </DataGrid.Columns>
                             <DataGrid.ContextMenu>
                                 <ContextMenu x:Name="dgMenu" StaysOpen="true">
-                                    <MenuItem Header="下方增行" Click="MenuItem_Click_1"/>
-                                    <MenuItem Header="上移" Click="MenuItem_Click_2" />
-                                    <MenuItem Header="下移" Click="MenuItem_Click_3" />
-                                    <MenuItem Header="删除此行" Click="MenuItem_Click"/>
+                                    <MenuItem Header="下方增行" Click="click_addRow"/>
+                                    <MenuItem Header="删除此行" Click="click_delRow"/>
+                                    <MenuItem Header="上移" Click="click_upRow" />
+                                    <MenuItem Header="下移" Click="click_downRow" />
 
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                         </DataGrid>
+                        <Button Content="+" HorizontalAlignment="Left" Grid.Row="1" Width="40" ToolTip="下方增行" Click="click_addRow"/>
+                        <Button Content="-" HorizontalAlignment="Left" Grid.Row="1" Width="40" Margin="40,0,0,0" ToolTip="删除(Del)" Click="click_delRow"/>
+                        <Button Content="↑" HorizontalAlignment="Left" Grid.Row="1" Width="40" Margin="80,0,0,0" ToolTip="上移" Click="click_upRow"/>
+                        <Button Content="↓" HorizontalAlignment="Left" Grid.Row="1" Width="40" Margin="120,0,0,0" ToolTip="下移" Click="click_downRow"/>
+
+
+                        
+                        <Button Content="计算地表最大下沉值" HorizontalAlignment="Right" Margin="0,0,400,0" Grid.Row="1" Width="160" Click="click_Wmax"/>
+                        <TextBox x:Name="wmaxText"  HorizontalAlignment="Right" Grid.Row="1" Width="100" Margin="0,0,300,0" ToolTip="地表最大下沉值"/>
+                        <Button Content="显示关键层" HorizontalAlignment="Right" Margin="0,0,140,0" Grid.Row="1" Width="160" Click="click_showKeyRow"/>
+                        <Button Content="输入其他数据" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Row="1" Width="140" Click="click_inputOtherData"/>
+                        
                     </Grid>
                 </TabItem>
 
-                <TabItem Header="向导式录入" Style="{DynamicResource TabItemStyle2}">
+                <TabItem Header="岩层参数录入-向导式" Style="{DynamicResource TabItemStyle2}">
 
 
 
@@ -137,6 +153,31 @@
 
 
                     </Grid>
+                </TabItem>
+
+                <TabItem Header="其他数据录入" Style="{DynamicResource TabItemStyle2}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <DataGrid x:Name="otherDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding YanCengShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层深度"/>
+                                <DataGridTextColumn Binding="{Binding MeiCengMaiShen, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="煤层埋深"/>
+                                <DataGridTextColumn Binding="{Binding MeiCengQingJiao, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="煤层倾角" />
+                                <DataGridTextColumn Binding="{Binding MeiCengHouDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="煤层厚度" />
+                                <DataGridTextColumn Binding="{Binding GZMChangDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="回采工作面长度" />
+                                <DataGridTextColumn Binding="{Binding GZMTJSuDu, StringFormat=n1, UpdateSourceTrigger=LostFocus}"   Header="工作面平均推进速度" />
+                                
+                                <DataGridTextColumn Binding="{Binding TJSJ1, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="工作面推进时间1" />
+                                <DataGridTextColumn Binding="{Binding TJSJ2, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="工作面推进时间2" />
+                                <DataGridTextColumn Binding="{Binding TJSJ3, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="工作面推进时间3" />
+                                <DataGridTextColumn Binding="{Binding TJSJ4, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="工作面推进时间4" />
+                                
+                                <DataGridTextColumn Binding="{Binding JSWZJuLi, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算位置距离" />
+                                
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+
                 </TabItem>
 
 

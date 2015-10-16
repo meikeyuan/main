@@ -4,7 +4,6 @@ namespace GroundWellDesign
 {
     partial class MainWindow : Window
 
-
     {
 
         //向导式当前编辑的岩层参数
@@ -17,7 +16,7 @@ namespace GroundWellDesign
             int layerNum = int.Parse(currLayerTb.Text);
             if (layerNum > layers.Count + 1)
             {
-                MessageBox.Show("已经录入" + layers.Count + "层,请修改层号再保存。");
+                MessageBox.Show("已经录入" + layers.Count + "层,请修改层号再保存。", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -55,7 +54,7 @@ namespace GroundWellDesign
 
             if (layerNum <= layers.Count && !layers[layerNum - 1].equals(editLayer) || layerNum == layers.Count + 1)
             {
-                if (MessageBox.Show("保存修改？") == MessageBoxResult.OK)
+                if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
                     saveEdit();
                 }
@@ -76,7 +75,7 @@ namespace GroundWellDesign
             int layerNum = int.Parse(currLayerTb.Text);
             if (layerNum <= layers.Count && !layers[layerNum - 1].equals(editLayer) || layerNum == layers.Count + 1)
             {
-                if (MessageBox.Show("保存修改？") == MessageBoxResult.OK)
+                if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
                     saveEdit();
                 }

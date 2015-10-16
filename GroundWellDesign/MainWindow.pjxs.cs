@@ -42,10 +42,10 @@ namespace GroundWellDesign
 
         public string YanXing { get; set; }
 
-        public string Q0 { get; set; }
+        public double Q0 { get; set; }
 
-        public string Q1 { get; set; }
-        public string Q2 { get; set; }
+        public double Q1 { get; set; }
+        public double Q2 { get; set; }
     }
 
 }

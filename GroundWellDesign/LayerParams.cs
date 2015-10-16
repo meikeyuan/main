@@ -11,7 +11,7 @@ namespace GroundWellDesign
         public static List<String> CaiDongOpt { get; set; }
         static LayerParams()
         {
-            YanXingOpt = new List<string> { "黄土", "细粒砂岩", "泥岩", "中粒砂岩", "粉砂岩", "砂质泥岩", "粗粒砂岩", "细砂岩", "中砂岩", "煤" };
+            YanXingOpt = new List<string> { "地表", "黄土", "细粒砂岩", "泥岩", "中粒砂岩", "粉砂岩", "砂质泥岩", "粗粒砂岩", "细砂岩", "中砂岩", "煤" };
             CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
         }
 
@@ -19,8 +19,7 @@ namespace GroundWellDesign
         {
             YanXing = YanXingOpt[0];
             CaiDong = CaiDongOpt[0];
-
-            MiaoShu = "描述";
+            miaoShu = "";
 
         }
 
