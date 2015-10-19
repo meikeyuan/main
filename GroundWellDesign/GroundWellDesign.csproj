@@ -59,16 +59,15 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AxInterop.MxDrawXLib">
-      <HintPath>obj\Debug\AxInterop.MxDrawXLib.dll</HintPath>
+    <Reference Include="AxMxDrawXLib">
+      <HintPath>obj\Debug\AxMxDrawXLib.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.MxDrawXLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>obj\Debug\Interop.MxDrawXLib.dll</HintPath>
+    <Reference Include="MxDrawXLib">
+      <HintPath>obj\Debug\MxDrawXLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -133,7 +132,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="GroundWellDesign_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -164,6 +162,11 @@
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
       <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>

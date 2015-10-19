@@ -3,6 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Data;
+using AxMxDrawXLib;
+
+
 
 namespace GroundWellDesign
 {
@@ -10,15 +13,16 @@ namespace GroundWellDesign
 
     public partial class MainWindow : Window
     {
-        
-        
 
+
+        AxMxDrawX cadViewer;
         
 
 
         public MainWindow()
         {
             InitializeComponent();
+
 
             //岩层评价系数录入表格初始化
             int types = LayerParams.YanXingOpt.Count;
@@ -63,9 +67,15 @@ namespace GroundWellDesign
 
             otherDataGrid.DataContext = keyLayers;
 
+            cadViewer = new AxMxDrawX();
+            cadViewer.BeginInit();
+
+            wfHost.Child = cadViewer;
+
+            cadViewer.EndInit();
 
 
-            mxDraw.OpenDwgFile("示意钻井结构.dwg");
+            cadViewer.OpenDwgFile("示意钻井结构.dwg");
 
 
 

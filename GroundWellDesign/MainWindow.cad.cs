@@ -18,7 +18,7 @@ namespace GroundWellDesign
             if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
-                mxDraw.OpenDwgFile(filePath);
+                cadViewer.OpenDwgFile(filePath);
             }
 
 
@@ -60,9 +60,9 @@ namespace GroundWellDesign
                     dim.RecomputeDimBlock(true);
 
                 }
-                
+
             }
-            mxDraw.ReDraw();
-        }
+            cadViewer.ReDraw();
+          }
     }
 }
