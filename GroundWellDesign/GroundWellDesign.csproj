@@ -62,12 +62,14 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AxMxDrawXLib">
-      <HintPath>obj\Debug\AxMxDrawXLib.dll</HintPath>
+    <Reference Include="AxInterop.MxDrawXLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\AxInterop.MxDrawXLib.dll</HintPath>
     </Reference>
-    <Reference Include="MxDrawXLib">
-      <HintPath>obj\Debug\MxDrawXLib.dll</HintPath>
+    <Reference Include="Interop.MxDrawXLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>lib\Interop.MxDrawXLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -173,6 +175,10 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\AxInterop.MxDrawXLib.dll" />
+    <Content Include="lib\Interop.MxDrawXLib.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
