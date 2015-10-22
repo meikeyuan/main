@@ -63,11 +63,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxMxDrawXLib">
-      <HintPath>.\AxMxDrawXLib.dll</HintPath>
+      <HintPath>lib\AxMxDrawXLib.dll</HintPath>
     </Reference>
     <Reference Include="MxDrawXLib">
-      <HintPath>.\MxDrawXLib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>lib\MxDrawXLib.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

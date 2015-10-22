@@ -8,15 +8,6 @@
         Title="地面井设计程序" >
 
     <Window.Resources>
-        <DataTemplate x:Key="YanXingTemplate" >
-            <ComboBox SelectedItem="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" 
-									ItemsSource="{x:Static local:LayerParams.YanXingOpt}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="CaiDongTemplate" >
-            <ComboBox SelectedItem="{Binding CaiDong, UpdateSourceTrigger=PropertyChanged}" 
-									ItemsSource="{x:Static local:LayerParams.CaiDongOpt}" />
-        </DataTemplate>
 
     </Window.Resources>
     
@@ -42,7 +33,8 @@
                         <DataGrid x:Name="paramGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectedCellsChanged="paramGrid_SelectedCellsChanged" SelectionUnit="CellOrRowHeader" CanUserSortColumns="False" CanUserReorderColumns="False">
                             <DataGrid.Columns>
 
-                                <DataGridTemplateColumn CellTemplate="{StaticResource YanXingTemplate}" Header="岩性"/>
+                                <DataGridComboBoxColumn ItemsSource="{x:Static local:LayerParams.YanXingOpt }" 
+                                                        SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" Header="岩性"/>
                                 <DataGridTextColumn Binding="{Binding LeiJiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="累计深度(不用填)"/>
                                 <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="距离煤层深度(不用填)"/>
                                 <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="层厚"/>
@@ -54,7 +46,8 @@
                                 <DataGridTextColumn Binding="{Binding BoSonBi, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="泊松比"/>
                                 <DataGridTextColumn Binding="{Binding NeiMoCaJiao, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="内摩擦角"/>
                                 <DataGridTextColumn Binding="{Binding NianJuLi, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="粘聚力"/>
-                                <DataGridTemplateColumn CellTemplate="{StaticResource CaiDongTemplate}" Header="采动情况"/>
+                                <DataGridComboBoxColumn ItemsSource="{x:Static local:LayerParams.CaiDongOpt }" 
+                                                        SelectedItemBinding="{Binding CaiDong, UpdateSourceTrigger=PropertyChanged}" Header="采动情况"/>
                                 <DataGridTextColumn Binding="{Binding Q0, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q0值"/>
                                 <DataGridTextColumn Binding="{Binding Q1, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q1值"/>
                                 <DataGridTextColumn Binding="{Binding Q2, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q2值"/>

@@ -19,10 +19,6 @@ namespace GroundWellDesign
         {
             YanXing = YanXingOpt[0];
             CaiDong = CaiDongOpt[0];
-
-
-
-
             miaoShu = "";
 
         }
@@ -49,7 +45,6 @@ namespace GroundWellDesign
             NeiMoCaJiao.Equals(layer.NeiMoCaJiao) &&
             NianJuLi.Equals(layer.NianJuLi) && MiaoShu.Equals(layer.MiaoShu) &&
             Q1 == layer.Q1 && Q2 == layer.Q2 && Q0 == layer.Q0;
-
 
         }
 

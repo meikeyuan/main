@@ -20,9 +20,7 @@ namespace GroundWellDesign
             InitializeComponent();
 
             //岩层参数录入初始化
-            LayerParams firstLayer = new LayerParams();
-            firstLayer.YanXing = LayerParams.YanXingOpt[0];
-            layers.Add(firstLayer);
+            layers.Add(new LayerParams());
             paramGrid.DataContext = layers;
 
 
