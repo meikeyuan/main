@@ -11,8 +11,7 @@ namespace GroundWellDesign
 
     {
         //所有已经录入岩层参数
-        ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
-
+        public static ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
         //关键层
         List<int> keyLayerNbr = new List<int>();
         ObservableCollection<OtherData> keyLayers = new ObservableCollection<OtherData>();
@@ -51,13 +50,11 @@ namespace GroundWellDesign
             if (e.AddedCells.Count == 0)
                 return;
             var currentCell = e.AddedCells[0];
-            if (currentCell.Column == paramGrid.Columns[0] || currentCell.Column == paramGrid.Columns[1])   //Columns[]从0开始  我这的ComboBox在第四列  所以为3  
+            if (currentCell.Column == paramGrid.Columns[0] || currentCell.Column == paramGrid.Columns[12])   //Columns[]从0开始  我这的ComboBox在第四列  所以为3  
             {
                 paramGrid.BeginEdit();    //  进入编辑模式  这样单击一次就可以选择ComboBox里面的值了  
             }
         }
-
-
 
 
 
@@ -160,8 +157,8 @@ namespace GroundWellDesign
             keyLayerNbr.Add(3);
             //....
 
-           
-            foreach(int nbr in keyLayerNbr)
+
+            foreach (int nbr in keyLayerNbr)
             {
                 var row = paramGrid.ItemContainerGenerator.ContainerFromItem(paramGrid.Items[nbr - 1]) as DataGridRow;
                 row.Background = new SolidColorBrush(Colors.Yellow);
@@ -171,19 +168,63 @@ namespace GroundWellDesign
                 data.YanCengShenDu = layers[nbr - 1].LeiJiShenDu;
                 data.MeiCengMaiShen = layers[nbr - 1].JuLiMeiShenDu;
                 keyLayers.Add(new OtherData());
-                
+
             }
-            
+
         }
 
 
         //转到输入其他数据
         private void click_inputOtherData(object sender, RoutedEventArgs e)
         {
-            tabControl.SelectedIndex = 3;
+            tabControl.SelectedIndex = 2;
         }
 
-        
+
+
+        public double[,] getParams()
+        {
+
+            int layerCount = layers.Count;
+            double[,] res = new double[layerCount - 1, 12];
+
+            for (int i = 1; i < layerCount; i++)
+            {
+                LayerParams param = layers[i];
+
+
+                res[i - 1, 0] = param.LeiJiShenDu;
+                res[i - 1, 1] = param.JuLiMeiShenDu;
+                res[i - 1, 2] = param.CengHou;
+                res[i - 1, 3] = param.ZiRanMiDu;
+                res[i - 1, 4] = param.BianXingMoLiang;
+                res[i - 1, 5] = param.KangLaQiangDu;
+                res[i - 1, 6] = param.KangYaQiangDu;
+                res[i - 1, 7] = param.TanXingMoLiang;
+                res[i - 1, 8] = param.BoSonBi;
+                res[i - 1, 9] = param.NeiMoCaJiao;
+                res[i - 1, 10] = param.NianJuLi;
+
+
+                if (param.CaiDong == LayerParams.CaiDongOpt[0])
+                {
+                    res[i - 1, 11] = param.Q0;
+
+                }
+                else if (param.CaiDong == LayerParams.CaiDongOpt[1])
+                {
+                    res[i - 1, 11] = param.Q1;
+                }
+                else
+                {
+                    res[i - 1, 11] = param.Q2;
+                }
+            }
+
+            return res;
+
+        }
+
 
     }
 }

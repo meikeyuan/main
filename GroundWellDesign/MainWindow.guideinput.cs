@@ -99,7 +99,7 @@ namespace GroundWellDesign
         private void stopBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            tabControl.SelectedItem = tabControl.Items[1];
+            tabControl.SelectedIndex = 0;
 
         }
 

@@ -104,7 +104,6 @@
     <Compile Include="MainWindow.gridinput.cs" />
     <Compile Include="MainWindow.guideinput.cs" />
     <Compile Include="MainWindow.otherdata.cs" />
-    <Compile Include="MainWindow.pjxs.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
