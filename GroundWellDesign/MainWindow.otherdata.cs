@@ -6,6 +6,13 @@ namespace GroundWellDesign
     partial class MainWindow : Window
     {
 
+        private void showResBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            tabControl.SelectedIndex = 3;
+
+        }
+
     }
 
 
@@ -47,7 +54,7 @@ namespace GroundWellDesign
         public double GZMChangDu { get; set; }
         public double GZMTJSuDu { get; set; }
 
-public double TJSJ1 { get; set; }
+        public double TJSJ1 { get; set; }
         public double TJSJ2 { get; set; }
         public double TJSJ3 { get; set; }
         public double TJSJ4 { get; set; }

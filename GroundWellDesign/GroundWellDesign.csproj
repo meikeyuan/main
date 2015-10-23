@@ -99,6 +99,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataSaveAndRestore.cs" />
     <Compile Include="LayerParams.cs" />
     <Compile Include="MainWindow.cad.cs" />
     <Compile Include="MainWindow.gridinput.cs" />
