@@ -1,14 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows;
 
 namespace GroundWellDesign
 {
-    public class LayerParams : INotifyPropertyChanged
+
+    [Serializable]
+    public class BaseParams
+    {
+        public BaseParams()
+        {
+
+        }
+
+        public BaseParams(BaseParams layer)
+        {
+
+            yanXing = layer.yanXing;
+            leiJiShenDu = layer.leiJiShenDu;
+            juLiMeiShenDu = layer.juLiMeiShenDu;
+            cengHou = layer.cengHou;
+            ziRanMiDu = layer.ziRanMiDu;
+            bianXingMoLiang = layer.bianXingMoLiang;
+            kangLaQiangDu = layer.kangLaQiangDu;
+            kangYaQiangDu = layer.kangYaQiangDu;
+            tanXingMoLiang = layer.tanXingMoLiang;
+            boSonBi = layer.boSonBi;
+            neiMoCaJiao = layer.neiMoCaJiao;
+            nianJuLi = layer.nianJuLi;
+            q0 = layer.q0;
+            q1 = layer.q1;
+            q2 = layer.q2;
+            miaoShu = layer.miaoShu;
+        }
+
+        public string yanXing;
+        public double leiJiShenDu;
+        public double juLiMeiShenDu;
+        public double cengHou;
+        public double ziRanMiDu;
+        public double bianXingMoLiang;
+        public double kangLaQiangDu;
+        public double kangYaQiangDu;
+        public double tanXingMoLiang;
+        public double boSonBi;
+        public double neiMoCaJiao;
+        public double nianJuLi;
+        public double q0;
+        public double q1;
+        public double q2;
+        public string miaoShu;
+    }
+
+
+    public class LayerParams : BaseParams, INotifyPropertyChanged
     {
 
         public static List<String> YanXingOpt { get; set; }
         public static List<String> CaiDongOpt { get; set; }
+
         static LayerParams()
         {
             YanXingOpt = new List<string> { "地表", "黄土", "细粒砂岩", "泥岩", "中粒砂岩", "粉砂岩", "砂质泥岩", "粗粒砂岩", "细砂岩", "中砂岩", "煤" };
@@ -18,12 +69,10 @@ namespace GroundWellDesign
         public LayerParams()
         {
             YanXing = YanXingOpt[0];
-            CaiDong = CaiDongOpt[0];
-            miaoShu = "";
-
+            MiaoShu = "";
         }
 
-        public LayerParams(LayerParams layer)
+        public LayerParams(BaseParams layer)
         {
             copy(layer);
         }
@@ -31,8 +80,6 @@ namespace GroundWellDesign
         public bool equals(LayerParams layer)
         {
             return YanXing.Equals(layer.YanXing) &&
-            CaiDong.Equals(layer.CaiDong) &&
-
             LeiJiShenDu == layer.LeiJiShenDu &&
             JuLiMeiShenDu.Equals(layer.JuLiMeiShenDu) &&
             CengHou.Equals(layer.CengHou) &&
@@ -53,30 +100,29 @@ namespace GroundWellDesign
             copy(new LayerParams());
         }
 
-        public void copy(LayerParams layer)
+        public void copy(BaseParams layer)
         {
-            YanXing = layer.YanXing;
-            CaiDong = layer.CaiDong;
-            LeiJiShenDu = layer.LeiJiShenDu;
-            JuLiMeiShenDu = layer.JuLiMeiShenDu;
-            CengHou = layer.CengHou;
-            ZiRanMiDu = layer.ZiRanMiDu;
-            BianXingMoLiang = layer.BianXingMoLiang;
-            KangLaQiangDu = layer.KangLaQiangDu;
-            KangYaQiangDu = layer.KangYaQiangDu;
-            TanXingMoLiang = layer.TanXingMoLiang;
-            BoSonBi = layer.BoSonBi;
-            NeiMoCaJiao = layer.NeiMoCaJiao;
-            NianJuLi = layer.NianJuLi;
-            Q0 = layer.Q0;
-            Q1 = layer.Q1;
-            Q2 = layer.Q2;
-
-            MiaoShu = layer.MiaoShu;
+            YanXing = layer.yanXing;
+            LeiJiShenDu = layer.leiJiShenDu;
+            JuLiMeiShenDu = layer.juLiMeiShenDu;
+            CengHou = layer.cengHou;
+            ZiRanMiDu = layer.ziRanMiDu;
+            BianXingMoLiang = layer.bianXingMoLiang;
+            KangLaQiangDu = layer.kangLaQiangDu;
+            KangYaQiangDu = layer.kangYaQiangDu;
+            TanXingMoLiang = layer.tanXingMoLiang;
+            BoSonBi = layer.boSonBi;
+            NeiMoCaJiao = layer.neiMoCaJiao;
+            NianJuLi = layer.nianJuLi;
+            Q0 = layer.q0;
+            Q1 = layer.q1;
+            Q2 = layer.q2;
+            MiaoShu = layer.miaoShu;
         }
 
-        String yanXing;
-        public String YanXing
+
+
+        public string YanXing
         {
             get { return yanXing; }
             set
@@ -89,10 +135,11 @@ namespace GroundWellDesign
                         break;
                     case 10: //煤  刷新距离没深度
                         int i = MainWindow.layers.Count;
-                        for(i -= 3; i >= 0; i--)
+                        for (i -= 3; i >= 0; i--)
                         {
                             MainWindow.layers[i].JuLiMeiShenDu = MainWindow.layers[i + 1].cengHou + MainWindow.layers[i + 1].juLiMeiShenDu;
                         }
+
                         break;
 
                     case 1:  // "黄土"
@@ -127,7 +174,7 @@ namespace GroundWellDesign
                         Q1 = 1.0;
                         Q2 = 1.1;
                         break;
-                        
+
                     case 7://, "粗粒砂岩"
                         Q0 = 0.1;
                         Q1 = 0.2;
@@ -143,21 +190,7 @@ namespace GroundWellDesign
             }
         }
 
-        String caiDong;
-        public String CaiDong
-        {
-            get { return caiDong; }
-            set
-            {
-                caiDong = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("CaiDong"));
-                }
-            }
-        }
 
-        double leiJiShenDu;
         public double LeiJiShenDu
         {
             get { return leiJiShenDu; }
@@ -171,7 +204,7 @@ namespace GroundWellDesign
             }
         }
 
-        double juLiMeiShenDu;
+
         public double JuLiMeiShenDu
         {
             get { return juLiMeiShenDu; }
@@ -185,7 +218,7 @@ namespace GroundWellDesign
             }
         }
 
-        double cengHou;
+
         public double CengHou
         {
             get { return cengHou; }
@@ -207,7 +240,7 @@ namespace GroundWellDesign
             }
         }
 
-        double ziRanMiDu;
+
         public double ZiRanMiDu
         {
             get { return ziRanMiDu; }
@@ -221,7 +254,7 @@ namespace GroundWellDesign
             }
         }
 
-        double bianXingMoLiang;
+
         public double BianXingMoLiang
         {
             get { return bianXingMoLiang; }
@@ -235,7 +268,7 @@ namespace GroundWellDesign
             }
         }
 
-        double kangLaQiangDu;
+
         public double KangLaQiangDu
         {
             get { return kangLaQiangDu; }
@@ -249,7 +282,7 @@ namespace GroundWellDesign
             }
         }
 
-        double kangYaQiangDu;
+
         public double KangYaQiangDu
         {
             get { return kangYaQiangDu; }
@@ -263,7 +296,7 @@ namespace GroundWellDesign
             }
         }
 
-        double tanXingMoLiang;
+
         public double TanXingMoLiang
         {
             get { return tanXingMoLiang; }
@@ -277,7 +310,7 @@ namespace GroundWellDesign
             }
         }
 
-        double boSonBi;
+
         public double BoSonBi
         {
             get { return boSonBi; }
@@ -291,7 +324,7 @@ namespace GroundWellDesign
             }
         }
 
-        double neiMoCaJiao;
+
         public double NeiMoCaJiao
         {
             get { return neiMoCaJiao; }
@@ -305,7 +338,7 @@ namespace GroundWellDesign
             }
         }
 
-        double nianJuLi;
+
         public double NianJuLi
         {
             get { return nianJuLi; }
@@ -319,7 +352,7 @@ namespace GroundWellDesign
             }
         }
 
-        double q0;
+
         public double Q0
         {
             get { return q0; }
@@ -333,7 +366,7 @@ namespace GroundWellDesign
             }
         }
 
-        double q1;
+
         public double Q1
         {
             get { return q1; }
@@ -347,7 +380,7 @@ namespace GroundWellDesign
             }
         }
 
-        double q2;
+
         public double Q2
         {
             get { return q2; }
@@ -362,8 +395,6 @@ namespace GroundWellDesign
         }
 
 
-
-        string miaoShu;
         public string MiaoShu
         {
             get { return miaoShu; }
@@ -377,8 +408,7 @@ namespace GroundWellDesign
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
     }
-    
+
 }

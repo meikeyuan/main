@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -34,5 +35,32 @@ namespace GroundWellDesign
             return obj;
         }
 
+
+   
+
+
+        [Serializable]
+        public class DataToSave
+        {
+            public ObservableCollection<BaseParams> Layers
+            {
+                get;
+                set;
+            }
+            
+            public List<int> KeyLayerNbr
+            {
+                get;
+                set;
+            }
+
+            
+            public ObservableCollection<OtherData> KeyLayers
+            {
+                get;
+                set;
+            }
+
+        }
     }
 }

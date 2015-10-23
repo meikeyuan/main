@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
 using System.Windows;
 
 namespace GroundWellDesign
@@ -15,8 +15,8 @@ namespace GroundWellDesign
 
     }
 
-
-    class OtherData
+    [Serializable]
+    public class OtherData
     {
 
         public OtherData()

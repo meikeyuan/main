@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -10,12 +10,6 @@ namespace GroundWellDesign
     public partial class MainWindow : Window
 
     {
-        //所有已经录入岩层参数
-        public static ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
-        //关键层
-        List<int> keyLayerNbr = new List<int>();
-        ObservableCollection<OtherData> keyLayers = new ObservableCollection<OtherData>();
-
 
         void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
@@ -56,6 +50,66 @@ namespace GroundWellDesign
             }
         }
 
+
+        //从文件恢复数据
+        private void openFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
+            fileDialog.Title = "打开文件";
+            fileDialog.Filter = "bin文件(*.bin)|*.bin";
+
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = fileDialog.FileName;
+                object obj = DataSaveAndRestore.restoreObj(filePath);
+                if(obj == null || !(obj is DataSaveAndRestore.DataToSave))
+                {
+                    MessageBox.Show("打开文件错误");
+                    return;
+                }
+                DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
+                Layers.Clear();
+                foreach(BaseParams baseParam in data.Layers)
+                {
+                    LayerParams layer = new LayerParams(baseParam);
+                    Layers.Add(layer);
+
+                }
+
+                KeyLayers = data.KeyLayers;
+                KeyLayerNbr = data.KeyLayerNbr;
+                //对象引用已经改变 需要重新绑定
+                initialView();
+            }
+
+        }
+
+
+        //保存数据到文件
+        private void saveFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
+            fileDialog.Title = "保存文件";
+            fileDialog.Filter = "bin文件(*.bin)|*.bin";
+
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = fileDialog.FileName;
+                DataSaveAndRestore.DataToSave data = new DataSaveAndRestore.DataToSave();
+                data.Layers = new ObservableCollection<BaseParams>();
+                foreach (LayerParams layerParam in Layers)
+                {
+                    data.Layers.Add(new BaseParams(layerParam));
+                }
+                data.KeyLayerNbr = this.keyLayerNbr;
+                data.KeyLayers = this.keyLayers;
+
+                DataSaveAndRestore.saveObj(data, filePath);
+            }
+
+        }
 
 
         //下方增加行
@@ -139,23 +193,18 @@ namespace GroundWellDesign
             layers[selectedIndex + 1] = layer;
         }
 
-
+        //显示沉降位移
         private void click_Wmax(object sender, RoutedEventArgs e)
         {
-            //to do  计算出地表最大沉降位移
-            wmaxText.Text = "100m";
-            //。。。
+            wmaxText.Text = getGroundOffset() + "M";
         }
 
 
-        //显示关键层 黄色
+
+        //显示关键层
         private void click_showKeyRow(object sender, RoutedEventArgs e)
         {
-            //to do  计算出关键层  并将关键层数据存入keyLayersNbr
-            keyLayerNbr.Clear();
-            keyLayerNbr.Add(1);
-            keyLayerNbr.Add(3);
-            //....
+            keyLayerNbr = getKeyLayerNbr();
 
 
             foreach (int nbr in keyLayerNbr)
@@ -179,9 +228,12 @@ namespace GroundWellDesign
         {
             tabControl.SelectedIndex = 2;
         }
+        
 
 
 
+
+        //模块一获取岩层参数的回调函数
         public double[,] getParams()
         {
 
@@ -206,12 +258,12 @@ namespace GroundWellDesign
                 res[i - 1, 10] = param.NianJuLi;
 
 
-                if (param.CaiDong == LayerParams.CaiDongOpt[0])
+                if (caiDongComBox.SelectedIndex == 0)
                 {
                     res[i - 1, 11] = param.Q0;
 
                 }
-                else if (param.CaiDong == LayerParams.CaiDongOpt[1])
+                else if (caiDongComBox.SelectedIndex == 1)
                 {
                     res[i - 1, 11] = param.Q1;
                 }
@@ -225,6 +277,27 @@ namespace GroundWellDesign
 
         }
 
+
+
+        //需要提供的计算出地标最大沉降位移接口
+        private double getGroundOffset()
+        {
+            Random ran = new Random();
+            return ran.NextDouble();
+
+        }
+
+
+        //需要提供的计算出关键层接口
+        private List<int> getKeyLayerNbr()
+        {
+            List<int> list = new List<int>();
+            list.Clear();
+            list.Add(1);
+            list.Add(3);
+
+            return list;
+        }
 
     }
 }

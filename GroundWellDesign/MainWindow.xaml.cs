@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Data;
 using AxMxDrawXLib;
-
+using System.Collections.ObjectModel;
 
 namespace GroundWellDesign
 {
@@ -13,15 +13,38 @@ namespace GroundWellDesign
     {
 
         AxMxDrawX cadViewer;
-        
+        //所有已经录入岩层参数
+        public static ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
+        public ObservableCollection<LayerParams> Layers
+        {
+            get { return layers; }
+            set { layers = value; }
+        }
+
+        //关键层
+        private List<int> keyLayerNbr = new List<int>();
+        public List<int> KeyLayerNbr
+        {
+            get { return keyLayerNbr; }
+            set { keyLayerNbr = value; }
+        }
+
+
+        private ObservableCollection<OtherData> keyLayers = new ObservableCollection<OtherData>();
+        public ObservableCollection<OtherData> KeyLayers
+        {
+            get { return keyLayers; }
+            set { keyLayers = value; }
+        }
+
 
         public MainWindow()
         {
             InitializeComponent();
-
             //岩层参数录入初始化
             layers.Add(new LayerParams());
-            paramGrid.DataContext = layers;
+            caiDongComBox.SelectedIndex = 0;
+
 
 
             //自动更新层号 层号不保存在集合中
@@ -29,10 +52,31 @@ namespace GroundWellDesign
             paramGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
 
+            
+
+            
+
+
+            cadViewer = new AxMxDrawX();
+            cadViewer.BeginInit();
+            wfHost.Child = cadViewer;
+            cadViewer.EndInit();
+            cadViewer.OpenDwgFile("示意钻井结构.dwg");
+
+            initialView();
+
+
+
+        }
+
+        public void initialView()
+        {
+            paramGrid.DataContext = layers;
+            otherDataGrid.DataContext = keyLayers;
+
             //向导式binding
             miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu") { Source = editLayer });
             yanXingCB.SetBinding(ComboBox.TextProperty, new Binding("YanXing") { Source = editLayer, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-            caiDongCB.SetBinding(ComboBox.TextProperty, new Binding("CaiDong") { Source = editLayer, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             leiJiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("LeiJiShenDu") { Source = editLayer });
             cengHouTb.SetBinding(TextBox.TextProperty, new Binding("CengHou") { Source = editLayer });
             ziRanMiDuTb.SetBinding(TextBox.TextProperty, new Binding("ZiRanMiDu") { Source = editLayer });
@@ -46,22 +90,9 @@ namespace GroundWellDesign
             q0Tb.SetBinding(TextBox.TextProperty, new Binding("Q0") { Source = editLayer });
             q1Tb.SetBinding(TextBox.TextProperty, new Binding("Q1") { Source = editLayer });
             q2Tb.SetBinding(TextBox.TextProperty, new Binding("Q2") { Source = editLayer });
-
-
-            otherDataGrid.DataContext = keyLayers;
-
-
-            cadViewer = new AxMxDrawX();
-            cadViewer.BeginInit();
-            wfHost.Child = cadViewer;
-            cadViewer.EndInit();
-            cadViewer.OpenDwgFile("示意钻井结构.dwg");
-
         }
 
-        
-
-        
+       
     }
 
 

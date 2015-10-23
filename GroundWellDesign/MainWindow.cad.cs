@@ -7,24 +7,6 @@ namespace GroundWellDesign
     {
 
 
-
-        //打开dwgg文件
-        private void OpenBtn_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
-            fileDialog.Title = "打开一个dwg文件";
-            fileDialog.Filter = "dwg文件(*.dwg)|*.dwg";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string filePath = fileDialog.FileName;
-                cadViewer.OpenDwgFile(filePath);
-            }
-
-
-        }
-
-
         //编辑dwg
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {

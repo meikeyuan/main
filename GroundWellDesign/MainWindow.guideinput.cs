@@ -3,7 +3,6 @@
 namespace GroundWellDesign
 {
     partial class MainWindow : Window
-
     {
 
         //向导式当前编辑的岩层参数
@@ -27,7 +26,11 @@ namespace GroundWellDesign
                 layers.Add(layer);
             }
             else
-                layers[layerNum - 1].copy(editLayer);
+            {
+                LayerParams layer = new LayerParams(editLayer);
+                layers[layerNum - 1] = layer;
+            }
+                
 
         }
 
@@ -42,6 +45,7 @@ namespace GroundWellDesign
         private void resetBtn_Click(object sender, RoutedEventArgs e)
         {
             editLayer.reset();
+            initialView();
         }
 
         //上一层按钮
