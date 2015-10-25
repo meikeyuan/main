@@ -56,7 +56,7 @@ namespace GroundWellDesign
             if (layerNum == 1)
                 return;
 
-            if (layerNum <= layers.Count && !layers[layerNum - 1].equals(editLayer) || layerNum == layers.Count + 1)
+            if (layerNum <= layers.Count && !layers[layerNum - 1].Equals(editLayer) || layerNum == layers.Count + 1)
             {
                 if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
@@ -68,7 +68,7 @@ namespace GroundWellDesign
             if (layerNum > 1 && layerNum <= layers.Count + 1)
             {
                 currLayerTb.Text = layerNum - 1 + "";
-                editLayer.copy(layers[layerNum - 2]);
+                editLayer.copyAndEvent(layers[layerNum - 2]);
             }
 
         }
@@ -77,7 +77,7 @@ namespace GroundWellDesign
         private void nextBtn_Click(object sender, RoutedEventArgs e)
         {
             int layerNum = int.Parse(currLayerTb.Text);
-            if (layerNum <= layers.Count && !layers[layerNum - 1].equals(editLayer) || layerNum == layers.Count + 1)
+            if (layerNum <= layers.Count && !layers[layerNum - 1].Equals(editLayer) || layerNum == layers.Count + 1)
             {
                 if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
@@ -89,7 +89,7 @@ namespace GroundWellDesign
             if (layerNum < layers.Count)
             {
                 currLayerTb.Text = layerNum + 1 + "";
-                editLayer.copy(layers[layerNum]);
+                editLayer.copyAndEvent(layers[layerNum]);
             }
             else if (layerNum == layers.Count)
             {

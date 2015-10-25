@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MathWorks.MATLAB.NET.Arrays;
+using mky;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -48,67 +50,6 @@ namespace GroundWellDesign
             {
                 paramGrid.BeginEdit();    //  进入编辑模式  这样单击一次就可以选择ComboBox里面的值了  
             }
-        }
-
-
-        //从文件恢复数据
-        private void openFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-            System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
-            fileDialog.Title = "打开文件";
-            fileDialog.Filter = "bin文件(*.bin)|*.bin";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string filePath = fileDialog.FileName;
-                object obj = DataSaveAndRestore.restoreObj(filePath);
-                if(obj == null || !(obj is DataSaveAndRestore.DataToSave))
-                {
-                    MessageBox.Show("打开文件错误");
-                    return;
-                }
-                DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
-                Layers.Clear();
-                foreach(BaseParams baseParam in data.Layers)
-                {
-                    LayerParams layer = new LayerParams(baseParam);
-                    Layers.Add(layer);
-
-                }
-
-                KeyLayers = data.KeyLayers;
-                KeyLayerNbr = data.KeyLayerNbr;
-                //对象引用已经改变 需要重新绑定
-                initialView();
-            }
-
-        }
-
-
-        //保存数据到文件
-        private void saveFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
-            fileDialog.Title = "保存文件";
-            fileDialog.Filter = "bin文件(*.bin)|*.bin";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string filePath = fileDialog.FileName;
-                DataSaveAndRestore.DataToSave data = new DataSaveAndRestore.DataToSave();
-                data.Layers = new ObservableCollection<BaseParams>();
-                foreach (LayerParams layerParam in Layers)
-                {
-                    data.Layers.Add(new BaseParams(layerParam));
-                }
-                data.KeyLayerNbr = this.keyLayerNbr;
-                data.KeyLayers = this.keyLayers;
-
-                DataSaveAndRestore.saveObj(data, filePath);
-            }
-
         }
 
 
@@ -204,19 +145,45 @@ namespace GroundWellDesign
         //显示关键层
         private void click_showKeyRow(object sender, RoutedEventArgs e)
         {
-            keyLayerNbr = getKeyLayerNbr();
-
-
-            foreach (int nbr in keyLayerNbr)
+            //先撤销之前的变色
+            foreach (KeyLayerParams nbr in keyLayers)
             {
-                var row = paramGrid.ItemContainerGenerator.ContainerFromItem(paramGrid.Items[nbr - 1]) as DataGridRow;
-                row.Background = new SolidColorBrush(Colors.Yellow);
+                var row = paramGrid.ItemContainerGenerator.ContainerFromIndex(nbr.ycbh - 1) as DataGridRow;
+                if(row != null)
+                row.Background = new SolidColorBrush(Colors.White);
+                paramGrid.UpdateLayout();
+            }
 
-                //添加关键层
-                OtherData data = new OtherData();
-                data.YanCengShenDu = layers[nbr - 1].LeiJiShenDu;
-                data.MeiCengMaiShen = layers[nbr - 1].JuLiMeiShenDu;
-                keyLayers.Add(new OtherData());
+
+            //当前关键层变色显示
+            int[] biaoHaoList = null;
+            double[] pjxsList = null;
+
+            getKeyLayer(ref biaoHaoList, ref pjxsList);
+
+
+            if (biaoHaoList == null || pjxsList == null)
+            {
+                //keyLayerNbr.Clear();
+                return;
+            }
+
+            keyLayers.Clear();
+            int count = biaoHaoList.Length;
+            for (int i = 0; i < count; i++)
+            {
+                KeyLayerParams layer = new KeyLayerParams();
+                layer.ycbh = biaoHaoList[i];
+                layer.fypjxs = pjxsList[i];
+
+                layer.ycsd = layers[biaoHaoList[i] - 1].LeiJiShenDu;
+                layer.mcms = layers[biaoHaoList[i] - 1].JuLiMeiShenDu;
+                keyLayers.Add(layer);
+
+
+                var row = paramGrid.ItemContainerGenerator.ContainerFromIndex(biaoHaoList[i] - 1) as DataGridRow;
+                if(row != null)
+                row.Background = new SolidColorBrush(Colors.Yellow);
 
             }
 
@@ -226,6 +193,7 @@ namespace GroundWellDesign
         //转到输入其他数据
         private void click_inputOtherData(object sender, RoutedEventArgs e)
         {
+            
             tabControl.SelectedIndex = 2;
         }
         
@@ -237,39 +205,58 @@ namespace GroundWellDesign
         public double[,] getParams()
         {
 
-            int layerCount = layers.Count;
-            double[,] res = new double[layerCount - 1, 12];
+            int count = MainWindow.layers.Count;
+            for (count--; count > 0 && MainWindow.layers[count].yanXing != "煤"; count--) ;
 
-            for (int i = 1; i < layerCount; i++)
+            //判断是否有煤层 或者 煤层是最后一层 或者第一层不是地表 则失败
+            if (count == 0 || count == MainWindow.layers.Count - 1 || !MainWindow.layers[0].yanXing.Equals("地表"))
+                return null;
+
+
+            double[,] res = new double[count + 2, 11];
+
+            for (int i = 0; i <= count + 1; i++)
             {
                 LayerParams param = layers[i];
+                if (param.yanXing == "地表")
+                {
+                    res[i, 0] = 1;
+                }
+                else if (param.yanXing == "黄土")
+                {
+                    res[i, 0] = 2;
+                }
+                else if (param.yanXing == "煤")
+                {
+                    res[i, 0] = 9;
+                }
+                else
+                {
+                    res[i, 0] = 0;
+                }
 
-
-                res[i - 1, 0] = param.LeiJiShenDu;
-                res[i - 1, 1] = param.JuLiMeiShenDu;
-                res[i - 1, 2] = param.CengHou;
-                res[i - 1, 3] = param.ZiRanMiDu;
-                res[i - 1, 4] = param.BianXingMoLiang;
-                res[i - 1, 5] = param.KangLaQiangDu;
-                res[i - 1, 6] = param.KangYaQiangDu;
-                res[i - 1, 7] = param.TanXingMoLiang;
-                res[i - 1, 8] = param.BoSonBi;
-                res[i - 1, 9] = param.NeiMoCaJiao;
-                res[i - 1, 10] = param.NianJuLi;
-
+                res[i, 1] = param.LeiJiShenDu;
+                res[i, 2] = param.ZiRanMiDu;
+                res[i, 3] = param.BianXingMoLiang;
+                res[i, 4] = param.KangLaQiangDu;
+                res[i, 5] = param.KangYaQiangDu;
+                res[i, 6] = param.TanXingMoLiang;
+                res[i, 7] = param.BoSonBi;
+                res[i, 8] = param.NeiMoCaJiao;
+                res[i, 9] = param.NianJuLi;
 
                 if (caiDongComBox.SelectedIndex == 0)
                 {
-                    res[i - 1, 11] = param.Q0;
+                    res[i, 10] = param.Q0;
 
                 }
                 else if (caiDongComBox.SelectedIndex == 1)
                 {
-                    res[i - 1, 11] = param.Q1;
+                    res[i, 10] = param.Q1;
                 }
                 else
                 {
-                    res[i - 1, 11] = param.Q2;
+                    res[i, 10] = param.Q2;
                 }
             }
 
@@ -277,6 +264,23 @@ namespace GroundWellDesign
 
         }
 
+
+        private double[] arrayTrans(double[,] input)
+        {
+            int width = input.GetLength(0);
+            int length = input.GetLength(1);
+
+            double[] output = new double[length * width];
+
+            for(int i = 0; i < width; i++)
+                for (int j = 0; j < length; j++)
+                {
+                    output[i * length + j] = input[i, j];
+                }
+
+            return output;
+
+        }
 
 
         //需要提供的计算出地标最大沉降位移接口
@@ -289,14 +293,46 @@ namespace GroundWellDesign
 
 
         //需要提供的计算出关键层接口
-        private List<int> getKeyLayerNbr()
+        private void getKeyLayer(ref int[] bianHao, ref double[] pjxs)
         {
-            List<int> list = new List<int>();
-            list.Clear();
-            list.Add(1);
-            list.Add(3);
 
-            return list;
+            double[,] data = getParams();
+            if (data == null)
+            {
+                MessageBox.Show("数据录入有误，请检查。(第一层应为地表，应该有煤层底板。)");
+                return;
+            }
+               
+
+            double[] rowData = arrayTrans(data);
+            MWNumericArray mwdata = new MWNumericArray(89, 11, rowData);
+            MkyLogic logic = new MkyLogic();
+
+            try{
+                MWArray[] result = logic.yancengzuhe(2, mwdata);
+                MWNumericArray biaoHaoList = (MWNumericArray)result[0];
+                MWNumericArray pjxsList = (MWNumericArray)result[1];
+
+                double[] outBiaoHao = (double[])biaoHaoList.ToVector(MWArrayComponent.Real);
+                int length = outBiaoHao.Length;
+                bianHao = new int[length];
+                for (int i = 0; i < length; i++)
+                {
+                    bianHao[i] = (int)outBiaoHao[i];
+                }
+
+
+                    pjxs = (double[])pjxsList.ToVector(MWArrayComponent.Real);
+
+                return;
+
+            }catch(Exception e){
+                e.ToString();
+                MessageBox.Show("计算出现错误，请检查数据准确性");
+                return;
+
+            }
+
         }
 
     }

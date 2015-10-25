@@ -55,7 +55,7 @@ namespace GroundWellDesign
             }
 
             
-            public ObservableCollection<OtherData> KeyLayers
+            public ObservableCollection<BaseKeyParams> KeyLayers
             {
                 get;
                 set;

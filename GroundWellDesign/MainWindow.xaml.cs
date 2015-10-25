@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using AxMxDrawXLib;
 using System.Collections.ObjectModel;
+using MathWorks.MATLAB.NET.Arrays;
+using mky;
 
 namespace GroundWellDesign
 {
@@ -21,17 +23,8 @@ namespace GroundWellDesign
             set { layers = value; }
         }
 
-        //关键层
-        private List<int> keyLayerNbr = new List<int>();
-        public List<int> KeyLayerNbr
-        {
-            get { return keyLayerNbr; }
-            set { keyLayerNbr = value; }
-        }
-
-
-        private ObservableCollection<OtherData> keyLayers = new ObservableCollection<OtherData>();
-        public ObservableCollection<OtherData> KeyLayers
+        private ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
+        public ObservableCollection<KeyLayerParams> KeyLayers
         {
             get { return keyLayers; }
             set { keyLayers = value; }
@@ -41,20 +34,24 @@ namespace GroundWellDesign
         public MainWindow()
         {
             InitializeComponent();
+
+            MWArray array = new MWNumericArray(1, 1);
+            MkyLogic logic = new MkyLogic();
+            logic.ToString();
+
+
             //岩层参数录入初始化
-            layers.Add(new LayerParams());
+           // LayerParams dibiao = new LayerParams();
+         //   dibiao.YanXing = LayerParams.YanXingOpt[0];
+         //   layers.Add(dibiao);
             caiDongComBox.SelectedIndex = 0;
 
 
 
             //自动更新层号 层号不保存在集合中
             paramGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
+            keyLayerDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
             paramGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
-
-
-            
-
-            
 
 
             cadViewer = new AxMxDrawX();
@@ -65,14 +62,12 @@ namespace GroundWellDesign
 
             initialView();
 
-
-
         }
 
         public void initialView()
         {
             paramGrid.DataContext = layers;
-            otherDataGrid.DataContext = keyLayers;
+            keyLayerDataGrid.DataContext = keyLayers;
 
             //向导式binding
             miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu") { Source = editLayer });
@@ -92,9 +87,83 @@ namespace GroundWellDesign
             q2Tb.SetBinding(TextBox.TextProperty, new Binding("Q2") { Source = editLayer });
         }
 
-       
+
+
+        //从文件恢复数据
+        private void openFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
+            fileDialog.Title = "打开文件";
+            fileDialog.Filter = "数据文件(*.data)|*.data";
+
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = fileDialog.FileName;
+                object obj = DataSaveAndRestore.restoreObj(filePath);
+                if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
+                {
+                    MessageBox.Show("打开文件错误");
+                    return;
+                }
+                DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
+
+                //回复基本参数
+                Layers.Clear();
+                foreach (BaseParams baseParam in data.Layers)
+                {
+                    LayerParams layer = new LayerParams(baseParam);
+                    Layers.Add(layer);
+
+                }
+
+                //回复关键层数据
+                KeyLayers.Clear();
+                foreach (BaseKeyParams baseParam in data.KeyLayers)
+                {
+                    KeyLayerParams layer = new KeyLayerParams(baseParam);
+                    KeyLayers.Add(layer);
+
+                }
+
+            }
+
+        }
+
+
+        //保存数据到文件
+        private void saveFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
+            fileDialog.Title = "保存文件";
+            fileDialog.Filter = "数据文件(*.data)|*.data";
+            fileDialog.FileName = "岩层数据.data";
+
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = fileDialog.FileName;
+                DataSaveAndRestore.DataToSave data = new DataSaveAndRestore.DataToSave();
+
+                //基本参数
+                data.Layers = new ObservableCollection<BaseParams>();
+                foreach (LayerParams layerParam in Layers)
+                {
+                    data.Layers.Add(new BaseParams(layerParam));
+                }
+
+                //关键层参数
+                data.KeyLayers = new ObservableCollection<BaseKeyParams>();
+                foreach (KeyLayerParams layerParam in KeyLayers)
+                {
+                    data.KeyLayers.Add(new BaseKeyParams(layerParam));
+                }
+
+                DataSaveAndRestore.saveObj(data, filePath);
+            }
+
+        }
+
     }
-
-
 
 }

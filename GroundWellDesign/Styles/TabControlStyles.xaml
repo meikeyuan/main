@@ -5,7 +5,8 @@
     <SolidColorBrush x:Key="TabControl.BodyBackground" Color="#353535" />
     <SolidColorBrush x:Key="TabControl.BorderBrush" Color="Gray" />
     <SolidColorBrush x:Key="TabItem.Foreground" Color="#FF9BEDF3" />
-    <SolidColorBrush x:Key="Button.Foreground" Color="#FF10a8ab"/>
+    <SolidColorBrush x:Key="Button.Foreground" Color="Gold"/>
+    <SolidColorBrush x:Key="Button.Background" Color="Black"/>
 
     <Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}" BasedOn="{StaticResource {x:Type TabControl}}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -158,6 +159,7 @@
                             <Setter TargetName="bbb" Property="Background" Value="{DynamicResource TabControl.ActivedItemHeaderBackground}" />
                             <Setter TargetName="bbb" Property="Padding" Value="3" />
                         </Trigger>
+                       
                         <Trigger Property="TabStripPlacement" Value="Left">
                             <Setter Property="LayoutTransform">
                                 <Setter.Value>
@@ -180,7 +182,9 @@
 
     <Style x:Key="ButtonStyle" TargetType="Button">
         <Setter Property="Foreground" Value="{DynamicResource Button.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource Button.Background}" />
         <Setter Property="FontWeight" Value="Bold"/>
+        
         
         <Setter Property="Template">
             <Setter.Value>

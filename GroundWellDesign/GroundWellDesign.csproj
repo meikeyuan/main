@@ -65,6 +65,13 @@
     <Reference Include="AxMxDrawXLib">
       <HintPath>lib\AxMxDrawXLib.dll</HintPath>
     </Reference>
+    <Reference Include="mky">
+      <HintPath>lib\mky.dll</HintPath>
+    </Reference>
+    <Reference Include="MWArray, Version=2.14.0.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\MWArray.dll</HintPath>
+    </Reference>
     <Reference Include="MxDrawXLib">
       <HintPath>lib\MxDrawXLib.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -100,6 +107,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataSaveAndRestore.cs" />
+    <Compile Include="KeyLayerParams.cs" />
     <Compile Include="LayerParams.cs" />
     <Compile Include="MainWindow.cad.cs" />
     <Compile Include="MainWindow.gridinput.cs" />
