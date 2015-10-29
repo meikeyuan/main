@@ -48,7 +48,7 @@ namespace GroundWellDesign
                 set;
             }
             
-            public List<int> KeyLayerNbr
+            public List<double> KeyLayerData
             {
                 get;
                 set;

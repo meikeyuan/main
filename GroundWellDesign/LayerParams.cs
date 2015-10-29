@@ -16,7 +16,6 @@ namespace GroundWellDesign
         public BaseParams(BaseParams layer)
         {
             
-
             yanXing = layer.yanXing;
             leiJiShenDu = layer.leiJiShenDu;
             juLiMeiShenDu = layer.juLiMeiShenDu;
@@ -73,13 +72,13 @@ namespace GroundWellDesign
 
         public LayerParams()
         {
-            YanXing = YanXingOpt[1];
-            MiaoShu = "";
+            yanXing = YanXingOpt[1];
+            miaoShu = "";
         }
 
         public LayerParams(BaseParams layer)
         {
-            copyAndEvent(layer);
+            copyNoEvent(layer);
         }
 
         public bool Equals(LayerParams layer)
@@ -125,6 +124,46 @@ namespace GroundWellDesign
             MiaoShu = layer.miaoShu;
         }
 
+        public void copyAndEventEcpYanXing(BaseParams layer)
+        {
+            LeiJiShenDu = layer.leiJiShenDu;
+            JuLiMeiShenDu = layer.juLiMeiShenDu;
+            CengHou = layer.cengHou;
+            ZiRanMiDu = layer.ziRanMiDu;
+            BianXingMoLiang = layer.bianXingMoLiang;
+            KangLaQiangDu = layer.kangLaQiangDu;
+            KangYaQiangDu = layer.kangYaQiangDu;
+            TanXingMoLiang = layer.tanXingMoLiang;
+            BoSonBi = layer.boSonBi;
+            NeiMoCaJiao = layer.neiMoCaJiao;
+            NianJuLi = layer.nianJuLi;
+            Q0 = layer.q0;
+            Q1 = layer.q1;
+            Q2 = layer.q2;
+            MiaoShu = layer.miaoShu;
+        }
+
+        public void copyNoEvent(BaseParams layer)
+        {
+            yanXing = layer.yanXing;
+            leiJiShenDu = layer.leiJiShenDu;
+            juLiMeiShenDu = layer.juLiMeiShenDu;
+            cengHou = layer.cengHou;
+            ziRanMiDu = layer.ziRanMiDu;
+            bianXingMoLiang = layer.bianXingMoLiang;
+            kangLaQiangDu = layer.kangLaQiangDu;
+            kangYaQiangDu = layer.kangYaQiangDu;
+            tanXingMoLiang = layer.tanXingMoLiang;
+            boSonBi = layer.boSonBi;
+            neiMoCaJiao = layer.neiMoCaJiao;
+            nianJuLi = layer.nianJuLi;
+            q0 = layer.q0;
+            q1 = layer.q1;
+            q2 = layer.q2;
+            miaoShu = layer.miaoShu;
+        }
+
+
         private void refreshJuLiMeiShenDu()
         {
             int i = MainWindow.layers.Count;
@@ -144,7 +183,8 @@ namespace GroundWellDesign
             set
             {
                 yanXing = value;
-               
+
+                new SelectLayerWindow(yanXing, this).ShowDialog();
                 int index = YanXingOpt.IndexOf(value);
                 switch (index)
                 {

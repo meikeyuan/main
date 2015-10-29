@@ -3,6 +3,7 @@ using mky;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -134,13 +135,6 @@ namespace GroundWellDesign
             layers[selectedIndex + 1] = layer;
         }
 
-        //显示沉降位移
-        private void click_Wmax(object sender, RoutedEventArgs e)
-        {
-            wmaxText.Text = getGroundOffset() + "M";
-        }
-
-
 
         //显示关键层
         private void click_showKeyRow(object sender, RoutedEventArgs e)
@@ -178,6 +172,7 @@ namespace GroundWellDesign
 
                 layer.ycsd = layers[biaoHaoList[i] - 1].LeiJiShenDu;
                 layer.mcms = layers[biaoHaoList[i] - 1].JuLiMeiShenDu;
+                layer.fypjxsxz = layer.fypjxs * pjxsxz;
                 keyLayers.Add(layer);
 
 
@@ -197,9 +192,6 @@ namespace GroundWellDesign
             tabControl.SelectedIndex = 2;
         }
         
-
-
-
 
         //模块一获取岩层参数的回调函数
         public double[,] getParams()
@@ -286,8 +278,8 @@ namespace GroundWellDesign
         //需要提供的计算出地标最大沉降位移接口
         private double getGroundOffset()
         {
-            Random ran = new Random();
-            return ran.NextDouble();
+            logic.calWmax();
+            return 2;
 
         }
 
@@ -306,7 +298,6 @@ namespace GroundWellDesign
 
             double[] rowData = arrayTrans(data);
             MWNumericArray mwdata = new MWNumericArray(89, 11, rowData);
-            MkyLogic logic = new MkyLogic();
 
             try{
                 MWArray[] result = logic.yancengzuhe(2, mwdata);
@@ -335,5 +326,17 @@ namespace GroundWellDesign
 
         }
 
+
+        //保存岩层数据
+        private void saveYanCengBtn_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (LayerParams layer in layers)
+            {
+                string path = FILE_PATH + layer.yanXing;
+                int count = Directory.GetFiles(path).Length;
+                BaseParams baseParam = new BaseParams(layer);
+                DataSaveAndRestore.saveObj(baseParam, path + "\\" + (count + 1));
+            }
+        }
     }
 }

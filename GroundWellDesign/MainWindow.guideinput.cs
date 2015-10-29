@@ -45,7 +45,6 @@ namespace GroundWellDesign
         private void resetBtn_Click(object sender, RoutedEventArgs e)
         {
             editLayer.reset();
-            initialView();
         }
 
         //上一层按钮

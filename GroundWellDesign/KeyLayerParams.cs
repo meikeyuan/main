@@ -19,25 +19,26 @@ namespace GroundWellDesign
         {
 
             ycbh = layer.ycbh;
-        ycsd = layer.ycsd;
-         mcms = layer.mcms;
-         fypjxs = layer.fypjxs;
-         fypjxsxz = layer.fypjxsxz;
-         gzmtjsj = layer.gzmtjsj;
+            ycsd = layer.ycsd;
+            mcms = layer.mcms;
+            fypjxs = layer.fypjxs;
+            fypjxsxz = layer.fypjxsxz;
+            gzmtjsj = layer.gzmtjsj;
 
-         cfcdcjwy = layer.cfcdcjwy;
-         gzmtjjl = layer.gzmtjjl;
-         qx = layer.qx;
-         cdyxbj = layer.cdyxbj;
+            cfcdcjwy = layer.cfcdcjwy;
+            gzmtjjl = layer.gzmtjjl;
+            zx = layer.zx;
+            cdyxbj = layer.cdyxbj;
 
 
-         gdydj = layer.gdydj;
-         cfkckjjl = layer.cfkckjjl;
-         sjxcxs = layer.sjxcxs;
-         yczdxcz = layer.yczdxcz;
+            gdydj = layer.gdydj;
+            qxhckj = layer.qxhckj;
+            cfkckjjl = layer.cfkckjjl;
+            sjxcxs = layer.sjxcxs;
+            yczdxcz = layer.yczdxcz;
 
-         jsdjscjwy = layer.jsdjscjwy;
-         jsdjslcwy = layer.jsdjscjwy;
+            jsdjscjwy = layer.jsdjscjwy;
+            jsdjslcwy = layer.jsdjscjwy;
 
 
         }
@@ -51,11 +52,13 @@ namespace GroundWellDesign
 
         public double cfcdcjwy;
         public double gzmtjjl;
+        public double zx;
         public double qx;
         public double cdyxbj;
 
 
         public double gdydj;
+        public double qxhckj;
         public double cfkckjjl;
         public double sjxcxs;
         public double yczdxcz;
@@ -96,6 +99,7 @@ namespace GroundWellDesign
 
             Cfcdcjwy = layer.cfcdcjwy;
             Gzmtjjl = layer.gzmtjjl;
+            Zx = layer.zx;
             Qx = layer.qx;
             Cdyxbj = layer.cdyxbj;
 
@@ -186,6 +190,11 @@ namespace GroundWellDesign
             set
             {
                 gzmtjsj = value;
+
+
+                Gzmtjjl = gzmtjsj * MainWindow.gzmsd;
+
+
                 if (PropertyChanged != null)
                 {
                     this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Gzmtjsj"));
@@ -222,6 +231,20 @@ namespace GroundWellDesign
         }
 
 
+        public double Zx
+        {
+            get { return zx; }
+            set
+            {
+                zx = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Zx"));
+                }
+            }
+        }
+
+
         public double Qx
         {
             get { return qx; }
@@ -234,7 +257,6 @@ namespace GroundWellDesign
                 }
             }
         }
-
 
         public double Cdyxbj
         {
@@ -259,6 +281,19 @@ namespace GroundWellDesign
                 if (PropertyChanged != null)
                 {
                     this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Gdydj"));
+                }
+            }
+        }
+
+        public double Qxhckj
+        {
+            get { return qxhckj; }
+            set
+            {
+                qxhckj = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Qxhckj"));
                 }
             }
         }
