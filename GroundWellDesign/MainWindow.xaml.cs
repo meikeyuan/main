@@ -21,6 +21,11 @@ namespace GroundWellDesign
         public static ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
         public static ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
         public const string FILE_PATH = ".\\data\\";
+        public string FileName
+        {
+            set;
+            get;
+        }
 
 
         public double Mcqj
@@ -150,33 +155,61 @@ namespace GroundWellDesign
                 Directory.CreateDirectory(FILE_PATH + yanxing);
             }
 
-            
+
 
         }
 
 
-
-
-
-
-        //
-        public void resetKeyLayer()
+        //打开文件
+        public bool openFile(string filePath)
         {
-            foreach (KeyLayerParams layer in keyLayers)
+            object obj = DataSaveAndRestore.restoreObj(filePath);
+            if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
             {
-                layer.Cfcdcjwy = 0;
-                layer.Gzmtjjl = 0;
-                layer.Qx = 0;
-                layer.Cdyxbj = 0;
-
-                layer.Gdydj = 0;
-                layer.Cfkckjjl = 0;
-                layer.Sjxcxs = 0;
-                layer.Yczdxcz = 0;
-
-                layer.Jsdjscjwy = 0;
-                layer.Jsdjslcwy = 0;
+                return false;
             }
+            DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
+
+            //回复基本参数
+            layers.Clear();
+            foreach (BaseParams baseParam in data.Layers)
+            {
+                LayerParams layer = new LayerParams(baseParam);
+                layers.Add(layer);
+            }
+
+
+            //回复关键层数据
+            keyLayers.Clear();
+            foreach (BaseKeyParams baseParam in data.KeyLayers)
+            {
+                KeyLayerParams layer = new KeyLayerParams(baseParam);
+                keyLayers.Add(layer);
+
+            }
+
+            //回复关键层其他数据
+            if (data.KeyLayerData != null && data.KeyLayerData.Count == 7)
+            {
+                Mcqj = data.KeyLayerData[0];
+                Mchd = data.KeyLayerData[1];
+                Pjxsxz = data.KeyLayerData[2];
+                HcqZXcd = data.KeyLayerData[3];
+                HcqQXcd = data.KeyLayerData[4];
+                Gzmsd = data.KeyLayerData[5];
+                Jswzjl = data.KeyLayerData[6];
+
+                //没有刷新ui
+                meiCengQingJIaoTb.Text = data.KeyLayerData[0] + "";
+                meiCengHouDuTb.Text = data.KeyLayerData[1] + "";
+                xiuZhengXishuTb.Text = data.KeyLayerData[2] + "";
+                hcqZXcdTb.Text = data.KeyLayerData[3] + "";
+                hcqQXcdTb.Text = data.KeyLayerData[4] + "";
+                gZMTJSDTb.Text = data.KeyLayerData[5] + "";
+                jswzjlTb.Text = data.KeyLayerData[6] + "";
+            }
+
+            return true;
 
         }
 
@@ -192,59 +225,10 @@ namespace GroundWellDesign
             if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
-                object obj = DataSaveAndRestore.restoreObj(filePath);
-                if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
+                if (!openFile(filePath))
                 {
                     MessageBox.Show("打开文件错误");
-                    return;
                 }
-                DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
-
-                //回复基本参数
-                layers.Clear();
-                foreach (BaseParams baseParam in data.Layers)
-                {
-                    LayerParams layer = new LayerParams(baseParam);
-                    layers.Add(layer);
-
-                }
-
-                
-
-
-
-                //回复关键层数据
-                keyLayers.Clear();
-                foreach (BaseKeyParams baseParam in data.KeyLayers)
-                {
-                    KeyLayerParams layer = new KeyLayerParams(baseParam);
-                    keyLayers.Add(layer);
-
-                }
-
-                //回复关键层其他数据
-                if (data.KeyLayerData != null && data.KeyLayerData.Count == 7)
-                {
-                    Mcqj = data.KeyLayerData[0];
-                    Mchd = data.KeyLayerData[1];
-                    Pjxsxz = data.KeyLayerData[2];
-                    HcqZXcd = data.KeyLayerData[3];
-                    HcqQXcd = data.KeyLayerData[4];
-                    Gzmsd = data.KeyLayerData[5];
-                    Jswzjl = data.KeyLayerData[6];
-
-                    //没有刷新ui
-                    meiCengQingJIaoTb.Text = data.KeyLayerData[0] + "";
-                    meiCengHouDuTb.Text = data.KeyLayerData[1] + "";
-                    xiuZhengXishuTb.Text = data.KeyLayerData[2] + "";
-                    hcqZXcdTb.Text = data.KeyLayerData[3] + "";
-                    hcqQXcdTb.Text = data.KeyLayerData[4] + "";
-                    gZMTJSDTb.Text = data.KeyLayerData[5] + "";
-                    jswzjlTb.Text = data.KeyLayerData[6] + "";
-            }
-
-
-
             }
 
         }
