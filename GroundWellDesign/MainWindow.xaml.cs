@@ -117,6 +117,8 @@ namespace GroundWellDesign
             wfHost.Child = cadViewer;
             cadViewer.EndInit();
             cadViewer.OpenDwgFile("示意钻井结构.dwg");
+            cadViewer.ZoomCenter(1500, 1000);
+            cadViewer.ZoomScale(0.4);
 
             paramGrid.DataContext = layers;
             keyLayerDataGrid.DataContext = keyLayers;

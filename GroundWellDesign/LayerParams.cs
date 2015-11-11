@@ -32,9 +32,7 @@ namespace GroundWellDesign
             q1 = layer.q1;
             q2 = layer.q2;
             miaoShu = layer.miaoShu;
-
-            
-
+            dataBaseNum = layer.dataBaseNum;
 
         }
 
@@ -54,6 +52,7 @@ namespace GroundWellDesign
         public double q1;
         public double q2;
         public string miaoShu;
+        public int dataBaseNum;
 
     }
 
@@ -95,7 +94,7 @@ namespace GroundWellDesign
             BoSonBi.Equals(layer.BoSonBi) &&
             NeiMoCaJiao.Equals(layer.NeiMoCaJiao) &&
             NianJuLi.Equals(layer.NianJuLi) && MiaoShu.Equals(layer.MiaoShu) &&
-            Q1 == layer.Q1 && Q2 == layer.Q2 && Q0 == layer.Q0;
+            Q1 == layer.Q1 && Q2 == layer.Q2 && Q0 == layer.Q0 && dataBaseNum == layer.dataBaseNum;
 
         }
 
@@ -122,6 +121,7 @@ namespace GroundWellDesign
             Q1 = layer.q1;
             Q2 = layer.q2;
             MiaoShu = layer.miaoShu;
+            dataBaseNum = layer.dataBaseNum;
         }
 
         public void copyAndEventEcpYanXing(BaseParams layer)
@@ -141,6 +141,7 @@ namespace GroundWellDesign
             Q1 = layer.q1;
             Q2 = layer.q2;
             MiaoShu = layer.miaoShu;
+            dataBaseNum = layer.dataBaseNum;
         }
 
         public void copyNoEvent(BaseParams layer)
@@ -161,6 +162,7 @@ namespace GroundWellDesign
             q1 = layer.q1;
             q2 = layer.q2;
             miaoShu = layer.miaoShu;
+            dataBaseNum = layer.dataBaseNum;
         }
 
 

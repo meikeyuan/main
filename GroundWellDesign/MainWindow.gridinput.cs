@@ -330,12 +330,25 @@ namespace GroundWellDesign
         //保存岩层数据
         private void saveYanCengBtn_Click(object sender, RoutedEventArgs e)
         {
+            bool bSuccess = true;
             foreach (LayerParams layer in layers)
             {
                 string path = FILE_PATH + layer.yanXing;
-                int count = Directory.GetFiles(path).Length;
+                if(layer.dataBaseNum == 0)
+                {
+                    int count = Directory.GetFiles(path).Length;
+                    layer.dataBaseNum = count + 1;
+                }
                 BaseParams baseParam = new BaseParams(layer);
-                DataSaveAndRestore.saveObj(baseParam, path + "\\" + (count + 1));
+                bSuccess &= DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum);
+            }
+            if(bSuccess)
+            {
+                MessageBox.Show("全部保存成功");
+            }
+            else
+            {
+                MessageBox.Show("部分保存失败");
             }
         }
     }

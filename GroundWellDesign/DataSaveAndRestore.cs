@@ -12,14 +12,23 @@ namespace GroundWellDesign
 {
     class DataSaveAndRestore
     {
-        public static void saveObj(object obj, string path)
+        public static bool saveObj(object obj, string path)
         {
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
 
             //通过formatter对象以二进制格式将obj对象序列化后到文件中
-            formatter.Serialize(stream, obj);
-            stream.Close();
+            try
+            {
+                formatter.Serialize(stream, obj);
+                stream.Close();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
 
 
@@ -29,10 +38,16 @@ namespace GroundWellDesign
             IFormatter formatter = new BinaryFormatter();
             Stream stream2 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
 
-            object obj = formatter.Deserialize(stream2);
-            stream2.Close();
-
-            return obj;
+            try
+            {
+                object obj = formatter.Deserialize(stream2);
+                stream2.Close();
+                return obj;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
 
