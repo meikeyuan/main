@@ -20,7 +20,7 @@ namespace GroundWellDesign
         public static void Main(string[] args)
         {
             GroundWellDesign.App app = new GroundWellDesign.App();
-            SplashScreen s = new SplashScreen("splash.jpg");
+            SplashScreen s = new SplashScreen("img/splash.jpg");
             s.Show(false);
             s.Close(new TimeSpan(0, 0, 3));
             
