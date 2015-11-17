@@ -4,11 +4,6 @@ namespace GroundWellDesign
 {
     partial class MainWindow : Window
     {
-
-        //向导式当前编辑的岩层参数
-        LayerParams editLayer = new LayerParams();
-
-
         //保存
         private void saveEdit()
         {

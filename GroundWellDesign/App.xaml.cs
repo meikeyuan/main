@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Threading;
 using System.Windows;
-using System.Windows.Threading;
+using System.Windows.Controls;
 
 namespace GroundWellDesign
 {
@@ -15,20 +14,28 @@ namespace GroundWellDesign
         /// </summary>
         /// 
         [System.STAThreadAttribute()]
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        //[System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
         public static void Main(string[] args)
         {
             GroundWellDesign.App app = new GroundWellDesign.App();
             SplashScreen s = new SplashScreen("img/splash.jpg");
             s.Show(false);
-            s.Close(new TimeSpan(0, 0, 3));
-            
-            MainWindow mainwindow = new MainWindow();
+            ContainerWindow container = new ContainerWindow();
+
+            string filePath = null;
             if (args.Length != 0)
-              mainwindow.openFile(args[0]);
+            {
+                filePath = args[0];
+            }
+            if(!container.openFile(filePath))
+            {
+                MessageBox.Show("打开文件错误");
+                return;
+            }
             app.initial();
-            app.Run(mainwindow);
+            s.Close(new TimeSpan(0, 0, 0));
+            app.Run(container);
         }
 
         private void initial()

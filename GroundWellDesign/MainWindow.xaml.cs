@@ -16,18 +16,22 @@ namespace GroundWellDesign
     {
 
         AxMxDrawX cadViewer;
-        MkyLogic logic;
+        static  MkyLogic logic;
 
-        public static ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
-        public static ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
-        public const string FILE_PATH = ".\\data\\";
-        public string FileName
+        public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
+        //向导式当前编辑的岩层参数
+        LayerParams editLayer;
+        public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
+        public const string DATABASE_PATH = "c:\\ProgramData\\GroundWellDesign\\";
+
+        public static List<String> YanXingOpt= new List<string> { "地表", "黄土", "细粒砂岩", "泥岩", "中粒砂岩", "粉砂岩", "砂质泥岩", "粗粒砂岩", "细砂岩", "中砂岩", "煤" };
+        public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
+
+        public string FilePath
         {
             set;
             get;
         }
-
-
         public double Mcqj
         {
             set;
@@ -99,8 +103,8 @@ namespace GroundWellDesign
 
 
             //岩层参数录入初始化
-            LayerParams dibiao = new LayerParams();
-            dibiao.yanXing = LayerParams.YanXingOpt[0];
+            LayerParams dibiao = new LayerParams(this);
+            dibiao.yanXing = YanXingOpt[0];
             layers.Add(dibiao);
             caiDongComBox.SelectedIndex = 0;
 
@@ -111,6 +115,7 @@ namespace GroundWellDesign
             keyLayerDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
             paramGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
+            editLayer = new LayerParams(this);
 
             cadViewer = new AxMxDrawX();
             cadViewer.BeginInit();
@@ -152,9 +157,9 @@ namespace GroundWellDesign
 
 
             //创建目录
-            foreach (string yanxing in LayerParams.YanXingOpt)
+            foreach (string yanxing in YanXingOpt)
             {
-                Directory.CreateDirectory(FILE_PATH + yanxing);
+                Directory.CreateDirectory(DATABASE_PATH + yanxing);
             }
 
 
@@ -163,9 +168,9 @@ namespace GroundWellDesign
 
 
         //打开文件
-        public bool openFile(string filePath)
+        public bool openFile()
         {
-            object obj = DataSaveAndRestore.restoreObj(filePath);
+            object obj = DataSaveAndRestore.restoreObj(FilePath);
             if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
             {
                 return false;
@@ -215,71 +220,41 @@ namespace GroundWellDesign
 
         }
 
-
-        //从文件恢复数据
-        private void openFileBtn_Click(object sender, RoutedEventArgs e)
+        //保存到文件
+        public bool saveFile()
         {
+            DataSaveAndRestore.DataToSave data = new DataSaveAndRestore.DataToSave();
 
-            System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
-            fileDialog.Title = "打开文件";
-            fileDialog.Filter = "数据文件(*.data)|*.data";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //基本参数
+            data.Layers = new ObservableCollection<BaseParams>();
+            foreach (LayerParams layerParam in layers)
             {
-                string filePath = fileDialog.FileName;
-                if (!openFile(filePath))
-                {
-                    MessageBox.Show("打开文件错误");
-                }
+                data.Layers.Add(new BaseParams(layerParam));
             }
+
+            //关键层参数
+            data.KeyLayers = new ObservableCollection<BaseKeyParams>();
+            foreach (KeyLayerParams layerParam in keyLayers)
+            {
+                data.KeyLayers.Add(new BaseKeyParams(layerParam));
+            }
+
+
+            data.KeyLayerData = new List<double>();
+            data.KeyLayerData.Add(Mcqj);
+            data.KeyLayerData.Add(Mchd);
+            data.KeyLayerData.Add(Pjxsxz);
+            data.KeyLayerData.Add(HcqZXcd);
+            data.KeyLayerData.Add(HcqQXcd);
+            data.KeyLayerData.Add(Gzmsd);
+            data.KeyLayerData.Add(Jswzjl);
+
+
+
+            return DataSaveAndRestore.saveObj(data, FilePath);
 
         }
 
-
-        //保存数据到文件
-        private void saveFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
-            fileDialog.Title = "保存文件";
-            fileDialog.Filter = "数据文件(*.data)|*.data";
-            fileDialog.FileName = "岩层数据.data";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string filePath = fileDialog.FileName;
-                DataSaveAndRestore.DataToSave data = new DataSaveAndRestore.DataToSave();
-
-                //基本参数
-                data.Layers = new ObservableCollection<BaseParams>();
-                foreach (LayerParams layerParam in layers)
-                {
-                    data.Layers.Add(new BaseParams(layerParam));
-                }
-
-                //关键层参数
-                data.KeyLayers = new ObservableCollection<BaseKeyParams>();
-                foreach (KeyLayerParams layerParam in keyLayers)
-                {
-                    data.KeyLayers.Add(new BaseKeyParams(layerParam));
-                }
-
-
-                data.KeyLayerData = new List<double>();
-                data.KeyLayerData.Add(Mcqj);
-                data.KeyLayerData.Add(Mchd);
-                data.KeyLayerData.Add(Pjxsxz);
-                data.KeyLayerData.Add(HcqZXcd);
-                data.KeyLayerData.Add(HcqQXcd);
-                data.KeyLayerData.Add(Gzmsd);
-                data.KeyLayerData.Add(Jswzjl);
-
-
-
-                DataSaveAndRestore.saveObj(data, filePath);
-            }
-
-        }
 
         
 

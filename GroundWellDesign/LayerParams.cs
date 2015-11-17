@@ -56,23 +56,16 @@ namespace GroundWellDesign
 
     }
 
-
     public class LayerParams : BaseParams, INotifyPropertyChanged
     {
 
-        public static List<String> YanXingOpt { get; set; }
-        public static List<String> CaiDongOpt { get; set; }
+        public MainWindow mainWindow;
 
-        static LayerParams()
+        public LayerParams(MainWindow mainWindow)
         {
-            YanXingOpt = new List<string> { "地表", "黄土", "细粒砂岩", "泥岩", "中粒砂岩", "粉砂岩", "砂质泥岩", "粗粒砂岩", "细砂岩", "中砂岩", "煤" };
-            CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
-        }
-
-        public LayerParams()
-        {
-            yanXing = YanXingOpt[1];
-            miaoShu = "";
+            this.mainWindow = mainWindow;
+            yanXing = MainWindow.YanXingOpt[1];
+            miaoShu = "岩层";
         }
 
         public LayerParams(BaseParams layer)
@@ -80,27 +73,27 @@ namespace GroundWellDesign
             copyNoEvent(layer);
         }
 
-        public bool Equals(LayerParams layer)
+        public bool Equals(BaseParams layer)
         {
-            return YanXing.Equals(layer.YanXing) &&
-            LeiJiShenDu == layer.LeiJiShenDu &&
-            JuLiMeiShenDu.Equals(layer.JuLiMeiShenDu) &&
-            CengHou.Equals(layer.CengHou) &&
-            ZiRanMiDu.Equals(layer.ZiRanMiDu) &&
-            BianXingMoLiang.Equals(layer.BianXingMoLiang) &&
-            KangLaQiangDu.Equals(layer.KangLaQiangDu) &&
-            KangYaQiangDu.Equals(layer.KangYaQiangDu) &&
-            TanXingMoLiang.Equals(layer.TanXingMoLiang) &&
-            BoSonBi.Equals(layer.BoSonBi) &&
-            NeiMoCaJiao.Equals(layer.NeiMoCaJiao) &&
-            NianJuLi.Equals(layer.NianJuLi) && MiaoShu.Equals(layer.MiaoShu) &&
-            Q1 == layer.Q1 && Q2 == layer.Q2 && Q0 == layer.Q0 && dataBaseNum == layer.dataBaseNum;
+            return yanXing.Equals(layer.yanXing) &&
+            LeiJiShenDu == layer.leiJiShenDu &&
+            JuLiMeiShenDu == layer.juLiMeiShenDu &&
+            CengHou == layer.cengHou &&
+            ZiRanMiDu == layer.ziRanMiDu &&
+            BianXingMoLiang == layer.bianXingMoLiang &&
+            KangLaQiangDu == layer.kangLaQiangDu &&
+            KangYaQiangDu == layer.kangYaQiangDu &&
+            TanXingMoLiang == layer.tanXingMoLiang &&
+            BoSonBi == layer.boSonBi &&
+            NeiMoCaJiao == layer.neiMoCaJiao &&
+            NianJuLi == layer.nianJuLi && MiaoShu.Equals(layer.miaoShu) &&
+            Q1 == layer.q1 && Q2 == layer.q2 && Q0 == layer.q0 && dataBaseNum == layer.dataBaseNum;
 
         }
 
         public void reset()
         {
-            copyAndEvent(new LayerParams());
+            copyAndEvent(new BaseParams());
         }
 
         public void copyAndEvent(BaseParams layer)
@@ -168,13 +161,13 @@ namespace GroundWellDesign
 
         private void refreshJuLiMeiShenDu()
         {
-            int i = MainWindow.layers.Count;
-            for (i--; i > 0 && MainWindow.layers[i].yanXing != "煤"; i--) ;
+            int i = mainWindow.layers.Count;
+            for (i--; i > 0 && mainWindow.layers[i].yanXing != "煤"; i--) ;
             if (i == 0)
                 return;
             for (i -= 2; i >= 0; i--)
             {
-                MainWindow.layers[i].JuLiMeiShenDu = MainWindow.layers[i + 1].cengHou + MainWindow.layers[i + 1].juLiMeiShenDu;
+                mainWindow.layers[i].JuLiMeiShenDu = mainWindow.layers[i + 1].cengHou + mainWindow.layers[i + 1].juLiMeiShenDu;
             }
 
         }
@@ -187,7 +180,7 @@ namespace GroundWellDesign
                 yanXing = value;
 
                 new SelectLayerWindow(yanXing, this).ShowDialog();
-                int index = YanXingOpt.IndexOf(value);
+                int index = MainWindow.YanXingOpt.IndexOf(value);
                 switch (index)
                 {
                     case 0:  //地表
@@ -247,10 +240,10 @@ namespace GroundWellDesign
 
         private void refreshCengHou()
         {
-            int count = MainWindow.layers.Count;
+            int count = mainWindow.layers.Count;
             for (int i = 1; i < count; i++)
             {
-                MainWindow.layers[i].CengHou = MainWindow.layers[i].leiJiShenDu - MainWindow.layers[i - 1].leiJiShenDu;
+                mainWindow.layers[i].CengHou = mainWindow.layers[i].leiJiShenDu - mainWindow.layers[i - 1].leiJiShenDu;
             }
 
         }

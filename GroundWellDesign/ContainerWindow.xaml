@@ -1,0 +1,21 @@
+﻿<Window x:Class="GroundWellDesign.ContainerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ContainerWindow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="228*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" HorizontalAlignment="Left">
+            <Button x:Name="openFileBtn" Content="打开文件" Click="openFileBtn_Click"  Width="120" />
+            <Button x:Name="saveOthFileBtn" Content="文件另存为..." Click="saveOthFileBtn_Click" Width="120"/>
+        <Button x:Name="saveFileBtn" Content="保存文件" Click="saveFileBtn_Click" Width="120" />
+        <Button x:Name="saveAllFileBtn" Content="保存所有" Click="saveAllFileBtn_Click" Width="120" />
+        
+        </DockPanel>
+        <TabControl x:Name="tabControl"  Grid.Row="1">
+
+        </TabControl>
+    </Grid>
+</Window>

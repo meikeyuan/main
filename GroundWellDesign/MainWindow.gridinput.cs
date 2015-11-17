@@ -61,15 +61,15 @@ namespace GroundWellDesign
             int selectedIndex = paramGrid.SelectedIndex;
             if (selectedIndex == -1) //未选择行
             {
-                layers.Add(new LayerParams());
+                layers.Add(new LayerParams(this));
                 return;
             }
             if (selectedIndex >= layers.Count)  //选择了空行
             {
-                layers.Insert(selectedIndex, new LayerParams());
+                layers.Insert(selectedIndex, new LayerParams(this));
                 return;
             }
-            layers.Insert(selectedIndex + 1, new LayerParams());  //选择了非空行
+            layers.Insert(selectedIndex + 1, new LayerParams(this));  //选择了非空行
         }
 
 
@@ -197,11 +197,11 @@ namespace GroundWellDesign
         public double[,] getParams()
         {
 
-            int count = MainWindow.layers.Count;
-            for (count--; count > 0 && MainWindow.layers[count].yanXing != "煤"; count--) ;
+            int count = layers.Count;
+            for (count--; count > 0 && layers[count].yanXing != "煤"; count--) ;
 
             //判断是否有煤层 或者 煤层是最后一层 或者第一层不是地表 则失败
-            if (count == 0 || count == MainWindow.layers.Count - 1 || !MainWindow.layers[0].yanXing.Equals("地表"))
+            if (count == 0 || count == layers.Count - 1 || !layers[0].yanXing.Equals("地表"))
                 return null;
 
 
@@ -333,7 +333,7 @@ namespace GroundWellDesign
             bool bSuccess = true;
             foreach (LayerParams layer in layers)
             {
-                string path = FILE_PATH + layer.yanXing;
+                string path = DATABASE_PATH + layer.yanXing;
                 if(layer.dataBaseNum == 0)
                 {
                     int count = Directory.GetFiles(path).Length;

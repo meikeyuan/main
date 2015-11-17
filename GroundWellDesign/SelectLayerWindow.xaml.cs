@@ -23,7 +23,6 @@ namespace GroundWellDesign
     {
 
 
-
         private ObservableCollection<LayerParams> existedLayers = new ObservableCollection<LayerParams>();
 
 
@@ -38,7 +37,7 @@ namespace GroundWellDesign
             InitializeComponent();
 
             //判断选择的岩性
-            string findPath = MainWindow.FILE_PATH + yanXing;
+            string findPath = MainWindow.DATABASE_PATH + yanXing;
             string[] files = Directory.GetFiles(findPath);
             foreach (string filename in files)
             {
@@ -66,7 +65,7 @@ namespace GroundWellDesign
 
         private void selectAvgBtn_Click(object sender, RoutedEventArgs e)
         {
-            LayerParams tmpLayer = new LayerParams();
+            LayerParams tmpLayer = new LayerParams(WantedLayer.mainWindow);
             int count = existedLayers.Count;
             if(count == 0)
             {
