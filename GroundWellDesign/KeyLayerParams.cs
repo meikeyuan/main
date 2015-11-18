@@ -70,47 +70,48 @@ namespace GroundWellDesign
 
     public class KeyLayerParams : BaseKeyParams, INotifyPropertyChanged
     {
+        public MainWindow mainWindow;
 
-
-        public KeyLayerParams()
+        public KeyLayerParams(MainWindow mainWindow)
         {
+            this.mainWindow = mainWindow;
         }
 
         public KeyLayerParams(BaseKeyParams layer)
         {
-            copyAndEvent(layer);
+            copyAndNoEvent(layer);
         }
 
 
         public void reset()
         {
-            copyAndEvent(new KeyLayerParams());
+            copyAndNoEvent(new BaseKeyParams());
         }
 
 
-        public void copyAndEvent(BaseKeyParams layer)
+        public void copyAndNoEvent(BaseKeyParams layer)
         {
-            Ycbh = layer.ycbh;
-            Ycsd = layer.ycsd;
-            Mcms = layer.mcms;
-            Fypjxs = layer.fypjxs;
-            Fypjxsxz = layer.fypjxsxz;
-            Gzmtjsj = layer.gzmtjsj;
+            ycbh = layer.ycbh;
+            ycsd = layer.ycsd;
+            mcms = layer.mcms;
+            fypjxs = layer.fypjxs;
+            fypjxsxz = layer.fypjxsxz;
+            gzmtjsj = layer.gzmtjsj;
 
-            Cfcdcjwy = layer.cfcdcjwy;
-            Gzmtjjl = layer.gzmtjjl;
-            Zx = layer.zx;
-            Qx = layer.qx;
-            Cdyxbj = layer.cdyxbj;
+            cfcdcjwy = layer.cfcdcjwy;
+            gzmtjjl = layer.gzmtjjl;
+            zx = layer.zx;
+            qx = layer.qx;
+            cdyxbj = layer.cdyxbj;
 
 
-            Gdydj = layer.gdydj;
-            Cfkckjjl = layer.cfkckjjl;
-            Sjxcxs = layer.sjxcxs;
-            Yczdxcz = layer.yczdxcz;
+            gdydj = layer.gdydj;
+            cfkckjjl = layer.cfkckjjl;
+            sjxcxs = layer.sjxcxs;
+            yczdxcz = layer.yczdxcz;
 
-            Jsdjscjwy = layer.jsdjscjwy;
-            Jsdjslcwy = layer.jsdjscjwy;
+            jsdjscjwy = layer.jsdjscjwy;
+            jsdjslcwy = layer.jsdjscjwy;
         }
 
 
@@ -190,15 +191,14 @@ namespace GroundWellDesign
             set
             {
                 gzmtjsj = value;
-
-
-                Gzmtjjl = gzmtjsj * MainWindow.gzmsd;
-
-
+                Gzmtjjl = gzmtjsj * mainWindow.gzmsd;
+                
                 if (PropertyChanged != null)
                 {
                     this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Gzmtjsj"));
                 }
+
+                mainWindow.compute(mainWindow.keyLayers.Count);
             }
         }
 

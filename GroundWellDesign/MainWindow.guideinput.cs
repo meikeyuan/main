@@ -62,7 +62,8 @@ namespace GroundWellDesign
             if (layerNum > 1 && layerNum <= layers.Count + 1)
             {
                 currLayerTb.Text = layerNum - 1 + "";
-                editLayer.copyAndEvent(layers[layerNum - 2]);
+                editLayer.copyNoEvent(layers[layerNum - 2]);
+                guideBind(editLayer);
             }
 
         }
@@ -83,12 +84,14 @@ namespace GroundWellDesign
             if (layerNum < layers.Count)
             {
                 currLayerTb.Text = layerNum + 1 + "";
-                editLayer.copyAndEvent(layers[layerNum]);
+                editLayer.copyNoEvent(layers[layerNum]);
+                guideBind(editLayer);
             }
             else if (layerNum == layers.Count)
             {
                 currLayerTb.Text = layerNum + 1 + "";
                 editLayer.reset();
+                guideBind(editLayer);
             }
 
         }

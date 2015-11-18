@@ -16,7 +16,7 @@ namespace GroundWellDesign
     {
 
         AxMxDrawX cadViewer;
-        static  MkyLogic logic;
+        MkyLogic logic;
 
         public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
         //向导式当前编辑的岩层参数
@@ -32,69 +32,7 @@ namespace GroundWellDesign
             set;
             get;
         }
-        public double Mcqj
-        {
-            set;
-            get;
-        }
-        public double Mchd
-        {
-            set;
-            get;
-        }
-
-        private double pjxsxz;
-        public double Pjxsxz
-        {
-            set
-            {
-                pjxsxz = value;
-                foreach (KeyLayerParams layer in keyLayers)
-                {
-                    layer.Fypjxsxz = layer.fypjxs * value;
-                }
-
-
-            }
-            get
-            {
-                return pjxsxz;
-            }
-        }
-        public double HcqZXcd
-        {
-            set;
-            get;
-        }
-
-        public double HcqQXcd
-        {
-            set;
-            get;
-        }
-
-        public static double gzmsd;
-        public double Gzmsd
-        {
-            set
-            {
-                gzmsd = value;
-                foreach (KeyLayerParams layer in keyLayers)
-                {
-                    layer.Gzmtjjl = gzmsd * layer.gzmtjsj;
-                }
-            }
-            get
-            {
-                return gzmsd;
-            }
-        }
-        public double Jswzjl
-        {
-            set;
-            get;
-        }
-
+  
 
         public MainWindow()
         {
@@ -116,6 +54,8 @@ namespace GroundWellDesign
             paramGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
             editLayer = new LayerParams(this);
+            guideBind(editLayer);
+
 
             cadViewer = new AxMxDrawX();
             cadViewer.BeginInit();
@@ -128,22 +68,6 @@ namespace GroundWellDesign
             paramGrid.DataContext = layers;
             keyLayerDataGrid.DataContext = keyLayers;
 
-            //向导式绑定
-            miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu") { Source = editLayer });
-            yanXingCB.SetBinding(ComboBox.TextProperty, new Binding("YanXing") { Source = editLayer, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-            leiJiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("LeiJiShenDu") { Source = editLayer, StringFormat = "n3" });
-            cengHouTb.SetBinding(TextBox.TextProperty, new Binding("CengHou") { Source = editLayer, StringFormat = "n3" });
-            ziRanMiDuTb.SetBinding(TextBox.TextProperty, new Binding("ZiRanMiDu") { Source = editLayer, StringFormat = "n3" });
-            bianXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("BianXingMoLiang") { Source = editLayer, StringFormat = "n3" });
-            kangLaQiangDuTb.SetBinding(TextBox.TextProperty, new Binding("KangLaQiangDu") { Source = editLayer, StringFormat = "n3" });
-            kangYaQiangDuTb.SetBinding(TextBox.TextProperty, new Binding("KangYaQiangDu") { Source = editLayer, StringFormat = "n3" });
-            tanXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("TanXingMoLiang") { Source = editLayer, StringFormat = "n3" });
-            boSonBiTb.SetBinding(TextBox.TextProperty, new Binding("BoSonBi") { Source = editLayer, StringFormat = "n3" });
-            neiMoCaJiaoTb.SetBinding(TextBox.TextProperty, new Binding("NeiMoCaJiao") { Source = editLayer, StringFormat = "n3" });
-            nianJuLiTb.SetBinding(TextBox.TextProperty, new Binding("NianJuLi") { Source = editLayer, StringFormat = "n3" });
-            q0Tb.SetBinding(TextBox.TextProperty, new Binding("Q0") { Source = editLayer, StringFormat = "n2" });
-            q1Tb.SetBinding(TextBox.TextProperty, new Binding("Q1") { Source = editLayer, StringFormat = "n2" });
-            q2Tb.SetBinding(TextBox.TextProperty, new Binding("Q2") { Source = editLayer, StringFormat = "n2" });
 
 
             //关键层其他参数绑定
@@ -166,6 +90,25 @@ namespace GroundWellDesign
 
         }
 
+        //向导式绑定
+        private void guideBind(LayerParams editLayer)
+        {
+            miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu") { Source = editLayer });
+            yanXingCB.SetBinding(ComboBox.TextProperty, new Binding("YanXing") { Source = editLayer });
+            leiJiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("LeiJiShenDu") { Source = editLayer, StringFormat = "n3" });
+            cengHouTb.SetBinding(TextBox.TextProperty, new Binding("CengHou") { Source = editLayer, StringFormat = "n3" });
+            ziRanMiDuTb.SetBinding(TextBox.TextProperty, new Binding("ZiRanMiDu") { Source = editLayer, StringFormat = "n3" });
+            bianXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("BianXingMoLiang") { Source = editLayer, StringFormat = "n3" });
+            kangLaQiangDuTb.SetBinding(TextBox.TextProperty, new Binding("KangLaQiangDu") { Source = editLayer, StringFormat = "n3" });
+            kangYaQiangDuTb.SetBinding(TextBox.TextProperty, new Binding("KangYaQiangDu") { Source = editLayer, StringFormat = "n3" });
+            tanXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("TanXingMoLiang") { Source = editLayer, StringFormat = "n3" });
+            boSonBiTb.SetBinding(TextBox.TextProperty, new Binding("BoSonBi") { Source = editLayer, StringFormat = "n3" });
+            neiMoCaJiaoTb.SetBinding(TextBox.TextProperty, new Binding("NeiMoCaJiao") { Source = editLayer, StringFormat = "n3" });
+            nianJuLiTb.SetBinding(TextBox.TextProperty, new Binding("NianJuLi") { Source = editLayer, StringFormat = "n3" });
+            q0Tb.SetBinding(TextBox.TextProperty, new Binding("Q0") { Source = editLayer, StringFormat = "n2" });
+            q1Tb.SetBinding(TextBox.TextProperty, new Binding("Q1") { Source = editLayer, StringFormat = "n2" });
+            q2Tb.SetBinding(TextBox.TextProperty, new Binding("Q2") { Source = editLayer, StringFormat = "n2" });
+        }
 
         //打开文件
         public bool openFile()
@@ -182,6 +125,7 @@ namespace GroundWellDesign
             foreach (BaseParams baseParam in data.Layers)
             {
                 LayerParams layer = new LayerParams(baseParam);
+                layer.mainWindow = this;
                 layers.Add(layer);
             }
 
@@ -191,6 +135,7 @@ namespace GroundWellDesign
             foreach (BaseKeyParams baseParam in data.KeyLayers)
             {
                 KeyLayerParams layer = new KeyLayerParams(baseParam);
+                layer.mainWindow = this;
                 keyLayers.Add(layer);
 
             }
@@ -254,6 +199,15 @@ namespace GroundWellDesign
             return DataSaveAndRestore.saveObj(data, FilePath);
 
         }
+
+
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(e.Source is TabControl && tabControl.SelectedIndex == 1)
+                editLayer.copyNoEvent(layers[int.Parse(currLayerTb.Text) - 1]);
+                guideBind(editLayer);
+         }
 
 
         

@@ -26,6 +26,14 @@ namespace GroundWellDesign
             InitializeComponent();
         }
 
+        private void DeleteSheetMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            tabControl.Items.RemoveAt(index);
+            windows.RemoveAt(index);
+        }
+
+
         //从文件恢复数据
         private void openFileBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -69,6 +77,7 @@ namespace GroundWellDesign
             tabitem.Content = mainwindow.Content;
             windows.Add(mainwindow);
             tabControl.Items.Add(tabitem);
+            tabControl.SelectedItem = tabitem;
             
             return true;
         }
@@ -76,6 +85,13 @@ namespace GroundWellDesign
         //另存为
         private void saveOthFileBtn_Click(object sender, RoutedEventArgs e)
         {
+            int index = tabControl.SelectedIndex;
+            if(index == -1)
+            {
+                return;
+            }
+
+
             System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
             fileDialog.Title = "保存文件";
             fileDialog.Filter = "数据文件(*.data)|*.data";
@@ -84,8 +100,8 @@ namespace GroundWellDesign
             if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
-                windows[tabControl.SelectedIndex].FilePath = filePath;
-                if (windows[tabControl.SelectedIndex].saveFile())
+                windows[index].FilePath = filePath;
+                if (windows[index].saveFile())
                 {
                     MessageBox.Show("保存成功");
                 }
@@ -100,7 +116,12 @@ namespace GroundWellDesign
         //保存数据到文件
         private void saveFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(windows[tabControl.SelectedIndex].FilePath == null)
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            if (windows[index].FilePath == null)
             {
                 MessageBox.Show("该文件不存在，请点击“另存为...”");
                 return;
@@ -109,7 +130,7 @@ namespace GroundWellDesign
             {
                 return;
             }
-            if (windows[tabControl.SelectedIndex].saveFile())
+            if (windows[index].saveFile())
             {
                 MessageBox.Show("保存成功");
             }
@@ -147,6 +168,9 @@ namespace GroundWellDesign
                 }
             }
         }
+
+
+
 
     }
 }

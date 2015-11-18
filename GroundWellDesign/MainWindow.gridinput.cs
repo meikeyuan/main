@@ -166,7 +166,7 @@ namespace GroundWellDesign
             int count = biaoHaoList.Length;
             for (int i = 0; i < count; i++)
             {
-                KeyLayerParams layer = new KeyLayerParams();
+                KeyLayerParams layer = new KeyLayerParams(this);
                 layer.ycbh = biaoHaoList[i];
                 layer.fypjxs = pjxsList[i];
 

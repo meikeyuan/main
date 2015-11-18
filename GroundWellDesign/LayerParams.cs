@@ -11,6 +11,8 @@ namespace GroundWellDesign
     {
         public BaseParams()
         {
+            yanXing = MainWindow.YanXingOpt[1];
+            miaoShu = "岩层";
         }
 
         public BaseParams(BaseParams layer)
@@ -93,7 +95,7 @@ namespace GroundWellDesign
 
         public void reset()
         {
-            copyAndEvent(new BaseParams());
+            copyNoEvent(new BaseParams());
         }
 
         public void copyAndEvent(BaseParams layer)
@@ -119,6 +121,7 @@ namespace GroundWellDesign
 
         public void copyAndEventEcpYanXing(BaseParams layer)
         {
+            yanXing = layer.yanXing;
             LeiJiShenDu = layer.leiJiShenDu;
             JuLiMeiShenDu = layer.juLiMeiShenDu;
             CengHou = layer.cengHou;

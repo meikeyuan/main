@@ -12,7 +12,7 @@
 
     <Window.Resources>
         <Style x:Key="ColumnCellStyle" TargetType="{x:Type TextBlock}"  >
-                <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="TextAlignment" Value="Right"/>
         </Style>
     </Window.Resources>
 
@@ -20,7 +20,7 @@
 
 
 
-        <TabControl x:Name="tabControl"  Style="{DynamicResource TabControlStyle}">
+        <TabControl x:Name="tabControl"  Style="{DynamicResource TabControlStyle}" SelectionChanged="tabControl_SelectionChanged" >
 
 
             <TabItem Header="表格式岩层录入"  Style="{DynamicResource TabItemStyle}">
@@ -31,9 +31,9 @@
                     </Grid.RowDefinitions>
                     <DataGrid x:Name="paramGrid" Grid.Row="0" SelectedCellsChanged="paramGrid_SelectedCellsChanged"
                               AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectionUnit="FullRow"
-                              CanUserSortColumns="False" CanUserReorderColumns="False" Background="Transparent" EnableRowVirtualization="False" EnableColumnVirtualization="False">
+                              CanUserSortColumns="False" CanUserReorderColumns="False" Background="Transparent" EnableRowVirtualization="False" EnableColumnVirtualization="False" Margin="0,0,0,0.4">
 
-                    <DataGrid.Columns>
+                        <DataGrid.Columns>
 
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:MainWindow.YanXingOpt}" 
                                                         SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" Header="岩性" />
@@ -72,8 +72,8 @@
                         <Button Content="-"   Width="40" ToolTip="删除(Del)" Click="click_delRow" Style="{DynamicResource ButtonStyle}"/>
                         <Button Content="↑"  Width="40"  ToolTip="上移" Click="click_upRow" Style="{DynamicResource ButtonStyle}"/>
                         <Button Content="↓"  Width="40"  ToolTip="下移" Click="click_downRow" Style="{DynamicResource ButtonStyle}"/>
-                        
-                        
+
+
                         <Button x:Name="saveYanCengBtn" Content="保存岩层到数据库" Click="saveYanCengBtn_Click" Width="120" Style="{DynamicResource ButtonStyle}"/>
                     </StackPanel>
 
