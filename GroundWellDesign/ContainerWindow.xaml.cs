@@ -26,13 +26,6 @@ namespace GroundWellDesign
             InitializeComponent();
         }
 
-        private void DeleteSheetMenu_Click(object sender, RoutedEventArgs e)
-        {
-            int index = tabControl.SelectedIndex;
-            tabControl.Items.RemoveAt(index);
-            windows.RemoveAt(index);
-        }
-
 
         //从文件恢复数据
         private void openFileBtn_Click(object sender, RoutedEventArgs e)
@@ -59,7 +52,7 @@ namespace GroundWellDesign
             mainwindow.FilePath = filePath;
             //<TabItem Header="表格式岩层录入"  Style="{DynamicResource TabItemStyle}">
             TabItem tabitem = new TabItem();
-           // tabitem.SetResourceReference(TabItem.StyleProperty, "TabItemStyle");
+            tabitem.ContextMenu = tabControl.Resources["menu"] as ContextMenu;
             if (filePath == null || filePath.Length == 0)
             {
                 tabitem.Header = "新建文档";
@@ -78,7 +71,7 @@ namespace GroundWellDesign
             windows.Add(mainwindow);
             tabControl.Items.Add(tabitem);
             tabControl.SelectedItem = tabitem;
-            
+
             return true;
         }
 
@@ -86,7 +79,7 @@ namespace GroundWellDesign
         private void saveOthFileBtn_Click(object sender, RoutedEventArgs e)
         {
             int index = tabControl.SelectedIndex;
-            if(index == -1)
+            if (index == -1)
             {
                 return;
             }
@@ -145,8 +138,8 @@ namespace GroundWellDesign
 
         private void saveAllFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            
-            foreach(MainWindow window in windows)
+
+            foreach (MainWindow window in windows)
             {
                 tabControl.SelectedIndex = windows.IndexOf(window);
                 if (window.FilePath == null)
@@ -170,7 +163,15 @@ namespace GroundWellDesign
         }
 
 
-
-
+        private void closeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            UIElement ui = ContextMenuService.GetPlacementTarget(LogicalTreeHelper.GetParent(sender as MenuItem));
+            if (ui is TabItem)
+            {
+                int index = tabControl.Items.IndexOf(ui);
+                tabControl.Items.RemoveAt(index);
+                windows.RemoveAt(index);
+            }
+        }
     }
 }

@@ -20,10 +20,10 @@
 
 
 
-        <TabControl x:Name="tabControl"  Style="{DynamicResource TabControlStyle}" SelectionChanged="tabControl_SelectionChanged" >
+        <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" >
 
 
-            <TabItem Header="表格式岩层录入"  Style="{DynamicResource TabItemStyle}">
+            <TabItem Header="表格式岩层录入" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -35,9 +35,9 @@
 
                         <DataGrid.Columns>
 
-                            <DataGridComboBoxColumn ItemsSource="{x:Static local:MainWindow.YanXingOpt}" 
+                            <DataGridComboBoxColumn ItemsSource="{x:Static local:MainWindow.YanXingOpt}"
                                                         SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" Header="岩性" />
-                            <DataGridTextColumn Binding="{Binding LeiJiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="累计深度" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridTextColumn Binding="{Binding LeiJiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="累计深度" />
                             <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="距离煤层深度" IsReadOnly="True" Foreground="Green" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                             <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="层厚" IsReadOnly="True" Foreground="Green" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                             <DataGridTextColumn Binding="{Binding ZiRanMiDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="自然视密度" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
@@ -68,21 +68,21 @@
 
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <Button Content="+"  Width="40" ToolTip="下方增行" Click="click_addRow" Style="{DynamicResource ButtonStyle}"/>
-                        <Button Content="-"   Width="40" ToolTip="删除(Del)" Click="click_delRow" Style="{DynamicResource ButtonStyle}"/>
-                        <Button Content="↑"  Width="40"  ToolTip="上移" Click="click_upRow" Style="{DynamicResource ButtonStyle}"/>
-                        <Button Content="↓"  Width="40"  ToolTip="下移" Click="click_downRow" Style="{DynamicResource ButtonStyle}"/>
+                        <Button Content="+"  Width="40" ToolTip="下方增行" Click="click_addRow"/>
+                        <Button Content="-"   Width="40" ToolTip="删除(Del)" Click="click_delRow"/>
+                        <Button Content="↑"  Width="40"  ToolTip="上移" Click="click_upRow"/>
+                        <Button Content="↓"  Width="40"  ToolTip="下移" Click="click_downRow"/>
 
 
-                        <Button x:Name="saveYanCengBtn" Content="保存岩层到数据库" Click="saveYanCengBtn_Click" Width="120" Style="{DynamicResource ButtonStyle}"/>
+                        <Button x:Name="saveYanCengBtn" Content="保存岩层到数据库" Click="saveYanCengBtn_Click" Width="120"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="1">
 
 
 
-                        <Button Content="输入关键层数据"  Width="100" Click="click_inputOtherData" Style="{DynamicResource ButtonStyle}"/>
-                        <Button Content="显示关键层"  Width="100" Click="click_showKeyRow" Style="{DynamicResource ButtonStyle}"/>
+                        <Button Content="输入关键层数据"  Width="100" Click="click_inputOtherData"/>
+                        <Button Content="显示关键层"  Width="100" Click="click_showKeyRow"/>
                         <ComboBox x:Name="caiDongComBox" ItemsSource="{x:Static local:MainWindow.CaiDongOpt}"/>
 
                     </StackPanel>
@@ -92,7 +92,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="向导式岩层录入" Style="{DynamicResource TabItemStyle}">
+            <TabItem Header="向导式岩层录入">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -154,17 +154,17 @@
 
 
 
-                    <Button Content="保存" Grid.Row="7" Grid.Column="2" Click="saveBtn_Click" Style="{DynamicResource ButtonStyle}"/>
-                    <Button  Content="重置" Grid.Column="3" Grid.Row="7"  Click="resetBtn_Click" Style="{DynamicResource ButtonStyle}"/>
-                    <Button  Content="上一层" Grid.Column="4" Grid.Row="7" Click="preBtn_Click" Style="{DynamicResource ButtonStyle}"/>
-                    <Button  Content="下一层" Grid.Column="5" Grid.Row="7"  Click="nextBtn_Click" Style="{DynamicResource ButtonStyle}"/>
-                    <Button  Content="完成" Grid.Column="6"  Grid.Row="7" Click="stopBtn_Click" Style="{DynamicResource ButtonStyle}"/>
+                    <Button Content="保存" Grid.Row="7" Grid.Column="2" Click="saveBtn_Click" />
+                    <Button  Content="重置" Grid.Column="3" Grid.Row="7"  Click="resetBtn_Click" />
+                    <Button  Content="上一层" Grid.Column="4" Grid.Row="7" Click="preBtn_Click" />
+                    <Button  Content="下一层" Grid.Column="5" Grid.Row="7"  Click="nextBtn_Click" />
+                    <Button  Content="完成" Grid.Column="6"  Grid.Row="7" Click="stopBtn_Click" />
 
 
                 </Grid>
             </TabItem>
 
-            <TabItem Header="关键层数据录入" Style="{DynamicResource TabItemStyle}" Margin="2.8,0,-2.6,0.2" >
+            <TabItem Header="关键层数据录入"  Margin="2.8,0,-2.6,0.2" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="337*"/>
@@ -248,8 +248,8 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button x:Name="showResBtn" Content="计算结果" Click="showResBtn_Click" Style="{DynamicResource ButtonStyle}" />
-                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Style="{DynamicResource ButtonStyle}" Grid.Column="1"/>
+                        <Button x:Name="showResBtn" Content="计算结果" Click="showResBtn_Click" />
+                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1"/>
 
                     </Grid>
 
@@ -258,7 +258,7 @@
 
             </TabItem>
 
-            <TabItem Header="图形显示" Style="{DynamicResource TabItemStyle}">
+            <TabItem Header="图形显示">
                 <Grid>
                     <WindowsFormsHost x:Name="wfHost" >
 
