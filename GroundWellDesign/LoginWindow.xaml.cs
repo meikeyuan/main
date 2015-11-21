@@ -36,7 +36,7 @@ namespace GroundWellDesign
         {
             if (pwdBox.Password == "123456")
             {
-                con.BLogin = true;
+                ContainerWindow.loginInfo.BLogin = true;
                 Close();
             }
             else

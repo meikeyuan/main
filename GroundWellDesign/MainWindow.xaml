@@ -14,6 +14,7 @@
         <Style x:Key="ColumnCellStyle" TargetType="{x:Type TextBlock}"  >
             <Setter Property="TextAlignment" Value="Right"/>
         </Style>
+        <local:LoginToVisibilityConvert x:Key="loginConvert"/>
     </Window.Resources>
 
     <Grid>
@@ -78,10 +79,10 @@
                         <Button Content="↓"  Width="40"  ToolTip="下移" Click="click_downRow"/>
 
 
-                        <Button x:Name="saveYanCengBtn" Content="保存岩层到数据库" Click="saveYanCengBtn_Click" Width="120"/>
+                        <Button x:Name="saveYanCengBtn" Content="保存岩层到数据库" Click="saveYanCengBtn_Click" Width="120" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}"/>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="1" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}">
 
 
 
@@ -168,7 +169,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="关键层数据录入"  Margin="2.8,0,-2.6,0.2" >
+            <TabItem x:Name="keyLayerTabItem" Header="关键层数据录入" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="337*"/>
@@ -199,8 +200,8 @@
                             <DataGridTextColumn Binding="{Binding Sjxcxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="实际下沉系数η0" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                             <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}"/>
 
 
 
@@ -253,7 +254,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Button x:Name="showResBtn" Content="计算结果" Click="showResBtn_Click" />
-                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1"/>
+                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}"/>
 
                     </Grid>
 
@@ -262,7 +263,7 @@
 
             </TabItem>
 
-            <TabItem Header="图形显示">
+            <TabItem x:Name="showTabItem" Header="图形显示" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}">
                 <Grid>
                     <WindowsFormsHost x:Name="wfHost" >
 

@@ -1,31 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GroundWellDesign
 {
+
+
+    public class LoginInfo : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private bool _BLogin;
+        public bool BLogin
+        {
+            get
+            {
+                return _BLogin;
+            }
+            set
+            {
+                _BLogin = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("BLogin"));
+                }
+
+            }
+        }
+
+
+    }
     /// <summary>
     /// ContainerWindow.xaml 的交互逻辑
     /// </summary>
     public partial class ContainerWindow : Window
     {
         public List<MainWindow> windows = new List<MainWindow>();
-        public bool BLogin
-        {
-            get;
-            set;
-        }
+
+        public static LoginInfo loginInfo = new LoginInfo();
+        
 
         public ContainerWindow()
         {
@@ -54,7 +70,7 @@ namespace GroundWellDesign
 
         public bool openFile(string filePath)
         {
-            MainWindow mainwindow = new MainWindow();
+            MainWindow mainwindow = new MainWindow(this);
             mainwindow.FilePath = filePath;
             //<TabItem Header="表格式岩层录入"  Style="{DynamicResource TabItemStyle}">
             TabItem tabitem = new TabItem();
@@ -183,7 +199,7 @@ namespace GroundWellDesign
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
             new LoginWindow(this).ShowDialog();
-            if (BLogin)
+            if (loginInfo.BLogin)
             {
                 loginBtn.Content = "已登陆";
             }

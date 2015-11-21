@@ -8,13 +8,37 @@ using System.Collections.ObjectModel;
 using MathWorks.MATLAB.NET.Arrays;
 using mky;
 using System.IO;
+using System.Globalization;
 
 namespace GroundWellDesign
 {
 
-    public partial class MainWindow : Window
+    public class LoginToVisibilityConvert : IValueConverter
     {
 
+        public object Convert(object value, Type targetType, object param, CultureInfo c)
+        {
+            bool login = (bool)value;
+            if (login)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Hidden;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
+        {
+            return null;
+        }
+
+
+    }
+
+    public partial class MainWindow : Window
+    {
         AxMxDrawX cadViewer;
         MkyLogic logic;
 
@@ -34,7 +58,7 @@ namespace GroundWellDesign
         }
   
 
-        public MainWindow()
+        public MainWindow(ContainerWindow con)
         {
             InitializeComponent();
             logic = new MkyLogic();
