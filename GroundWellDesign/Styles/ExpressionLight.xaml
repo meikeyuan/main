@@ -14,6 +14,7 @@
 
     <!-- Main Colors -->
 
+    <SolidColorBrush x:Key="MenuFore" Color="#FF000000" />
     <Color x:Key="MainColor">#FF939393</Color>
     <Color x:Key="HoverColor">#FFAAAAAA</Color>
     <Color x:Key="DefaultColor">#FF9BB1C5</Color>
@@ -1775,7 +1776,7 @@
         <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="Foreground" Value="Black" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">

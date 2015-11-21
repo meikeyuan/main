@@ -13,6 +13,8 @@
 
     <!-- Color Resources -->
 
+    <SolidColorBrush x:Key="MenuFore" Color="#FF000000" />
+    <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#FFD1D1D1" />
     <Color x:Key="BlackColor">#FF000000</Color>
     <Color x:Key="WhiteColor">#FFFFFFFF</Color>
 
