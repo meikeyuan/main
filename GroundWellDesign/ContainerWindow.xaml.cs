@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,11 @@ namespace GroundWellDesign
     public partial class ContainerWindow : Window
     {
         public List<MainWindow> windows = new List<MainWindow>();
+        public bool BLogin
+        {
+            get;
+            set;
+        }
 
         public ContainerWindow()
         {
@@ -52,7 +58,7 @@ namespace GroundWellDesign
             mainwindow.FilePath = filePath;
             //<TabItem Header="表格式岩层录入"  Style="{DynamicResource TabItemStyle}">
             TabItem tabitem = new TabItem();
-            tabitem.ContextMenu = tabControl.Resources["menu"] as ContextMenu;
+            tabitem.ContextMenu= tabControl.Resources["menu"] as ContextMenu;
             if (filePath == null || filePath.Length == 0)
             {
                 tabitem.Header = "新建文档";
@@ -172,6 +178,46 @@ namespace GroundWellDesign
                 tabControl.Items.RemoveAt(index);
                 windows.RemoveAt(index);
             }
+        }
+
+        private void loginBtn_Click(object sender, RoutedEventArgs e)
+        {
+            new LoginWindow(this).ShowDialog();
+            if (BLogin)
+            {
+                loginBtn.Content = "已登陆";
+            }
+        }
+
+
+        private void themeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Uri skinDictUri = null;
+            switch (themeCB.SelectedIndex)
+            {
+                case 0:
+                    skinDictUri = new Uri("Styles/ExpressionDark.xaml", UriKind.Relative);
+                    break;
+                case 1:
+                    skinDictUri = new Uri("Styles/ExpressionLight.xaml", UriKind.Relative);
+                    break;
+                case 2:
+                    skinDictUri = new Uri("Styles/ShinyBlue.xaml", UriKind.Relative);
+                    break;
+                case 3:
+                    skinDictUri = new Uri("Styles/ShinyRed.xaml", UriKind.Relative);
+                    break;
+                default:
+                    break;
+
+            }
+            if (skinDictUri == null)
+                return;
+            ResourceDictionary skinDict = Application.LoadComponent(skinDictUri) as ResourceDictionary;
+            Collection<ResourceDictionary> mergedDicts = Application.Current.Resources.MergedDictionaries;
+            if (mergedDicts.Count > 0)
+                mergedDicts.Clear();
+            mergedDicts.Add(skinDict);
         }
     }
 }

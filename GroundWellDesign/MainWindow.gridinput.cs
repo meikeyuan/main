@@ -54,10 +54,10 @@ namespace GroundWellDesign
         }
 
 
+
         //下方增加行
         private void click_addRow(object sender, RoutedEventArgs e)
         {
-
             int selectedIndex = paramGrid.SelectedIndex;
             if (selectedIndex == -1) //未选择行
             {
