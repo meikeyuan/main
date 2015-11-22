@@ -8,23 +8,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d" 
         x:Class="GroundWellDesign.MainWindow"
-        Title="地面井设计程序" >
+        Title="地面井设计程序" WindowStyle="None" >
 
     <Window.Resources>
         <Style x:Key="ColumnCellStyle" TargetType="{x:Type TextBlock}"  >
             <Setter Property="TextAlignment" Value="Right"/>
         </Style>
-        <local:LoginToVisibilityConvert x:Key="loginConvert"/>
+        <local:BoolToVisibilityConvert x:Key="boolConvert"/>
     </Window.Resources>
 
     <Grid>
 
 
 
-        <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" >
-
-
-            <TabItem Header="表格式岩层录入">
+        <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" TabStripPlacement="Left">
+            <TabItem x:Name="gridinputTabItem" Header="岩层基本参数录入">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -32,7 +30,7 @@
                     </Grid.RowDefinitions>
                     <DataGrid x:Name="paramGrid" Grid.Row="0" SelectedCellsChanged="paramGrid_SelectedCellsChanged" 
                               AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectionUnit="FullRow"
-                              CanUserSortColumns="False" CanUserReorderColumns="False" Background="Transparent" EnableRowVirtualization="False" EnableColumnVirtualization="False" Margin="0,0,0,0.4">
+                              CanUserSortColumns="False" CanUserReorderColumns="False" Background="Transparent" EnableRowVirtualization="False" EnableColumnVirtualization="False">
 
                         <DataGrid.Columns>
 
@@ -56,19 +54,21 @@
 
                             <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=LostFocus}"   Header="岩性描述" Width="*"/>
                         </DataGrid.Columns>
-                        
+
                         <DataGrid.ContextMenu>
                             <ContextMenu x:Name="dgMenu" StaysOpen="true">
+                                <MenuItem Header="保存到数据库" Click="click_saveToDB" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolConvert}}" />
                                 <MenuItem Header="下方增行" Click="click_addRow"/>
                                 <MenuItem Header="删除此行" Click="click_delRow"/>
                                 <MenuItem Header="上移" Click="click_upRow" />
                                 <MenuItem Header="下移" Click="click_downRow" />
+                                
 
                             </ContextMenu>
                         </DataGrid.ContextMenu>
-                        
-                        
-                        
+
+
+
                     </DataGrid>
 
 
@@ -77,14 +77,9 @@
                         <Button Content="-"   Width="40" ToolTip="删除(Del)" Click="click_delRow"/>
                         <Button Content="↑"  Width="40"  ToolTip="上移" Click="click_upRow"/>
                         <Button Content="↓"  Width="40"  ToolTip="下移" Click="click_downRow"/>
-
-
-                        <Button x:Name="saveYanCengBtn" Content="保存岩层到数据库" Click="saveYanCengBtn_Click" Width="120" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}"/>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="1" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}">
-
-
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="1" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolConvert}}">
 
                         <Button Content="输入关键层数据"  Width="100" Click="click_inputOtherData"/>
                         <Button Content="显示关键层"  Width="100" Click="click_showKeyRow"/>
@@ -95,10 +90,9 @@
 
 
                 </Grid>
-            </TabItem>
 
-            <TabItem Header="向导式岩层录入">
-
+            </TabItem >
+            <TabItem x:Name="guidinputTabItem" Header="岩层基本参数录入">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10*"/>
@@ -125,7 +119,7 @@
                     <TextBlock Grid.Column="3" Grid.Row="1" Text="描述"  HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <TextBox x:Name="miaoshuTb" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" />
                     <TextBlock Grid.Column="1" Text="层号" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBox x:Name="currLayerTb" Grid.Column="2" Grid.Row="1" Text="1"  />
+                    <TextBox x:Name="currLayerTb" Grid.Column="2" Grid.Row="1" Text="1"/>
 
                     <TextBlock Text="岩性" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <ComboBox x:Name="yanXingCB"  Grid.Column="2" Grid.Row="2" ItemsSource="{x:Static local:MainWindow.YanXingOpt}"/>
@@ -157,18 +151,16 @@
                     <TextBlock Grid.Column="5" Grid.Row="6" Text="Q2"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <TextBox x:Name="q2Tb" Grid.Column="6" Grid.Row="6"/>
 
-
-
-                    <Button Content="保存" Grid.Row="7" Grid.Column="2" Click="saveBtn_Click" />
-                    <Button  Content="重置" Grid.Column="3" Grid.Row="7"  Click="resetBtn_Click" />
-                    <Button  Content="上一层" Grid.Column="4" Grid.Row="7" Click="preBtn_Click" />
-                    <Button  Content="下一层" Grid.Column="5" Grid.Row="7"  Click="nextBtn_Click" />
+                    <Button  Content="重置" Grid.Column="2" Grid.Row="7"  Click="resetBtn_Click" />
+                    <Button  Content="上一层" Grid.Column="3" Grid.Row="7" Click="preBtn_Click" />
+                    <Button  Content="下一层" Grid.Column="4" Grid.Row="7"  Click="nextBtn_Click" />
+                    <Button Content="保存" Grid.Row="7" Grid.Column="5" Click="saveBtn_Click" />
                     <Button  Content="完成" Grid.Column="6"  Grid.Row="7" Click="stopBtn_Click" />
 
 
                 </Grid>
-            </TabItem>
 
+            </TabItem >
             <TabItem x:Name="keyLayerTabItem" Header="关键层数据录入" >
                 <Grid>
                     <Grid.RowDefinitions>
@@ -200,8 +192,8 @@
                             <DataGridTextColumn Binding="{Binding Sjxcxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="实际下沉系数η0" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                             <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}"/>
-                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolConvert}}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolConvert}}"/>
 
 
 
@@ -254,7 +246,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Button x:Name="showResBtn" Content="计算结果" Click="showResBtn_Click" />
-                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}"/>
+                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolConvert}}"/>
 
                     </Grid>
 
@@ -262,15 +254,13 @@
                 </Grid>
 
             </TabItem>
-
-            <TabItem x:Name="showTabItem" Header="图形显示" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginConvert}}">
+            <TabItem x:Name="showTabItem" Header="图形显示" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolConvert}}">
                 <Grid>
                     <WindowsFormsHost x:Name="wfHost" >
 
                     </WindowsFormsHost>
                 </Grid>
             </TabItem>
-
         </TabControl>
     </Grid>
 </Window>

@@ -13,19 +13,19 @@ using System.Globalization;
 namespace GroundWellDesign
 {
 
-    public class LoginToVisibilityConvert : IValueConverter
+    public class BoolToVisibilityConvert : IValueConverter
     {
 
         public object Convert(object value, Type targetType, object param, CultureInfo c)
         {
-            bool login = (bool)value;
-            if (login)
+            bool b = (bool)value;
+            if (b)
             {
                 return Visibility.Visible;
             }
             else
             {
-                return Visibility.Hidden;
+                return Visibility.Collapsed;
             }
         }
 
@@ -33,8 +33,6 @@ namespace GroundWellDesign
         {
             return null;
         }
-
-
     }
 
     public partial class MainWindow : Window
@@ -63,6 +61,8 @@ namespace GroundWellDesign
             InitializeComponent();
             logic = new MkyLogic();
 
+            tabControl.Items.Remove(guidinputTabItem);
+
 
             //岩层参数录入初始化
             LayerParams dibiao = new LayerParams(this);
@@ -77,6 +77,7 @@ namespace GroundWellDesign
             keyLayerDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
             paramGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
+            //向导式录入初始化
             editLayer = new LayerParams(this);
             guideBind(editLayer);
 
@@ -228,10 +229,11 @@ namespace GroundWellDesign
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(e.Source is TabControl && tabControl.SelectedIndex == 1)
+            if(e.Source is TabControl && tabControl.SelectedItem == guidinputTabItem)
                 editLayer.copyNoEvent(layers[int.Parse(currLayerTb.Text) - 1]);
                 guideBind(editLayer);
          }
+
 
 
         

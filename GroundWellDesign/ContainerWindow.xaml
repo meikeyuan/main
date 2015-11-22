@@ -28,12 +28,15 @@
 			
         </DockPanel>
         
-        <DockPanel Grid.Row="0" HorizontalAlignment="Right" Width="100">
+        <DockPanel Grid.Row="0" HorizontalAlignment="Right">
+            <Button Content="切换录入方式" Click="ToggleButton_Click"/>
+
+
             <ComboBox x:Name="themeCB" SelectionChanged="themeCB_SelectionChanged" SelectedIndex="0">
-                <ComboBoxItem>深色</ComboBoxItem>
-                <ComboBoxItem>浅色</ComboBoxItem>
-                <ComboBoxItem>炫蓝</ComboBoxItem>
-                <ComboBoxItem>炫红</ComboBoxItem>
+                <ComboBoxItem>典雅黑</ComboBoxItem>
+                <ComboBoxItem>深空灰</ComboBoxItem>
+                <ComboBoxItem>炫彩蓝</ComboBoxItem>
+                <ComboBoxItem>魅惑红</ComboBoxItem>
             </ComboBox>
 
             <Button x:Name="loginBtn" Content="登陆" Click="loginBtn_Click"  Style="{StaticResource MenuBtnStyle}"/>

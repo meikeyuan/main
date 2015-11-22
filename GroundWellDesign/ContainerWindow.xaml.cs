@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace GroundWellDesign
 {
@@ -32,6 +33,7 @@ namespace GroundWellDesign
         }
 
 
+
     }
     /// <summary>
     /// ContainerWindow.xaml 的交互逻辑
@@ -46,6 +48,12 @@ namespace GroundWellDesign
         public ContainerWindow()
         {
             InitializeComponent();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            Application.Current.Shutdown();
+            base.OnClosed(e);
         }
 
 
@@ -234,6 +242,24 @@ namespace GroundWellDesign
             if (mergedDicts.Count > 0)
                 mergedDicts.Clear();
             mergedDicts.Add(skinDict);
+        }
+
+        private void ToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+                foreach (MainWindow window in windows)
+                {
+                    
+                    if(window.tabControl.Items.Contains(window.guidinputTabItem)){
+                        window.tabControl.Items.RemoveAt(0);
+                        window.tabControl.Items.Insert(0, window.gridinputTabItem);
+                        window.tabControl.SelectedItem = window.gridinputTabItem;
+                    }
+                    else{
+                        window.tabControl.Items.RemoveAt(0);
+                        window.tabControl.Items.Insert(0, window.guidinputTabItem);
+                        window.tabControl.SelectedItem = window.guidinputTabItem;
+                    }
+                }
         }
     }
 }

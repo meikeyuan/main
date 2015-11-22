@@ -16,27 +16,26 @@ namespace GroundWellDesign
 
         void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            e.Row.Header = e.Row.GetIndex() + 1;
-        }
-
-        void dataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
-        {
-            dataGrid_LoadingRow(sender, e);
             if (paramGrid.Items != null)
             {
-                for (int i = 0; i < paramGrid.Items.Count; i++)
+                for (int i = e.Row.GetIndex(); i < paramGrid.Items.Count; i++)
                 {
                     try
                     {
                         DataGridRow row = paramGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
                         if (row != null)
                         {
-                            row.Header = (i + 1).ToString();
+                            row.Header = i + 1;
                         }
                     }
                     catch { }
                 }
             }
+        }
+
+        void dataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            dataGrid_LoadingRow(sender, e);
 
         }
 
@@ -50,6 +49,52 @@ namespace GroundWellDesign
             if (currentCell.Column == paramGrid.Columns[0] || currentCell.Column == paramGrid.Columns[12])   //Columns[]从0开始  我这的ComboBox在第四列  所以为3  
             {
                 paramGrid.BeginEdit();    //  进入编辑模式  这样单击一次就可以选择ComboBox里面的值了  
+            }
+        }
+
+        //保存到数据库
+        private void click_saveToDB(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = paramGrid.SelectedIndex;
+            //未选择行
+            if (selectedIndex == -1)
+            {
+                MessageBox.Show("请选中一行...");
+                return;
+            }
+
+            LayerParams layer = layers[selectedIndex];
+                string path = DATABASE_PATH + layer.yanXing;
+                if (layer.dataBaseNum == 0)
+                {
+                    int count = Directory.GetFiles(path).Length;
+                    layer.dataBaseNum = count + 1;
+                }
+                else
+                {
+                    MessageBoxResult res = MessageBox.Show("该条记录已存在，覆盖旧的数据吗？选择否则新增一条", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                    switch (res)
+                    {
+                        case MessageBoxResult.Cancel:
+                            return;
+                        case MessageBoxResult.No:
+                            int count = Directory.GetFiles(path).Length;
+                            layer.dataBaseNum = count + 1;
+                            break;
+                        case MessageBoxResult.Yes:
+                            break;
+                    }
+                }
+                BaseParams baseParam = new BaseParams(layer);
+                bool bSuccess  = DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum);
+            
+            if (bSuccess)
+            {
+                MessageBox.Show("保存成功");
+            }
+            else
+            {
+                MessageBox.Show("保存失败");
             }
         }
 
@@ -91,7 +136,10 @@ namespace GroundWellDesign
             if (MessageBox.Show("确定删除第" + (selectedIndex + 1) + "层数据吗？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 layers.RemoveAt(selectedIndex);//选择了非空行
+                paramGrid.SelectedIndex = selectedIndex;
             }
+
+
         }
 
 
@@ -113,6 +161,7 @@ namespace GroundWellDesign
             LayerParams layer = layers[selectedIndex];
             layers[selectedIndex] = layers[selectedIndex - 1];
             layers[selectedIndex - 1] = layer;
+            paramGrid.SelectedIndex = selectedIndex - 1;
         }
 
         //下移
@@ -133,6 +182,7 @@ namespace GroundWellDesign
             LayerParams layer = layers[selectedIndex];
             layers[selectedIndex] = layers[selectedIndex + 1];
             layers[selectedIndex + 1] = layer;
+            paramGrid.SelectedIndex = selectedIndex + 1;
         }
 
 
@@ -189,7 +239,7 @@ namespace GroundWellDesign
         private void click_inputOtherData(object sender, RoutedEventArgs e)
         {
             
-            tabControl.SelectedIndex = 2;
+            tabControl.SelectedItem = showTabItem;
         }
         
 
@@ -327,29 +377,6 @@ namespace GroundWellDesign
         }
 
 
-        //保存岩层数据
-        private void saveYanCengBtn_Click(object sender, RoutedEventArgs e)
-        {
-            bool bSuccess = true;
-            foreach (LayerParams layer in layers)
-            {
-                string path = DATABASE_PATH + layer.yanXing;
-                if(layer.dataBaseNum == 0)
-                {
-                    int count = Directory.GetFiles(path).Length;
-                    layer.dataBaseNum = count + 1;
-                }
-                BaseParams baseParam = new BaseParams(layer);
-                bSuccess &= DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum);
-            }
-            if(bSuccess)
-            {
-                MessageBox.Show("全部保存成功");
-            }
-            else
-            {
-                MessageBox.Show("部分保存失败");
-            }
-        }
+
     }
 }
