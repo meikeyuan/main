@@ -154,7 +154,7 @@ namespace GroundWellDesign
 
 
             //显示
-            tabControl.SelectedIndex = 3;
+            tabControl.SelectedItem = showTabItem;
 
         }
 

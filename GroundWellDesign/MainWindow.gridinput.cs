@@ -192,10 +192,7 @@ namespace GroundWellDesign
             //先撤销之前的变色
             foreach (KeyLayerParams nbr in keyLayers)
             {
-                var row = paramGrid.ItemContainerGenerator.ContainerFromIndex(nbr.ycbh - 1) as DataGridRow;
-                if(row != null)
-                row.Background = new SolidColorBrush(Colors.White);
-                paramGrid.UpdateLayout();
+                layers[nbr.ycbh - 1].IsKeyLayer = false;
             }
 
 
@@ -225,21 +222,18 @@ namespace GroundWellDesign
                 layer.fypjxsxz = layer.fypjxs * pjxsxz;
                 keyLayers.Add(layer);
 
-
-                var row = paramGrid.ItemContainerGenerator.ContainerFromIndex(biaoHaoList[i] - 1) as DataGridRow;
-                if(row != null)
-                row.Background = new SolidColorBrush(Colors.Yellow);
+                layers[biaoHaoList[i] - 1].IsKeyLayer = true;
 
             }
 
         }
 
 
-        //转到输入其他数据
+        //转到输入关键层数据
         private void click_inputOtherData(object sender, RoutedEventArgs e)
         {
             
-            tabControl.SelectedItem = showTabItem;
+            tabControl.SelectedItem = keyLayerTabItem;
         }
         
 
@@ -325,14 +319,6 @@ namespace GroundWellDesign
         }
 
 
-        //需要提供的计算出地标最大沉降位移接口
-        private double getGroundOffset()
-        {
-            logic.calWmax();
-            return 2;
-
-        }
-
 
         //需要提供的计算出关键层接口
         private void getKeyLayer(ref int[] bianHao, ref double[] pjxs)
@@ -363,7 +349,7 @@ namespace GroundWellDesign
                 }
 
 
-                    pjxs = (double[])pjxsList.ToVector(MWArrayComponent.Real);
+                pjxs = (double[])pjxsList.ToVector(MWArrayComponent.Real);
 
                 return;
 

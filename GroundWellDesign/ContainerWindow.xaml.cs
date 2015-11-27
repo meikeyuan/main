@@ -14,7 +14,7 @@ namespace GroundWellDesign
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool _BLogin;
+        private bool _BLogin = true;
         public bool BLogin
         {
             get

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using AxMxDrawXLib;
 using System.Collections.ObjectModel;
-using MathWorks.MATLAB.NET.Arrays;
 using mky;
 using System.IO;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace GroundWellDesign
 {
@@ -26,6 +26,28 @@ namespace GroundWellDesign
             else
             {
                 return Visibility.Collapsed;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
+        {
+            return null;
+        }
+    }
+
+    public class BoolToBrushConvert : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object param, CultureInfo c)
+        {
+            bool b = (bool)value;
+            if (b)
+            {
+                return new SolidColorBrush(Colors.Red);
+            }
+            else
+            {
+                return new SolidColorBrush(Colors.White);
             }
         }
 
@@ -92,6 +114,7 @@ namespace GroundWellDesign
 
             paramGrid.DataContext = layers;
             keyLayerDataGrid.DataContext = keyLayers;
+            yancengListBox.ItemsSource = layers;
 
 
 

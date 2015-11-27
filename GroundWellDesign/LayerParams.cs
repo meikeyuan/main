@@ -162,6 +162,23 @@ namespace GroundWellDesign
         }
 
 
+        //增加是否为关键层标志
+        private bool isKeyLayer;
+        public bool IsKeyLayer
+        {
+            get { return isKeyLayer; }
+            set
+            {
+                isKeyLayer = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IsKeyLayer"));
+                }
+
+            }
+        }
+
+
         private void refreshJuLiMeiShenDu()
         {
             int i = mainWindow.layers.Count;
