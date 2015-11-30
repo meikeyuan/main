@@ -7,6 +7,294 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/ExpressionDark.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <GeometryDrawing x:Key="地表" Brush="BurlyWood">
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z"/>
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+
+            <GeometryDrawing x:Key="煤" Brush="Black">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+
+            <GeometryDrawing x:Key="黄土" Brush="White">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M100,0 L100,300 M200,0 L200,300 M300,0 L300,300"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="Black"/>
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+
+            <GeometryDrawing x:Key="泥岩" Brush="White">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M0,100 L400,100 M0,200 L400,200
+						M20,50 L120,50 M140,50 L240,50 M260,50 L360,50
+						M50,150 L180,150 M230,150 L380,150
+						M20,250 L120,250 M140,250 L240,250 M260,250 L360,250
+						"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="Black"/>
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+
+            <GeometryDrawing x:Key="砂质泥岩" Brush="White">
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M0,100 L400,100 M0,200 L400,200
+						M20,50 L120,50 M260,50 L360,50
+						M140,150 L240,150 M260,150 L360,150
+						M20,250 L120,250 M140,250 L240,250"/>
+                        <EllipseGeometry RadiusX="10" RadiusY="10" Center="200,50"/>
+                        <EllipseGeometry RadiusX="10" RadiusY="10" Center="80,150"/>
+                        <EllipseGeometry RadiusX="10" RadiusY="10" Center="320,250"/>
+                    </GeometryGroup>
+
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="Black"/>
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+
+            <DrawingGroup  x:Key="细粒砂岩" >
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M0,100 L400,100 M0,200 L400,200"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="200,50"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="80,150"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="330,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="80,50"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="130,50"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="280,50"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="330,50"/>
+
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="200,150"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="130,150"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="280,150"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="330,150"/>
+
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="80,250"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="130,250"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="280,250"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="200,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+
+            <DrawingGroup x:Key="中粒砂岩">
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M0,100 L400,100 M0,200 L400,200"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="200,50"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="80,150"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="330,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="80,50"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="130,50"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="280,50"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="330,50"/>
+
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="200,150"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="130,150"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="280,150"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="330,150"/>
+
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="80,250"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="130,250"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="280,250"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="200,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+
+
+            <DrawingGroup x:Key="粗粒砂岩">
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup >
+                            <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M0,100 L400,100 M0,200 L400,200"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="200,50"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="80,150"/>
+                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="330,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="80,50"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="130,50"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="280,50"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="330,50"/>
+
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="200,150"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="130,150"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="280,150"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="330,150"/>
+
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="80,250"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="130,250"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="280,250"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="200,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+
+            <DrawingGroup x:Key="粉砂岩">
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M0,100 L400,100 M0,200 L400,200"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="30,50"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="70,50"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="150,50"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="190,50"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="270,50"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="310,50"/>
+
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="50,150"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="90,150"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="170,150"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="210,150"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="290,150"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="330,150"/>
+
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="70,250"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="110,250"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="190,250"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="230,250"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="310,250"/>
+                            <EllipseGeometry RadiusX="3" RadiusY="3" Center="350,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+
+            <DrawingGroup x:Key="细砂岩">
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M0,100 L400,100 M0,200 L400,200"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="30,50"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="70,50"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="150,50"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="190,50"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="270,50"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="310,50"/>
+
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="50,150"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="90,150"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="170,150"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="210,150"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="290,150"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="330,150"/>
+
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="70,250"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="110,250"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="190,250"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="230,250"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="310,250"/>
+                            <EllipseGeometry RadiusX="6" RadiusY="6" Center="350,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+
+            <DrawingGroup x:Key="中砂岩">
+                <GeometryDrawing Brush="White">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+						M0,100 L400,100 M0,200 L400,200"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="30,50"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="70,50"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="150,50"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="190,50"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="270,50"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="310,50"/>
+
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="50,150"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="90,150"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="170,150"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="210,150"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="290,150"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="330,150"/>
+
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="70,250"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="110,250"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="190,250"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="230,250"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="310,250"/>
+                            <EllipseGeometry RadiusX="9" RadiusY="9" Center="350,250"/>
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

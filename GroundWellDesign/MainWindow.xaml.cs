@@ -31,7 +31,7 @@ namespace GroundWellDesign
 
         public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 
@@ -53,7 +53,21 @@ namespace GroundWellDesign
 
         public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
         {
-            return null;
+            throw new NotImplementedException();
+        }
+    }
+
+    public class YanXingToKeyConvert : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object param, CultureInfo c)
+        {
+            return Application.Current.FindResource(value as string);
+        }
+
+        public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -68,7 +82,7 @@ namespace GroundWellDesign
         public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
         public const string DATABASE_PATH = "c:\\ProgramData\\GroundWellDesign\\";
 
-        public static List<String> YanXingOpt= new List<string> { "地表", "黄土", "细粒砂岩", "泥岩", "中粒砂岩", "粉砂岩", "砂质泥岩", "粗粒砂岩", "细砂岩", "中砂岩", "煤" };
+        public static List<String> YanXingOpt= new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
         public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
 
         public string FilePath
