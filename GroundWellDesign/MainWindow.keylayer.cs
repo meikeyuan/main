@@ -98,10 +98,26 @@ namespace GroundWellDesign
                 return gzmsd;
             }
         }
+
+        public double jswzjl;
         public double Jswzjl
         {
-            set;
-            get;
+            set
+            {
+                if (jswzjl != value)
+                {
+                    MessageBoxResult result = MessageBox.Show("地面井是否位于工作面内部?", "提示", MessageBoxButton.YesNo);
+                    if(result == MessageBoxResult.Yes){
+                        jswzjl = 0 - value;
+                    }else{
+                        jswzjl = value;
+                    }
+                }
+            }
+            get
+            {
+                return jswzjl;
+            }
         }
 
         private void showCadBtn_Click(object sender, RoutedEventArgs e)

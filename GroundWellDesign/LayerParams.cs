@@ -278,8 +278,6 @@ namespace GroundWellDesign
                 refreshCengHou();
                 refreshJuLiMeiShenDu();
 
-
-
                 if (PropertyChanged != null)
                 {
                     this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("LeiJiShenDu"));

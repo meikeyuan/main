@@ -1,12 +1,9 @@
 ﻿using MathWorks.MATLAB.NET.Arrays;
-using mky;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace GroundWellDesign
 {
@@ -365,4 +362,55 @@ namespace GroundWellDesign
 
 
     }
+
+
+    public class RangeValidationRule : ValidationRule
+    {
+        public double Min
+        {
+            get;
+            set;
+        }
+        public bool CanEqualMin
+        {
+            get;
+            set;
+        }
+        public double Max
+        {
+            get;
+            set;
+        }
+        public bool CanEqualMax
+        {
+            get;
+            set;
+        }
+
+        public RangeValidationRule()
+        {
+            Min = 0;
+            CanEqualMin = true;
+            Max = double.PositiveInfinity;
+            CanEqualMax = true;
+
+        }
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            double d = 0;
+            if (double.TryParse(value.ToString(), out d))
+            {
+                if (CanEqualMin && d >= Min || d > Min)
+                    if(CanEqualMax && d <= Max || d < Max)
+                {
+                    return new ValidationResult(true, null);
+                }
+            }
+            string minNode = CanEqualMin ? "[" : "(";
+            string maxNode = CanEqualMax ? "]" : ")";
+            return new ValidationResult(false, "范围应该为" + minNode + Min + ", " + Max + maxNode);
+        }
+    }
+
+
 }

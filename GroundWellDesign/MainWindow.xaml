@@ -11,14 +11,12 @@
         Title="地面井设计程序" WindowStyle="None" >
 
     <Window.Resources>
-        <Style x:Key="ColumnCellStyle" TargetType="{x:Type TextBlock}"  >
+        <Style x:Key="elementStyle" TargetType="{x:Type TextBlock}"  >
             <Setter Property="TextAlignment" Value="Right"/>
         </Style>
         <local:BoolToVisibilityConvert x:Key="boolToVisConvert"/>
         <local:BoolToBrushConvert x:Key="boolToBrushConvert"/>
         <local:YanXingToKeyConvert x:Key="yanXingToKeyConvert"/>
-
-
     </Window.Resources>
 
     <Grid>
@@ -39,26 +37,118 @@
                     <DataGrid x:Name="paramGrid" Grid.Row="0" Grid.Column="0" SelectedCellsChanged="paramGrid_SelectedCellsChanged"
                               AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectionUnit="FullRow"
                               CanUserSortColumns="False" CanUserReorderColumns="False" Background="Transparent" EnableRowVirtualization="False" EnableColumnVirtualization="False">
+                        <DataGrid.Resources>
+
+                           
+                            <ControlTemplate x:Key="errTemplate">
+                                <DockPanel LastChildFill="True">
+                                    <Border BorderBrush="Red" BorderThickness="1">
+                                        <AdornedElementPlaceholder/>
+                                    </Border>
+                                </DockPanel>
+                            </ControlTemplate>
+                            <Style TargetType="{x:Type TextBox}"  x:Key="editValidStyle">
+                                <Setter Property="Validation.ErrorTemplate" Value="{StaticResource errTemplate}" />
+                                <Setter Property="TextAlignment" Value="Right"/>
+                                <Style.Triggers>
+                                    <Trigger Property="Validation.HasError" Value="true">
+                                        <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Resources>
 
                         <DataGrid.Columns>
 
-                            <DataGridComboBoxColumn ItemsSource="{x:Static local:MainWindow.YanXingOpt}"
-                                                        SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" Header="岩性" />
-                            <DataGridTextColumn Binding="{Binding LeiJiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="累计深度" />
-                            <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="距离煤层深度" IsReadOnly="True" Foreground="Green" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="层厚" IsReadOnly="True" Foreground="Green" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding ZiRanMiDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="自然视密度" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding BianXingMoLiang, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="变形模量/MPa" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding KangLaQiangDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="抗拉强度/MPa" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding KangYaQiangDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="抗压强度" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding TanXingMoLiang, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="弹性模量/MPa" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding BoSonBi, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="泊松比" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding NeiMoCaJiao, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="内摩擦角" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding NianJuLi, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="粘聚力" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridComboBoxColumn ItemsSource="{x:Static local:MainWindow.YanXingOpt}" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" Header="岩性" />
 
-                            <DataGridTextColumn Binding="{Binding Q0, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q0值" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Q1, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q1值" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Q2, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q2值" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridTextColumn Header="累计深度" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="LeiJiShenDu" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule CanEqualMin="false"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="距离煤层深度" IsReadOnly="True" Foreground="Green" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="层厚" IsReadOnly="True" Foreground="Green" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
+                            <DataGridTextColumn Header="自然视密度" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="ZiRanMiDu" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule Min="1000" Max="3500"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="变形模量/MPa" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="BianXingMoLiang" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule Min="0" Max="7000"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="抗拉强度/MPa" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="KangLaQiangDu" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule Min="0" Max="30"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="抗压强度" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="KangYaQiangDu" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule Min="0" Max="200"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="弹性模量/MPa" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="TanXingMoLiang" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule Min="0" Max="20000"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="泊松比" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="BoSonBi" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule Min="0" Max="0.5"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="内摩擦角" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="NeiMoCaJiao" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule Min="0" Max="90"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="粘聚力" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="NianJuLi" StringFormat="n3" UpdateSourceTrigger="LostFocus">
+                                        <Binding.ValidationRules>
+                                            <local:RangeValidationRule Min="0" Max="30"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Binding="{Binding Q0, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q0值" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Q1, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q1值" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Q2, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q2值" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
 
                             <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=LostFocus}"   Header="岩性描述" Width="*"/>
                         </DataGrid.Columns>
@@ -203,28 +293,28 @@
                     <DataGrid x:Name="keyLayerDataGrid" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectionUnit="CellOrRowHeader"
                               CanUserSortColumns="False" CanUserReorderColumns="False" Background="Transparent" CanUserAddRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层深度" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="煤层埋深" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Fypjxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="覆岩综合评价系数P" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Fypjxsxz, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="修正的评价系数P" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Gzmtjsj, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="工作面推进时间" Foreground="Green" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层深度" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="煤层埋深" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Fypjxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="覆岩综合评价系数P" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Fypjxsxz, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="修正的评价系数P" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Gzmtjsj, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="工作面推进时间" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
 
 
-                            <DataGridTextColumn Binding="{Binding Cfcdcjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="充分采动沉降位移Wmax" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Gzmtjjl, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="工作面推进累计距离" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Zx, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="走向l0/H0" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Qx, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="倾向L0/H0" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Cdyxbj, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="采动影响半径" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Cfcdcjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="充分采动沉降位移Wmax" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Gzmtjjl, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="工作面推进累计距离" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Zx, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="走向l0/H0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Qx, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="倾向L0/H0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Cdyxbj, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="采动影响半径" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Gdydj, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="拐点移动距" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Qxhckj, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="倾斜煤层倾向回采空间尺寸L'" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Cfkckjjl, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="采场充分开采空间距离lc" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Sjxcxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="实际下沉系数η0" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Gdydj, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="拐点移动距" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Qxhckj, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="倾斜煤层倾向回采空间尺寸L'" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Cfkckjjl, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="采场充分开采空间距离lc" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Sjxcxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="实际下沉系数η0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}"/>
-                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}"/>
 
 
 
@@ -263,7 +353,7 @@
                         </StackPanel>
 
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0">
-                            <TextBlock Text="计算位置距离" />
+                            <TextBlock Text="地面井至工作面回风巷距离X0" />
                             <TextBox x:Name="jswzjlTb"  Text="{Binding Jswzjl, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
                         </StackPanel>
 
@@ -295,12 +385,12 @@
                     <DataGrid x:Name="cutOffsetDataGrid" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectionUnit="CellOrRowHeader"
                               CanUserSortColumns="False" CanUserReorderColumns="False" Background="Transparent" CanUserAddRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层深度" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层深度" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="倾向最大剪切滑动位移" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Fypjxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="复合岩层最大沉降位移" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Cdyxbj, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="采动影响半径" IsReadOnly="True" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="倾向最大剪切滑动位移" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Fypjxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="复合岩层最大沉降位移" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Cdyxbj, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="采动影响半径" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
                         </DataGrid.Columns>
                     </DataGrid>
