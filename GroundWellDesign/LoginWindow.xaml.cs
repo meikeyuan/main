@@ -19,30 +19,42 @@ namespace GroundWellDesign
     /// </summary>
     public partial class LoginWindow : Window
     {
-        ContainerWindow con;
-        public LoginWindow(ContainerWindow container)
+        public LoginWindow()
         {
+            
             InitializeComponent();
-            con = container;
-        }
-
-        private void cancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-
         }
 
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
+            
             if (pwdBox.Password == "123456")
             {
+                ContainerWindow container = new ContainerWindow();
                 ContainerWindow.loginInfo.BLogin = true;
+                container.Show();
+                Close();
+            }else if(pwdBox.Password == ""){
+                ContainerWindow container = new ContainerWindow();
+                ContainerWindow.loginInfo.BLogin = false;
+                container.Show();
                 Close();
             }
             else
             {
                 MessageBox.Show("密码错误");
             }
+        }
+
+        private void minBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+
+        }
+
+        private void closeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

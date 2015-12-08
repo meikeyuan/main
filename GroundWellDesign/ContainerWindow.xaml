@@ -1,7 +1,14 @@
 ﻿<Window x:Class="GroundWellDesign.ContainerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="地面井设计" Icon="img/splash.jpg" Background="{DynamicResource ControlBackgroundBrush}" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" >
+        Title="地面井设计" Icon="img/splash.jpg" Background="{DynamicResource ControlBackgroundBrush}"
+        xmlns:local="clr-namespace:GroundWellDesign"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" >
+    
+    <Window.Resources>
+        <local:BoolToTextConvert x:Key="convert"/>
+
+    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -39,7 +46,9 @@
                 <ComboBoxItem>魅惑红</ComboBoxItem>
             </ComboBox>
 
-            <Button x:Name="loginBtn" Content="登陆" Click="loginBtn_Click"  Style="{StaticResource MenuBtnStyle}"/>
+            <TextBlock Text="{Binding BLogin, Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource convert}}" 
+                      Foreground="{DynamicResource MenuFore}"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            
         </DockPanel>
         
         <TabControl x:Name="tabControl"  Grid.Row="1">

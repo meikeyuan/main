@@ -45,27 +45,27 @@
                 </GeometryDrawing.Pen>
             </GeometryDrawing>
 
-            
-                <GeometryDrawing x:Key="砂质泥岩" Brush="White">
-                    <GeometryDrawing.Geometry>
+
+            <GeometryDrawing x:Key="砂质泥岩" Brush="White">
+                <GeometryDrawing.Geometry>
                     <GeometryGroup  FillRule="Nonzero">
-                            <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
+                        <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z
 						M0,100 L400,100 M0,200 L400,200
 						M20,50 L120,50 M260,50 L360,50
 						M140,150 L240,150 M260,150 L360,150
 						M20,250 L120,250 M140,250 L240,250"/>
-                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="200,50"/>
-                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="80,150"/>
-                            <EllipseGeometry RadiusX="10" RadiusY="10" Center="330,250"/>
-                        </GeometryGroup>
-                    </GeometryDrawing.Geometry>
-                    <GeometryDrawing.Pen>
-                        <Pen Brush="Black"/>
-                    </GeometryDrawing.Pen>
-                </GeometryDrawing>
+                        <EllipseGeometry RadiusX="10" RadiusY="10" Center="200,50"/>
+                        <EllipseGeometry RadiusX="10" RadiusY="10" Center="80,150"/>
+                        <EllipseGeometry RadiusX="10" RadiusY="10" Center="330,250"/>
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="Black"/>
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
 
 
-                <DrawingGroup  x:Key="细粒砂岩" >
+            <DrawingGroup  x:Key="细粒砂岩" >
                 <GeometryDrawing Brush="White">
                     <GeometryDrawing.Geometry>
                         <GeometryGroup  FillRule="Nonzero">

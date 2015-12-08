@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 
 namespace GroundWellDesign
 {
@@ -31,9 +33,28 @@ namespace GroundWellDesign
 
             }
         }
+    }
 
+    public class BoolToTextConvert : IValueConverter
+    {
 
+        public object Convert(object value, Type targetType, object param, CultureInfo c)
+        {
+            bool b = (bool)value;
+            if (b)
+            {
+                return "已登录";
+            }
+            else
+            {
+                return "未登录";
+            }
+        }
 
+        public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
+        {
+            throw new NotImplementedException();
+        }
     }
     /// <summary>
     /// ContainerWindow.xaml 的交互逻辑
@@ -201,15 +222,6 @@ namespace GroundWellDesign
                 int index = tabControl.Items.IndexOf(ui);
                 tabControl.Items.RemoveAt(index);
                 windows.RemoveAt(index);
-            }
-        }
-
-        private void loginBtn_Click(object sender, RoutedEventArgs e)
-        {
-            new LoginWindow(this).ShowDialog();
-            if (loginInfo.BLogin)
-            {
-                loginBtn.Content = "已登陆";
             }
         }
 
