@@ -25,9 +25,7 @@
             </StackPanel>
 
 
-            <TextBlock Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White">
-                    GroundWellDesign
-            </TextBlock>
+            <TextBlock Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"><Run Text="煤科院地面井设计程序"/></TextBlock>
         </Grid>
 
         <Grid Grid.Row="1" Background="#FFE2E2E2">
@@ -38,12 +36,37 @@
                 </Grid.ColumnDefinitions>
 
                 <Image Source="./img/splash.jpg"/>
-                <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0, 15, 0, 20">
+                <StackPanel Orientation="Vertical" Grid.Column="2" Margin="0, 25, 0, 10">
 
-                    <TextBox ToolTip="用户名" Background="White" Width="200" Height="25" Foreground="Black"></TextBox>
-                    <PasswordBox x:Name="pwdBox" ToolTip="密码" Background="White" Width="200" Height="25" Foreground="Black"></PasswordBox>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25*"/>
+                            <ColumnDefinition Width="65*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="用户名" Foreground="Black" Margin="20,0,0,0"></Label>
+                        <TextBox Grid.Column="2" ToolTip="用户名" Background="White" Height="25" Foreground="Black" Margin="0,0,39,0"/>
+                    </Grid>
 
-                    <Button Content="登录" Click="loginBtn_Click" Background="#FF548FA0" Width="200" Margin="0, 20, 0, 0" Height="25" Foreground="White"></Button>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25*"/>
+                            <ColumnDefinition Width="65*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="密码" Foreground="Black" Margin="20,0,0,0"></Label>
+                        <PasswordBox Grid.Column="2" x:Name="pwdBox" ToolTip="密码" Background="White" Height="25" Foreground="Black" Margin="0,0,39,0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1"  Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="40*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Content="管理员登录" Click="loginBtn_Click" Background="#FF548FA0"  Margin="78,0,0,0" Height="25" Foreground="White"></Button>
+                        <Button Content="匿名使用" Grid.Column="1" Click="loginBtn_Click" Background="#FF548FA0"  Margin="20,0,40,0" Height="25" Foreground="White"></Button>
+                    </Grid>
+
+
 
                 </StackPanel>
 
