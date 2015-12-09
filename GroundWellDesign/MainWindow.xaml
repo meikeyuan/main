@@ -14,9 +14,10 @@
         <Style x:Key="elementStyle" TargetType="{x:Type TextBlock}"  >
             <Setter Property="TextAlignment" Value="Right"/>
         </Style>
-        <local:BoolToVisibilityConvert x:Key="boolToVisConvert"/>
-        <local:BoolToBrushConvert x:Key="boolToBrushConvert"/>
-        <local:YanXingToKeyConvert x:Key="yanXingToKeyConvert"/>
+        <local:MyConvert x:Key="boolToVisConvert" sourceType="bool"/>
+        <local:MyConvert x:Key="boolToBrushConvert" sourceType="bool"/>
+        <local:MyConvert x:Key="yanXingToKeyConvert" sourceType="yanXing"/>
+        <local:MyConvert x:Key="widthToWidthConvert" sourceType="width"/>
     </Window.Resources>
 
     <Grid>
@@ -38,17 +39,7 @@
                               AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectionUnit="FullRow"
                               CanUserSortColumns="False" CanUserReorderColumns="False" Background="Transparent" EnableRowVirtualization="False" EnableColumnVirtualization="False">
                         <DataGrid.Resources>
-
-                           
-                            <ControlTemplate x:Key="errTemplate">
-                                <DockPanel LastChildFill="True">
-                                    <Border BorderBrush="Red" BorderThickness="1">
-                                        <AdornedElementPlaceholder/>
-                                    </Border>
-                                </DockPanel>
-                            </ControlTemplate>
                             <Style TargetType="{x:Type TextBox}"  x:Key="editValidStyle">
-                                <Setter Property="Validation.ErrorTemplate" Value="{StaticResource errTemplate}" />
                                 <Setter Property="TextAlignment" Value="Right"/>
                                 <Style.Triggers>
                                     <Trigger Property="Validation.HasError" Value="true">
@@ -195,10 +186,10 @@
 
 
 
-                    <ListBox x:Name="yancengListBox" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                    <ListBox Name="yancengListBox" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="local:LayerParams">
-                                <Rectangle Stroke="{Binding IsKeyLayer, Converter={StaticResource boolToBrushConvert}}" StrokeThickness="2" Width="200" Height="80">
+                                <Rectangle Stroke="{Binding IsKeyLayer, Converter={StaticResource boolToBrushConvert}}" StrokeThickness="2" Width="100" Height="80">
                                     <Rectangle.Fill>
                                         <DrawingBrush Drawing="{Binding YanXing, Converter={StaticResource yanXingToKeyConvert}}"/>
                                     </Rectangle.Fill>
