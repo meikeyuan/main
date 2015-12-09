@@ -192,7 +192,7 @@ namespace GroundWellDesign
                 HcqZXcd = data.KeyLayerData[3];
                 HcqQXcd = data.KeyLayerData[4];
                 Gzmsd = data.KeyLayerData[5];
-                Jswzjl = data.KeyLayerData[6];
+                jswzjl = data.KeyLayerData[6];
 
                 //没有刷新ui
                 meiCengQingJIaoTb.Text = data.KeyLayerData[0] + "";

@@ -315,36 +315,36 @@
                     <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center"  Grid.Row="1">
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
 
-                            <TextBlock Text="煤层倾角alpha" />
+                            <TextBlock Text="煤层倾角alpha" Foreground="{DynamicResource MenuFore}"/>
                             <TextBox x:Name="meiCengQingJIaoTb"  Text="{Binding Mcqj, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
 
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
 
-                            <TextBlock Text="煤层厚度H"/>
+                            <TextBlock Text="煤层厚度H" Foreground="{DynamicResource MenuFore}"/>
                             <TextBox x:Name="meiCengHouDuTb"  Text="{Binding Mchd, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
 
-                            <TextBlock Text="覆岩评价系数修正系数" />
+                            <TextBlock Text="覆岩评价系数修正系数"  Foreground="{DynamicResource MenuFore}"/>
                             <TextBox x:Name="xiuZhengXishuTb"  Text="{Binding Pjxsxz, UpdateSourceTrigger =PropertyChanged, StringFormat=n3}"/>
 
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
-                            <TextBlock Text="回采区沿走向长度l0"/>
+                            <TextBlock Text="回采区沿走向长度l0" Foreground="{DynamicResource MenuFore}"/>
                             <TextBox x:Name="hcqZXcdTb"  Text="{Binding HcqZXcd, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
-                            <TextBlock Text="回采区沿倾向长度L0"/>
+                            <TextBlock Text="回采区沿倾向长度L0" Foreground="{DynamicResource MenuFore}"/>
                             <TextBox x:Name="hcqQXcdTb"  Text="{Binding HcqQXcd, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
-                            <TextBlock Text="工作面推进速度v" />
+                            <TextBlock Text="工作面推进速度v"  Foreground="{DynamicResource MenuFore}"/>
                             <TextBox x:Name="gZMTJSDTb"  Text="{Binding Gzmsd, UpdateSourceTrigger =PropertyChanged, StringFormat=n3}"/>
                         </StackPanel>
 
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0">
-                            <TextBlock Text="地面井至工作面回风巷距离X0" />
+                            <TextBlock Text="地面井至工作面回风巷距离X0"  Foreground="{DynamicResource MenuFore}"/>
                             <TextBox x:Name="jswzjlTb"  Text="{Binding Jswzjl, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
                         </StackPanel>
 
