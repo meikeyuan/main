@@ -13,56 +13,37 @@ using System.Windows.Media;
 namespace GroundWellDesign
 {
 
-    public class BoolToVisibilityConvert : IValueConverter
+    public class MyConvert : IValueConverter
     {
-
+        public string sourceType
+        {
+            get;
+            set;
+        }
         public object Convert(object value, Type targetType, object param, CultureInfo c)
         {
-            bool b = (bool)value;
-            if (b)
+            switch (sourceType)
             {
-                return Visibility.Visible;
+                case "bool":
+                    bool b = (bool)value;
+                    if (targetType.Name == "Visibility")
+                    {
+                        return b ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                    else if (targetType.Name == "Brush")
+                    {
+                        return b ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
+                    }
+                    break;
+                case "yanXing":
+                    string s = value as string;
+                    return Application.Current.FindResource(s);
+                case "width":
+                    double i = (double)value;
+                    return i;
             }
-            else
-            {
-                return Visibility.Collapsed;
-            }
-        }
+            return null;
 
-        public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class BoolToBrushConvert : IValueConverter
-    {
-
-        public object Convert(object value, Type targetType, object param, CultureInfo c)
-        {
-            bool b = (bool)value;
-            if (b)
-            {
-                return new SolidColorBrush(Colors.Red);
-            }
-            else
-            {
-                return new SolidColorBrush(Colors.White);
-            }
-        }
-
-        public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class YanXingToKeyConvert : IValueConverter
-    {
-
-        public object Convert(object value, Type targetType, object param, CultureInfo c)
-        {
-            return Application.Current.FindResource(value as string);
         }
 
         public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
