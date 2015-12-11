@@ -169,27 +169,24 @@
 
                     <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 20, 0" >
-
                             <TextBlock Text="煤层倾角α" Foreground="{DynamicResource MenuFore}"/>
-                            <TextBox x:Name="meiCengQingJIaoTb"  Text="{Binding Mcqj, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
-
+                            <TextBox x:Name="meiCengQingJIaoTb"  Text="{Binding Mcqj, UpdateSourceTrigger =LostFocus, StringFormat=n2}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 20, 0" >
-
                             <TextBlock Text="冒落前覆岩下沉量△M" Foreground="{DynamicResource MenuFore}"/>
-                            <TextBox x:Name="fuYanXCLTb"  Text="{Binding FuYanXCL, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+                            <TextBox x:Name="fuYanXCLTb"  Text="{Binding FuYanXCL, UpdateSourceTrigger =LostFocus, StringFormat=n2}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 20, 0" >
-
                             <TextBlock Text="采高M"  Foreground="{DynamicResource MenuFore}"/>
-                            <TextBox x:Name="caiGaoTb"  Text="{Binding CaiGao, UpdateSourceTrigger =PropertyChanged, StringFormat=n3}"/>
-
+                            <TextBox x:Name="caiGaoTb"  Text="{Binding CaiGao, UpdateSourceTrigger =PropertyChanged, StringFormat=n2}"/>
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 20, 0" >
                             <TextBlock Text="冒落岩块的碎胀系数K" Foreground="{DynamicResource MenuFore}"/>
-                            <TextBox x:Name="suiZhangXSTb"  Text="{Binding SuiZhangXS, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+                            <TextBox x:Name="suiZhangXSTb"  Text="{Binding SuiZhangXS, UpdateSourceTrigger =LostFocus, StringFormat=n2}"/>
                         </StackPanel>
 
+                        
+                        
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 20, 0" >
                             <Button Content="计算冒落带、裂隙带" x:Name="computeMLBtn" Click="computeMLBtn_Click"></Button>
                         </StackPanel>

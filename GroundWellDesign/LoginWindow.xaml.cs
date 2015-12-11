@@ -29,7 +29,7 @@ namespace GroundWellDesign
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
             
-            if (pwdBox.Password == "123456")
+            if (pwdBox.Password == "")
             {
                 enterMainBoard(true);
             }

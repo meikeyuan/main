@@ -79,6 +79,12 @@ namespace GroundWellDesign
 
             //关键层其他参数绑定
             meiCengQingJIaoTb.DataContext = this;
+            fuYanXCLTb.DataContext = this;
+            caiGaoTb.DataContext = this;
+            suiZhangXSTb.DataContext = this;
+            maoLuoDaiTb.DataContext = this;
+            lieXiDaiTb.DataContext = this;
+
             meiCengHouDuTb.DataContext = this;
             xiuZhengXishuTb.DataContext = this;
             hcqZXcdTb.DataContext = this;

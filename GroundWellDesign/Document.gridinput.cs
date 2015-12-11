@@ -8,7 +8,6 @@ using System.Windows.Controls;
 namespace GroundWellDesign
 {
     public partial class Document : Window
-
     {
 
         void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -61,30 +60,30 @@ namespace GroundWellDesign
             }
 
             LayerParams layer = layers[selectedIndex];
-                string path = DATABASE_PATH + layer.yanXing;
-                if (layer.dataBaseNum == 0)
+            string path = DATABASE_PATH + layer.yanXing;
+            if (layer.dataBaseNum == 0)
+            {
+                int count = Directory.GetFiles(path).Length;
+                layer.dataBaseNum = count + 1;
+            }
+            else
+            {
+                MessageBoxResult res = MessageBox.Show("该条记录已存在，覆盖旧的数据吗？选择否则新增一条", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                switch (res)
                 {
-                    int count = Directory.GetFiles(path).Length;
-                    layer.dataBaseNum = count + 1;
+                    case MessageBoxResult.Cancel:
+                        return;
+                    case MessageBoxResult.No:
+                        int count = Directory.GetFiles(path).Length;
+                        layer.dataBaseNum = count + 1;
+                        break;
+                    case MessageBoxResult.Yes:
+                        break;
                 }
-                else
-                {
-                    MessageBoxResult res = MessageBox.Show("该条记录已存在，覆盖旧的数据吗？选择否则新增一条", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                    switch (res)
-                    {
-                        case MessageBoxResult.Cancel:
-                            return;
-                        case MessageBoxResult.No:
-                            int count = Directory.GetFiles(path).Length;
-                            layer.dataBaseNum = count + 1;
-                            break;
-                        case MessageBoxResult.Yes:
-                            break;
-                    }
-                }
-                BaseParams baseParam = new BaseParams(layer);
-                bool bSuccess  = DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum);
-            
+            }
+            BaseParams baseParam = new BaseParams(layer);
+            bool bSuccess = DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum);
+
             if (bSuccess)
             {
                 MessageBox.Show("保存成功");
@@ -185,7 +184,21 @@ namespace GroundWellDesign
 
         private void computeMLBtn_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                var array1 = (MWNumericArray)logic.calHm(FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
+                MaoLuoDai = array1.ToScalarDouble();
+                maoLuoDaiTb.Text = MaoLuoDai.ToString();
+                var array2 = (MWNumericArray)logic.calHl(CaiGao, 1);
+                LieXiDai = array2.ToScalarDouble();
+                lieXiDaiTb.Text = LieXiDai.ToString();
 
+            }
+            catch (Exception)
+            {
+                e.ToString();
+                MessageBox.Show("计算出错，请检查数据合理性");
+            }
         }
 
 
@@ -235,10 +248,10 @@ namespace GroundWellDesign
         //转到输入关键层数据
         private void click_inputOtherData(object sender, RoutedEventArgs e)
         {
-            
+
             tabControl.SelectedItem = keyLayerTabItem;
         }
-        
+
 
         //模块一获取岩层参数的回调函数
         public double[,] getParams()
@@ -311,7 +324,7 @@ namespace GroundWellDesign
 
             double[] output = new double[length * width];
 
-            for(int i = 0; i < width; i++)
+            for (int i = 0; i < width; i++)
                 for (int j = 0; j < length; j++)
                 {
                     output[i * length + j] = input[i, j];
@@ -333,13 +346,14 @@ namespace GroundWellDesign
                 MessageBox.Show("数据录入有误，请检查。(第一层应为地表，应该有煤层底板。)");
                 return;
             }
-               
+
 
             double[] rowData = arrayTrans(data);
             MWNumericArray mwdata = new MWNumericArray(89, 11, rowData);
 
-            try{
-                MWArray[] result = logic.yancengzuhe(2, mwdata);
+            try
+            {
+                MWArray[] result = logic.yancengzuhe(2, mwdata, FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
                 MWNumericArray biaoHaoList = (MWNumericArray)result[0];
                 MWNumericArray pjxsList = (MWNumericArray)result[1];
 
@@ -356,7 +370,9 @@ namespace GroundWellDesign
 
                 return;
 
-            }catch(Exception e){
+            }
+            catch (Exception e)
+            {
                 e.ToString();
                 MessageBox.Show("计算出现错误，请检查数据准确性");
                 return;
@@ -407,10 +423,10 @@ namespace GroundWellDesign
             if (double.TryParse(value.ToString(), out d))
             {
                 if (CanEqualMin && d >= Min || d > Min)
-                    if(CanEqualMax && d <= Max || d < Max)
-                {
-                    return new ValidationResult(true, null);
-                }
+                    if (CanEqualMax && d <= Max || d < Max)
+                    {
+                        return new ValidationResult(true, null);
+                    }
             }
             string minNode = CanEqualMin ? "[" : "(";
             string maxNode = CanEqualMax ? "]" : ")";

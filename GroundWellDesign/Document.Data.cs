@@ -84,6 +84,11 @@ namespace GroundWellDesign
             get;
         }
 
+        public double LieXiDai
+        {
+            set;
+            get;
+        }
 
 
         private double mchd;
