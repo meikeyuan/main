@@ -13,46 +13,9 @@ using System.Windows.Media;
 namespace GroundWellDesign
 {
 
-    public class MyConvert : IValueConverter
-    {
-        public string sourceType
-        {
-            get;
-            set;
-        }
-        public object Convert(object value, Type targetType, object param, CultureInfo c)
-        {
-            switch (sourceType)
-            {
-                case "bool":
-                    bool b = (bool)value;
-                    if (targetType.Name == "Visibility")
-                    {
-                        return b ? Visibility.Visible : Visibility.Collapsed;
-                    }
-                    else if (targetType.Name == "Brush")
-                    {
-                        return b ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
-                    }
-                    break;
-                case "yanXing":
-                    string s = value as string;
-                    return Application.Current.FindResource(s);
-                case "width":
-                    double i = (double)value;
-                    return i;
-            }
-            return null;
+    
 
-        }
-
-        public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public partial class MainWindow : Window
+    public partial class Document : Window
     {
         AxMxDrawX cadViewer;
         MkyLogic logic;
@@ -66,6 +29,7 @@ namespace GroundWellDesign
         public static List<String> YanXingOpt= new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
         public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
 
+
         public string FilePath
         {
             set;
@@ -73,7 +37,7 @@ namespace GroundWellDesign
         }
   
 
-        public MainWindow(ContainerWindow con)
+        public Document(string filepath)
         {
             InitializeComponent();
             logic = new MkyLogic();
@@ -129,8 +93,7 @@ namespace GroundWellDesign
                 Directory.CreateDirectory(DATABASE_PATH + yanxing);
             }
 
-
-
+            FilePath = filepath;
         }
 
         //向导式绑定
@@ -156,6 +119,10 @@ namespace GroundWellDesign
         //打开文件
         public bool openFile()
         {
+            if (FilePath == null)
+            {
+                return false;
+            }
             object obj = DataSaveAndRestore.restoreObj(FilePath);
             if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
             {
@@ -251,10 +218,6 @@ namespace GroundWellDesign
                 editLayer.copyNoEvent(layers[int.Parse(currLayerTb.Text) - 1]);
                 guideBind(editLayer);
          }
-
-
-
-        
 
     }
 

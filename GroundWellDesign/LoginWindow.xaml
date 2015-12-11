@@ -65,7 +65,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Content="管理员登录" Click="loginBtn_Click" Background="#FF548FA0"  Margin="78,0,0,0" Height="25" Foreground="White"></Button>
-                        <Button Content="匿名使用" Grid.Column="1" Click="loginBtn_Click" Background="#FF548FA0"  Margin="20,0,40,0" Height="25" Foreground="White"></Button>
+                        <Button Content="匿名使用" Grid.Column="1" Click="anonBtn_Click" Background="#FF548FA0"  Margin="20,0,40,0" Height="25" Foreground="White"></Button>
                     </Grid>
 
 

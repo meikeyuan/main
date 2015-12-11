@@ -14,7 +14,7 @@ namespace GroundWellDesign
         /// </summary>
         /// 
         [System.STAThreadAttribute()]
-        //[System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
         public static void Main(string[] args)
         {
@@ -27,7 +27,7 @@ namespace GroundWellDesign
                 filePath = args[0];
             }
 
-            LoginWindow loginWin = new LoginWindow();
+            LoginWindow loginWin = new LoginWindow(filePath);
 
             app.initial();
             app.Run(loginWin);

@@ -70,9 +70,9 @@ namespace GroundWellDesign
 
     public class KeyLayerParams : BaseKeyParams, INotifyPropertyChanged
     {
-        public MainWindow mainWindow;
+        public Document mainWindow;
 
-        public KeyLayerParams(MainWindow mainWindow)
+        public KeyLayerParams(Document mainWindow)
         {
             this.mainWindow = mainWindow;
         }

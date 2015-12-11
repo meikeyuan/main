@@ -98,6 +98,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Document.data.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -108,9 +109,8 @@
     <Compile Include="ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DependencyOb.cs" />
-    <Compile Include="SelectLayerWindow.xaml.cs">
-      <DependentUpon>SelectLayerWindow.xaml</DependentUpon>
+    <Compile Include="SelDBLayerWindow.xaml.cs">
+      <DependentUpon>SelDBLayerWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="ContainerWindow.xaml">
       <SubType>Designer</SubType>
@@ -120,7 +120,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Document.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -130,16 +130,16 @@
     </Compile>
     <Compile Include="DataSaveAndRestore.cs" />
     <Compile Include="KeyLayerParams.cs" />
-    <Compile Include="LayerParams.cs" />
-    <Compile Include="MainWindow.cad.cs" />
-    <Compile Include="MainWindow.gridinput.cs" />
-    <Compile Include="MainWindow.guideinput.cs" />
-    <Compile Include="MainWindow.keylayer.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="LayerBaseParams.cs" />
+    <Compile Include="Document.cad.cs" />
+    <Compile Include="Document.gridinput.cs" />
+    <Compile Include="Document.guideinput.cs" />
+    <Compile Include="Document.keylayer.cs" />
+    <Compile Include="Document.xaml.cs">
+      <DependentUpon>Document.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SelectLayerWindow.xaml">
+    <Page Include="SelDBLayerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -3,9 +3,8 @@ using System.Windows;
 
 namespace GroundWellDesign
 {
-    partial class MainWindow :Window
+    partial class Document :Window
     {
-
 
         //编辑dwg
         private void EditBtn_Click(object sender, RoutedEventArgs e)

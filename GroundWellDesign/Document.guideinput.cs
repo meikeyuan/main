@@ -2,7 +2,7 @@
 
 namespace GroundWellDesign
 {
-    partial class MainWindow : Window
+    partial class Document : Window
     {
         //保存
         private void saveEdit()

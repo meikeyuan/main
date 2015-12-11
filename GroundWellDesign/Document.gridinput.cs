@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace GroundWellDesign
 {
-    public partial class MainWindow : Window
+    public partial class Document : Window
 
     {
 
@@ -180,6 +180,12 @@ namespace GroundWellDesign
             layers[selectedIndex] = layers[selectedIndex + 1];
             layers[selectedIndex + 1] = layer;
             paramGrid.SelectedIndex = selectedIndex + 1;
+        }
+
+
+        private void computeMLBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
 

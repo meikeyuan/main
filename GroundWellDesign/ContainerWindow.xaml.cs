@@ -61,7 +61,7 @@ namespace GroundWellDesign
     /// </summary>
     public partial class ContainerWindow : Window
     {
-        public List<MainWindow> windows = new List<MainWindow>();
+        public List<Document> windows = new List<Document>();
 
         public static LoginInfo loginInfo = new LoginInfo();
         
@@ -99,18 +99,16 @@ namespace GroundWellDesign
 
         public bool openFile(string filePath)
         {
-            MainWindow mainwindow = new MainWindow(this);
-            mainwindow.FilePath = filePath;
-            //<TabItem Header="表格式岩层录入"  Style="{DynamicResource TabItemStyle}">
+            Document document = new Document(filePath);
             TabItem tabitem = new TabItem();
             tabitem.ContextMenu= tabControl.Resources["menu"] as ContextMenu;
-            if (filePath == null || filePath.Length == 0)
+            if (filePath == null)
             {
                 tabitem.Header = "新建文档";
             }
             else
             {
-                if (!mainwindow.openFile())
+                if (!document.openFile())
                 {
                     return false;
                 }
@@ -118,8 +116,8 @@ namespace GroundWellDesign
                 int index2 = filePath.LastIndexOf('.');
                 tabitem.Header = filePath.Substring(index1 + 1, index2 - index1 - 1);
             }
-            tabitem.Content = mainwindow.Content;
-            windows.Add(mainwindow);
+            tabitem.Content = document.Content;
+            windows.Add(document);
             tabControl.Items.Add(tabitem);
             tabControl.SelectedItem = tabitem;
 
@@ -190,7 +188,7 @@ namespace GroundWellDesign
         private void saveAllFileBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            foreach (MainWindow window in windows)
+            foreach (Document window in windows)
             {
                 tabControl.SelectedIndex = windows.IndexOf(window);
                 if (window.FilePath == null)
@@ -258,7 +256,7 @@ namespace GroundWellDesign
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
-                foreach (MainWindow window in windows)
+                foreach (Document window in windows)
                 {
                     
                     if(window.tabControl.Items.Contains(window.guidinputTabItem)){

@@ -19,10 +19,11 @@ namespace GroundWellDesign
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public LoginWindow()
+        private string filepath;
+        public LoginWindow(string filepath)
         {
-            
             InitializeComponent();
+            this.filepath = filepath;
         }
 
         private void loginBtn_Click(object sender, RoutedEventArgs e)
@@ -30,15 +31,7 @@ namespace GroundWellDesign
             
             if (pwdBox.Password == "123456")
             {
-                ContainerWindow container = new ContainerWindow();
-                ContainerWindow.loginInfo.BLogin = true;
-                container.Show();
-                Close();
-            }else if(pwdBox.Password == ""){
-                ContainerWindow container = new ContainerWindow();
-                ContainerWindow.loginInfo.BLogin = false;
-                container.Show();
-                Close();
+                enterMainBoard(true);
             }
             else
             {
@@ -46,6 +39,12 @@ namespace GroundWellDesign
             }
         }
 
+
+        private void anonBtn_Click(object sender, RoutedEventArgs e)
+        {
+            enterMainBoard(false);
+
+        }
         private void minBtn_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
@@ -55,6 +54,16 @@ namespace GroundWellDesign
         private void closeBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+
+        private void enterMainBoard(bool blogin)
+        {
+            ContainerWindow container = new ContainerWindow();
+            ContainerWindow.loginInfo.BLogin = blogin;
+            container.openFile(filepath);
+            container.Show();
+            Close();
         }
     }
 }

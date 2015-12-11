@@ -37,7 +37,7 @@ namespace GroundWellDesign
             InitializeComponent();
 
             //判断选择的岩性
-            string findPath = MainWindow.DATABASE_PATH + yanXing;
+            string findPath = Document.DATABASE_PATH + yanXing;
             string[] files = Directory.GetFiles(findPath);
             foreach (string filename in files)
             {

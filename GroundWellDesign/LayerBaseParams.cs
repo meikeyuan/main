@@ -11,7 +11,7 @@ namespace GroundWellDesign
     {
         public BaseParams()
         {
-            yanXing = MainWindow.YanXingOpt[1];
+            yanXing = Document.YanXingOpt[1];
             miaoShu = "岩层";
         }
 
@@ -61,12 +61,12 @@ namespace GroundWellDesign
     public class LayerParams : BaseParams, INotifyPropertyChanged
     {
 
-        public MainWindow mainWindow;
+        public Document mainWindow;
 
-        public LayerParams(MainWindow mainWindow)
+        public LayerParams(Document mainWindow)
         {
             this.mainWindow = mainWindow;
-            yanXing = MainWindow.YanXingOpt[1];
+            yanXing = Document.YanXingOpt[1];
             miaoShu = "岩层";
         }
 
@@ -200,7 +200,7 @@ namespace GroundWellDesign
                 yanXing = value;
 
                 new SelectLayerWindow(yanXing, this).ShowDialog();
-                int index = MainWindow.YanXingOpt.IndexOf(value);
+                int index = Document.YanXingOpt.IndexOf(value);
                 switch (index)
                 {
                     case 0:  //地表
