@@ -18,7 +18,7 @@ namespace GroundWellDesign
     public partial class Document : Window
     {
         AxMxDrawX cadViewer;
-        MkyLogic logic;
+        static MkyLogic logic;
 
         public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
         //向导式当前编辑的岩层参数
@@ -40,7 +40,8 @@ namespace GroundWellDesign
         public Document(string filepath)
         {
             InitializeComponent();
-            logic = new MkyLogic();
+            if(logic == null)
+                logic = new MkyLogic();
 
             tabControl.Items.Remove(guidinputTabItem);
 
