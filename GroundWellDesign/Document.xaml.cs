@@ -13,7 +13,7 @@ using System.Windows.Media;
 namespace GroundWellDesign
 {
 
-    
+
 
     public partial class Document : Window
     {
@@ -26,7 +26,7 @@ namespace GroundWellDesign
         public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
         public const string DATABASE_PATH = "c:\\ProgramData\\GroundWellDesign\\";
 
-        public static List<String> YanXingOpt= new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
+        public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
         public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
 
 
@@ -35,12 +35,12 @@ namespace GroundWellDesign
             set;
             get;
         }
-  
+
 
         public Document(string filepath)
         {
             InitializeComponent();
-            if(logic == null)
+            if (logic == null)
                 logic = new MkyLogic();
 
             tabControl.Items.Remove(guidinputTabItem);
@@ -75,6 +75,8 @@ namespace GroundWellDesign
             paramGrid.DataContext = layers;
             keyLayerDataGrid.DataContext = keyLayers;
             yancengListBox.ItemsSource = layers;
+            cutOffsetDataGrid.ItemsSource = layers;
+            taoGuanDataGrid.ItemsSource = layers;
 
 
 
@@ -158,24 +160,31 @@ namespace GroundWellDesign
             }
 
             //回复关键层其他数据
-            if (data.KeyLayerData != null && data.KeyLayerData.Count == 7)
+            if (data.KeyLayerData != null && data.KeyLayerData.Count == 10)
             {
-                Mcqj = data.KeyLayerData[0];
-                Mchd = data.KeyLayerData[1];
-                Pjxsxz = data.KeyLayerData[2];
-                HcqZXcd = data.KeyLayerData[3];
-                HcqQXcd = data.KeyLayerData[4];
-                Gzmsd = data.KeyLayerData[5];
-                jswzjl = data.KeyLayerData[6];
+                mcqj = data.KeyLayerData[0];
+                FuYanXCL = data.KeyLayerData[1];
+                CaiGao = data.KeyLayerData[2];
+                SuiZhangXS = data.KeyLayerData[3];
+                mchd = data.KeyLayerData[4];
+                pjxsxz = data.KeyLayerData[5];
+                hcqZxcd = data.KeyLayerData[6];
+                hcqQxcd = data.KeyLayerData[7];
+                gzmsd = data.KeyLayerData[8];
+                jswzjl = data.KeyLayerData[9];
 
                 //没有刷新ui
-                meiCengQingJIaoTb.Text = data.KeyLayerData[0] + "";
-                meiCengHouDuTb.Text = data.KeyLayerData[1] + "";
-                xiuZhengXishuTb.Text = data.KeyLayerData[2] + "";
-                hcqZXcdTb.Text = data.KeyLayerData[3] + "";
-                hcqQXcdTb.Text = data.KeyLayerData[4] + "";
-                gZMTJSDTb.Text = data.KeyLayerData[5] + "";
-                jswzjlTb.Text = data.KeyLayerData[6] + "";
+                meiCengQingJIaoTb.Text = mcqj + "";
+                fuYanXCLTb.Text = FuYanXCL + "";
+                caiGaoTb.Text = CaiGao + "";
+                suiZhangXSTb.Text = SuiZhangXS + "";
+
+                meiCengHouDuTb.Text = mchd + "";
+                xiuZhengXishuTb.Text = pjxsxz + "";
+                hcqZXcdTb.Text = hcqZxcd + "";
+                hcqQXcdTb.Text = hcqQxcd + "";
+                gZMTJSDTb.Text = gzmsd + "";
+                jswzjlTb.Text = jswzjl + "";
             }
 
             return true;
@@ -204,12 +213,17 @@ namespace GroundWellDesign
 
             data.KeyLayerData = new List<double>();
             data.KeyLayerData.Add(Mcqj);
+            data.KeyLayerData.Add(FuYanXCL);
+            data.KeyLayerData.Add(CaiGao);
+            data.KeyLayerData.Add(SuiZhangXS);
+
             data.KeyLayerData.Add(Mchd);
             data.KeyLayerData.Add(Pjxsxz);
             data.KeyLayerData.Add(HcqZXcd);
             data.KeyLayerData.Add(HcqQXcd);
             data.KeyLayerData.Add(Gzmsd);
             data.KeyLayerData.Add(Jswzjl);
+
 
 
 
@@ -221,13 +235,20 @@ namespace GroundWellDesign
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(e.Source is TabControl && tabControl.SelectedItem == guidinputTabItem)
-                editLayer.copyNoEvent(layers[int.Parse(currLayerTb.Text) - 1]);
-                guideBind(editLayer);
-         }
+            if (e.Source is TabControl)
+            {
+                if (tabControl.SelectedItem == guidinputTabItem)
+                {
+                    editLayer.copyNoEvent(layers[int.Parse(currLayerTb.Text) - 1]);
+                    guideBind(editLayer);
+                }
+                else if (tabControl.SelectedItem == cutOffsetTabItem)
+                {
+                    computeCutOffSet();
+                }
+            }
+        }
 
     }
-
-
 
 }

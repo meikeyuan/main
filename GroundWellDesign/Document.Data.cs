@@ -28,12 +28,23 @@ namespace GroundWellDesign
                         return b ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
                     }
                     break;
+                case "keyLayer":
+                    bool isKeyLayer = (bool)value;
+                    if (targetType.Name == "Brush")
+                    {
+                        return isKeyLayer ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
+                    }
+                    break;
                 case "yanXing":
                     string s = value as string;
                     return Application.Current.FindResource(s);
                 case "width":
                     double i = (double)value;
                     return i;
+                case "cengHou":
+                    double h = (double)value;
+                    return 50;
+
             }
             return null;
 

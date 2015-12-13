@@ -9,9 +9,7 @@
             </ResourceDictionary.MergedDictionaries>
             <GeometryDrawing x:Key="地表" Brush="BurlyWood">
                 <GeometryDrawing.Geometry>
-                    <GeometryGroup>
-                        <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z"/>
-                    </GeometryGroup>
+                    <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z"/>
                 </GeometryDrawing.Geometry>
             </GeometryDrawing>
 
@@ -19,6 +17,9 @@
                 <GeometryDrawing.Geometry>
                     <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z"/>
                 </GeometryDrawing.Geometry>
+                <GeometryDrawing.Pen>
+                    <Pen Thickness="3"/>
+                </GeometryDrawing.Pen>
             </GeometryDrawing>
 
             <GeometryDrawing x:Key="黄土" Brush="White">
@@ -27,7 +28,7 @@
 						M100,0 L100,300 M200,0 L200,300 M300,0 L300,300"/>
                 </GeometryDrawing.Geometry>
                 <GeometryDrawing.Pen>
-                    <Pen Brush="Black"/>
+                    <Pen Brush="Black" Thickness="3"/>
                 </GeometryDrawing.Pen>
             </GeometryDrawing>
 
@@ -41,7 +42,7 @@
 						"/>
                 </GeometryDrawing.Geometry>
                 <GeometryDrawing.Pen>
-                    <Pen Brush="Black"/>
+                    <Pen Brush="Black" Thickness="3"/>
                 </GeometryDrawing.Pen>
             </GeometryDrawing>
 
@@ -60,7 +61,7 @@
                     </GeometryGroup>
                 </GeometryDrawing.Geometry>
                 <GeometryDrawing.Pen>
-                    <Pen Brush="Black"/>
+                    <Pen Brush="Black" Thickness="3"/>
                 </GeometryDrawing.Pen>
             </GeometryDrawing>
 
@@ -77,7 +78,7 @@
                         </GeometryGroup>
                     </GeometryDrawing.Geometry>
                     <GeometryDrawing.Pen>
-                        <Pen Brush="Black"/>
+                        <Pen Brush="Black" Thickness="3"/>
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
                 <GeometryDrawing Brush="Black">
@@ -114,7 +115,7 @@
                         </GeometryGroup>
                     </GeometryDrawing.Geometry>
                     <GeometryDrawing.Pen>
-                        <Pen Brush="Black"/>
+                        <Pen Brush="Black" Thickness="3"/>
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
                 <GeometryDrawing Brush="Black">
@@ -152,7 +153,7 @@
                         </GeometryGroup>
                     </GeometryDrawing.Geometry>
                     <GeometryDrawing.Pen>
-                        <Pen Brush="Black"/>
+                        <Pen Brush="Black" Thickness="3"/>
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
                 <GeometryDrawing Brush="Black">
@@ -186,7 +187,7 @@
                         </GeometryGroup>
                     </GeometryDrawing.Geometry>
                     <GeometryDrawing.Pen>
-                        <Pen Brush="Black"/>
+                        <Pen Brush="Black" Thickness="3"/>
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
                 <GeometryDrawing Brush="Black">
@@ -226,7 +227,7 @@
                         </GeometryGroup>
                     </GeometryDrawing.Geometry>
                     <GeometryDrawing.Pen>
-                        <Pen Brush="Black"/>
+                        <Pen Brush="Black" Thickness="3"/>
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
                 <GeometryDrawing Brush="Black">
@@ -266,7 +267,7 @@
                         </GeometryGroup>
                     </GeometryDrawing.Geometry>
                     <GeometryDrawing.Pen>
-                        <Pen Brush="Black"/>
+                        <Pen Brush="Black" Thickness="3"/>
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
                 <GeometryDrawing Brush="Black">

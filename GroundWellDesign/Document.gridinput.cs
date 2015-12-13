@@ -382,6 +382,16 @@ namespace GroundWellDesign
         }
 
 
+        private void yancengListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = yancengListBox.SelectedIndex;
+            if(index != -1)
+            {
+                paramGrid.SelectedIndex = index;
+                paramGrid.ScrollIntoView(paramGrid.Items[index]);
+            }
+        }
+
 
     }
 

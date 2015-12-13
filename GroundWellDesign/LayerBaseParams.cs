@@ -36,6 +36,10 @@ namespace GroundWellDesign
             miaoShu = layer.miaoShu;
             dataBaseNum = layer.dataBaseNum;
 
+            qxJQWY = layer.qxJQWY;
+            zxJQWY = layer.zxJQWY;
+            jqHWY = layer.jqHWY;
+
         }
 
         public string yanXing;
@@ -55,6 +59,11 @@ namespace GroundWellDesign
         public double q2;
         public string miaoShu;
         public int dataBaseNum;
+
+
+        public double qxJQWY;
+        public double zxJQWY;
+        public double jqHWY;
 
     }
 
@@ -98,26 +107,6 @@ namespace GroundWellDesign
             copyNoEvent(new BaseParams());
         }
 
-        public void copyAndEvent(BaseParams layer)
-        {
-            YanXing = layer.yanXing;
-            LeiJiShenDu = layer.leiJiShenDu;
-            JuLiMeiShenDu = layer.juLiMeiShenDu;
-            CengHou = layer.cengHou;
-            ZiRanMiDu = layer.ziRanMiDu;
-            BianXingMoLiang = layer.bianXingMoLiang;
-            KangLaQiangDu = layer.kangLaQiangDu;
-            KangYaQiangDu = layer.kangYaQiangDu;
-            TanXingMoLiang = layer.tanXingMoLiang;
-            BoSonBi = layer.boSonBi;
-            NeiMoCaJiao = layer.neiMoCaJiao;
-            NianJuLi = layer.nianJuLi;
-            Q0 = layer.q0;
-            Q1 = layer.q1;
-            Q2 = layer.q2;
-            MiaoShu = layer.miaoShu;
-            dataBaseNum = layer.dataBaseNum;
-        }
 
         public void copyAndEventEcpYanXing(BaseParams layer)
         {
@@ -138,6 +127,12 @@ namespace GroundWellDesign
             Q2 = layer.q2;
             MiaoShu = layer.miaoShu;
             dataBaseNum = layer.dataBaseNum;
+
+            QXJQWY = layer.qxJQWY;
+            ZXJQWY = layer.zxJQWY;
+            JQHWY = layer.jqHWY;
+
+            
         }
 
         public void copyNoEvent(BaseParams layer)
@@ -159,6 +154,10 @@ namespace GroundWellDesign
             q2 = layer.q2;
             miaoShu = layer.miaoShu;
             dataBaseNum = layer.dataBaseNum;
+
+            qxJQWY = layer.qxJQWY;
+            zxJQWY = layer.zxJQWY;
+            jqHWY = layer.jqHWY;
         }
 
 
@@ -251,10 +250,7 @@ namespace GroundWellDesign
 
                 }
 
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("YanXing"));
-                }
+                SetUI("YanXing");
             }
         }
 
@@ -278,10 +274,7 @@ namespace GroundWellDesign
                 refreshCengHou();
                 refreshJuLiMeiShenDu();
 
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("LeiJiShenDu"));
-                }
+                SetUI("LeiJiShenDu");
             }
         }
 
@@ -292,10 +285,7 @@ namespace GroundWellDesign
             set
             {
                 juLiMeiShenDu = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("JuLiMeiShenDu"));
-                }
+                SetUI("JuLiMeiShenDu");
             }
         }
 
@@ -306,10 +296,7 @@ namespace GroundWellDesign
             set
             {
                 cengHou = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("CengHou"));
-                }
+                SetUI("CengHou");
             }
         }
 
@@ -320,10 +307,7 @@ namespace GroundWellDesign
             set
             {
                 ziRanMiDu = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("ZiRanMiDu"));
-                }
+                SetUI("ZiRanMiDu");
             }
         }
 
@@ -334,10 +318,7 @@ namespace GroundWellDesign
             set
             {
                 bianXingMoLiang = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("BianXingMoLiang"));
-                }
+                SetUI("BianXingMoLiang");
             }
         }
 
@@ -348,10 +329,7 @@ namespace GroundWellDesign
             set
             {
                 kangLaQiangDu = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("KangLaQiangDu"));
-                }
+                SetUI("KangLaQiangDu");
             }
         }
 
@@ -362,10 +340,7 @@ namespace GroundWellDesign
             set
             {
                 kangYaQiangDu = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("KangYaQiangDu"));
-                }
+                SetUI("KangYaQiangDu");
             }
         }
 
@@ -376,10 +351,7 @@ namespace GroundWellDesign
             set
             {
                 tanXingMoLiang = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("TanXingMoLiang"));
-                }
+                SetUI("TanXingMoLiang");
             }
         }
 
@@ -390,10 +362,7 @@ namespace GroundWellDesign
             set
             {
                 boSonBi = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("BoSonBi"));
-                }
+                SetUI("BoSonBi");
             }
         }
 
@@ -404,10 +373,7 @@ namespace GroundWellDesign
             set
             {
                 neiMoCaJiao = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("NeiMoCaJiao"));
-                }
+                SetUI("NeiMoCaJiao");
             }
         }
 
@@ -418,10 +384,7 @@ namespace GroundWellDesign
             set
             {
                 nianJuLi = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("NianJuLi"));
-                }
+                SetUI("NianJuLi");
             }
         }
 
@@ -432,10 +395,7 @@ namespace GroundWellDesign
             set
             {
                 q0 = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Q0"));
-                }
+                SetUI("Q0");
             }
         }
 
@@ -446,10 +406,8 @@ namespace GroundWellDesign
             set
             {
                 q1 = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Q1"));
-                }
+                SetUI("Q1");
+                
             }
         }
 
@@ -460,10 +418,7 @@ namespace GroundWellDesign
             set
             {
                 q2 = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Q2"));
-                }
+                SetUI("Q2");
             }
         }
 
@@ -474,11 +429,47 @@ namespace GroundWellDesign
             set
             {
                 miaoShu = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("MiaoShu"));
-                }
+                SetUI("MiaoShu");
             }
+        }
+
+        public double QXJQWY
+        {
+            get { return qxJQWY; }
+            set
+            {
+                qxJQWY = value;
+                SetUI("QXJQWY");
+            }
+        }
+
+        public double ZXJQWY
+        {
+            get { return zxJQWY; }
+            set
+            {
+                qxJQWY = value;
+                SetUI("ZXJQWY");
+            }
+        }
+
+        public double JQHWY
+        {
+            get { return jqHWY; }
+            set
+            {
+                qxJQWY = value;
+                SetUI("JQHWY");
+            }
+        }
+
+
+        private void SetUI(string name)
+        {
+            if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
+                }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
