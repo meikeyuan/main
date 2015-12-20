@@ -19,8 +19,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="existedLayerGrid" Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" Background ="{StaticResource ControlBackgroundBrush}"
-                              CanUserSortColumns="False" CanUserReorderColumns="False" EnableRowVirtualization="False" EnableColumnVirtualization="False" IsReadOnly="True" CanUserAddRows="False" >
+        <DataGrid x:Name="existedLayerGrid"  Background ="{StaticResource ControlBackgroundBrush}" IsReadOnly="True">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding YanXing,  UpdateSourceTrigger=LostFocus}" Header="岩性" />

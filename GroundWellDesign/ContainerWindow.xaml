@@ -51,7 +51,7 @@
             
         </DockPanel>
         
-        <TabControl x:Name="tabControl"  Grid.Row="1">
+        <TabControl x:Name="tabControl"  Grid.Row="1" TabStripPlacement="Bottom">
             <TabControl.Resources>
                 <ContextMenu x:Key="menu">
                     <MenuItem  Header="关闭" Click="closeMenuItem_Click"/>

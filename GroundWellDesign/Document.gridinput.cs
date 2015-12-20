@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GroundWellDesign
 {
@@ -47,6 +48,7 @@ namespace GroundWellDesign
                 paramGrid.BeginEdit();    //  进入编辑模式  这样单击一次就可以选择ComboBox里面的值了  
             }
         }
+
 
         //保存到数据库
         private void click_saveToDB(object sender, RoutedEventArgs e)
@@ -385,11 +387,28 @@ namespace GroundWellDesign
         private void yancengListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index = yancengListBox.SelectedIndex;
-            if(index != -1)
+            if (index != -1)
             {
+                //paramGrid.RowBackground = new SolidColorBrush(Colors.White);
                 paramGrid.SelectedIndex = index;
+                var row = paramGrid.ItemContainerGenerator.ContainerFromIndex(index) as DataGridRow;
+                //row.Background = new SolidColorBrush(Colors.Blue);//设置选中行的颜色
+                bool b = row.IsSelected;
                 paramGrid.ScrollIntoView(paramGrid.Items[index]);
             }
+        }
+
+        private void paramGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = paramGrid.SelectedIndex;
+            if (index != -1)
+            {
+                yancengListBox.SelectedIndex = index;
+                var row = yancengListBox.ItemContainerGenerator.ContainerFromItem(yancengListBox.Items[index]) as ListBoxItem;
+                row.Background = new SolidColorBrush(Colors.Blue);//设置选中行的颜色
+                yancengListBox.ScrollIntoView(yancengListBox.Items[index]);
+            }
+
         }
 
 

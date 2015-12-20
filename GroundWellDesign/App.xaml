@@ -7,6 +7,32 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/ExpressionDark.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
+            <!--表格样式-->
+            <Style TargetType="DataGrid">
+                <Setter Property="AutoGenerateColumns" Value="False"/>
+                <Setter Property="ItemsSource" Value="{Binding}"/>
+                <Setter Property="SelectionMode" Value="Single"/>
+                <Setter Property="SelectionUnit" Value="FullRow"/>
+                <Setter Property="CanUserReorderColumns" Value="False"/>
+                <Setter Property="EnableColumnVirtualization" Value="False"/>
+                <Setter Property="EnableRowVirtualization" Value="False"/>
+                <Setter Property="CanUserSortColumns" Value="False"/>
+            </Style>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <!--岩层样式-->
             <GeometryDrawing x:Key="地表" Brush="BurlyWood">
                 <GeometryDrawing.Geometry>
                     <PathGeometry Figures="M0,0 L400,0 L400,300 L0,300 z"/>
