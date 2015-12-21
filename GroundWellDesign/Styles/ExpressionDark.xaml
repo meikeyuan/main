@@ -725,7 +725,7 @@
         </Setter>
     </Style>
 
-    <Style d:IsControlPart="True" TargetType="{x:Type ListBoxItem}">
+ <!--   <Style d:IsControlPart="True" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template">
@@ -833,6 +833,26 @@
                         <SolidColorBrush Color="{DynamicResource BlackColor}" />
                     </Setter.Value>
                 </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>-->
+
+    <Style TargetType="ListBoxItem">
+        <Style.Resources>
+            <!--SelectedItem with focus-->
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" Opacity=".4"/>
+            <!--SelectedItem without focus-->
+            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue" Opacity=".4"/>
+        </Style.Resources>
+        <!-- 设置触发器 -->
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="#efefef"/>
+                <Setter Property="Foreground" Value="Red"/>
+            </Trigger>
+            <Trigger Property="IsFocused" Value="true">
+                <Setter Property="Background" Value="Coral"/>
+                <Setter Property="Foreground" Value="Red"/>
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -63,7 +63,7 @@ namespace GroundWellDesign
 
             LayerParams layer = layers[selectedIndex];
             string path = DATABASE_PATH + layer.yanXing;
-            if (layer.dataBaseNum == 0)
+            if (layer.dataBaseNum == 0 || !File.Exists(path + "\\" + layer.dataBaseNum))
             {
                 int count = Directory.GetFiles(path).Length;
                 layer.dataBaseNum = count + 1;
@@ -389,11 +389,7 @@ namespace GroundWellDesign
             int index = yancengListBox.SelectedIndex;
             if (index != -1)
             {
-                //paramGrid.RowBackground = new SolidColorBrush(Colors.White);
                 paramGrid.SelectedIndex = index;
-                var row = paramGrid.ItemContainerGenerator.ContainerFromIndex(index) as DataGridRow;
-                //row.Background = new SolidColorBrush(Colors.Blue);//设置选中行的颜色
-                bool b = row.IsSelected;
                 paramGrid.ScrollIntoView(paramGrid.Items[index]);
             }
         }
@@ -404,8 +400,6 @@ namespace GroundWellDesign
             if (index != -1)
             {
                 yancengListBox.SelectedIndex = index;
-                var row = yancengListBox.ItemContainerGenerator.ContainerFromItem(yancengListBox.Items[index]) as ListBoxItem;
-                row.Background = new SolidColorBrush(Colors.Blue);//设置选中行的颜色
                 yancengListBox.ScrollIntoView(yancengListBox.Items[index]);
             }
 

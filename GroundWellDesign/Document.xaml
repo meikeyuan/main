@@ -47,7 +47,10 @@
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="paramGrid" SelectedCellsChanged="paramGrid_SelectedCellsChanged" >
+                    <DataGrid x:Name="paramGrid" SelectedCellsChanged="paramGrid_SelectedCellsChanged" SelectionChanged="paramGrid_SelectionChanged">
+                        <DataGrid.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Yellow"/>
+                        </DataGrid.Resources>
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
                                 <Setter Property="Background" Value="{Binding IsKeyLayer, Converter={StaticResource boolToBrushConvert}}"/>
@@ -396,7 +399,7 @@
                             <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3}"   Header="层厚/m" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding QXJQWY, StringFormat=n3}"   Header="倾向剪切位移u(x)" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding ZXJQWY, StringFormat=n3}"   Header="走向剪切位移u(z)" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding JQHWY, StringFormat=n3}"   Header="剪切合位移up" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding JQHWY, StringFormat=n3}"   Header="剪切合位移u(p)" ElementStyle="{StaticResource elementStyle}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
