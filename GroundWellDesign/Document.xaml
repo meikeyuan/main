@@ -8,18 +8,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d" 
         x:Class="GroundWellDesign.Document"
+    x:Name="window"
         Title="地面井设计程序" WindowStyle="None" >
 
     <Window.Resources>
         <Style x:Key="elementStyle" TargetType="{x:Type TextBlock}"  >
             <Setter Property="TextAlignment" Value="Right"/>
         </Style>
-        <local:MyConvert x:Key="boolToVisConvert" sourceType="bool"/>
-        <local:MyConvert x:Key="boolToBrushConvert" sourceType="bool"/>
-        <local:MyConvert x:Key="boolToBorderConvert" sourceType="keyLayer"/>
+        <local:MyConvert x:Key="loginToVisConvert" sourceType="login"/>
+        <local:MyConvert x:Key="keyToBkgConvert" sourceType="key1"/>
+        <local:MyConvert x:Key="keyToBorderConvert" sourceType="key2"/>
         <local:MyConvert x:Key="yanXingToKeyConvert" sourceType="yanXing"/>
-        <local:MyConvert x:Key="widthToWidthConvert" sourceType="width"/>
-        <local:MyConvert x:Key="cengHouToHeightConvert" sourceType="cengHou"/>
+        <local:MyConvert x:Key="windowToHeightConvert" sourceType="windowH"/>
         <Style TargetType="{x:Type TextBox}"  x:Key="editValidStyle">
             <Setter Property="TextAlignment" Value="Right"/>
             <Style.Triggers>
@@ -39,8 +39,8 @@
             <TabItem x:Name="gridinputTabItem" Header="岩层基本参数录入">
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="202"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="463*"/>
@@ -53,7 +53,7 @@
                         </DataGrid.Resources>
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
-                                <Setter Property="Background" Value="{Binding IsKeyLayer, Converter={StaticResource boolToBrushConvert}}"/>
+                                <Setter Property="Background" Value="{Binding IsKeyLayer, Converter={StaticResource keyToBkgConvert}}"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="Green"/>
@@ -156,7 +156,7 @@
 
                         <DataGrid.ContextMenu>
                             <ContextMenu x:Name="dgMenu" StaysOpen="true">
-                                <MenuItem Header="保存" Click="click_saveToDB" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}" />
+                                <MenuItem Header="保存" Click="click_saveToDB" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" />
                                 <MenuItem Header="增行" Click="click_addRow"/>
                                 <MenuItem Header="删除" Click="click_delRow"/>
                                 <MenuItem Header="上移" Click="click_upRow" />
@@ -208,7 +208,7 @@
                             <Button Content="↓"  Width="40"  ToolTip="下移" Click="click_downRow"/>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" FlowDirection="RightToLeft" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" FlowDirection="RightToLeft" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">
 
                             <Button Content="输入关键层数据"  Width="100" Click="click_inputOtherData"/>
                             <Button Content="显示关键层"  Width="100" Click="click_showKeyRow"/>
@@ -217,11 +217,12 @@
                     </DockPanel>
 
 
-                    <ListBox Name="yancengListBox" Grid.Column="1" HorizontalAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="yancengListBox_SelectionChanged" Background="White">
+                    <ListBox Name="yancengListBox" Grid.Column="1" HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="yancengListBox_SelectionChanged" Background="White">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="local:LayerParams">
-                                <Rectangle Stroke="{Binding IsKeyLayer, Converter={StaticResource boolToBorderConvert}}" ToolTip="{Binding YanXing}"
-                                           StrokeThickness="2" Width="200" Height="{Binding  CengHou, Converter={StaticResource cengHouToHeightConvert}}">
+                                <Rectangle Stroke="{Binding IsKeyLayer, Converter={StaticResource keyToBorderConvert}}" ToolTip="{Binding YanXing}"
+                                           StrokeThickness="1" Height="{Binding CengHou, Converter={StaticResource windowToHeightConvert}}">
                                     <Rectangle.Fill>
                                         <DrawingBrush Drawing="{Binding YanXing, Converter={StaticResource yanXingToKeyConvert}}"/>
                                     </Rectangle.Fill>
@@ -334,8 +335,8 @@
                             <DataGridTextColumn Binding="{Binding Sjxcxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="实际下沉系数η0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}"/>
-                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
 
 
 
@@ -382,7 +383,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Button x:Name="showResBtn" Content="计算结果" Click="showResBtn_Click" />
-                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}"/>
+                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
 
                     </Grid>
                 </Grid>
@@ -424,7 +425,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="showTabItem" Header="图形显示" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource boolToVisConvert}}">
+            <TabItem x:Name="showTabItem" Header="图形显示" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">
                 <Grid>
                     <WindowsFormsHost x:Name="wfHost" >
 

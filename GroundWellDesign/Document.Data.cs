@@ -17,33 +17,22 @@ namespace GroundWellDesign
         {
             switch (sourceType)
             {
-                case "bool":
-                    bool b = (bool)value;
-                    if (targetType.Name == "Visibility")
-                    {
-                        return b ? Visibility.Visible : Visibility.Collapsed;
-                    }
-                    else if (targetType.Name == "Brush")
-                    {
-                        return b ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
-                    }
-                    break;
-                case "keyLayer":
-                    bool isKeyLayer = (bool)value;
-                    if (targetType.Name == "Brush")
-                    {
-                        return isKeyLayer ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
-                    }
-                    break;
+                case "login":
+                    bool b1 = (bool)value;
+                    return b1 ? Visibility.Visible : Visibility.Collapsed;
+
+                case "key1":
+                    bool b2 = (bool)value;
+                    return b2 ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
+                case "key2":
+                    bool b3 = (bool)value;
+                    return b3 ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
                 case "yanXing":
                     string s = value as string;
                     return Application.Current.FindResource(s);
-                case "width":
-                    double i = (double)value;
-                    return i;
-                case "cengHou":
+                case "windowH":
                     double h = (double)value;
-                    return 50;
+                    return h*3;
 
             }
             return null;
