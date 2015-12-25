@@ -21,6 +21,7 @@ namespace GroundWellDesign
         static MkyLogic logic;
 
         public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
+        public ObservableCollection<LayerParams> cutoffLayers = new ObservableCollection<LayerParams>();
         //向导式当前编辑的岩层参数
         LayerParams editLayer;
         public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
@@ -56,8 +57,11 @@ namespace GroundWellDesign
 
             //自动更新层号 层号不保存在集合中
             paramGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
-            keyLayerDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
             paramGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
+            keyLayerDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
+            keyLayerDataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
+            cutOffsetDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
+            cutOffsetDataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
             //向导式录入初始化
             editLayer = new LayerParams(this);
@@ -75,7 +79,7 @@ namespace GroundWellDesign
             paramGrid.DataContext = layers;
             keyLayerDataGrid.DataContext = keyLayers;
             yancengListBox.ItemsSource = layers;
-            cutOffsetDataGrid.ItemsSource = layers;
+            cutOffsetDataGrid.ItemsSource = cutoffLayers;
             taoGuanDataGrid.ItemsSource = layers;
 
 
@@ -244,7 +248,30 @@ namespace GroundWellDesign
                 }
                 else if (tabControl.SelectedItem == cutOffsetTabItem)
                 {
-                    computeCutOffSet();
+                    switch (computeCutOffSet(keyLayers.Count, layers.Count))
+                    {
+                        case ERRORCODE.计算成功:
+                            //MessageBox.Show("计算成功");
+                            break;
+                        case ERRORCODE.计算异常:
+                            MessageBox.Show("计算出错，请检查数据合理性");
+                            break;
+                        case ERRORCODE.没有关键层数据:
+                            MessageBox.Show("没有关键层数据");
+                            break;
+                        case ERRORCODE.没有评价系数修正系数:
+                            MessageBox.Show("没有评价系数修正系数，部分参数未计算");
+                            break;
+                        case ERRORCODE.没有煤层倾角和煤层厚度:
+                            MessageBox.Show("没有煤层倾角和煤层厚度，部分参数未计算");
+                            break;
+                        case ERRORCODE.没有回采区长度:
+                            MessageBox.Show("没有回采区长度(走向/倾向)，部分参数未计算");
+                            break;
+                        case ERRORCODE.没有工作面推进速度:
+                            MessageBox.Show("没有工作面推进速度，部分参数未计算");
+                            break;
+                    }
                 }
             }
         }

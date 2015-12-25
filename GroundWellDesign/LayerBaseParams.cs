@@ -448,7 +448,7 @@ namespace GroundWellDesign
             get { return zxJQWY; }
             set
             {
-                qxJQWY = value;
+                zxJQWY = value;
                 SetUI("ZXJQWY");
             }
         }
@@ -458,7 +458,7 @@ namespace GroundWellDesign
             get { return jqHWY; }
             set
             {
-                qxJQWY = value;
+                jqHWY = value;
                 SetUI("JQHWY");
             }
         }

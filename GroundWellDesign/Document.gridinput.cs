@@ -13,13 +13,18 @@ namespace GroundWellDesign
 
         void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            if (paramGrid.Items != null)
+            if(!(sender is DataGrid))
             {
-                for (int i = e.Row.GetIndex(); i < paramGrid.Items.Count; i++)
+                return;
+            }
+            DataGrid grid = sender as DataGrid;
+            if (grid.Items != null)
+            {
+                for (int i = e.Row.GetIndex(); i < grid.Items.Count; i++)
                 {
                     try
                     {
-                        DataGridRow row = paramGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                        DataGridRow row = grid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
                         if (row != null)
                         {
                             row.Header = i + 1;
@@ -43,7 +48,7 @@ namespace GroundWellDesign
             if (e.AddedCells.Count == 0)
                 return;
             var currentCell = e.AddedCells[0];
-            if (currentCell.Column == paramGrid.Columns[0] || currentCell.Column == paramGrid.Columns[12])   //Columns[]从0开始  我这的ComboBox在第四列  所以为3  
+            if (currentCell.Column == paramGrid.Columns[0] || currentCell.Column == paramGrid.Columns[12]) 
             {
                 paramGrid.BeginEdit();    //  进入编辑模式  这样单击一次就可以选择ComboBox里面的值了  
             }
@@ -399,7 +404,8 @@ namespace GroundWellDesign
             int index = paramGrid.SelectedIndex;
             if (index != -1)
             {
-                yancengListBox.SelectedIndex = index;
+                var item = yancengListBox.ItemContainerGenerator.ContainerFromIndex(index) as ListBoxItem;
+                item.Focus();
                 yancengListBox.ScrollIntoView(yancengListBox.Items[index]);
             }
 
