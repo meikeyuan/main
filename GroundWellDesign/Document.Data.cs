@@ -23,10 +23,10 @@ namespace GroundWellDesign
 
                 case "key1":
                     bool b2 = (bool)value;
-                    return b2 ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
+                    return b2 ? new SolidColorBrush(Colors.Coral) : new SolidColorBrush(Colors.White);
                 case "key2":
                     bool b3 = (bool)value;
-                    return b3 ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
+                    return b3 ? new SolidColorBrush(Colors.Coral) : new SolidColorBrush(Colors.Black);
                 case "yanXing":
                     string s = value as string;
                     return Application.Current.FindResource(s);

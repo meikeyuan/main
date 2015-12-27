@@ -19,7 +19,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="existedLayerGrid"  Background ="{StaticResource ControlBackgroundBrush}" IsReadOnly="True">
+        <DataGrid x:Name="existedLayerGrid" IsReadOnly="True">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding YanXing,  UpdateSourceTrigger=LostFocus}" Header="岩性" />

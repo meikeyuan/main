@@ -4,10 +4,6 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/ExpressionDark.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            
             <!--表格样式-->
             <Style TargetType="DataGrid">
                 <Setter Property="AutoGenerateColumns" Value="False"/>
@@ -20,17 +16,7 @@
                 <Setter Property="CanUserSortColumns" Value="False"/>
             </Style>
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+           
             
             <!--岩层样式-->
             <GeometryDrawing x:Key="地表" Brush="BurlyWood">

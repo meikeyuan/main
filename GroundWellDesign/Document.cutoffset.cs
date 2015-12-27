@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace GroundWellDesign
 {
@@ -37,7 +38,7 @@ namespace GroundWellDesign
             double x = Jswzjl;
             double[] cengHou = new double[allcount];
             int[] keyIndex = new int[keycount];
-            for(int i = 0; i < allcount; i++)
+            for (int i = 0; i < allcount; i++)
             {
                 cengHou[i] = layers[i].cengHou;
             }
@@ -127,27 +128,19 @@ namespace GroundWellDesign
                 double[] ux = (double[])Ux.ToVector(MWArrayComponent.Real);
                 double[] uz = (double[])Uz.ToVector(MWArrayComponent.Real);
                 double[] up = (double[])Up.ToVector(MWArrayComponent.Real);
-                int newlength = up.Length;
-                int oldlength = cutoffLayers.Count;
-                if (newlength < oldlength)
-                {
-                    for (int i = oldlength - 1; i >= newlength; i--)
-                    {
-                        cutoffLayers.RemoveAt(i);
-                    }
-                }
-                else if (newlength > oldlength)
-                {
-                    for (int i = oldlength; i < newlength; i++)
-                    {
-                        cutoffLayers.Add(layers[i]);
-                    }
-                }
+
                 for (int i = 0; i < up.Length; i++)
                 {
-                    cutoffLayers[i].QXJQWY = ux[i] * 100;
-                    cutoffLayers[i].ZXJQWY = uz[i] * 100;
-                    cutoffLayers[i].JQHWY = up[i] * 100;
+                    layers[i].QXJQWY = ux[i] * 100;
+                    layers[i].ZXJQWY = uz[i] * 100;
+                    layers[i].JQHWY = up[i] * 100;
+                    var row = cutOffsetDataGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                    row.Visibility = System.Windows.Visibility.Visible;
+                }
+                for (int i = up.Length; i < layers.Count; i++)
+                {
+                    var row = cutOffsetDataGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                    row.Visibility = System.Windows.Visibility.Collapsed;
                 }
                 return ERRORCODE.计算成功;
 

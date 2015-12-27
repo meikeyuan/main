@@ -224,35 +224,35 @@ namespace GroundWellDesign
         }
 
 
-        private void themeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Uri skinDictUri = null;
-            switch (themeCB.SelectedIndex)
-            {
-                case 0:
-                    skinDictUri = new Uri("Styles/ExpressionDark.xaml", UriKind.Relative);
-                    break;
-                case 1:
-                    skinDictUri = new Uri("Styles/ExpressionLight.xaml", UriKind.Relative);
-                    break;
-                case 2:
-                    skinDictUri = new Uri("Styles/ShinyBlue.xaml", UriKind.Relative);
-                    break;
-                case 3:
-                    skinDictUri = new Uri("Styles/ShinyRed.xaml", UriKind.Relative);
-                    break;
-                default:
-                    break;
+        //private void themeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    Uri skinDictUri = null;
+        //    switch (themeCB.SelectedIndex)
+        //    {
+        //        case 0:
+        //            skinDictUri = new Uri("Styles/ExpressionDark.xaml", UriKind.Relative);
+        //            break;
+        //        case 1:
+        //            skinDictUri = new Uri("Styles/ExpressionLight.xaml", UriKind.Relative);
+        //            break;
+        //        case 2:
+        //            skinDictUri = new Uri("Styles/ShinyBlue.xaml", UriKind.Relative);
+        //            break;
+        //        case 3:
+        //            skinDictUri = new Uri("Styles/ShinyRed.xaml", UriKind.Relative);
+        //            break;
+        //        default:
+        //            break;
 
-            }
-            if (skinDictUri == null)
-                return;
-            ResourceDictionary skinDict = Application.LoadComponent(skinDictUri) as ResourceDictionary;
-            Collection<ResourceDictionary> mergedDicts = Application.Current.Resources.MergedDictionaries;
-            if (mergedDicts.Count > 0)
-                mergedDicts.Clear();
-            mergedDicts.Add(skinDict);
-        }
+        //    }
+        //    if (skinDictUri == null)
+        //        return;
+        //    ResourceDictionary skinDict = Application.LoadComponent(skinDictUri) as ResourceDictionary;
+        //    Collection<ResourceDictionary> mergedDicts = Application.Current.Resources.MergedDictionaries;
+        //    if (mergedDicts.Count > 0)
+        //        mergedDicts.Clear();
+        //    mergedDicts.Add(skinDict);
+        //}
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {

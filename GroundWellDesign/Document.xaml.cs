@@ -21,7 +21,6 @@ namespace GroundWellDesign
         static MkyLogic logic;
 
         public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
-        public ObservableCollection<LayerParams> cutoffLayers = new ObservableCollection<LayerParams>();
         //向导式当前编辑的岩层参数
         LayerParams editLayer;
         public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
@@ -79,7 +78,7 @@ namespace GroundWellDesign
             paramGrid.DataContext = layers;
             keyLayerDataGrid.DataContext = keyLayers;
             yancengListBox.ItemsSource = layers;
-            cutOffsetDataGrid.ItemsSource = cutoffLayers;
+            cutOffsetDataGrid.ItemsSource = layers;
             taoGuanDataGrid.ItemsSource = layers;
 
 

@@ -48,7 +48,7 @@ namespace GroundWellDesign
             if (e.AddedCells.Count == 0)
                 return;
             var currentCell = e.AddedCells[0];
-            if (currentCell.Column == paramGrid.Columns[0] || currentCell.Column == paramGrid.Columns[12]) 
+            if (currentCell.Column == paramGrid.Columns[0]) 
             {
                 paramGrid.BeginEdit();    //  进入编辑模式  这样单击一次就可以选择ComboBox里面的值了  
             }
@@ -404,8 +404,7 @@ namespace GroundWellDesign
             int index = paramGrid.SelectedIndex;
             if (index != -1)
             {
-                var item = yancengListBox.ItemContainerGenerator.ContainerFromIndex(index) as ListBoxItem;
-                item.Focus();
+                yancengListBox.SelectedIndex = index;
                 yancengListBox.ScrollIntoView(yancengListBox.Items[index]);
             }
 
