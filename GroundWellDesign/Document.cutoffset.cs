@@ -5,12 +5,45 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace GroundWellDesign
 {
     partial class Document
     {
+        private void cutOffsetDataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(sender != cutOffsetDataGrid || tabControl.SelectedItem != cutOffsetTabItem)
+            {
+                return;
+            }
+
+                switch (computeCutOffSet(keyLayers.Count, layers.Count))
+                {
+                    case ERRORCODE.计算成功:
+                        //MessageBox.Show("计算成功");
+                        break;
+                    case ERRORCODE.计算异常:
+                        MessageBox.Show("计算出错，请检查数据合理性");
+                        break;
+                    case ERRORCODE.没有关键层数据:
+                        MessageBox.Show("没有关键层数据");
+                        break;
+                    case ERRORCODE.没有评价系数修正系数:
+                        MessageBox.Show("没有评价系数修正系数，部分参数未计算");
+                        break;
+                    case ERRORCODE.没有煤层倾角和煤层厚度:
+                        MessageBox.Show("没有煤层倾角和煤层厚度，部分参数未计算");
+                        break;
+                    case ERRORCODE.没有回采区长度:
+                        MessageBox.Show("没有回采区长度(走向/倾向)，部分参数未计算");
+                        break;
+                    case ERRORCODE.没有工作面推进速度:
+                        MessageBox.Show("没有工作面推进速度，部分参数未计算");
+                        break;
+                }
+        }
         private ERRORCODE computeCutOffSet(int keycount, int allcount)
         {
             if (keycount == 0)

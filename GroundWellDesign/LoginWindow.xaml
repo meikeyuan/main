@@ -12,16 +12,16 @@
             <RowDefinition Height="23*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="#FF53B86E">
+        <Grid Grid.Row="0" Background="#FF3D7FC6">
             <Grid.RowDefinitions>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="25*"/>
                 <RowDefinition Height="15*"/>
             </Grid.RowDefinitions>
             <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal">
-                <Button x:Name="closeBtn" Click="closeBtn_Click" Background="Transparent"  Content="  X  " BorderBrush="Transparent" Foreground="White"/>
+                <Button x:Name="closeBtn" Click="closeBtn_Click"  Content=" X " Padding="10, 0, 10, 0" Height="30" Style="{x:Null}" BorderBrush="Transparent" Background="Transparent" Foreground="White"/>
 
-                <Button x:Name="minBtn" Click="minBtn_Click" Background="Transparent" Content="  -  " BorderBrush="Transparent" Foreground="White"/>
+                <Button x:Name="minBtn" Click="minBtn_Click" Content="—" Padding="10, 0, 10, 0" Height="30" Style="{x:Null}"  BorderBrush="Transparent" Background="Transparent" Foreground="White"/>
 
             </StackPanel>
 
@@ -64,8 +64,8 @@
                             <ColumnDefinition Width="40*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Content="管理员登录" Click="loginBtn_Click" Background="#FF548FA0"  Margin="78,0,0,0" Height="25" Foreground="White"></Button>
-                        <Button Content="匿名使用" Grid.Column="1" Click="anonBtn_Click" Background="#FF548FA0"  Margin="20,0,40,0" Height="25" Foreground="White"></Button>
+                        <Button Content="管理员登录" Click="loginBtn_Click" Background="#FF3D7FC6"  Margin="78,0,0,0" Height="25" Foreground="White"></Button>
+                        <Button Content="匿名使用" Grid.Column="1" Click="anonBtn_Click" Background="#FF3D7FC6"  Margin="20,0,40,0" Height="25" Foreground="White"></Button>
                     </Grid>
 
 

@@ -4,6 +4,13 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Style.xaml"/>
+                <ResourceDictionary Source="Colors/Colors_Blue.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            
+            
             <!--表格样式-->
             <Style TargetType="DataGrid">
                 <Setter Property="AutoGenerateColumns" Value="False"/>

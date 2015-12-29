@@ -74,9 +74,7 @@ namespace GroundWellDesign
 
         public LayerParams(Document mainWindow)
         {
-            this.mainWindow = mainWindow;
-            yanXing = Document.YanXingOpt[1];
-            miaoShu = "岩层";
+            this.mainWindow = mainWindow;                                                                     
         }
 
         public LayerParams(BaseParams layer)
@@ -98,8 +96,7 @@ namespace GroundWellDesign
             BoSonBi == layer.boSonBi &&
             NeiMoCaJiao == layer.neiMoCaJiao &&
             NianJuLi == layer.nianJuLi && MiaoShu.Equals(layer.miaoShu) &&
-            Q1 == layer.q1 && Q2 == layer.q2 && Q0 == layer.q0 && dataBaseNum == layer.dataBaseNum;
-
+            Q1 == layer.q1 && Q2 == layer.q2 && Q0 == layer.q0;
         }
 
         public void reset()

@@ -36,7 +36,14 @@
         </DockPanel>
         
         <DockPanel Grid.Row="0" HorizontalAlignment="Right">
-            <Button Content="切换录入方式" Click="ToggleButton_Click" Margin="0, 0, 20 ,0"/>
+           <Button Content="切换录入方式" Click="ToggleButton_Click" Margin="0, 0, 20 ,0"/>
+
+            <ComboBox x:Name="styleComBox" SelectedIndex="0" SelectionChanged="themeCB_SelectionChanged" Margin="0, 0, 20 ,0">
+                <ComboBoxItem>主题一</ComboBoxItem>
+                <ComboBoxItem>主题二</ComboBoxItem>
+                <ComboBoxItem>主题三</ComboBoxItem>
+                <ComboBoxItem>主题四</ComboBoxItem>
+            </ComboBox>
 
             <TextBlock Text="{Binding BLogin, Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource convert}}" 
                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0, 20 ,0"/>
