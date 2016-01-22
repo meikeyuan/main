@@ -7,36 +7,13 @@ using AxMxDrawXLib;
 using System.Collections.ObjectModel;
 using mky;
 using System.IO;
-using System.Globalization;
-using System.Windows.Media;
+using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace GroundWellDesign
 {
-
-
-
     public partial class Document : Window
     {
-        AxMxDrawX cadViewer;
-        static MkyLogic logic;
-
-        public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
-        //向导式当前编辑的岩层参数
-        LayerParams editLayer;
-        public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
-        public const string DATABASE_PATH = "c:\\ProgramData\\GroundWellDesign\\";
-
-        public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
-        public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
-
-
-        public string FilePath
-        {
-            set;
-            get;
-        }
-
-
         public Document(string filepath)
         {
             InitializeComponent();
@@ -70,6 +47,8 @@ namespace GroundWellDesign
             cadViewer = new AxMxDrawX();
             cadViewer.BeginInit();
             wfHost.Child = cadViewer;
+            Thread thread = new Thread(new ThreadStart(closeFuckDlg));
+            thread.Start();
             cadViewer.EndInit();
             cadViewer.OpenDwgFile("示意钻井结构.dwg");
             cadViewer.ZoomCenter(1500, 1000);
@@ -106,6 +85,37 @@ namespace GroundWellDesign
             }
 
             FilePath = filepath;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CopyDataStruct
+        {
+            public IntPtr dwData;
+            public int cbData;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string lpData;
+        }
+        [DllImport("User32.dll", EntryPoint = "SendMessage")]
+        private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, ref  CopyDataStruct lParam);
+
+        [DllImport("User32.dll", EntryPoint = "FindWindow")]
+        private static extern int FindWindow(string lpClassName, string lpWindowName); 
+
+        void closeFuckDlg()
+        {
+            IntPtr hwnd = IntPtr.Zero;
+            CopyDataStruct cds = new CopyDataStruct();
+            int fromWindowHandler = 0;
+
+            while (hwnd == IntPtr.Zero)
+            {
+                hwnd = (IntPtr)FindWindow(null, "MxDrawX");
+                if(hwnd != IntPtr.Zero)
+                {
+                    SendMessage(hwnd, 16, fromWindowHandler, ref  cds);
+                    break;
+                }
+            }
         }
 
         //向导式绑定

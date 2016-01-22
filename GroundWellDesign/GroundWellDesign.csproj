@@ -99,6 +99,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converter.cs" />
     <Compile Include="Document.cutoffset.cs" />
     <Compile Include="Document.data.cs" />
     <Compile Include="LoginWindow.xaml.cs">

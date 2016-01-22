@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AxMxDrawXLib;
+using mky;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -6,46 +10,33 @@ using System.Windows.Media;
 
 namespace GroundWellDesign
 {
-    public class MyConvert : IValueConverter
-    {
-        public string sourceType
-        {
-            get;
-            set;
-        }
-        public object Convert(object value, Type targetType, object param, CultureInfo c)
-        {
-            switch (sourceType)
-            {
-                case "login":
-                    bool b1 = (bool)value;
-                    return b1 ? Visibility.Visible : Visibility.Collapsed;
-
-                case "key1":
-                    bool b2 = (bool)value;
-                    return b2 ? new SolidColorBrush(Colors.Coral) : new SolidColorBrush(Colors.White);
-                case "key2":
-                    bool b3 = (bool)value;
-                    return b3 ? new SolidColorBrush(Colors.Coral) : new SolidColorBrush(Colors.Black);
-                case "yanXing":
-                    string s = value as string;
-                    return Application.Current.FindResource(s);
-                case "windowH":
-                    double h = (double)value;
-                    return h*3;
-
-            }
-            return null;
-
-        }
-
-        public object ConvertBack(object value, Type targetType, object param, CultureInfo c)
-        {
-            throw new NotImplementedException();
-        }
-    }
     partial class Document
     {
+        //cad ActiveX控件和matlab函数类
+        AxMxDrawX cadViewer;
+        static MkyLogic logic;
+
+        
+        public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
+        LayerParams editLayer;
+        public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
+
+
+
+        public const string DATABASE_PATH = "c:\\ProgramData\\GroundWellDesign\\";
+
+        public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
+        public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
+
+
+
+
+        public string FilePath
+        {
+            set;
+            get;
+        }
+
         private double mcqj;
         public double Mcqj
         {
