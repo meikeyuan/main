@@ -19,7 +19,7 @@
         <local:MyConvert x:Key="keyToBkgConvert" sourceType="key1"/>
         <local:MyConvert x:Key="keyToBorderConvert" sourceType="key2"/>
         <local:MyConvert x:Key="yanXingToKeyConvert" sourceType="yanXing"/>
-        <local:MyConvert x:Key="windowToHeightConvert" sourceType="windowH"/>
+        <local:ItemHeightConverter x:Key="itemHeightConverter"/>
         <Style TargetType="{x:Type TextBox}"  x:Key="editValidStyle">
             <Setter Property="TextAlignment" Value="Right"/>
             <Style.Triggers>
@@ -28,68 +28,68 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-		<Style x:Key="FocusVisual">
-			<Setter Property="Control.Template">
-				<Setter.Value>
-					<ControlTemplate>
-						<Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA"/>
-		<SolidColorBrush x:Key="Item.MouseOver.Border" Color="#a826A0Da"/>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA"/>
+        <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#a826A0Da"/>
         <SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#3399ff"/>
-		<SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFDADADA"/>
+        <SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFDADADA"/>
         <SolidColorBrush x:Key="Item.SelectedActive.Background" Color="#3399ff"/>
-		<SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FF26A0DA"/>
-		<Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
-			<Setter Property="SnapsToDevicePixels" Value="True"/>
-			<Setter Property="Padding" Value="4,1"/>
-			<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-			<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="BorderBrush" Value="Transparent"/>
-			<Setter Property="BorderThickness" Value="1"/>
-			<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type ListBoxItem}">
-						<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-						</Border>
-						<ControlTemplate.Triggers>
-							<MultiTrigger>
-								<MultiTrigger.Conditions>
-									<Condition Property="IsMouseOver" Value="True"/>
-								</MultiTrigger.Conditions>
-								<Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.MouseOver.Background}"/>
-								<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.MouseOver.Border}"/>
-							</MultiTrigger>
-							<MultiTrigger>
-								<MultiTrigger.Conditions>
-									<Condition Property="Selector.IsSelectionActive" Value="False"/>
-									<Condition Property="IsSelected" Value="True"/>
-								</MultiTrigger.Conditions>
-								<Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Background}"/>
-								<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Border}"/>
-							</MultiTrigger>
-							<MultiTrigger>
-								<MultiTrigger.Conditions>
-									<Condition Property="Selector.IsSelectionActive" Value="True"/>
-									<Condition Property="IsSelected" Value="True"/>
-								</MultiTrigger.Conditions>
-								<Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Background}"/>
-								<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Border}"/>
-							</MultiTrigger>
-							<Trigger Property="IsEnabled" Value="False">
-								<Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
+        <SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FF26A0DA"/>
+        <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Padding" Value="4,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.MouseOver.Border}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Border}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Border}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -221,7 +221,7 @@
                             </ContextMenu>
                         </DataGrid.ContextMenu>
 
-                        
+
                     </DataGrid>
 
                     <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
@@ -274,20 +274,39 @@
                     </DockPanel>
 
 
-                    <ListBox Name="yancengListBox" Grid.Column="1" HorizontalContentAlignment="Stretch" ItemContainerStyle="{StaticResource ListBoxItemStyle}"
-                             ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="yancengListBox_SelectionChanged">
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="12*"/>
+                            <RowDefinition Height="199*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <Slider Name="zoomSlider" Minimum="3" Maximum="20" Value="3"/>
 
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="local:LayerParams">
-                                <Rectangle Stroke="{Binding IsKeyLayer, Converter={StaticResource keyToBorderConvert}}" ToolTip="{Binding YanXing}"
-                                           StrokeThickness="1" Height="{Binding CengHou, Converter={StaticResource windowToHeightConvert}}">
-                                    <Rectangle.Fill>
-                                        <DrawingBrush Drawing="{Binding YanXing, Converter={StaticResource yanXingToKeyConvert}}"/>
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        <ListBox Grid.Row="1" Name="yancengListBox" HorizontalContentAlignment="Stretch" ItemContainerStyle="{StaticResource ListBoxItemStyle}"
+                             ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="yancengListBox_SelectionChanged">
+                            <ListBox.Resources>
+                            </ListBox.Resources>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="local:LayerParams">
+                                    <Rectangle Stroke="{Binding IsKeyLayer, Converter={StaticResource keyToBorderConvert}}" ToolTip="{Binding YanXing}"
+                                           StrokeThickness="2">
+                                        <Rectangle.Height>
+                                            <MultiBinding Converter="{StaticResource itemHeightConverter}">
+                                                <Binding Path="CengHou"/>
+                                                <Binding Path="Value" Source="{x:Reference zoomSlider}"/>
+                                            </MultiBinding>
+                                        </Rectangle.Height>
+                                        
+                                        <Rectangle.Fill>
+                                            <DrawingBrush Drawing="{Binding YanXing, Converter={StaticResource yanXingToKeyConvert}}"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </Grid>
+
 
                 </Grid>
 
@@ -478,7 +497,7 @@
                             <DataGridTextColumn Binding="{Binding JQHWY, StringFormat=n3}"   Header="剪切合位移up" ElementStyle="{StaticResource elementStyle}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    
+
                 </Grid>
 
             </TabItem>
