@@ -143,7 +143,7 @@ namespace GroundWellDesign
         {
             if (FilePath == null)
             {
-                return false;
+                return true;
             }
             object obj = DataSaveAndRestore.restoreObj(FilePath);
             if (obj == null || !(obj is DataSaveAndRestore.DataToSave))

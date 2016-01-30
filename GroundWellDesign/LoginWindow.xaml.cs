@@ -29,13 +29,14 @@ namespace GroundWellDesign
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
             
-            if (pwdBox.Password == "")
+            if (userBox.Text == "mky" && pwdBox.Password == "888888")
             {
                 enterMainBoard(true);
             }
             else
             {
-                MessageBox.Show("密码错误");
+                MessageBox.Show("用户名或密码错误!");
+                pwdBox.Clear();
             }
         }
 
@@ -43,7 +44,6 @@ namespace GroundWellDesign
         private void anonBtn_Click(object sender, RoutedEventArgs e)
         {
             enterMainBoard(false);
-
         }
         private void minBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -59,9 +59,7 @@ namespace GroundWellDesign
 
         private void enterMainBoard(bool blogin)
         {
-            ContainerWindow container = new ContainerWindow();
-            ContainerWindow.loginInfo.BLogin = blogin;
-            container.openFile(filepath);
+            ContainerWindow container = new ContainerWindow(blogin, filepath);
             container.Show();
             Close();
         }

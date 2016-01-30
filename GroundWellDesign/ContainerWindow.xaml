@@ -12,8 +12,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="228*"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <Grid.Resources>
@@ -28,15 +28,16 @@
         
        
         <DockPanel Grid.Row="0" HorizontalAlignment="Left">
-            <Button x:Name="openFileBtn" Content="打开文件" Click="openFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
+            <Button x:Name="newFileBtn" Content="新建" Click="newFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
+            <Button x:Name="openFileBtn" Content="打开" Click="openFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
             <Button x:Name="saveOthFileBtn" Content="另存为" Click="saveOthFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
-            <Button x:Name="saveFileBtn" Content="保存文件" Click="saveFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
+            <Button x:Name="saveFileBtn" Content="保存" Click="saveFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
             <Button x:Name="saveAllFileBtn" Content="保存所有" Click="saveAllFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
 			
         </DockPanel>
         
         <DockPanel Grid.Row="0" HorizontalAlignment="Right">
-           <Button Content="切换录入方式" Click="ToggleButton_Click" Margin="0, 0, 20 ,0"/>
+           <Button Content="切换录入方式" Click="ToggleButton_Click" Margin="0, 0, 5 , 0"/>
 
             <ComboBox x:Name="styleComBox" SelectedIndex="0" SelectionChanged="themeCB_SelectionChanged" Margin="0, 0, 20 ,0">
                 <ComboBoxItem>主题一</ComboBoxItem>

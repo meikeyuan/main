@@ -57,9 +57,9 @@ namespace GroundWellDesign
             throw new NotImplementedException();
         }
     }
-    /// <summary>
-    /// ContainerWindow.xaml 的交互逻辑
-    /// </summary>
+
+
+
     public partial class ContainerWindow : Window
     {
         public List<Document> windows = new List<Document>();
@@ -67,10 +67,11 @@ namespace GroundWellDesign
         public static LoginInfo loginInfo = new LoginInfo();
         
 
-        public ContainerWindow()
+        public ContainerWindow(bool bLogin, string filepath)
         {
             InitializeComponent();
-
+            loginInfo.BLogin = bLogin;
+            openFile(filepath);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -79,8 +80,14 @@ namespace GroundWellDesign
             base.OnClosed(e);
         }
 
+        //新建文件
+        private void newFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            openFile(null);
+        }
 
-        //从文件恢复数据
+
+        //打开文件
         private void openFileBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -91,40 +98,22 @@ namespace GroundWellDesign
             if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
+                foreach(Document document in windows)
+                {
+                    if(document.FilePath == filePath)
+                    {
+                        MessageBox.Show("该文件已经打开！");
+                        return;
+                    }
+                }
                 if (!openFile(filePath))
                 {
-                    MessageBox.Show("打开文件错误");
+                    MessageBox.Show("打开文件失败！");
                 }
             }
         }
 
-
-        public bool openFile(string filePath)
-        {
-            Document document = new Document(filePath);
-            TabItem tabitem = new TabItem();
-            tabitem.ContextMenu= tabControl.Resources["menu"] as ContextMenu;
-            if (filePath == null)
-            {
-                tabitem.Header = "新建文档";
-            }
-            else
-            {
-                if (!document.openFile())
-                {
-                    return false;
-                }
-                int index1 = filePath.LastIndexOf('\\');
-                int index2 = filePath.LastIndexOf('.');
-                tabitem.Header = filePath.Substring(index1 + 1, index2 - index1 - 1);
-            }
-            tabitem.Content = document.Content;
-            windows.Add(document);
-            tabControl.Items.Add(tabitem);
-            tabControl.SelectedItem = tabitem;
-
-            return true;
-        }
+       
 
         //另存为
         private void saveOthFileBtn_Click(object sender, RoutedEventArgs e)
@@ -135,7 +124,6 @@ namespace GroundWellDesign
                 return;
             }
 
-
             System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
             fileDialog.Title = "保存文件";
             fileDialog.Filter = "数据文件(*.data)|*.data";
@@ -144,14 +132,19 @@ namespace GroundWellDesign
             if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
+                string oldPath = windows[index].FilePath;
                 windows[index].FilePath = filePath;
                 if (windows[index].saveFile())
                 {
                     MessageBox.Show("保存成功");
+                    var tabitem = tabControl.Items.GetItemAt(index) as TabItem;
+                    tabitem.Header = Path.GetFileNameWithoutExtension(filePath);
+
                 }
                 else
                 {
                     MessageBox.Show("保存失败");
+                    windows[index].FilePath = oldPath;
                 }
             }
 
@@ -165,16 +158,62 @@ namespace GroundWellDesign
             {
                 return;
             }
-            if (windows[index].FilePath == null)
+            saveFile(windows[index]);
+
+        }
+
+        //保存所有文件
+        private void saveAllFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            foreach (Document window in windows)
             {
-                MessageBox.Show("该文件不存在，请点击“另存为...”");
+                tabControl.SelectedIndex = windows.IndexOf(window);
+                saveFile(window);
+            }
+        }
+
+        //打开文件
+        private bool openFile(string filePath)
+        {
+            Document document = new Document(filePath);
+            if (!document.openFile())
+            {
+                return false;
+            }
+
+
+            TabItem tabitem = new TabItem();
+            tabitem.ContextMenu = tabControl.Resources["menu"] as ContextMenu;
+            if (filePath == null)
+            {
+                tabitem.Header = "新建文档";
+            }
+            else
+            {
+                tabitem.Header = Path.GetFileNameWithoutExtension(filePath);
+            }
+            tabitem.Content = document.Content;
+            windows.Add(document);
+            tabControl.Items.Add(tabitem);
+            tabControl.SelectedItem = tabitem;
+
+            return true;
+        }
+
+        //保存文件
+        private void saveFile(Document window)
+        {
+            if (window.FilePath == null)
+            {
+                MessageBox.Show("该文件不存在，请点击“另存为”");
                 return;
             }
             if (MessageBox.Show("确定覆盖旧文件吗？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
-            if (windows[index].saveFile())
+            if (window.saveFile())
             {
                 MessageBox.Show("保存成功");
             }
@@ -182,38 +221,11 @@ namespace GroundWellDesign
             {
                 MessageBox.Show("保存失败");
             }
-
         }
 
 
 
-        private void saveAllFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-            foreach (Document window in windows)
-            {
-                tabControl.SelectedIndex = windows.IndexOf(window);
-                if (window.FilePath == null)
-                {
-                    MessageBox.Show("该文件不存在，请点击“另存为...”");
-                    continue;
-                }
-                if (MessageBox.Show("确定覆盖旧文件吗？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                {
-                    continue;
-                }
-                if (window.saveFile())
-                {
-                    MessageBox.Show("保存成功");
-                }
-                else
-                {
-                    MessageBox.Show("保存失败");
-                }
-            }
-        }
-
-
+        //关闭选项卡
         private void closeMenuItem_Click(object sender, RoutedEventArgs e)
         {
             UIElement ui = ContextMenuService.GetPlacementTarget(LogicalTreeHelper.GetParent(sender as MenuItem));
@@ -225,7 +237,7 @@ namespace GroundWellDesign
             }
         }
 
-
+        //切换主题
         private void themeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string[] themes = { "Colors_Blue.xaml", "Colors_Neutral.xaml", "Colors_Ocean.xaml", "Colors_Violet.xaml" };
@@ -239,6 +251,7 @@ namespace GroundWellDesign
             mergedDicts.Add(skinDict);
         }
 
+        //切换录入方式
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
                 foreach (Document window in windows)
@@ -256,5 +269,7 @@ namespace GroundWellDesign
                     }
                 }
         }
+
+        
     }
 }

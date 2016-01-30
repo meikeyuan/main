@@ -45,8 +45,8 @@
                             <ColumnDefinition Width="25*"/>
                             <ColumnDefinition Width="65*"/>
                         </Grid.ColumnDefinitions>
-                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="用户名" Foreground="Black" Margin="20,0,0,0"></Label>
-                        <TextBox Grid.Column="2" ToolTip="用户名" Background="White" Height="25" Foreground="Black" Margin="0,0,39,0"/>
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="用户名" Foreground="Black" Margin="20,0,0,0"/>
+                        <TextBox Grid.Column="2" Name="userBox"  Background="White" Height="25" Foreground="Black" Margin="0,0,39,0">mky</TextBox>
                     </Grid>
 
                     <Grid Grid.Row="1">
@@ -54,8 +54,8 @@
                             <ColumnDefinition Width="25*"/>
                             <ColumnDefinition Width="65*"/>
                         </Grid.ColumnDefinitions>
-                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="密码" Foreground="Black" Margin="20,0,0,0"></Label>
-                        <PasswordBox Grid.Column="2" x:Name="pwdBox" ToolTip="密码" Background="White" Height="25" Foreground="Black" Margin="0,0,39,0"/>
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="密码" Foreground="Black" Margin="20,0,0,0"/>
+                        <PasswordBox Grid.Column="2" x:Name="pwdBox" Background="White" Height="25" Foreground="Black" Margin="0,0,39,0" Password="888888"/>
                     </Grid>
 
                     <Grid Grid.Row="1"  Margin="0,10,0,0">

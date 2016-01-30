@@ -25,7 +25,7 @@ namespace GroundWellDesign
 
         private ObservableCollection<LayerParams> existedLayers = new ObservableCollection<LayerParams>();
 
-
+        private string yanXing;
         public LayerParams WantedLayer
         {
             set;
@@ -47,6 +47,7 @@ namespace GroundWellDesign
             
             existedLayerGrid.DataContext = existedLayers;
             WantedLayer = wantedLayer;
+            this.yanXing = yanXing;
         }
 
         private void selectChooseBtn_Click(object sender, RoutedEventArgs e)
@@ -66,15 +67,15 @@ namespace GroundWellDesign
         private void selectAvgBtn_Click(object sender, RoutedEventArgs e)
         {
             LayerParams tmpLayer = new LayerParams(WantedLayer.mainWindow);
+            tmpLayer.yanXing = yanXing;
             int count = existedLayers.Count;
             if(count == 0)
             {
                 WantedLayer.copyAndEventEcpYanXing(tmpLayer);
-                return;
+                this.Close();
             }
             foreach(LayerParams layer in existedLayers)
             {
-                tmpLayer.yanXing = layer.yanXing;
                 tmpLayer.leiJiShenDu += layer.leiJiShenDu;
                 tmpLayer.juLiMeiShenDu += layer.juLiMeiShenDu;
                 tmpLayer.cengHou += layer.juLiMeiShenDu;

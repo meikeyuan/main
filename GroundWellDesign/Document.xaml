@@ -265,7 +265,7 @@
                             <Button Content="↓"  Width="40"  ToolTip="下移" Click="click_downRow" Padding="0"/>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" FlowDirection="RightToLeft" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" FlowDirection="RightToLeft" ><!-- Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" --> 
 
                             <Button Content="输入关键层数据"  Width="100" Click="click_inputOtherData"/>
                             <Button Content="显示关键层"  Width="100" Click="click_showKeyRow"/>
