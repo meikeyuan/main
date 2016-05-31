@@ -26,6 +26,8 @@ namespace GroundWellDesign
         private ObservableCollection<LayerParams> existedLayers = new ObservableCollection<LayerParams>();
 
         private string yanXing;
+
+        private bool allSelcted;
         public LayerParams WantedLayer
         {
             set;
@@ -50,6 +52,10 @@ namespace GroundWellDesign
             this.yanXing = yanXing;
         }
 
+
+
+
+
         private void selectChooseBtn_Click(object sender, RoutedEventArgs e)
         {
             if (existedLayerGrid.SelectedIndex == -1)
@@ -64,21 +70,74 @@ namespace GroundWellDesign
             this.Close();
         }
 
+
+
+
+        private void selectAllBtn_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < existedLayerGrid.Items.Count; i++)
+            {
+                var row = existedLayerGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                if (row != null)
+                {
+                    var box = existedLayerGrid.Columns[0].GetCellContent(row) as CheckBox;
+                    if (box != null)
+                    {
+                        if (allSelcted)
+                        {
+                            box.IsChecked = false;
+                        }
+                        else
+                        {
+                            box.IsChecked = true;
+                        }
+                    }
+                }
+            }
+            allSelcted = !allSelcted;
+        }
+
+
         private void selectAvgBtn_Click(object sender, RoutedEventArgs e)
         {
             LayerParams tmpLayer = new LayerParams(WantedLayer.mainWindow);
             tmpLayer.yanXing = yanXing;
-            int count = existedLayers.Count;
-            if(count == 0)
+
+            //将选择的序号存入list
+            List<int> selectedList = new List<int>();
+            for (int i = 0; i < existedLayerGrid.Items.Count; i++)
+            {
+                var row = existedLayerGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                if (row != null)
+                {
+                    var box = existedLayerGrid.Columns[0].GetCellContent(row) as CheckBox;
+                    if (box != null)
+                    {
+                        if (box.IsChecked == true)
+                        {
+                            selectedList.Add(i);
+                        }
+                    }
+                }
+            }
+
+
+            //首先判断有没有东西
+            int count = selectedList.Count;
+            if (count <= 0)
             {
                 WantedLayer.copyAndEventEcpYanXing(tmpLayer);
                 this.Close();
+                return;
             }
-            foreach(LayerParams layer in existedLayers)
+
+            //遍历编号list
+            foreach(int i in selectedList)
             {
+                LayerParams layer = existedLayers[i];
                 tmpLayer.leiJiShenDu += layer.leiJiShenDu;
                 tmpLayer.juLiMeiShenDu += layer.juLiMeiShenDu;
-                tmpLayer.cengHou += layer.juLiMeiShenDu;
+                tmpLayer.cengHou += layer.cengHou;
                 tmpLayer.ziRanMiDu += layer.ziRanMiDu;
                 tmpLayer.bianXingMoLiang += layer.bianXingMoLiang;
                 tmpLayer.kangLaQiangDu += layer.kangLaQiangDu;
@@ -95,7 +154,7 @@ namespace GroundWellDesign
             }
             WantedLayer.LeiJiShenDu = tmpLayer.leiJiShenDu / count;
             WantedLayer.JuLiMeiShenDu = tmpLayer.juLiMeiShenDu / count;
-            WantedLayer.CengHou = tmpLayer.juLiMeiShenDu / count;
+            WantedLayer.CengHou = tmpLayer.cengHou / count;
             WantedLayer.ZiRanMiDu = tmpLayer.ziRanMiDu / count;
             WantedLayer.BianXingMoLiang = tmpLayer.bianXingMoLiang / count;
             WantedLayer.KangLaQiangDu = tmpLayer.kangLaQiangDu / count;
@@ -111,10 +170,5 @@ namespace GroundWellDesign
             WantedLayer.dataBaseNum = 0;
             this.Close();
         }
-
-
-
-
-
     }
 }

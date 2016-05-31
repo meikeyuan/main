@@ -4,7 +4,7 @@
         Title="地面井设计" Icon="img/splash.jpg"
         xmlns:local="clr-namespace:GroundWellDesign"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" >
-    
+
     <Window.Resources>
         <local:BoolToTextConvert x:Key="convert"/>
 
@@ -15,29 +15,57 @@
             <RowDefinition Height="35"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <Grid.Resources>
-            <Style TargetType="Button" x:Key="MenuBtnStyle">
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Setter Property="BorderBrush" Value="Transparent"></Setter>
-                <Setter Property="Foreground" Value="{DynamicResource MenuFore}"></Setter>
-                <Setter Property="Margin" Value="5, 0, 5, 0"></Setter>
+           <Style TargetType="Menu">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{DynamicResource MenuFore}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5, 0, 5, 0"/>
             </Style>
-            
         </Grid.Resources>
-        
-       
+
         <DockPanel Grid.Row="0" HorizontalAlignment="Left">
-            <Button x:Name="newFileBtn" Content="新建" Click="newFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
-            <Button x:Name="openFileBtn" Content="打开" Click="openFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
-            <Button x:Name="saveOthFileBtn" Content="另存为" Click="saveOthFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
-            <Button x:Name="saveFileBtn" Content="保存" Click="saveFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
-            <Button x:Name="saveAllFileBtn" Content="保存所有" Click="saveAllFileBtn_Click" Style="{StaticResource MenuBtnStyle}"/>
-			
+            <Menu>
+                <MenuItem Header="文件(_F)" >
+                    <MenuItem Header="新建" Click="newFileMenu_Click"/>
+                    <MenuItem Header="打开" Click="openFileMenu_Click"/>
+                    <MenuItem Header="保存" Click="saveFileMenu_Click"/>
+                    <MenuItem Header="保存所有" Click="saveAllFileMenu_Click"/>
+                    <MenuItem Header="另存为" Click="saveOthFileMenu_Click"/>
+                </MenuItem>
+
+            </Menu>
+
+            <Menu>
+                <MenuItem Header="数据录入(_D)" >
+
+                    <MenuItem Name="inputBaseDataMenu" Header="岩层基本数据-表格式" Click="inputBaseDataMenu_Click"/>
+                    <MenuItem Name="inputBaseGuidMenu" Header="岩层基本数据-向导式" Click="inputBaseGuidMenu_Click"/>
+                    <MenuItem Name="inputKeyDataMenu" Header="关键层数据" Click="inputKeyDataMenu_Click"/>
+                </MenuItem>
+            </Menu>
+
+
+            <Menu>
+                <MenuItem Header="位移计算(_S)">
+                    <MenuItem Name="jqoffsetMenu" Header="岩层剪切位移" Click="jqoffsetMenu_Click"/>
+                    <MenuItem Name="lcoffsetMenu" Header="岩层离层位移" Click="lcoffsetMenu_Click"/>
+                </MenuItem>
+            </Menu>
+
+            <Menu>
+                <MenuItem Header="地面井设计(_A)">
+                    <MenuItem Name="secureMenu" Header="套管安全系数" Click="secureMenu_Click"/>
+                    <MenuItem Name="autoDesignMenu" Header="井型自动设计" Click="autoDesignMenu_Click"/>
+                    <MenuItem Name="manDesignsecureMenu" Header="井型人工设计" Click="manDesignsecureMenu_Click"/>
+                </MenuItem>
+            </Menu>
         </DockPanel>
-        
+
         <DockPanel Grid.Row="0" HorizontalAlignment="Right">
-           <Button Content="切换录入方式" Click="ToggleButton_Click" Margin="0, 0, 5 , 0"/>
+          <!--  <Button Content="切换录入方式" Click="ToggleButton_Click" Margin="0, 0, 5 , 0"/>-->
 
             <ComboBox x:Name="styleComBox" SelectedIndex="0" SelectionChanged="themeCB_SelectionChanged" Margin="0, 0, 20 ,0">
                 <ComboBoxItem>主题一</ComboBoxItem>
@@ -48,10 +76,10 @@
 
             <TextBlock Text="{Binding BLogin, Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource convert}}" 
                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0, 20 ,0"/>
-            
+
         </DockPanel>
-        
-        <TabControl x:Name="tabControl"  Grid.Row="1" TabStripPlacement="Bottom">
+
+        <TabControl x:Name="tabControl"  Grid.Row="1">
             <TabControl.Resources>
                 <ContextMenu x:Key="menu">
                     <MenuItem  Header="关闭" Click="closeMenuItem_Click"/>

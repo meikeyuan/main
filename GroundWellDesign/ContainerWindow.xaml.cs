@@ -65,13 +65,16 @@ namespace GroundWellDesign
         public List<Document> windows = new List<Document>();
 
         public static LoginInfo loginInfo = new LoginInfo();
+
+
+        private int newFileCount = 1;
         
 
         public ContainerWindow(bool bLogin, string filepath)
         {
             InitializeComponent();
             loginInfo.BLogin = bLogin;
-            openFile(filepath);
+            openFileHelper(filepath);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -80,15 +83,19 @@ namespace GroundWellDesign
             base.OnClosed(e);
         }
 
-        //新建文件
-        private void newFileBtn_Click(object sender, RoutedEventArgs e)
+
+        //**********************文件*******************************
+
+
+        //新建文件菜单
+        private void newFileMenu_Click(object sender, RoutedEventArgs e)
         {
-            openFile(null);
+            openFileHelper(null);
         }
 
 
-        //打开文件
-        private void openFileBtn_Click(object sender, RoutedEventArgs e)
+        //打开文件菜单
+        private void openFileMenu_Click(object sender, RoutedEventArgs e)
         {
 
             System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -106,7 +113,7 @@ namespace GroundWellDesign
                         return;
                     }
                 }
-                if (!openFile(filePath))
+                if (!openFileHelper(filePath))
                 {
                     MessageBox.Show("打开文件失败！");
                 }
@@ -115,66 +122,42 @@ namespace GroundWellDesign
 
        
 
-        //另存为
-        private void saveOthFileBtn_Click(object sender, RoutedEventArgs e)
+        //另存为菜单
+        private void saveOthFileMenu_Click(object sender, RoutedEventArgs e)
         {
             int index = tabControl.SelectedIndex;
             if (index == -1)
             {
                 return;
             }
-
-            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
-            fileDialog.Title = "保存文件";
-            fileDialog.Filter = "数据文件(*.data)|*.data";
-            fileDialog.FileName = "岩层数据.data";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string filePath = fileDialog.FileName;
-                string oldPath = windows[index].FilePath;
-                windows[index].FilePath = filePath;
-                if (windows[index].saveFile())
-                {
-                    MessageBox.Show("保存成功");
-                    var tabitem = tabControl.Items.GetItemAt(index) as TabItem;
-                    tabitem.Header = Path.GetFileNameWithoutExtension(filePath);
-
-                }
-                else
-                {
-                    MessageBox.Show("保存失败");
-                    windows[index].FilePath = oldPath;
-                }
-            }
-
+            savetoFileHelper(windows[index]);
         }
 
-        //保存数据到文件
-        private void saveFileBtn_Click(object sender, RoutedEventArgs e)
+        //保存数据到文件菜单
+        private void saveFileMenu_Click(object sender, RoutedEventArgs e)
         {
             int index = tabControl.SelectedIndex;
             if (index == -1)
             {
                 return;
             }
-            saveFile(windows[index]);
+            saveFileHelper(windows[index]);
 
         }
 
-        //保存所有文件
-        private void saveAllFileBtn_Click(object sender, RoutedEventArgs e)
+        //保存所有文件菜单
+        private void saveAllFileMenu_Click(object sender, RoutedEventArgs e)
         {
 
             foreach (Document window in windows)
             {
                 tabControl.SelectedIndex = windows.IndexOf(window);
-                saveFile(window);
+                saveFileHelper(window);
             }
         }
 
         //打开文件
-        private bool openFile(string filePath)
+        private bool openFileHelper(string filePath)
         {
             Document document = new Document(filePath);
             if (!document.openFile())
@@ -184,15 +167,17 @@ namespace GroundWellDesign
 
 
             TabItem tabitem = new TabItem();
-            tabitem.ContextMenu = tabControl.Resources["menu"] as ContextMenu;
+            ContentControl contentCtl = new ContentControl();
+            contentCtl.ContextMenu = tabControl.Resources["menu"] as ContextMenu;
             if (filePath == null)
             {
-                tabitem.Header = "新建文档";
+                contentCtl.Content = "新建文档" + newFileCount++;
             }
             else
             {
-                tabitem.Header = Path.GetFileNameWithoutExtension(filePath);
+                contentCtl.Content = Path.GetFileNameWithoutExtension(filePath);
             }
+            tabitem.Header = contentCtl;
             tabitem.Content = document.Content;
             windows.Add(document);
             tabControl.Items.Add(tabitem);
@@ -201,15 +186,17 @@ namespace GroundWellDesign
             return true;
         }
 
+
         //保存文件
-        private void saveFile(Document window)
+        private void saveFileHelper(Document window)
         {
             if (window.FilePath == null)
             {
-                MessageBox.Show("该文件不存在，请点击“另存为”");
+                savetoFileHelper(window);
                 return;
             }
-            if (MessageBox.Show("确定覆盖旧文件吗？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBox.Show(Path.GetFileNameWithoutExtension(window.FilePath) + ":确定覆盖此文件吗？", 
+                "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
@@ -224,14 +211,155 @@ namespace GroundWellDesign
         }
 
 
+        private void savetoFileHelper(Document window)
+        {
+            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
+            var tabitem = tabControl.Items.GetItemAt(windows.IndexOf(window)) as TabItem;
+            fileDialog.Title = "存为";
+            fileDialog.Filter = "数据文件(*.data)|*.data";
+            fileDialog.FileName = tabitem.Header + ".data";
+
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = fileDialog.FileName;
+                string oldPath = window.FilePath;
+                window.FilePath = filePath;
+                if (window.saveFile())
+                {
+                    MessageBox.Show("保存成功");
+                    tabitem.Header = Path.GetFileNameWithoutExtension(filePath);
+                }
+                else
+                {
+                    MessageBox.Show("保存失败");
+                    window.FilePath = oldPath;
+                }
+            }
+        }
+
+        //**********************录入数据*****************************
+
+        private void inputBaseDataMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            if (curWindow.tabControl.Items.Contains(curWindow.guidinputTabItem))
+            {
+                curWindow.tabControl.Items.RemoveAt(0);
+                curWindow.tabControl.Items.Insert(0, curWindow.gridinputTabItem);
+                
+            }
+            curWindow.tabControl.SelectedItem = curWindow.gridinputTabItem;
+        }
+
+        private void inputBaseGuidMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            if (curWindow.tabControl.Items.Contains(curWindow.gridinputTabItem))
+            {
+                curWindow.tabControl.Items.RemoveAt(0);
+                curWindow.tabControl.Items.Insert(0, curWindow.guidinputTabItem);
+                
+            }
+            curWindow.tabControl.SelectedItem = curWindow.guidinputTabItem;
+        }
+
+
+        private void inputKeyDataMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            curWindow.tabControl.SelectedItem = curWindow.keyLayerTabItem;
+        }
+
+
+        //*************************************位移计算**************************
+
+        private void jqoffsetMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            curWindow.tabControl.SelectedItem = curWindow.cutOffsetTabItem;
+        }
+
+        private void lcoffsetMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            curWindow.tabControl.SelectedItem = curWindow.cutOffsetTabItem;
+        }
+
+        //******************************地面井设计****************************************
+        private void autoDesignMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            curWindow.tabControl.SelectedItem = curWindow.showTabItem;
+        }
+
+        private void manDesignsecureMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            curWindow.tabControl.SelectedItem = curWindow.showTabItem;
+
+        }
+
+        private void secureMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            curWindow.tabControl.SelectedItem = curWindow.taoGuanTabItem;
+
+        }
+
+
+        //***********************************菜单end******************
+
 
         //关闭选项卡
         private void closeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            UIElement ui = ContextMenuService.GetPlacementTarget(LogicalTreeHelper.GetParent(sender as MenuItem));
-            if (ui is TabItem)
+            var mi = sender as MenuItem;
+            var cm = mi.Parent as ContextMenu;
+            var contentControl = cm.PlacementTarget as ContentControl;
+            var tabItem = contentControl.Parent as TabItem;
+            if (tabItem is TabItem)
             {
-                int index = tabControl.Items.IndexOf(ui);
+                int index = tabControl.Items.IndexOf(tabItem);
                 tabControl.Items.RemoveAt(index);
                 windows.RemoveAt(index);
             }
@@ -256,20 +384,30 @@ namespace GroundWellDesign
         {
                 foreach (Document window in windows)
                 {
+                    ToggleInputType(window);
                     
-                    if(window.tabControl.Items.Contains(window.guidinputTabItem)){
-                        window.tabControl.Items.RemoveAt(0);
-                        window.tabControl.Items.Insert(0, window.gridinputTabItem);
-                        window.tabControl.SelectedItem = window.gridinputTabItem;
-                    }
-                    else{
-                        window.tabControl.Items.RemoveAt(0);
-                        window.tabControl.Items.Insert(0, window.guidinputTabItem);
-                        window.tabControl.SelectedItem = window.guidinputTabItem;
-                    }
                 }
         }
 
-        
+
+        private void ToggleInputType(Document window)
+        {
+            if (window.tabControl.Items.Contains(window.guidinputTabItem))
+            {
+                window.tabControl.Items.RemoveAt(0);
+                window.tabControl.Items.Insert(0, window.gridinputTabItem);
+                window.tabControl.SelectedItem = window.gridinputTabItem;
+            }
+            else
+            {
+                window.tabControl.Items.RemoveAt(0);
+                window.tabControl.Items.Insert(0, window.guidinputTabItem);
+                window.tabControl.SelectedItem = window.guidinputTabItem;
+            }
+        }
+
+
+
+
     }
 }

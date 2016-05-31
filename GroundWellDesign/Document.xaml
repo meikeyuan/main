@@ -97,7 +97,11 @@
 
 
         <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" TabStripPlacement="Top">
-
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </TabControl.ItemContainerStyle>
             <TabItem x:Name="gridinputTabItem" Header="岩层基本参数录入">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -107,7 +111,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="463*"/>
                         <RowDefinition Height="40"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="33"/>
                     </Grid.RowDefinitions>
                     <DataGrid x:Name="paramGrid" SelectedCellsChanged="paramGrid_SelectedCellsChanged" SelectionChanged="paramGrid_SelectionChanged">
                         <DataGrid.Resources>
@@ -213,7 +217,7 @@
 
                         <DataGrid.ContextMenu>
                             <ContextMenu x:Name="dgMenu" StaysOpen="true">
-                                <MenuItem Header="保存" Click="click_saveToDB" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" />
+                                <MenuItem Header="保存到数据库" Click="click_saveToDB" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" />
                                 <MenuItem Header="增行" Click="click_addRow"/>
                                 <MenuItem Header="删除" Click="click_delRow"/>
                                 <MenuItem Header="上移" Click="click_upRow" />
@@ -267,7 +271,7 @@
 
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" FlowDirection="RightToLeft" ><!-- Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" --> 
 
-                            <Button Content="输入关键层数据"  Width="100" Click="click_inputOtherData"/>
+                         <!--  <Button Content="关键层数据"  Width="100" Click="click_inputOtherData"/>--> 
                             <Button Content="显示关键层"  Width="100" Click="click_showKeyRow"/>
                             <ComboBox x:Name="caiDongComBox" ItemsSource="{x:Static local:Document.CaiDongOpt}"/>
                         </StackPanel>
