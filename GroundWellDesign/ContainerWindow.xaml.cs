@@ -167,6 +167,7 @@ namespace GroundWellDesign
 
 
             TabItem tabitem = new TabItem();
+
             ContentControl contentCtl = new ContentControl();
             contentCtl.ContextMenu = tabControl.Resources["menu"] as ContextMenu;
             if (filePath == null)
@@ -274,6 +275,13 @@ namespace GroundWellDesign
         }
 
 
+        private void closeBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+        }
+
         private void inputKeyDataMenu_Click(object sender, RoutedEventArgs e)
         {
             int index = tabControl.SelectedIndex;
@@ -319,7 +327,7 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
-            curWindow.tabControl.SelectedItem = curWindow.showTabItem;
+            curWindow.tabControl.SelectedItem = curWindow.autoDesignTabItem;
         }
 
         private void manDesignsecureMenu_Click(object sender, RoutedEventArgs e)
@@ -330,7 +338,7 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
-            curWindow.tabControl.SelectedItem = curWindow.showTabItem;
+            curWindow.tabControl.SelectedItem = curWindow.manDesignTabItem;
 
         }
 

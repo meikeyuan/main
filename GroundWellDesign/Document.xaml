@@ -96,12 +96,12 @@
 
 
 
-        <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" TabStripPlacement="Top">
-            <TabControl.ItemContainerStyle>
+        <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" TabStripPlacement="Left">
+            <!--<TabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
-            </TabControl.ItemContainerStyle>
+            </TabControl.ItemContainerStyle>-->
             <TabItem x:Name="gridinputTabItem" Header="岩层基本参数录入">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -269,9 +269,10 @@
                             <Button Content="↓"  Width="40"  ToolTip="下移" Click="click_downRow" Padding="0"/>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" FlowDirection="RightToLeft" ><!-- Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" --> 
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" FlowDirection="RightToLeft" >
+                            <!-- Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" -->
 
-                         <!--  <Button Content="关键层数据"  Width="100" Click="click_inputOtherData"/>--> 
+                            <!--  <Button Content="关键层数据"  Width="100" Click="click_inputOtherData"/>-->
                             <Button Content="显示关键层"  Width="100" Click="click_showKeyRow"/>
                             <ComboBox x:Name="caiDongComBox" ItemsSource="{x:Static local:Document.CaiDongOpt}"/>
                         </StackPanel>
@@ -283,7 +284,7 @@
                             <RowDefinition Height="12*"/>
                             <RowDefinition Height="199*"/>
                         </Grid.RowDefinitions>
-                        
+
                         <Slider Name="zoomSlider" Minimum="3" Maximum="20" Value="3"/>
 
                         <ListBox Grid.Row="1" Name="yancengListBox" HorizontalContentAlignment="Stretch" ItemContainerStyle="{StaticResource ListBoxItemStyle}"
@@ -300,7 +301,7 @@
                                                 <Binding Path="Value" Source="{x:Reference zoomSlider}"/>
                                             </MultiBinding>
                                         </Rectangle.Height>
-                                        
+
                                         <Rectangle.Fill>
                                             <DrawingBrush Drawing="{Binding YanXing, Converter={StaticResource yanXingToKeyConvert}}"/>
                                         </Rectangle.Fill>
@@ -506,13 +507,52 @@
 
             </TabItem>
 
-            <TabItem x:Name="showTabItem" Header="图形显示" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">
+            <TabItem x:Name="autoDesignTabItem" Header="井型自动设计" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">
                 <Grid>
                     <WindowsFormsHost x:Name="wfHost" >
 
                     </WindowsFormsHost>
                 </Grid>
             </TabItem>
+
+            <TabItem x:Name="manDesignTabItem" Header="井型人工设计" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">
+                <Grid ShowGridLines="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="81*"/>
+                        <ColumnDefinition Width="536*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock  Text="一开结构"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock  Text="二开结构"  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock  Text="三开结构"  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock  Text="四开结构"  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    
+                    <local:ManDesign  Grid.Column="1"/>
+                    <local:ManDesign  Grid.Column="1" Grid.Row="1"/>
+                    <local:ManDesign  Grid.Column="1" Grid.Row="2"/>
+                    <local:ManDesign  Grid.Column="1" Grid.Row="3"/>
+                    
+                    <StackPanel Grid.Row="4" Grid.ColumnSpan="2"
+                            HorizontalAlignment="Center"    Orientation="Horizontal">
+                        <Button Content="重置"/>
+                        <Button Content="保存"/>
+                        <Button Content="生成图像"/>
+                        
+                    </StackPanel>
+                    
+                </Grid>
+            </TabItem>
+
+
+
+
+
         </TabControl>
     </Grid>
 </Window>

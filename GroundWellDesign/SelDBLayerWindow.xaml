@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:GroundWellDesign"
         Title="岩层数据库" WindowStartupLocation="CenterScreen"
-        Width="900"
+        SizeToContent="Width"
         Height="500">
 
     <Window.Resources>
@@ -42,7 +42,7 @@
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Q1, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q1值" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Q2, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q2值" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
 
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding MiaoShu, UpdateSourceTrigger=LostFocus}"   Header="岩性描述" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding MiaoShu, UpdateSourceTrigger=LostFocus}"   Header="岩性描述" Width="50"/>
 
 
             </DataGrid.Columns>

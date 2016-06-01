@@ -57,7 +57,7 @@ namespace GroundWellDesign
 
 
             //显示
-            tabControl.SelectedItem = showTabItem;
+            tabControl.SelectedItem = autoDesignTabItem;
 
         }
 

@@ -10,6 +10,51 @@
         <GradientStop Color="#FFEDEDED" Offset="1"/>
     </LinearGradientBrush>
 
+    <!-- TabItem CloseButton Brush-->
+    <SolidColorBrush x:Key="TabCloseButtonBrush" Color="#FFADADAD"/>
+    <Style x:Key="CloseButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" 
+						CornerRadius="2" 
+						Background="{TemplateBinding Background}" 
+						BorderThickness="1" 
+						BorderBrush="{TemplateBinding BorderBrush}" 
+						Width="16" Height="16" 
+						SnapsToDevicePixels="True">
+                        <Grid Width="8" Height="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Path x:Name="path1" Stroke="{StaticResource TabCloseButtonBrush}" Data="M0,0 L8,8" StrokeThickness="2" />
+                            <Path x:Name="path2" Stroke="{StaticResource TabCloseButtonBrush}" Data="M8,0 L0,8" StrokeThickness="2" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource TabCloseButtonBrush}"/>
+                            <Setter Property="Background" Value="WhiteSmoke"/>
+                            <Setter Property="Stroke" TargetName="path1" Value="DarkRed"/>
+                            <Setter Property="Stroke" TargetName="path2" Value="DarkRed"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                        <GradientStop Color="#FFADADAD" Offset="0"/>
+                                        <GradientStop Color="White" Offset="0.5"/>
+                                        <GradientStop Color="White" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
     <Style x:Key="TabItemFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -30,7 +75,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Grid x:Name="Layout" Margin="1,0">
+                    <Grid Name="Layout" Margin="1,0">
                         <Grid x:Name="Button" Opacity="0">
                             <Border x:Name="Background" BorderThickness="1,1,1,0" CornerRadius="4,4,0,0"  
 								Background="{DynamicResource TabItemNormalBackground}"
@@ -41,7 +86,7 @@
 								Margin="0,0,0,1" 
 								Background="{DynamicResource LighteningRadialBrush}" 
 								Visibility="Collapsed"/>
-                             <Border x:Name="TopLightening" CornerRadius="2,2,0,0" 
+                            <Border x:Name="TopLightening" CornerRadius="2,2,0,0" 
 								Margin="3" 
 								BorderBrush="{DynamicResource OuterBorderBrushStyle}">
                                 <Rectangle Height="6" VerticalAlignment="Top" 						   
@@ -51,12 +96,13 @@
                             </Border>
                             <Border x:Name="Disabling" CornerRadius="2,2,0,0" Margin="2" Opacity="0.4" Background="{DynamicResource GrayLightBrush}" Visibility="Hidden"/>
                         </Grid>
-                        <ContentPresenter x:Name="Content" ContentSource="Header" 
+                        <ContentPresenter x:Name="Content" ContentSource="Header"
 							HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" 
 							RecognizesAccessKey="True" 
 							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
 							VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" 
 							Margin="{TemplateBinding Padding}"/>
+                        
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
