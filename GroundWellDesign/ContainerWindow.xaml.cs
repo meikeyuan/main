@@ -133,7 +133,7 @@ namespace GroundWellDesign
             savetoFileHelper(windows[index]);
         }
 
-        //保存数据到文件菜单
+        //保存到文件菜单
         private void saveFileMenu_Click(object sender, RoutedEventArgs e)
         {
             int index = tabControl.SelectedIndex;
@@ -254,6 +254,7 @@ namespace GroundWellDesign
                 curWindow.tabControl.Items.Insert(0, curWindow.gridinputTabItem);
                 
             }
+            showTitle("岩层基本数据录入--表格式");
             curWindow.tabControl.SelectedItem = curWindow.gridinputTabItem;
         }
 
@@ -271,15 +272,8 @@ namespace GroundWellDesign
                 curWindow.tabControl.Items.Insert(0, curWindow.guidinputTabItem);
                 
             }
+            showTitle("岩层基本数据录入--向导式");
             curWindow.tabControl.SelectedItem = curWindow.guidinputTabItem;
-        }
-
-
-        private void closeBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-
-
         }
 
         private void inputKeyDataMenu_Click(object sender, RoutedEventArgs e)
@@ -290,6 +284,7 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
+            showTitle("关键层数据录入");
             curWindow.tabControl.SelectedItem = curWindow.keyLayerTabItem;
         }
 
@@ -304,6 +299,7 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
+            showTitle("岩层剪切位移");
             curWindow.tabControl.SelectedItem = curWindow.cutOffsetTabItem;
         }
 
@@ -315,6 +311,7 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
+            showTitle("岩层离层位移");
             curWindow.tabControl.SelectedItem = curWindow.cutOffsetTabItem;
         }
 
@@ -327,6 +324,7 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
+            showTitle("井型自动设计");
             curWindow.tabControl.SelectedItem = curWindow.autoDesignTabItem;
         }
 
@@ -338,6 +336,7 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
+            showTitle("井型人工设计");
             curWindow.tabControl.SelectedItem = curWindow.manDesignTabItem;
 
         }
@@ -350,8 +349,15 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
+            showTitle("套管安全系数");
             curWindow.tabControl.SelectedItem = curWindow.taoGuanTabItem;
 
+        }
+
+
+        private void showTitle(String title)
+        {
+            titleBlock.Text = title;
         }
 
 
@@ -386,6 +392,8 @@ namespace GroundWellDesign
                 mergedDicts.RemoveAt(1);
             mergedDicts.Add(skinDict);
         }
+
+
 
         //切换录入方式
         private void ToggleButton_Click(object sender, RoutedEventArgs e)

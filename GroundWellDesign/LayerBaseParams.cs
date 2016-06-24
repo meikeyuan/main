@@ -17,7 +17,7 @@ namespace GroundWellDesign
 
         public BaseParams(BaseParams layer)
         {
-            
+            wellName = layer.wellName;
             yanXing = layer.yanXing;
             leiJiShenDu = layer.leiJiShenDu;
             juLiMeiShenDu = layer.juLiMeiShenDu;
@@ -42,6 +42,7 @@ namespace GroundWellDesign
 
         }
 
+        public string wellName;
         public string yanXing;
         public double leiJiShenDu;
         public double juLiMeiShenDu;

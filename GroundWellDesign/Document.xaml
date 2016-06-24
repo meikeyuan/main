@@ -97,11 +97,11 @@
 
 
         <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" TabStripPlacement="Left">
-            <!--<TabControl.ItemContainerStyle>
+            <TabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
-            </TabControl.ItemContainerStyle>-->
+            </TabControl.ItemContainerStyle>
             <TabItem x:Name="gridinputTabItem" Header="岩层基本参数录入">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -507,7 +507,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="autoDesignTabItem" Header="井型自动设计" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">
+            <TabItem x:Name="autoDesignTabItem" Header="井型自动设计"> <!--Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">-->
                 <Grid>
                     <WindowsFormsHost x:Name="wfHost" >
 
@@ -515,7 +515,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="manDesignTabItem" Header="井型人工设计" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">
+            <TabItem x:Name="manDesignTabItem" Header="井型人工设计" ><!--Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" -->
                 <Grid ShowGridLines="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="81*"/>

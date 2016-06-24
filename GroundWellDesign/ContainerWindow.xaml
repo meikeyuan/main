@@ -7,6 +7,7 @@
 
     <Window.Resources>
         <local:BoolToTextConvert x:Key="convert"/>
+        <local:MyConvert x:Key="loginToVisConvert" sourceType="login"/>
 
     </Window.Resources>
 
@@ -56,13 +57,20 @@
             </Menu>
 
             <Menu>
-                <MenuItem Header="地面井设计(_A)">
+                <MenuItem Header="地面井设计(_X)">
                     <MenuItem Name="secureMenu" Header="套管安全系数" Click="secureMenu_Click"/>
-                    <MenuItem Name="autoDesignMenu" Header="井型自动设计" Click="autoDesignMenu_Click"/>
-                    <MenuItem Name="manDesignsecureMenu" Header="井型人工设计" Click="manDesignsecureMenu_Click"/>
+                    <MenuItem Name="autoDesignMenu" Header="井型自动设计" Click="autoDesignMenu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
+                    <MenuItem Name="manDesignsecureMenu" Header="井型人工设计" Click="manDesignsecureMenu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
                 </MenuItem>
             </Menu>
+
+            <TextBlock VerticalAlignment="Center" Margin="30, 0, 0, 0"  Text="当前界面："/>
+            <TextBlock Name="titleBlock" VerticalAlignment="Center" Text="岩层基本数据录入"/>
+
         </DockPanel>
+        
+        
+        
 
         <DockPanel Grid.Row="0" HorizontalAlignment="Right">
           <!--  <Button Content="切换录入方式" Click="ToggleButton_Click" Margin="0, 0, 5 , 0"/>-->

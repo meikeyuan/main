@@ -28,7 +28,7 @@ namespace GroundWellDesign
                         MessageBox.Show("计算出错，请检查数据合理性");
                         break;
                     case ERRORCODE.没有关键层数据:
-                        MessageBox.Show("没有关键层数据");
+                        //MessageBox.Show("没有关键层数据");
                         break;
                     case ERRORCODE.没有评价系数修正系数:
                         MessageBox.Show("没有评价系数修正系数，部分参数未计算");

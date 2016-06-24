@@ -50,7 +50,7 @@ namespace GroundWellDesign
             Thread thread = new Thread(new ThreadStart(closeFuckDlg));
             thread.Start();
             cadViewer.EndInit();
-            cadViewer.OpenDwgFile("示意钻井结构.dwg");
+            cadViewer.OpenDwgFile("well.dwg");
             cadViewer.ZoomCenter(1500, 1000);
             cadViewer.ZoomScale(0.4);
 

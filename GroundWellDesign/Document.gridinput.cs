@@ -38,7 +38,6 @@ namespace GroundWellDesign
         void dataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
         {
             dataGrid_LoadingRow(sender, e);
-
         }
 
 

@@ -53,23 +53,17 @@ namespace GroundWellDesign
         }
 
 
-
-
-
-        private void selectChooseBtn_Click(object sender, RoutedEventArgs e)
+        private void grid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            if (existedLayerGrid.SelectedIndex == -1)
-            {
-                MessageBox.Show("请选择一项");
+
+            if (e.AddedCells.Count == 0)
                 return;
+            var currentCell = e.AddedCells[0];
+            if (currentCell.Column == existedLayerGrid.Columns[0])
+            {
+                existedLayerGrid.BeginEdit();    //  进入编辑模式  这样单击一次就可以选择ComboBox里面的值了  
             }
-
-
-            WantedLayer.copyAndEventEcpYanXing(existedLayers[existedLayerGrid.SelectedIndex]);
-
-            this.Close();
         }
-
 
 
 
