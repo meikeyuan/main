@@ -28,7 +28,6 @@ namespace GroundWellDesign
             }
 
             LoginWindow loginWin = new LoginWindow(filePath);
-
             app.initial();
             app.Run(loginWin);
         }

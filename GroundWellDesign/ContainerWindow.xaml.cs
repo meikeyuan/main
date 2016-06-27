@@ -79,7 +79,7 @@ namespace GroundWellDesign
 
         protected override void OnClosed(EventArgs e)
         {
-            Application.Current.Shutdown();
+            Environment.Exit(0);
             base.OnClosed(e);
         }
 
@@ -312,7 +312,7 @@ namespace GroundWellDesign
             }
             Document curWindow = windows[index];
             showTitle("岩层离层位移");
-            curWindow.tabControl.SelectedItem = curWindow.cutOffsetTabItem;
+            curWindow.tabControl.SelectedItem = curWindow.lcOffsetTabItem;
         }
 
         //******************************地面井设计****************************************

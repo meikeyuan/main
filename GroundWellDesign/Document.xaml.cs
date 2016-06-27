@@ -38,6 +38,8 @@ namespace GroundWellDesign
             keyLayerDataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
             cutOffsetDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
             cutOffsetDataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
+            lcOffsetDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
+            lcOffsetDataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
             //向导式录入初始化
             editLayer = new LayerParams(this);
@@ -54,15 +56,18 @@ namespace GroundWellDesign
             cadViewer.ZoomCenter(1500, 1000);
             cadViewer.ZoomScale(0.4);
 
+
+            //表格的数据绑定
             paramGrid.DataContext = layers;
             keyLayerDataGrid.DataContext = keyLayers;
             yancengListBox.ItemsSource = layers;
             cutOffsetDataGrid.ItemsSource = layers;
+            lcOffsetDataGrid.ItemsSource = keyLayers;
             taoGuanDataGrid.ItemsSource = layers;
 
 
 
-            //关键层其他参数绑定
+            //关键层计算相关其他参数绑定
             meiCengQingJIaoTb.DataContext = this;
             fuYanXCLTb.DataContext = this;
             caiGaoTb.DataContext = this;
