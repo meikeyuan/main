@@ -11,34 +11,7 @@ namespace GroundWellDesign
     public partial class Document : Window
     {
 
-        void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            if(!(sender is DataGrid))
-            {
-                return;
-            }
-            DataGrid grid = sender as DataGrid;
-            if (grid.Items != null)
-            {
-                for (int i = e.Row.GetIndex(); i < grid.Items.Count; i++)
-                {
-                    try
-                    {
-                        DataGridRow row = grid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
-                        if (row != null)
-                        {
-                            row.Header = i + 1;
-                        }
-                    }
-                    catch { }
-                }
-            }
-        }
 
-        void dataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
-        {
-            dataGrid_LoadingRow(sender, e);
-        }
 
 
         private void paramGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -65,7 +38,7 @@ namespace GroundWellDesign
                 return;
             }
 
-            LayerParams layer = layers[selectedIndex];
+/*            LayerParams layer = layers[selectedIndex];
             string path = DATABASE_PATH + layer.yanXing;
             if (layer.dataBaseNum == 0 || !File.Exists(path + "\\" + layer.dataBaseNum))
             {
@@ -88,16 +61,8 @@ namespace GroundWellDesign
                 }
             }
             BaseParams baseParam = new BaseParams(layer);
-            bool bSuccess = DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum);
-
-            if (bSuccess)
-            {
-                MessageBox.Show("保存成功");
-            }
-            else
-            {
-                MessageBox.Show("保存失败");
-            }
+            bool bSuccess = DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum   */
+            new SaveToDBWindow().ShowDialog();
         }
 
 

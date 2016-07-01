@@ -92,6 +92,39 @@ namespace GroundWellDesign
             FilePath = filepath;
         }
 
+
+        void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            if (!(sender is DataGrid))
+            {
+                return;
+            }
+            DataGrid grid = sender as DataGrid;
+            if (grid.Items != null)
+            {
+                for (int i = e.Row.GetIndex(); i < grid.Items.Count; i++)
+                {
+                    try
+                    {
+                        DataGridRow row = grid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                        if (row != null)
+                        {
+                            row.Header = i + 1;
+                        }
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        void dataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            dataGrid_LoadingRow(sender, e);
+        }
+
+        
+
+
         [StructLayout(LayoutKind.Sequential)]
         public struct CopyDataStruct
         {

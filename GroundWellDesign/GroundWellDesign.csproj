@@ -118,6 +118,9 @@
     <Compile Include="ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SaveToDBWindow.xaml.cs">
+      <DependentUpon>SaveToDBWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SelDBLayerWindow.xaml.cs">
       <DependentUpon>SelDBLayerWindow.xaml</DependentUpon>
     </Compile>
@@ -172,6 +175,10 @@
       <DependentUpon>Document.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SaveToDBWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SelDBLayerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

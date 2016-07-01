@@ -123,7 +123,7 @@
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
-                            <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.YanXingOpt}" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=PropertyChanged}" Header="岩性" />
+                            <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.YanXingOpt}" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=LostFocus}" Header="岩性" />
                             <DataGridTextColumn Header="累计深度/m" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource elementStyle}">
                                 <DataGridTextColumn.Binding>
                                     <Binding Path="LeiJiShenDu" StringFormat="n3" UpdateSourceTrigger="LostFocus">
