@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
 using System.Windows;
@@ -68,6 +69,8 @@ namespace GroundWellDesign
 
 
         private int newFileCount = 1;
+
+        public static string DATABASE_PATH = "c:\\ProgramData\\GroundWellDesign\\yanceng.db";
         
 
         public ContainerWindow(bool bLogin, string filepath)
@@ -75,6 +78,42 @@ namespace GroundWellDesign
             InitializeComponent();
             loginInfo.BLogin = bLogin;
             openFileHelper(filepath);
+
+
+            //创建数据库目录
+            //foreach (string yanxing in YanXingOpt)
+            //{
+            //Directory.CreateDirectory(DATABASE_PATH /*+ yanxing */);
+            //}
+            SQLiteConnection conn = null;
+
+            string dbPath = "Data Source =" + DATABASE_PATH;
+            conn = new SQLiteConnection(dbPath);//创建数据库实例，指定文件位置
+            conn.Open();//打开数据库，若文件不存在会自动创建
+            //conn.SetPassword("123456");
+
+            //建表语句
+            string sql2 = "CREATE TABLE IF NOT EXISTS yanceng(" +
+                         "id char(36) primary key, wellName text references well(wellName), " +
+                         "yanXing text, leiJiShenDu double, juLiMeiShenDu double, cengHou double, ziRanMiDu double, " +
+                         "bianXingMoLiang double, kangLaQiangDu double, kangYaQiangDu double, tanXingMoLiang double, boSonBi double, " +
+                         "neiMoCaJiao double, nianJuLi double, q0 double, q1 double, q2 double, miaoShu Text" +
+                         ");";
+
+            string sql1 = "CREATE TABLE IF NOT EXISTS well(" +
+                         "wellName text primary key" +
+                         ");";
+
+            //如果表不存在，创建数据表 
+            SQLiteCommand cmdCreateTable = new SQLiteCommand(conn);
+            cmdCreateTable.CommandText = sql1;
+            cmdCreateTable.ExecuteNonQuery();
+
+            cmdCreateTable.CommandText = sql2;
+            cmdCreateTable.ExecuteNonQuery();
+
+            conn.Close();
+
         }
 
         protected override void OnClosed(EventArgs e)

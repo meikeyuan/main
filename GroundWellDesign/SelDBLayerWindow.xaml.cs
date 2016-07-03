@@ -23,7 +23,9 @@ namespace GroundWellDesign
     {
 
 
-        private ObservableCollection<LayerParams> existedLayers = new ObservableCollection<LayerParams>();
+        public ObservableCollection<LayerParams> existedLayers = new ObservableCollection<LayerParams>();
+        private List<String> items = new List<string>();
+        private string cus = "所有矿井";
 
         private string yanXing;
 
@@ -38,15 +40,21 @@ namespace GroundWellDesign
         {
             InitializeComponent();
 
-            //判断选择的岩性
-            string findPath = Document.DATABASE_PATH + yanXing;
-            string[] files = Directory.GetFiles(findPath);
-            foreach (string filename in files)
+
+            //加载矿井下拉选择列表
+            DataSaveAndRestore.getAllWellName(items);
+            items.Insert(0, cus);
+            wellNameCombo.ItemsSource = items;
+            wellNameCombo.SelectedIndex = 0;
+
+
+            //加载所有数据库岩层
+            DataSaveAndRestore.getDBLayers(existedLayers, yanXing, null);
+            if(existedLayers.Count == 0)
             {
-                BaseParams baseParam = (BaseParams)DataSaveAndRestore.restoreObj(filename);
-                existedLayers.Add(new LayerParams(baseParam));
+                Close();
             }
-            
+
             existedLayerGrid.DataContext = existedLayers;
             WantedLayer = wantedLayer;
             this.yanXing = yanXing;
@@ -61,11 +69,20 @@ namespace GroundWellDesign
             var currentCell = e.AddedCells[0];
             if (currentCell.Column == existedLayerGrid.Columns[0])
             {
-                existedLayerGrid.BeginEdit();    //  进入编辑模式  这样单击一次就可以选择ComboBox里面的值了  
+                //进入编辑模式  这样单击一次就可以打勾了
+                existedLayerGrid.BeginEdit();      
             }
         }
 
-
+        private void wellNameCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //加载数据库岩层
+            if(wellNameCombo.SelectedIndex == 0)
+                DataSaveAndRestore.getDBLayers(existedLayers, yanXing, null);
+            else
+                DataSaveAndRestore.getDBLayers(existedLayers, yanXing, wellNameCombo.SelectedValue.ToString());
+            existedLayerGrid.DataContext = existedLayers;
+        }
 
         private void selectAllBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -116,11 +133,15 @@ namespace GroundWellDesign
             }
 
 
-            //首先判断有没有东西
+            //首先判断有没有选中
             int count = selectedList.Count;
             if (count <= 0)
             {
-                WantedLayer.copyAndEventEcpYanXing(tmpLayer);
+                MessageBox.Show("请至少选择一项");
+                return;
+            }else if(count == 1)
+            {
+                WantedLayer.copyAndEventEcpYanXing(existedLayers[selectedList[0]]);
                 this.Close();
                 return;
             }
@@ -143,8 +164,8 @@ namespace GroundWellDesign
                 tmpLayer.q0 += layer.q0;
                 tmpLayer.q1 += layer.q1;
                 tmpLayer.q2 += layer.q2;
-                tmpLayer.miaoShu = layer.miaoShu;
-                tmpLayer.dataBaseNum = 0;
+                //tmpLayer.miaoShu = layer.miaoShu;
+                //tmpLayer.dataBaseKey = null;
             }
             WantedLayer.LeiJiShenDu = tmpLayer.leiJiShenDu / count;
             WantedLayer.JuLiMeiShenDu = tmpLayer.juLiMeiShenDu / count;
@@ -161,8 +182,10 @@ namespace GroundWellDesign
             WantedLayer.Q1 = tmpLayer.q1 / count;
             WantedLayer.Q2 = tmpLayer.q2 / count;
             WantedLayer.MiaoShu = "取数据库平均值";
-            WantedLayer.dataBaseNum = 0;
+            WantedLayer.dataBaseKey = null;
             this.Close();
         }
+
+
     }
 }

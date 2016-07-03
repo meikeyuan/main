@@ -20,10 +20,7 @@ namespace GroundWellDesign
         public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
         LayerParams editLayer;
         public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
-
-
-
-        public const string DATABASE_PATH = "c:\\ProgramData\\GroundWellDesign\\";
+        
 
         public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
         public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };

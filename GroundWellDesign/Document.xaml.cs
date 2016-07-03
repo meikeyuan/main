@@ -82,13 +82,6 @@ namespace GroundWellDesign
             gZMTJSDTb.DataContext = this;
             jswzjlTb.DataContext = this;
 
-
-            //创建目录
-            foreach (string yanxing in YanXingOpt)
-            {
-                Directory.CreateDirectory(DATABASE_PATH + yanxing);
-            }
-
             FilePath = filepath;
         }
 

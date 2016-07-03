@@ -1,5 +1,6 @@
 ﻿using MathWorks.MATLAB.NET.Arrays;
 using System;
+using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
 using System.Windows;
@@ -34,12 +35,12 @@ namespace GroundWellDesign
             //未选择行
             if (selectedIndex == -1)
             {
-                MessageBox.Show("请选中一行...");
+                MessageBox.Show("请选中一行");
                 return;
             }
 
-/*            LayerParams layer = layers[selectedIndex];
-            string path = DATABASE_PATH + layer.yanXing;
+            LayerParams layer = layers[selectedIndex];
+/*            string path = DATABASE_PATH + layer.yanXing;
             if (layer.dataBaseNum == 0 || !File.Exists(path + "\\" + layer.dataBaseNum))
             {
                 int count = Directory.GetFiles(path).Length;
@@ -62,7 +63,49 @@ namespace GroundWellDesign
             }
             BaseParams baseParam = new BaseParams(layer);
             bool bSuccess = DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum   */
-            new SaveToDBWindow().ShowDialog();
+
+
+            //先检查该岩层是否已经已经存在于数据库中
+            if(layer.dataBaseKey != null)
+            {
+                SQLiteConnection conn = null;
+                string dbPath = "Data Source =" + ContainerWindow.DATABASE_PATH;
+                conn = new SQLiteConnection(dbPath);//创建数据库实例，指定文件位置
+                conn.Open();//打开数据库，若文件不存在会自动创建
+
+                SQLiteCommand cmd = new SQLiteCommand(conn);
+                cmd.CommandText = "select * from yanceng where id = '" + layer.dataBaseKey + "'";//插入几条数据
+                var reader = cmd.ExecuteReader();
+                bool exist = reader.HasRows;
+                reader.Close();
+                conn.Close();
+
+                if(exist)
+                {
+                    MessageBoxResult res = MessageBox.Show("该记录已存在，覆盖旧的数据吗？选择\"否\"新增一条", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                    switch (res)
+                    {
+                        case MessageBoxResult.Cancel:
+                            break;
+                        case MessageBoxResult.No:
+                            new SaveToDBWindow(layer).ShowDialog();
+                            break;
+                        case MessageBoxResult.Yes:
+                            bool success = DataSaveAndRestore.saveToSqlite(layer, layer.dataBaseKey, true, layer.wellNamePK, true);
+                            if (success)
+                            {
+                                MessageBox.Show("操作成功");
+                            }
+                            else
+                            {
+                                MessageBox.Show("操作失败");
+                            }
+                            break;
+                    }
+                    return;
+                }
+            }
+            new SaveToDBWindow(layer).ShowDialog();
         }
 
 

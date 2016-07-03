@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GroundWellDesign
 {
@@ -19,20 +12,48 @@ namespace GroundWellDesign
     /// </summary>
     public partial class SaveToDBWindow : Window
     {
-        public SaveToDBWindow()
+        LayerParams layer;
+        List<String> items = new List<string>();
+        string cus = "其他(自定义)";
+        public SaveToDBWindow(LayerParams layer)
         {
             InitializeComponent();
-            comboBox.ItemsSource = new List<String> {"#1", "#2", "其他" };
-            comboBox.SelectedIndex = 0;
+            this.layer = layer;
+
+            DataSaveAndRestore.getAllWellName(items);
+
+            items.Add(cus);
+            comboBox.ItemsSource = items;
+            if(items.Count > 0)
+                comboBox.SelectedIndex = 0;
         }
 
         private void saveOkBtn_Click(object sender, RoutedEventArgs e)
         {
-            //save to sqlite...
-            bool bSuccess = false;
-
-            if (bSuccess)
+            string wellName = comboBox.SelectedValue.ToString();
+            //如果选择的是其他。。。
+            if(wellName.Equals(cus))
             {
+                wellName = textBox.Text;
+                if(wellName.Equals(""))
+                {
+                    MessageBox.Show("请输入矿井名称");
+                    return;
+                }else if(items.Contains(wellName))
+                {
+                    MessageBox.Show("您输入的矿井名称已存在，请在下拉列表选择");
+                    return;
+                }
+            }
+
+
+            string uuid = Guid.NewGuid().ToString();
+            bool success = DataSaveAndRestore.saveToSqlite(layer, uuid, false, wellName, items.Contains(wellName));
+
+            if (success)
+            {
+                layer.dataBaseKey = uuid;
+                layer.wellNamePK = wellName;
                 MessageBox.Show("保存成功");
             }
             else
@@ -50,7 +71,7 @@ namespace GroundWellDesign
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (comboBox.SelectedValue.Equals("其他"))
+            if (comboBox.SelectedValue.Equals(cus))
             {
                 textBox.IsEnabled = true;
             }

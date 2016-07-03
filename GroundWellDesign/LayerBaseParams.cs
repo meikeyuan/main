@@ -17,7 +17,6 @@ namespace GroundWellDesign
 
         public BaseParams(BaseParams layer)
         {
-            wellName = layer.wellName;
             yanXing = layer.yanXing;
             leiJiShenDu = layer.leiJiShenDu;
             juLiMeiShenDu = layer.juLiMeiShenDu;
@@ -34,7 +33,8 @@ namespace GroundWellDesign
             q1 = layer.q1;
             q2 = layer.q2;
             miaoShu = layer.miaoShu;
-            dataBaseNum = layer.dataBaseNum;
+            dataBaseKey = layer.dataBaseKey;
+            wellNamePK = layer.wellNamePK;
 
             qxJQWY = layer.qxJQWY;
             zxJQWY = layer.zxJQWY;
@@ -42,7 +42,6 @@ namespace GroundWellDesign
 
         }
 
-        public string wellName;
         public string yanXing;
         public double leiJiShenDu;
         public double juLiMeiShenDu;
@@ -59,7 +58,8 @@ namespace GroundWellDesign
         public double q1;
         public double q2;
         public string miaoShu;
-        public int dataBaseNum;
+        public string dataBaseKey;
+        public string wellNamePK;
 
 
         public double qxJQWY;
@@ -124,7 +124,8 @@ namespace GroundWellDesign
             Q1 = layer.q1;
             Q2 = layer.q2;
             MiaoShu = layer.miaoShu;
-            dataBaseNum = layer.dataBaseNum;
+            dataBaseKey = layer.dataBaseKey;
+            WellNamePK = layer.wellNamePK;
 
             QXJQWY = layer.qxJQWY;
             ZXJQWY = layer.zxJQWY;
@@ -151,7 +152,8 @@ namespace GroundWellDesign
             q1 = layer.q1;
             q2 = layer.q2;
             miaoShu = layer.miaoShu;
-            dataBaseNum = layer.dataBaseNum;
+            dataBaseKey = layer.dataBaseKey;
+            wellNamePK = layer.wellNamePK;
 
             qxJQWY = layer.qxJQWY;
             zxJQWY = layer.zxJQWY;
@@ -195,8 +197,9 @@ namespace GroundWellDesign
             set
             {
                 yanXing = value;
-
-                new SelectLayerWindow(yanXing, this).ShowDialog();
+                var selectLayerWindow = new SelectLayerWindow(yanXing, this);
+                if(selectLayerWindow.existedLayers.Count > 0)
+                    selectLayerWindow.ShowDialog();
                 int index = Document.YanXingOpt.IndexOf(value);
                 switch (index)
                 {
@@ -251,6 +254,16 @@ namespace GroundWellDesign
                 SetUI("YanXing");
             }
         }
+
+        public string WellNamePK
+        {
+            get { return wellNamePK;}
+            set {
+                wellNamePK = value;
+                SetUI("WellNamePK");
+            }
+        }
+
 
         private void refreshCengHou()
         {
