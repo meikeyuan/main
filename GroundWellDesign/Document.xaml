@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:GroundWellDesign"
+        xmlns:chart="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts"
         xmlns:assembly="clr-namespace:System;assembly=mscorlib"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -474,6 +475,11 @@
 
             <TabItem x:Name="cutOffsetTabItem" Header="岩层剪切位移" >
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    
                     <DataGrid x:Name="cutOffsetDataGrid" IsReadOnly="True" Loaded="cutOffsetDataGrid_Loaded">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding YanXing}" Header="岩性" />
@@ -485,12 +491,26 @@
                             <DataGridTextColumn Binding="{Binding JQHWY, StringFormat=n3}"   Header="剪切合位移u(p)" ElementStyle="{StaticResource elementStyle}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+
+                    <chart:Chart Name="jqChart" Grid.Column="1" ToolBarEnabled="False" ScrollingEnabled="True" View3D="True" > 
+                        <chart:Chart.Titles>
+                            <chart:Title Text="剪切合位移u(p)"/>
+                        </chart:Chart.Titles>
+                        <chart:Chart.Series>
+                            <chart:DataSeries Name="jqDataSeries"  RenderAs="Spline" LegendText="剪切合位移u(p)" XValueType="Numeric"/>
+                        </chart:Chart.Series>
+                    </chart:Chart>
+
                 </Grid>
 
             </TabItem>
             
             <TabItem x:Name="lcOffsetTabItem" Header="岩层离层位移" >
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
                     <DataGrid x:Name="lcOffsetDataGrid" IsReadOnly="True" Loaded="lcOffsetDataGrid_Loaded">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
@@ -504,7 +524,20 @@
                             <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+
+
+                    <chart:Chart Name="lcChart" Grid.Column="1" ToolBarEnabled="False" ScrollingEnabled="True" View3D="True" >
+                        <chart:Chart.Titles>
+                            <chart:Title Text="岩层最大下沉值W0"/>
+                        </chart:Chart.Titles>
+                        <chart:Chart.Series>
+                            <chart:DataSeries Name="lcDataSeries"  RenderAs="Spline" XValueType="Numeric" LegendText="岩层最大下沉值W0"/>
+                        </chart:Chart.Series>
+                    </chart:Chart>
                 </Grid>
+                
+                
+                
             </TabItem>
             
 

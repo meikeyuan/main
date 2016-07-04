@@ -7,44 +7,49 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Visifire.Charts;
 
 namespace GroundWellDesign
 {
     partial class Document
     {
+
         private void cutOffsetDataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            if(sender != cutOffsetDataGrid || tabControl.SelectedItem != cutOffsetTabItem)
+            if (sender != cutOffsetDataGrid || tabControl.SelectedItem != cutOffsetTabItem)
             {
                 return;
             }
 
-                switch (computeCutOffSet(keyLayers.Count, layers.Count))
-                {
-                    case ERRORCODE.计算成功:
-                        //MessageBox.Show("计算成功");
-                        break;
-                    case ERRORCODE.计算异常:
-                        MessageBox.Show("计算出错，请检查数据合理性");
-                        break;
-                    case ERRORCODE.没有关键层数据:
-                        //MessageBox.Show("没有关键层数据");
-                        break;
-                    case ERRORCODE.没有评价系数修正系数:
-                        MessageBox.Show("没有评价系数修正系数，部分参数未计算");
-                        break;
-                    case ERRORCODE.没有煤层倾角和煤层厚度:
-                        MessageBox.Show("没有煤层倾角和煤层厚度，部分参数未计算");
-                        break;
-                    case ERRORCODE.没有回采区长度:
-                        MessageBox.Show("没有回采区长度(走向/倾向)，部分参数未计算");
-                        break;
-                    case ERRORCODE.没有工作面推进速度:
-                        MessageBox.Show("没有工作面推进速度，部分参数未计算");
-                        break;
-                }
+            int upCount = 0;
+            switch (computeCutOffSet(keyLayers.Count, layers.Count, ref upCount))
+            {
+                case ERRORCODE.计算成功:
+                    //MessageBox.Show("计算成功");
+                    CreateJqChartSpline(layers, upCount);
+                    break;
+                case ERRORCODE.计算异常:
+                    MessageBox.Show("计算出错，请检查数据合理性");
+                    break;
+                case ERRORCODE.没有关键层数据:
+                    //MessageBox.Show("没有关键层数据");
+                    break;
+                case ERRORCODE.没有评价系数修正系数:
+                    MessageBox.Show("没有评价系数修正系数，部分参数未计算");
+                    break;
+                case ERRORCODE.没有煤层倾角和煤层厚度:
+                    MessageBox.Show("没有煤层倾角和煤层厚度，部分参数未计算");
+                    break;
+                case ERRORCODE.没有回采区长度:
+                    MessageBox.Show("没有回采区长度(走向/倾向)，部分参数未计算");
+                    break;
+                case ERRORCODE.没有工作面推进速度:
+                    MessageBox.Show("没有工作面推进速度，部分参数未计算");
+                    break;
+            }
         }
-        private ERRORCODE computeCutOffSet(int keycount, int allcount)
+        private ERRORCODE computeCutOffSet(int keycount, int allcount, ref int upCount)
         {
             if (keycount == 0)
             {
@@ -162,7 +167,8 @@ namespace GroundWellDesign
                 double[] uz = (double[])Uz.ToVector(MWArrayComponent.Real);
                 double[] up = (double[])Up.ToVector(MWArrayComponent.Real);
 
-                for (int i = 0; i < up.Length; i++)
+                upCount = up.Length;
+                for (int i = 0; i < upCount; i++)
                 {
                     layers[i].QXJQWY = ux[i] * 100;
                     layers[i].ZXJQWY = uz[i] * 100;
@@ -183,6 +189,53 @@ namespace GroundWellDesign
                 return ERRORCODE.计算异常;
             }
 
+        }
+
+
+        private void CreateJqChartSpline(ObservableCollection<LayerParams> layers, int drawCount)
+        {
+            //添加横坐标
+            if (jqChart.AxesX.Count == 1)
+            {
+                Axis xAxis = new Axis();
+                xAxis.IntervalType = IntervalTypes.Number;
+                xAxis.Interval = 1;
+                jqChart.AxesX.Add(xAxis);
+            }
+
+
+            //添加纵坐标
+            if (jqChart.AxesY.Count == 1)
+            {
+                Axis yAxis = new Axis();
+                yAxis.AxisMinimum = 0;
+                yAxis.Suffix = "厘米";
+                jqChart.AxesY.Add(yAxis);
+            }
+
+            // 设置数据点
+            jqDataSeries.DataPoints.Clear();
+            DataPoint dataPoint;
+            for (int i = 0; i < drawCount; i++)
+            {
+                // 创建一个数据点的实例。                   
+                dataPoint = new DataPoint();
+                // 设置X轴点                    
+                dataPoint.XValue = i + 1;
+                //设置Y轴点
+                dataPoint.YValue = layers[i].jqHWY;
+                dataPoint.MarkerSize = 8;                 
+                dataPoint.MouseLeftButtonDown += new MouseButtonEventHandler(jqdataPoint_MouseLeftButtonDown);
+                //添加数据点
+                jqDataSeries.DataPoints.Add(dataPoint);
+            }
+        }
+
+        //点击事件
+        void jqdataPoint_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DataPoint dp = sender as DataPoint;
+            MessageBox.Show("剪切合位移u(p)：" + dp.YValue.ToString());
         }
     }
 }

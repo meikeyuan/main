@@ -257,7 +257,7 @@ namespace GroundWellDesign
             var tabitem = tabControl.Items.GetItemAt(windows.IndexOf(window)) as TabItem;
             fileDialog.Title = "存为";
             fileDialog.Filter = "数据文件(*.data)|*.data";
-            fileDialog.FileName = tabitem.Header + ".data";
+            fileDialog.FileName = ((ContentControl)tabitem.Header).Content + ".data";
 
             if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Visifire.Charts;
 
 namespace GroundWellDesign
 {
@@ -14,7 +16,7 @@ namespace GroundWellDesign
     {
         private void lcOffsetDataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            if (sender != cutOffsetDataGrid || tabControl.SelectedItem != cutOffsetTabItem)
+            if (sender != lcOffsetDataGrid || tabControl.SelectedItem != lcOffsetTabItem)
             {
                 return;
             }
@@ -23,6 +25,7 @@ namespace GroundWellDesign
             {
                 case ERRORCODE.计算成功:
                     //MessageBox.Show("计算成功");
+                    CreateLcChartSpline(keyLayers, keyLayers.Count);
                     break;
                 case ERRORCODE.计算异常:
                     MessageBox.Show("计算出错，请检查数据合理性");
@@ -46,7 +49,7 @@ namespace GroundWellDesign
         }
         private ERRORCODE computelcOffSet(int keycount, int allcount)
         {
-            if (keycount == 0)
+           /* if (keycount == 0)
             {
                 return ERRORCODE.没有关键层数据;
             }
@@ -181,8 +184,55 @@ namespace GroundWellDesign
             catch (Exception)
             {
                 return ERRORCODE.计算异常;
+            }*/
+
+            return ERRORCODE.计算成功;
+
+        }
+
+        private void CreateLcChartSpline(ObservableCollection<KeyLayerParams> layers, int drawCount)
+        {
+            //添加横坐标
+            if (lcChart.AxesX.Count == 1)
+            {
+                Axis xAxis = new Axis();
+                xAxis.IntervalType = IntervalTypes.Number;
+                xAxis.Interval = 1;
+                lcChart.AxesX.Add(xAxis);
             }
 
+
+            //添加纵坐标
+            if (lcChart.AxesY.Count == 1)
+            {
+                Axis yAxis = new Axis();
+                yAxis.AxisMinimum = 0;
+                yAxis.Suffix = "米";
+                lcChart.AxesY.Add(yAxis);
+            }
+            //设置数据点
+            lcDataSeries.DataPoints.Clear();
+            DataPoint dataPoint;
+            for (int i = 0; i < drawCount; i++)
+            {
+                //创建一个数据点的实例
+                dataPoint = new DataPoint();
+                //设置X轴点
+                dataPoint.XValue = i + 1;
+                //设置Y轴点
+                dataPoint.YValue = layers[i].yczdxcz;
+                dataPoint.MarkerSize = 8;
+                dataPoint.MouseLeftButtonDown += new MouseButtonEventHandler(lcdataPoint_MouseLeftButtonDown);
+                //添加数据点
+                lcDataSeries.DataPoints.Add(dataPoint);
+            }
+        }
+
+        //点击事件
+        void lcdataPoint_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DataPoint dp = sender as DataPoint;
+            MessageBox.Show("岩层最大下沉值W0：" + dp.YValue.ToString());
         }
     }
 }
