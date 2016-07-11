@@ -513,15 +513,17 @@
                     </Grid.ColumnDefinitions>
                     <DataGrid x:Name="lcOffsetDataGrid" IsReadOnly="True" Loaded="lcOffsetDataGrid_Loaded">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0, UpdateSourceTrigger=LostFocus}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="距离煤层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3 }"   Header="岩层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3 }"   Header="距离煤层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             
-                            <DataGridTextColumn Binding="{Binding Sjxcxs, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="实际下沉系数η0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Sjxcxs, StringFormat=n3 }"   Header="实际下沉系数η0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3 }"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
-                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3 }"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" />
+                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3 }"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Header="最大离层位移△w/cm" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -545,13 +547,21 @@
                 <Grid>
                     <DataGrid x:Name="taoGuanDataGrid">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding YanXing}" Header="岩性" />
-                            <DataGridTextColumn Header="累计深度/m" Binding="{Binding LeiJiShenDu, StringFormat=n3}" />
-                            <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3}"   Header="距离煤层深度/m" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3}"   Header="层厚/m" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding QXJQWY, StringFormat=n3}"   Header="倾向剪切位移u(x)" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding ZXJQWY, StringFormat=n3}"   Header="走向剪切位移u(z)" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding JQHWY, StringFormat=n3}"   Header="剪切合位移up" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="套管外径/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="套管壁厚/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="套管弹性模量/Pa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="拉伸区域长度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="抗拉强度/Gpa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="拉伸应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="拉伸安全系数" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="剪切区域长度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="抗剪强度/Gpa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="最大剪切应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="最大剪切应变ε" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="剪切安全系数" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+
                         </DataGrid.Columns>
                     </DataGrid>
 

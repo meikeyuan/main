@@ -70,7 +70,8 @@ namespace GroundWellDesign
 
         private int newFileCount = 1;
 
-        public static string DATABASE_PATH = "c:\\ProgramData\\GroundWellDesign\\yanceng.db";
+        private static string DATABASE_DIR = "c:\\ProgramData\\GroundWellDesign";
+        public static string DATABASE_PATH = DATABASE_DIR + "\\yanceng.db";
         
 
         public ContainerWindow(bool bLogin, string filepath)
@@ -79,7 +80,7 @@ namespace GroundWellDesign
             loginInfo.BLogin = bLogin;
             openFileHelper(filepath);
 
-
+            Directory.CreateDirectory(DATABASE_DIR);
             //创建数据库目录
             //foreach (string yanxing in YanXingOpt)
             //{
