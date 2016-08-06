@@ -5,11 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GroundWellDesign
 {
     partial class Document
     {
+
+        private void taoGuanDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if (e.AddedCells.Count == 0)
+                return;
+            taoGuanDataGrid.BeginEdit();    //  进入编辑模式
+        }
+
 
         //计算安全系数
         private void calSafeBtn_Click(object sender, RoutedEventArgs e)
@@ -75,9 +84,23 @@ namespace GroundWellDesign
                 r1[i] = keyLayers[i].tgwj;
                 t[i] = keyLayers[i].tgbh;
                 a[i] = keyLayers[i].jqqycd;
-                tlim[i] = keyLayers[i].kjqd;
-                sigmaLim[i] = keyLayers[i].klqd;
+                if(keyLayers[i].kjqd.Equals(KjqdOpt[0]))
+                {
+                    tlim[i] = 0.2378;
+
+                }else{
+                    tlim[i] = 0.319;
+                }
+                
+                if(keyLayers[i].klqd.Equals(KlqdOpt[0]))
+                {
+                    sigmaLim[i] = 0.41;
+
+                }else{
+                    sigmaLim[i] = 0.55;
+                }
             }
+
             for (int i = 0, j = 0; i < layers.Count; i++)
             {
                 if (layers[i].IsKeyLayer)

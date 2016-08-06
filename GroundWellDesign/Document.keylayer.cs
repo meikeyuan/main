@@ -2,11 +2,22 @@
 using MxDrawXLib;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GroundWellDesign
 {
     partial class Document : Window
     {
+        private void keyLayerDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+
+            if (e.AddedCells.Count == 0)
+                return;
+            //进入编辑模式  这样单击一次就可以打勾了
+            keyLayerDataGrid.BeginEdit();
+        }
+
+
         private void showCadBtn_Click(object sender, RoutedEventArgs e)
         {
             //操作控件

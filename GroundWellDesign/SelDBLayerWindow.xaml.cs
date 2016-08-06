@@ -66,12 +66,8 @@ namespace GroundWellDesign
 
             if (e.AddedCells.Count == 0)
                 return;
-            var currentCell = e.AddedCells[0];
-            if (currentCell.Column == existedLayerGrid.Columns[0])
-            {
-                //进入编辑模式  这样单击一次就可以打勾了
-                existedLayerGrid.BeginEdit();      
-            }
+             //进入编辑模式  这样单击一次就可以打勾了
+             existedLayerGrid.BeginEdit();
         }
 
         private void wellNameCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)

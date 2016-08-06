@@ -10,12 +10,13 @@ namespace GroundWellDesign
     [Serializable]
     public class BaseKeyParams
     {
-      /*    public BaseKeyParams()
+         public BaseKeyParams()
         {
-
+            this.kjqd = Document.KjqdOpt[0];
+            this.klqd = Document.KlqdOpt[0];
         }
 
-      public BaseKeyParams(BaseKeyParams layer)
+    /*  public BaseKeyParams(BaseKeyParams layer)
         {
 
             ycbh = layer.ycbh;
@@ -72,12 +73,12 @@ namespace GroundWellDesign
         public double tgtxml;
 
         public double lsqycd;
-        public double klqd;
+        public string klqd;
         public double lsyl;
         public double lsaqxs;
 
         public double jqqycd;
-        public double kjqd;
+        public string kjqd;
         public double zdjqyl;
         public double zdjqyb;
         public double jqaqxs;
@@ -450,7 +451,7 @@ namespace GroundWellDesign
                 }
             }
         }
-        public double Klqd
+        public string Klqd
         {
             get { return klqd; }
             set
@@ -499,7 +500,7 @@ namespace GroundWellDesign
                 }
             }
         }
-        public double Kjqd
+        public string Kjqd
         {
             get { return kjqd; }
             set
