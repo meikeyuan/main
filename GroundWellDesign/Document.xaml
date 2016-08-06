@@ -442,7 +442,7 @@
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
 
                             <TextBlock Text="覆岩评价系数修正系数"  />
-                            <TextBox x:Name="xiuZhengXishuTb"  Text="{Binding Pjxsxz, UpdateSourceTrigger =PropertyChanged, StringFormat=n3}"/>
+                            <TextBox x:Name="xiuZhengXishuTb"  Text="{Binding Pjxsxz, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
 
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
@@ -455,7 +455,7 @@
                         </StackPanel>
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0" >
                             <TextBlock Text="工作面推进速度v"  />
-                            <TextBox x:Name="gZMTJSDTb"  Text="{Binding Gzmsd, UpdateSourceTrigger =PropertyChanged, StringFormat=n3}"/>
+                            <TextBox x:Name="gZMTJSDTb"  Text="{Binding Gzmsd, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
                         </StackPanel>
 
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 8, 0">
@@ -467,14 +467,9 @@
 
 
                     <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
                         <Button x:Name="showResBtn" Content="计算结果" Click="showResBtn_Click" />
-                        <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1"/>
-                                
-                                <!-- Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" -->
+                       <!-- <Button x:Name="showCadBtn" Content="图形显示" Click="showCadBtn_Click" Grid.Column="1"/>-->
+                       <!-- Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" -->
 
                     </Grid>
                 </Grid>
@@ -572,18 +567,18 @@
                             <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3 }"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3 }"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Tgwj, UpdateSourceTrigger=PropertyChanged, StringFormat=n3}"   Header="套管外径/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Tgbh, UpdateSourceTrigger=PropertyChanged, StringFormat=n3}"   Header="套管壁厚/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Tgwj, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="套管外径/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Tgbh, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="套管壁厚/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.TgtxmlOpt}" SelectedItemBinding="{Binding Tgtxml, UpdateSourceTrigger=LostFocus}" Header="套管弹性模量/Pa" />
-                            
-                            <DataGridTextColumn Binding="{Binding Jqqycd, UpdateSourceTrigger=PropertyChanged, StringFormat=n3}"   Header="剪切区域长度/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
+
+                            <DataGridTextColumn Binding="{Binding Jqqycd, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="剪切区域长度/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.KjqdOpt}" SelectedItemBinding="{Binding Kjqd, UpdateSourceTrigger=LostFocus}" Header="抗剪强度/Gpa" />
                             <DataGridTextColumn Binding="{Binding Zdjqyl, StringFormat=n3}"   Header="最大剪切应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Jqaqxs, StringFormat=n3}"   Header="剪切安全系数" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
-                            
-                            <DataGridTextColumn Binding="{Binding Lsqycd, UpdateSourceTrigger=PropertyChanged, StringFormat=n3}"   Header="拉伸区域长度/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
+
+                            <DataGridTextColumn Binding="{Binding Lsqycd, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="拉伸区域长度/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.KlqdOpt}" SelectedItemBinding="{Binding Klqd, UpdateSourceTrigger=LostFocus}" Header="抗拉强度/Gpa" />
-                            <DataGridTextColumn Binding="{Binding Zdjqyb, StringFormat=n3}"   Header="最大剪切应变ε" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Zdjqyb, StringFormat=e3}"   Header="最大剪切应变ε" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Lsyl, StringFormat=n3}"   Header="拉伸应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Lsaqxs, StringFormat=n3}"   Header="拉伸安全系数" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                         </DataGrid.Columns>

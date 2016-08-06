@@ -42,7 +42,7 @@ namespace GroundWellDesign
             set
             {
                 mcqj = value;
-                compute(keyLayers.Count);
+                computeMidData(keyLayers.Count);
             }
             get
             {
@@ -75,7 +75,7 @@ namespace GroundWellDesign
             set
             {
                 mchd = value;
-                compute(keyLayers.Count);
+                computeMidData(keyLayers.Count);
             }
             get
             {
@@ -93,7 +93,7 @@ namespace GroundWellDesign
                 {
                     layer.Fypjxsxz = layer.fypjxs * value;
                 }
-                compute(keyLayers.Count);
+                computeMidData(keyLayers.Count);
 
             }
             get
@@ -108,7 +108,7 @@ namespace GroundWellDesign
             set
             {
                 hcqZxcd = value;
-                compute(keyLayers.Count);
+                computeMidData(keyLayers.Count);
             }
             get
             {
@@ -122,7 +122,7 @@ namespace GroundWellDesign
             set
             {
                 hcqQxcd = value;
-                compute(keyLayers.Count);
+                computeMidData(keyLayers.Count);
             }
             get
             {

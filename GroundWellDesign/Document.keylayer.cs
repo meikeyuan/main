@@ -74,7 +74,7 @@ namespace GroundWellDesign
 
         private void showResBtn_Click(object sender, RoutedEventArgs e)
         {
-            switch(compute(keyLayers.Count))
+            switch (computeMidData(keyLayers.Count))
             {
                 case ERRORCODE.计算成功:
                     //MessageBox.Show("计算成功");
@@ -105,7 +105,7 @@ namespace GroundWellDesign
 
         public enum ERRORCODE { 计算成功, 计算异常, 没有关键层数据, 没有评价系数修正系数, 没有煤层倾角和煤层厚度, 没有回采区长度, 没有工作面推进速度 }
         //返回值
-        public ERRORCODE compute(int count)
+        public ERRORCODE computeMidData(int count)
         {
             if (count == 0)
             {

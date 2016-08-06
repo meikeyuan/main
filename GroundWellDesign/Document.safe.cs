@@ -83,7 +83,6 @@ namespace GroundWellDesign
                 if (keyLayers[i].tgtxml.Equals(TgtxmlOpt[0]))
                 {
                     e[i] = 2.050e11;
-
                 }
                 else
                 {
@@ -95,7 +94,6 @@ namespace GroundWellDesign
                 if(keyLayers[i].kjqd.Equals(KjqdOpt[0]))
                 {
                     tlim[i] = 0.2378;
-
                 }else{
                     tlim[i] = 0.319;
                 }

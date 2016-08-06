@@ -130,8 +130,6 @@ namespace GroundWellDesign
             QXJQWY = layer.qxJQWY;
             ZXJQWY = layer.zxJQWY;
             JQHWY = layer.jqHWY;
-
-            
         }
 
         public void copyNoEvent(BaseParams layer)
@@ -188,7 +186,6 @@ namespace GroundWellDesign
             {
                 mainWindow.layers[i].JuLiMeiShenDu = mainWindow.layers[i + 1].cengHou + mainWindow.layers[i + 1].juLiMeiShenDu;
             }
-
         }
 
         public string YanXing
