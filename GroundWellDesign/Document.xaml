@@ -574,8 +574,8 @@
 
                             <DataGridTextColumn Binding="{Binding Tgwj, UpdateSourceTrigger=PropertyChanged, StringFormat=n3}"   Header="套管外径/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Tgbh, UpdateSourceTrigger=PropertyChanged, StringFormat=n3}"   Header="套管壁厚/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Tgtxml, UpdateSourceTrigger=PropertyChanged, StringFormat=n3}"   Header="套管弹性模量/Pa" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
-
+                            <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.TgtxmlOpt}" SelectedItemBinding="{Binding Tgtxml, UpdateSourceTrigger=LostFocus}" Header="套管弹性模量/Pa" />
+                            
                             <DataGridTextColumn Binding="{Binding Jqqycd, UpdateSourceTrigger=PropertyChanged, StringFormat=n3}"   Header="剪切区域长度/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.KjqdOpt}" SelectedItemBinding="{Binding Kjqd, UpdateSourceTrigger=LostFocus}" Header="抗剪强度/Gpa" />
                             <DataGridTextColumn Binding="{Binding Zdjqyl, StringFormat=n3}"   Header="最大剪切应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>

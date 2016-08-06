@@ -80,7 +80,15 @@ namespace GroundWellDesign
             for (int i = 0; i < keycount; i++)
             {
                 w0[i] = keyLayers[i].yczdxcz;
-                e[i] = keyLayers[i].tgtxml;
+                if (keyLayers[i].tgtxml.Equals(TgtxmlOpt[0]))
+                {
+                    e[i] = 2.050e11;
+
+                }
+                else
+                {
+                    e[i] = 2.070e11;
+                }
                 r1[i] = keyLayers[i].tgwj;
                 t[i] = keyLayers[i].tgbh;
                 a[i] = keyLayers[i].jqqycd;

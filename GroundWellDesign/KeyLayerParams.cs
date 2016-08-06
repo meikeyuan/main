@@ -10,13 +10,14 @@ namespace GroundWellDesign
     [Serializable]
     public class BaseKeyParams
     {
-         public BaseKeyParams()
+        public BaseKeyParams()
         {
             this.kjqd = Document.KjqdOpt[0];
             this.klqd = Document.KlqdOpt[0];
+            this.tgtxml = Document.TgtxmlOpt[0];
         }
 
-    /*  public BaseKeyParams(BaseKeyParams layer)
+        public BaseKeyParams(BaseKeyParams layer)
         {
 
             ycbh = layer.ycbh;
@@ -29,6 +30,7 @@ namespace GroundWellDesign
             cfcdcjwy = layer.cfcdcjwy;
             gzmtjjl = layer.gzmtjjl;
             zx = layer.zx;
+            qx = layer.qx;
             cdyxbj = layer.cdyxbj;
 
 
@@ -41,8 +43,23 @@ namespace GroundWellDesign
             jsdjscjwy = layer.jsdjscjwy;
             jsdjslcwy = layer.jsdjscjwy;
 
+            //套管安全系数部分
+            tgwj = layer.tgwj;
+            tgbh = layer.tgbh;
+            tgtxml = layer.tgtxml;
 
-        }*/
+            lsqycd = layer.lsqycd;
+            klqd = layer.klqd;
+            lsyl = layer.lsyl;
+            lsaqxs = layer.lsaqxs;
+
+            jqqycd = layer.jqqycd;
+            kjqd = layer.kjqd;
+            zdjqyl = layer.zdjqyl;
+            zdjqyb = layer.zdjqyb;
+            jqaqxs = layer.jqaqxs;
+
+        }
 
         public int ycbh;
         public double ycsd;
@@ -70,7 +87,7 @@ namespace GroundWellDesign
         //套管安全系数部分
         public double tgwj;
         public double tgbh;
-        public double tgtxml;
+        public string tgtxml;
 
         public double lsqycd;
         public string klqd;
@@ -94,42 +111,59 @@ namespace GroundWellDesign
             this.mainWindow = mainWindow;
         }
 
-      /*  public KeyLayerParams(BaseKeyParams layer)
-        {
-            copyAndNoEvent(layer);
-        }
+          public KeyLayerParams(BaseKeyParams layer)
+          {
+              copyAndNoEvent(layer);
+          }
 
 
-        public void reset()
-        {
-            copyAndNoEvent(new BaseKeyParams());
-        }
+        /*  public void reset()
+          {
+              copyAndNoEvent(new BaseKeyParams());
+          }*/
 
 
-        public void copyAndNoEvent(BaseKeyParams layer)
-        {
-            ycbh = layer.ycbh;
-            ycsd = layer.ycsd;
-            mcms = layer.mcms;
-            fypjxs = layer.fypjxs;
-            fypjxsxz = layer.fypjxsxz;
-            gzmtjsj = layer.gzmtjsj;
+          public void copyAndNoEvent(BaseKeyParams layer)
+          {
+              ycbh = layer.ycbh;
+              ycsd = layer.ycsd;
+              mcms = layer.mcms;
+              fypjxs = layer.fypjxs;
+              fypjxsxz = layer.fypjxsxz;
+              gzmtjsj = layer.gzmtjsj;
 
-            cfcdcjwy = layer.cfcdcjwy;
-            gzmtjjl = layer.gzmtjjl;
-            zx = layer.zx;
-            qx = layer.qx;
-            cdyxbj = layer.cdyxbj;
+              cfcdcjwy = layer.cfcdcjwy;
+              gzmtjjl = layer.gzmtjjl;
+              zx = layer.zx;
+              qx = layer.qx;
+              cdyxbj = layer.cdyxbj;
 
 
-            gdydj = layer.gdydj;
-            cfkckjjl = layer.cfkckjjl;
-            sjxcxs = layer.sjxcxs;
-            yczdxcz = layer.yczdxcz;
+              gdydj = layer.gdydj;
+              qxhckj = layer.qxhckj;
+              cfkckjjl = layer.cfkckjjl;
+              sjxcxs = layer.sjxcxs;
+              yczdxcz = layer.yczdxcz;
 
-            jsdjscjwy = layer.jsdjscjwy;
-            jsdjslcwy = layer.jsdjscjwy;
-        }*/
+              jsdjscjwy = layer.jsdjscjwy;
+              jsdjslcwy = layer.jsdjscjwy;
+
+              //套管安全系数部分
+              tgwj = layer.tgwj;
+              tgbh = layer.tgbh;
+              tgtxml = layer.tgtxml;
+
+              lsqycd = layer.lsqycd;
+              klqd = layer.klqd;
+              lsyl = layer.lsyl;
+              lsaqxs = layer.lsaqxs;
+
+              jqqycd = layer.jqqycd;
+              kjqd = layer.kjqd;
+              zdjqyl = layer.zdjqyl;
+              zdjqyb = layer.zdjqyb;
+              jqaqxs = layer.jqaqxs;
+          }
 
         //增加是否危险
         private bool? isDangerous;
@@ -223,7 +257,7 @@ namespace GroundWellDesign
             {
                 gzmtjsj = value;
                 Gzmtjjl = gzmtjsj * mainWindow.gzmsd;
-                
+
                 if (PropertyChanged != null)
                 {
                     this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Gzmtjsj"));
@@ -426,7 +460,7 @@ namespace GroundWellDesign
             }
         }
 
-        public double Tgtxml
+        public string Tgtxml
         {
             get { return tgtxml; }
             set

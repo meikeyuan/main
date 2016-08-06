@@ -25,6 +25,7 @@ namespace GroundWellDesign
         public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
         public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
         public static List<String> KjqdOpt = new List<string> { "J55(0.2378GPa)", "N80(0.319GPa)" };
+        public static List<String> TgtxmlOpt = new List<string> { "J55(2.050e11)", "N80(2.070e11)" };
         public static List<String> KlqdOpt = new List<string> { "J55(0.41GPa)", "N80(0.55GPa)" };
 
 
