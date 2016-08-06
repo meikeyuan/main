@@ -40,6 +40,8 @@ namespace GroundWellDesign
             cutOffsetDataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
             lcOffsetDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
             lcOffsetDataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
+            taoGuanDataGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
+            taoGuanDataGrid.UnloadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_UnloadingRow);
 
             //向导式录入初始化
             editLayer = new LayerParams(this);
@@ -63,7 +65,7 @@ namespace GroundWellDesign
             yancengListBox.ItemsSource = layers;
             cutOffsetDataGrid.ItemsSource = layers;
             lcOffsetDataGrid.ItemsSource = keyLayers;
-            taoGuanDataGrid.ItemsSource = layers;
+            taoGuanDataGrid.ItemsSource = keyLayers;
 
 
 
@@ -195,13 +197,13 @@ namespace GroundWellDesign
 
             //回复关键层数据
             keyLayers.Clear();
-            foreach (BaseKeyParams baseParam in data.KeyLayers)
+            /*foreach (BaseKeyParams baseParam in data.KeyLayers)
             {
                 KeyLayerParams layer = new KeyLayerParams(baseParam);
                 layer.mainWindow = this;
                 keyLayers.Add(layer);
 
-            }
+            }*/
 
             //回复关键层其他数据
             if (data.KeyLayerData != null && data.KeyLayerData.Count == 10)
@@ -248,11 +250,11 @@ namespace GroundWellDesign
             }
 
             //关键层参数
-            data.KeyLayers = new ObservableCollection<BaseKeyParams>();
+            /*data.KeyLayers = new ObservableCollection<BaseKeyParams>();
             foreach (KeyLayerParams layerParam in keyLayers)
             {
                 data.KeyLayers.Add(new BaseKeyParams(layerParam));
-            }
+            }*/
 
 
             data.KeyLayerData = new List<double>();
@@ -315,11 +317,6 @@ namespace GroundWellDesign
                 //}
             }
         }
-
-
-
-
-
 
 
     }

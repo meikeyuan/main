@@ -10,12 +10,12 @@ namespace GroundWellDesign
     [Serializable]
     public class BaseKeyParams
     {
-        public BaseKeyParams()
+      /*    public BaseKeyParams()
         {
 
         }
 
-        public BaseKeyParams(BaseKeyParams layer)
+      public BaseKeyParams(BaseKeyParams layer)
         {
 
             ycbh = layer.ycbh;
@@ -41,7 +41,7 @@ namespace GroundWellDesign
             jsdjslcwy = layer.jsdjscjwy;
 
 
-        }
+        }*/
 
         public int ycbh;
         public double ycsd;
@@ -65,6 +65,22 @@ namespace GroundWellDesign
 
         public double jsdjscjwy;
         public double jsdjslcwy;
+
+        //套管安全系数部分
+        public double tgwj;
+        public double tgbh;
+        public double tgtxml;
+
+        public double lsqycd;
+        public double klqd;
+        public double lsyl;
+        public double lsaqxs;
+
+        public double jqqycd;
+        public double kjqd;
+        public double zdjqyl;
+        public double zdjqyb;
+        public double jqaqxs;
     }
 
 
@@ -77,7 +93,7 @@ namespace GroundWellDesign
             this.mainWindow = mainWindow;
         }
 
-        public KeyLayerParams(BaseKeyParams layer)
+      /*  public KeyLayerParams(BaseKeyParams layer)
         {
             copyAndNoEvent(layer);
         }
@@ -112,8 +128,22 @@ namespace GroundWellDesign
 
             jsdjscjwy = layer.jsdjscjwy;
             jsdjslcwy = layer.jsdjscjwy;
-        }
+        }*/
 
+        //增加是否危险
+        private bool? isDangerous;
+        public bool? IsDangerous
+        {
+            get { return isDangerous; }
+            set
+            {
+                isDangerous = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IsDangerous"));
+                }
+            }
+        }
 
         public int Ycbh
         {
@@ -364,6 +394,156 @@ namespace GroundWellDesign
                 if (PropertyChanged != null)
                 {
                     this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Jsdjslcwy"));
+                }
+            }
+        }
+
+        //套管安全系数部分
+        public double Tgwj
+        {
+            get { return tgwj; }
+            set
+            {
+                tgwj = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Tgwj"));
+                }
+            }
+        }
+
+        public double Tgbh
+        {
+            get { return tgbh; }
+            set
+            {
+                tgbh = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Tgbh"));
+                }
+            }
+        }
+
+        public double Tgtxml
+        {
+            get { return tgtxml; }
+            set
+            {
+                tgtxml = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Tgtxml"));
+                }
+            }
+        }
+
+        public double Lsqycd
+        {
+            get { return lsqycd; }
+            set
+            {
+                lsqycd = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Lsqycd"));
+                }
+            }
+        }
+        public double Klqd
+        {
+            get { return klqd; }
+            set
+            {
+                klqd = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Klqd"));
+                }
+            }
+        }
+        public double Lsyl
+        {
+            get { return lsyl; }
+            set
+            {
+                lsyl = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Lsyl"));
+                }
+            }
+        }
+        public double Lsaqxs
+        {
+            get { return lsaqxs; }
+            set
+            {
+                lsaqxs = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Lsaqxs"));
+                }
+            }
+        }
+
+        public double Jqqycd
+        {
+            get { return jqqycd; }
+            set
+            {
+                jqqycd = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Jqqycd"));
+                }
+            }
+        }
+        public double Kjqd
+        {
+            get { return kjqd; }
+            set
+            {
+                kjqd = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Kjqd"));
+                }
+            }
+        }
+        public double Zdjqyl
+        {
+            get { return zdjqyl; }
+            set
+            {
+                zdjqyl = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Zdjqyl"));
+                }
+            }
+        }
+        public double Zdjqyb
+        {
+            get { return zdjqyb; }
+            set
+            {
+                zdjqyb = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Zdjqyb"));
+                }
+            }
+        }
+        public double Jqaqxs
+        {
+            get { return jqaqxs; }
+            set
+            {
+                jqaqxs = value;
+                if (PropertyChanged != null)
+                {
+                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Jqaqxs"));
                 }
             }
         }

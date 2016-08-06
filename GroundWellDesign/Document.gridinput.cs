@@ -11,10 +11,6 @@ namespace GroundWellDesign
 {
     public partial class Document : Window
     {
-
-
-
-
         private void paramGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
 
@@ -195,17 +191,28 @@ namespace GroundWellDesign
             paramGrid.SelectedIndex = selectedIndex + 1;
         }
 
-
+        //横三区竖三代计算
         private void computeMLBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 var array1 = (MWNumericArray)logic.calHm(FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
-                MaoLuoDai = array1.ToScalarDouble();
-                maoLuoDaiTb.Text = MaoLuoDai.ToString();
+                double maoLuoDai = array1.ToScalarDouble();
+                maoLuoDaiTb.Text = maoLuoDai.ToString("f3");
                 var array2 = (MWNumericArray)logic.calHl(CaiGao, 1);
-                LieXiDai = array2.ToScalarDouble();
-                lieXiDaiTb.Text = LieXiDai.ToString();
+                double lieXiDai = array2.ToScalarDouble();
+                lieXiDaiTb.Text = lieXiDai.ToString("f3");
+
+                for(int i = keyLayers.Count; i > 0; i--)
+                {
+                    if(keyLayers[i-1].mcms < lieXiDai)
+                    {
+                        continue;
+                    }
+                    double wanquDai = keyLayers[i-1].mcms;
+                    wanQuDaiTb.Text = wanquDai.ToString("f3");
+                    break;
+                }
 
             }
             catch (Exception)
@@ -260,11 +267,11 @@ namespace GroundWellDesign
 
 
         //转到输入关键层数据
-        private void click_inputOtherData(object sender, RoutedEventArgs e)
+       /* private void click_inputOtherData(object sender, RoutedEventArgs e)
         {
 
             tabControl.SelectedItem = keyLayerTabItem;
-        }
+        }*/
 
 
         //模块一获取岩层参数的回调函数

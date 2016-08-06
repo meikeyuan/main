@@ -112,11 +112,12 @@
     <Compile Include="Document.cutoffset.cs" />
     <Compile Include="Document.data.cs" />
     <Compile Include="Document.lcoffset.cs" />
+    <Compile Include="Document.safe.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManDesign.xaml.cs">
-      <DependentUpon>ManDesign.xaml</DependentUpon>
+    <Compile Include="ManDesign1.xaml.cs">
+      <DependentUpon>ManDesign1.xaml</DependentUpon>
     </Compile>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -124,6 +125,9 @@
     </Page>
     <Compile Include="ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManDesign2.xaml.cs">
+      <DependentUpon>ManDesign2.xaml</DependentUpon>
     </Compile>
     <Compile Include="SaveToDBWindow.xaml.cs">
       <DependentUpon>SaveToDBWindow.xaml</DependentUpon>
@@ -182,6 +186,10 @@
       <DependentUpon>Document.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ManDesign2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SaveToDBWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -214,7 +222,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ManDesign.xaml">
+    <Page Include="ManDesign1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

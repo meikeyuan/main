@@ -64,8 +64,8 @@
                             <ColumnDefinition Width="40*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Content="管理员登录" Click="loginBtn_Click" Background="#FF3D7FC6"  Margin="78,0,0,0" Height="25" Foreground="White"></Button>
-                        <Button Content="匿名使用" Grid.Column="1" Click="anonBtn_Click" Background="#FF3D7FC6"  Margin="20,0,40,0" Height="25" Foreground="White"></Button>
+                        <Button Content="管理员" Click="loginBtn_Click" Background="#FF3D7FC6"  Margin="78,0,0,0" Height="25" Foreground="White"></Button>
+                        <Button Content="匿名" Grid.Column="1" Click="anonBtn_Click" Background="#FF3D7FC6"  Margin="20,0,40,0" Height="25" Foreground="White"></Button>
                     </Grid>
 
 

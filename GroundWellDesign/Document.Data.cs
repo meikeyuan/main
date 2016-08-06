@@ -66,18 +66,6 @@ namespace GroundWellDesign
             set;
         }
 
-        public double MaoLuoDai
-        {
-            set;
-            get;
-        }
-
-        public double LieXiDai
-        {
-            set;
-            get;
-        }
-
 
         private double mchd;
         public double Mchd
