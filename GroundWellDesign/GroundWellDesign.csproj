@@ -113,6 +113,7 @@
     <Compile Include="Document.data.cs" />
     <Compile Include="Document.lcoffset.cs" />
     <Compile Include="Document.safe.cs" />
+    <Compile Include="Document.snhzy.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>

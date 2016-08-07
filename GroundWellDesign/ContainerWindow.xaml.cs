@@ -288,12 +288,6 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
-            if (curWindow.tabControl.Items.Contains(curWindow.guidinputTabItem))
-            {
-                curWindow.tabControl.Items.RemoveAt(0);
-                curWindow.tabControl.Items.Insert(0, curWindow.gridinputTabItem);
-                
-            }
             showTitle("岩层基本数据录入--表格式");
             curWindow.tabControl.SelectedItem = curWindow.gridinputTabItem;
         }
@@ -306,12 +300,6 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
-            if (curWindow.tabControl.Items.Contains(curWindow.gridinputTabItem))
-            {
-                curWindow.tabControl.Items.RemoveAt(0);
-                curWindow.tabControl.Items.Insert(0, curWindow.guidinputTabItem);
-                
-            }
             showTitle("岩层基本数据录入--向导式");
             curWindow.tabControl.SelectedItem = curWindow.guidinputTabItem;
         }
@@ -394,6 +382,17 @@ namespace GroundWellDesign
 
         }
 
+        private void snhComputeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            showTitle("水泥环增益计算");
+            curWindow.tabControl.SelectedItem = curWindow.snhComputeTabItem;
+        }
 
         private void showTitle(String title)
         {
@@ -436,7 +435,7 @@ namespace GroundWellDesign
 
 
         //切换录入方式
-        private void ToggleButton_Click(object sender, RoutedEventArgs e)
+       /* private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
                 foreach (Document window in windows)
                 {
@@ -461,6 +460,8 @@ namespace GroundWellDesign
                 window.tabControl.SelectedItem = window.guidinputTabItem;
             }
         }
+        */
+
 
 
 

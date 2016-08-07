@@ -102,7 +102,7 @@ namespace GroundWellDesign
 
         public void reset()
         {
-            copyNoEvent(new BaseParams());
+            copyAndEventEcpYanXing(new BaseParams());
         }
 
 

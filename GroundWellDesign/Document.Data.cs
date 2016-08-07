@@ -36,6 +36,8 @@ namespace GroundWellDesign
             get;
         }
 
+
+        //以下为横三带竖三代变量
         private double mcqj;
         public double Mcqj
         {
@@ -69,6 +71,8 @@ namespace GroundWellDesign
         }
 
 
+
+        //以下为计算关键层中间数据需要的变量
         private double mchd;
         public double Mchd
         {
@@ -170,5 +174,87 @@ namespace GroundWellDesign
                 return jswzjl;
             }
         }
+
+
+        //计算为水泥环增益相关变量
+        public string Ec
+        {
+            set;
+            get;
+        }
+
+        public double Vc
+        {
+            set;
+            get;
+        }
+
+
+        public string Es
+        {
+            set;
+            get;
+        }
+
+        public double Vs
+        {
+            set;
+            get;
+        }
+
+        public string E
+        {
+            set;
+            get;
+        }
+
+        public double V
+        {
+            set;
+            get;
+        }
+
+
+        public double A0
+        {
+            set;
+            get;
+        }
+
+        public double aw;
+        public double Aw
+        {
+            set
+            {
+                aw = value;
+                aw2Tb.Text = value.ToString("f3");
+            }
+            get
+            {
+                return aw;
+            }
+        }
+
+        public double a1;
+        public double A1
+        {
+            set
+            {
+                a1 = value;
+                a12Tb.Text = value.ToString("f3");
+            }
+            get
+            {
+                return aw;
+            }
+        }
+
+
+        public double B
+        {
+            set;
+            get;
+        }
+
     }
 }

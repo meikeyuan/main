@@ -253,6 +253,7 @@
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 20, 0" >
                             <Button Content="计算冒落带、裂隙带" x:Name="computeMLBtn" Click="computeMLBtn_Click"/>
                         </StackPanel>
+                        
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 20, 0" >
                             <TextBlock Text="冒落带高度H" />
                             <TextBox x:Name="maoLuoDaiTb" IsReadOnly="True"/>
@@ -475,6 +476,10 @@
                 </Grid>
 
             </TabItem>
+            
+            
+            
+            
 
             <TabItem x:Name="cutOffsetTabItem" Header="岩层剪切位移" >
                 <Grid>
@@ -544,8 +549,10 @@
                 
                 
             </TabItem>
-            
 
+            
+            
+            
             <TabItem x:Name="taoGuanTabItem" Header="套管安全系数" >
                 <Grid>
                     <Grid.RowDefinitions>
@@ -600,6 +607,85 @@
 
             </TabItem>
 
+            <TabItem x:Name="snhComputeTabItem" Header="水泥环增益计算">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="100*"/>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="30*"/>
+                        
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="30*"/>
+                        
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="30*"/>
+                        
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="30*"/>
+                        
+                        <RowDefinition Height="30*"/>
+                    </Grid.RowDefinitions>
+<!--套管相关量-->
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="套管相关量" 
+                               Foreground="{DynamicResource ThemeColorBrush}"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="弹性模量Ec"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <ComboBox x:Name="ecCombo" Grid.Column="1" Grid.Row="1" ItemsSource="{x:Static local:Document.TgtxmlOpt}" Text="{Binding Ec, UpdateSourceTrigger=LostFocus}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Text="泊松比Vc" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="vcTb" Grid.Column="3" Grid.Row="1" Text="{Binding Vc, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="内半径a0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="a0Tb" Grid.Column="1" Grid.Row="2" Text="{Binding A0, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="2" Text="外半径aw" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="awTb" Grid.Column="3" Grid.Row="2" Text="{Binding Aw, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+  <!--地层相关量-->
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="地层相关量" 
+                               Foreground="{DynamicResource ThemeColorBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="弹性模量Es"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <ComboBox x:Name="esCombo" Grid.Column="1" Grid.Row="4" ItemsSource="{x:Static local:Document.TgtxmlOpt}" Text="{Binding Es, UpdateSourceTrigger=LostFocus}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="4" Text="泊松比Vs" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="vsTb" Grid.Column="3" Grid.Row="4" Text="{Binding Vs, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="5" Text="内半径a1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="a1Tb" Grid.Column="1" Grid.Row="5" Text="{Binding A1, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="5" Text="外半径b" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="bTb" Grid.Column="3" Grid.Row="5" Text="{Binding B, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+<!--水泥环相关量-->
+                    <TextBlock Grid.Column="0" Grid.Row="6" Text="水泥环相关量" 
+                               Foreground="{DynamicResource ThemeColorBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="0" Grid.Row="7" Text="弹性模量E"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <ComboBox x:Name="eCombo" Grid.Column="1" Grid.Row="7" ItemsSource="{x:Static local:Document.TgtxmlOpt}" Text="{Binding E, UpdateSourceTrigger=LostFocus}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="7" Text="泊松比V" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="vTb" Grid.Column="3" Grid.Row="7" Text="{Binding V, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+                    
+                    <TextBlock Grid.Column="0" Grid.Row="8" Text="内半径aw" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="aw2Tb" Grid.Column="1" Grid.Row="8" IsReadOnly="True" Text="{Binding Aw, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+                    <TextBlock Grid.Column="2" Grid.Row="8" Text="外半径a1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="a12Tb" Grid.Column="3" Grid.Row="8" IsReadOnly="True" Text="{Binding A1, UpdateSourceTrigger =LostFocus, StringFormat=n3}"/>
+<!--计算的结果-->
+                    <TextBlock Grid.Column="0" Grid.Row="9" Text="计算结果"
+                               Foreground="{DynamicResource ThemeColorBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Text="套管刚度Kc" Grid.Column="0" Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBox x:Name="kcTb" Grid.Column="1" Grid.Row="10"/>
+                    <TextBlock Text="地层刚度Ks" Grid.Column="2" Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBox x:Name="ksTb" Grid.Column="3" Grid.Row="10"/>
+                    <TextBlock Text="水泥环增益" Grid.Column="0" Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBox x:Name="psiTb" Grid.Column="1" Grid.Row="11"/>
+
+                    <Button Name="resetSnhBtn" Content="重置" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2"  Click="resetSnhBtn_Click"/>
+                    <Button Name="saveSnhBtn" Content="计算" Grid.Column="2" Grid.Row="12" Grid.ColumnSpan="2"  Click="saveSnhBtn_Click" />
+                </Grid>
+
+            </TabItem >
+            
             <TabItem x:Name="autoDesignTabItem" Header="井型自动设计"> <!--Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}">-->
                 <Grid>
                     <WindowsFormsHost x:Name="wfHost" >
@@ -641,9 +727,6 @@
                     
                 </Grid>
             </TabItem>
-
-
-
 
 
         </TabControl>

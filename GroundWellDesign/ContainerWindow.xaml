@@ -63,17 +63,15 @@
                     <MenuItem Name="manDesignsecureMenu" Header="井型人工设计" Click="manDesignsecureMenu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
                 </MenuItem>
             </Menu>
+            
+            <Button Name="snhComputeBtn" Content="水泥环增益计算" Click="snhComputeBtn_Click"/>
 
             <TextBlock VerticalAlignment="Center" Margin="30, 0, 0, 0"  Text="当前界面："/>
-            <TextBlock Name="titleBlock" VerticalAlignment="Center" Text="岩层基本数据录入"/>
+            <TextBlock Name="titleBlock" VerticalAlignment="Center" Foreground="Coral" Text="岩层基本数据录入"/>
 
         </DockPanel>
         
-        
-        
-
         <DockPanel Grid.Row="0" HorizontalAlignment="Right">
-          <!--  <Button Content="切换录入方式" Click="ToggleButton_Click" Margin="0, 0, 5 , 0"/>-->
 
             <ComboBox x:Name="styleComBox" SelectedIndex="0" SelectionChanged="themeCB_SelectionChanged" Margin="0, 0, 20 ,0">
                 <ComboBoxItem>主题一</ComboBoxItem>
