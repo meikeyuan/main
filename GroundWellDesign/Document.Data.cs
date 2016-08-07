@@ -245,7 +245,7 @@ namespace GroundWellDesign
             }
             get
             {
-                return aw;
+                return a1;
             }
         }
 
