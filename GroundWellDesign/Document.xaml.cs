@@ -9,6 +9,7 @@ using mky;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
+using MxDrawXLib;
 
 namespace GroundWellDesign
 {
@@ -44,10 +45,14 @@ namespace GroundWellDesign
             Thread thread = new Thread(new ThreadStart(closeFuckDlg));
             thread.Start();
             cadViewer.EndInit();
-            cadViewer.OpenDwgFile("well.dwg");
-            cadViewer.ZoomCenter(1500, 1000);
-            cadViewer.ZoomScale(0.4);
 
+
+            cadViewer2 = new AxMxDrawX();
+            cadViewer2.BeginInit();
+            wfHost2.Child = cadViewer2;
+            Thread thread2 = new Thread(new ThreadStart(closeFuckDlg));
+            thread2.Start();
+            cadViewer2.EndInit();
 
             //自动更新层号 层号不保存在集合中
             paramGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
@@ -340,10 +345,83 @@ namespace GroundWellDesign
                 {
                     editLayer.copyNoEvent(layers[int.Parse(currLayerTb.Text) - 1]);
                     guideBind(editLayer);
+                }else if(tabControl.SelectedItem == autoCadTabItem)
+                {
+                    double oneKai = 20;
+                    int i = layers.Count - 1;
+                    for(;i >= 0;i--)
+                    {
+                        if(layers[i].yanXing.Equals("煤"))
+                        {
+                            break;
+                        }
+                    }
+                    if(i <= 0)
+                    {
+                        MessageBox.Show("岩层数据有误，请修正再尝试自动设计");
+                        return;
+                    }
+
+                    if(wanQuDaiTb.Text.Trim().Equals(""))
+                    {
+                        MessageBox.Show("部分计算未完成，请修正再尝试自动设计");
+                        return;
+                    }
+
+                    double twoKai = double.Parse(wanQuDaiTb.Text) + 20;
+                    double threeKai = layers[i-1].leiJiShenDu - 10;
+
+                    cadViewer.OpenDwgFile("cads/三开-一全固二局固三悬挂-默认.dwg");
+                    cadViewer.ZoomCenter(1500, 300);
+                    cadViewer.ZoomScale(1);
+
+
+                    MxDrawSelectionSet ss = new MxDrawSelectionSet();
+                    IMxDrawResbuf spFilter = new MxDrawResbuf();
+                    //spFilter.AddStringEx("TEXT", 5020);
+                    ss.Select2(MCAD_McSelect.mcSelectionSetAll, null, null, null, null);
+
+                    for (int j = 0; j < ss.Count; j++)
+                    {
+                        MxDrawEntity ent = ss.Item(i);
+                        
+                        if (ent is MxDrawMText || ent is MxDrawText)
+                        {
+                            MessageBox.Show(ent.Dxf0);
+                          /*  MxDrawLine mText = (MxDrawLine)ent;
+                            string s = "";
+                            mText.GetProp(s);
+                            MessageBox.Show(s);
+                            //原图一开为50m
+                            if (mText.Contents.Equals("50m"))
+                            {
+                                mText.pr = oneKai.ToString("f3") + "m";
+
+                            }
+                            //原图二开为250m
+                            else if (mText.Contents.Equals("250m"))
+                            {
+                                mText.Contents = twoKai.ToString("f3") + "m";
+                            }
+                            //原图三开为310m
+                            else if (mText.Contents.Equals("310m"))
+                            {
+                                mText.Contents = threeKai.ToString("f3") + "m";
+                            }*/
+                        }
+                        /*else if (ent is MxDrawDimRotated)
+                        {
+                            MxDrawDimRotated dim = (MxDrawDimRotated)ent;
+                            MessageBox.Show(dim.DimensionText);
+                            dim.DimensionText = "20m";
+                            dim.RecomputeDimBlock(true);
+                        }*/
+
+                    }
+                    cadViewer.ReDraw();
                 }
             }
         }
-
     }
 
 }

@@ -353,7 +353,7 @@ namespace GroundWellDesign
             }
             Document curWindow = windows[index];
             showTitle("井型自动设计");
-            curWindow.tabControl.SelectedItem = curWindow.autoDesignTabItem;
+            curWindow.tabControl.SelectedItem = curWindow.autoCadTabItem;
         }
 
         private void manDesignsecureMenu_Click(object sender, RoutedEventArgs e)

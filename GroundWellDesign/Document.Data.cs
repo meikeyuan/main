@@ -13,7 +13,7 @@ namespace GroundWellDesign
     partial class Document
     {
         //cad ActiveX控件和matlab函数类
-        AxMxDrawX cadViewer;
+        AxMxDrawX cadViewer, cadViewer2;
         static MkyLogic logic;
 
         
