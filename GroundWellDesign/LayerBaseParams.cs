@@ -7,15 +7,16 @@ namespace GroundWellDesign
 {
 
     [Serializable]
-    public class BaseParams
+    public class BaseLayerBaseParams
     {
-        public BaseParams()
+        public BaseLayerBaseParams()
         {
             yanXing = Document.YanXingOpt[1];
             miaoShu = "岩层";
         }
 
-        public BaseParams(BaseParams layer)
+        //用于提取参数 保存到文件
+        public BaseLayerBaseParams(LayerBaseParams layer)
         {
             yanXing = layer.yanXing;
             leiJiShenDu = layer.leiJiShenDu;
@@ -68,22 +69,22 @@ namespace GroundWellDesign
 
     }
 
-    public class LayerParams : BaseParams, INotifyPropertyChanged
+    public class LayerBaseParams : BaseLayerBaseParams, INotifyPropertyChanged
     {
 
         public Document mainWindow;
 
-        public LayerParams(Document mainWindow)
+        public LayerBaseParams(Document mainWindow)
         {
             this.mainWindow = mainWindow;                                                                     
         }
 
-        public LayerParams(BaseParams layer)
+        public LayerBaseParams(BaseLayerBaseParams layer)
         {
             copyNoEvent(layer);
         }
 
-        public bool Equals(BaseParams layer)
+        public bool Equals(BaseLayerBaseParams layer)
         {
             return yanXing.Equals(layer.yanXing) &&
             LeiJiShenDu == layer.leiJiShenDu &&
@@ -102,11 +103,11 @@ namespace GroundWellDesign
 
         public void reset()
         {
-            copyAndEventEcpYanXing(new BaseParams());
+            copyAndEventEcpYanXing(new BaseLayerBaseParams());
         }
 
 
-        public void copyAndEventEcpYanXing(BaseParams layer)
+        public void copyAndEventEcpYanXing(BaseLayerBaseParams layer)
         {
             yanXing = layer.yanXing;
             LeiJiShenDu = layer.leiJiShenDu;
@@ -132,7 +133,7 @@ namespace GroundWellDesign
             JQHWY = layer.jqHWY;
         }
 
-        public void copyNoEvent(BaseParams layer)
+        public void copyNoEvent(BaseLayerBaseParams layer)
         {
             yanXing = layer.yanXing;
             leiJiShenDu = layer.leiJiShenDu;
@@ -159,6 +160,11 @@ namespace GroundWellDesign
         }
 
 
+
+
+
+
+
         //增加是否为关键层标志
         private bool isKeyLayer;
         public bool IsKeyLayer
@@ -172,19 +178,6 @@ namespace GroundWellDesign
                     this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IsKeyLayer"));
                 }
 
-            }
-        }
-
-
-        private void refreshJuLiMeiShenDu()
-        {
-            int i = mainWindow.layers.Count;
-            for (i--; i > 0 && mainWindow.layers[i].yanXing != "煤"; i--) ;
-            if (i == 0)
-                return;
-            for (i -= 2; i >= 0; i--)
-            {
-                mainWindow.layers[i].JuLiMeiShenDu = mainWindow.layers[i + 1].cengHou + mainWindow.layers[i + 1].juLiMeiShenDu;
             }
         }
 
@@ -262,15 +255,7 @@ namespace GroundWellDesign
         }
 
 
-        private void refreshCengHou()
-        {
-            int count = mainWindow.layers.Count;
-            for (int i = 1; i < count; i++)
-            {
-                mainWindow.layers[i].CengHou = mainWindow.layers[i].leiJiShenDu - mainWindow.layers[i - 1].leiJiShenDu;
-            }
 
-        }
 
         public double LeiJiShenDu
         {
@@ -278,10 +263,6 @@ namespace GroundWellDesign
             set
             {
                 leiJiShenDu = value;
-                //刷新层厚
-                refreshCengHou();
-                refreshJuLiMeiShenDu();
-
                 SetUI("LeiJiShenDu");
             }
         }
@@ -298,12 +279,40 @@ namespace GroundWellDesign
         }
 
 
+        //******************************************
+        private void refreshLeiJiShenDu()
+        {
+            int count = mainWindow.layers.Count;
+            mainWindow.layers[0].LeiJiShenDu = 0;
+            for (int i = 1; i < count; i++)
+            {
+                mainWindow.layers[i].LeiJiShenDu = mainWindow.layers[i].cengHou + mainWindow.layers[i - 1].leiJiShenDu;
+            }
+
+        }
+
+        private void refreshJuLiMeiShenDu()
+        {
+            int i = mainWindow.layers.Count;
+            for (i--; i > 0 && mainWindow.layers[i].yanXing != "煤"; i--) ;
+            if (i == 0)
+                return;
+            for (i -= 2; i >= 0; i--)
+            {
+                mainWindow.layers[i].JuLiMeiShenDu = mainWindow.layers[i + 1].cengHou + mainWindow.layers[i + 1].juLiMeiShenDu;
+            }
+        }
+        //******************************************
+
         public double CengHou
         {
             get { return cengHou; }
             set
             {
                 cengHou = value;
+                //刷新
+                refreshLeiJiShenDu();
+                refreshJuLiMeiShenDu();
                 SetUI("CengHou");
             }
         }

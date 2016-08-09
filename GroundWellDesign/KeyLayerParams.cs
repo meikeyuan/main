@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 namespace GroundWellDesign
 {
     [Serializable]
-    public class BaseKeyParams
+    public class BaseKeyLayerParams
     {
-        public BaseKeyParams()
+        public BaseKeyLayerParams()
         {
             this.kjqd = Document.KjqdOpt[0];
             this.klqd = Document.KlqdOpt[0];
             this.tgtxml = Document.TgtxmlOpt[0];
         }
 
-        public BaseKeyParams(BaseKeyParams layer)
+        //用于提取参数 保存到文件
+        public BaseKeyLayerParams(KeyLayerParams layer)
         {
 
             ycbh = layer.ycbh;
@@ -102,7 +103,7 @@ namespace GroundWellDesign
     }
 
 
-    public class KeyLayerParams : BaseKeyParams, INotifyPropertyChanged
+    public class KeyLayerParams : BaseKeyLayerParams, INotifyPropertyChanged
     {
         public Document mainWindow;
 
@@ -111,19 +112,12 @@ namespace GroundWellDesign
             this.mainWindow = mainWindow;
         }
 
-        public KeyLayerParams(BaseKeyParams layer)
+        public KeyLayerParams(BaseKeyLayerParams layer)
         {
             copyAndNoEvent(layer);
         }
 
-
-        /*  public void reset()
-          {
-              copyAndNoEvent(new BaseKeyParams());
-          }*/
-
-
-        public void copyAndNoEvent(BaseKeyParams layer)
+        public void copyAndNoEvent(BaseKeyLayerParams layer)
         {
             ycbh = layer.ycbh;
             ycsd = layer.ycsd;
@@ -173,10 +167,7 @@ namespace GroundWellDesign
             set
             {
                 isDangerous = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IsDangerous"));
-                }
+                SetUI("IsDangerous");
             }
         }
 
@@ -186,10 +177,7 @@ namespace GroundWellDesign
             set
             {
                 ycbh = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Ycbh"));
-                }
+                SetUI("Ycbh");
             }
         }
 
@@ -200,10 +188,7 @@ namespace GroundWellDesign
             set
             {
                 ycsd = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Ycsd"));
-                }
+                SetUI("Ycsd");
             }
         }
 
@@ -214,10 +199,7 @@ namespace GroundWellDesign
             set
             {
                 mcms = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Mcms"));
-                }
+                SetUI("Mcms");
             }
         }
 
@@ -228,10 +210,7 @@ namespace GroundWellDesign
             set
             {
                 fypjxs = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Fypjxs"));
-                }
+                SetUI("Fypjxs");
             }
         }
 
@@ -242,10 +221,7 @@ namespace GroundWellDesign
             set
             {
                 fypjxsxz = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Fypjxsxz"));
-                }
+                SetUI("Fypjxsxz");
             }
         }
 
@@ -258,10 +234,7 @@ namespace GroundWellDesign
                 gzmtjsj = value;
                 Gzmtjjl = gzmtjsj * mainWindow.gzmsd;
 
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Gzmtjsj"));
-                }
+                SetUI("Gzmtjsj");
 
                 mainWindow.computeMidData(mainWindow.keyLayers.Count);
             }
@@ -274,10 +247,7 @@ namespace GroundWellDesign
             set
             {
                 cfcdcjwy = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Cfcdcjwy"));
-                }
+                SetUI("Cfcdcjwy");
             }
         }
 
@@ -288,10 +258,7 @@ namespace GroundWellDesign
             set
             {
                 gzmtjjl = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Gzmtjjl"));
-                }
+                SetUI("Gzmtjjl");
             }
         }
 
@@ -302,10 +269,7 @@ namespace GroundWellDesign
             set
             {
                 zx = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Zx"));
-                }
+                SetUI("Zx");
             }
         }
 
@@ -316,10 +280,7 @@ namespace GroundWellDesign
             set
             {
                 qx = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Qx"));
-                }
+                SetUI("Qx");
             }
         }
 
@@ -329,10 +290,7 @@ namespace GroundWellDesign
             set
             {
                 cdyxbj = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Cdyxbj"));
-                }
+                SetUI("Cdyxbj");
             }
         }
 
@@ -343,10 +301,7 @@ namespace GroundWellDesign
             set
             {
                 gdydj = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Gdydj"));
-                }
+                SetUI("Gdydj");
             }
         }
 
@@ -356,10 +311,7 @@ namespace GroundWellDesign
             set
             {
                 qxhckj = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Qxhckj"));
-                }
+                SetUI("Qxhckj");
             }
         }
 
@@ -370,10 +322,7 @@ namespace GroundWellDesign
             set
             {
                 cfkckjjl = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Cfkckjjl"));
-                }
+                SetUI("Cfkckjjl");
             }
         }
 
@@ -384,10 +333,7 @@ namespace GroundWellDesign
             set
             {
                 sjxcxs = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Sjxcxs"));
-                }
+                SetUI("Sjxcxs");
             }
         }
 
@@ -398,10 +344,7 @@ namespace GroundWellDesign
             set
             {
                 yczdxcz = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Yczdxcz"));
-                }
+                SetUI("Yczdxcz");
             }
         }
 
@@ -412,10 +355,7 @@ namespace GroundWellDesign
             set
             {
                 jsdjscjwy = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Jsdjscjwy"));
-                }
+                SetUI("Jsdjscjwy");
             }
         }
 
@@ -426,10 +366,7 @@ namespace GroundWellDesign
             set
             {
                 jsdjslcwy = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Jsdjslcwy"));
-                }
+                SetUI("Jsdjslcwy");
             }
         }
 
@@ -440,10 +377,7 @@ namespace GroundWellDesign
             set
             {
                 tgwj = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Tgwj"));
-                }
+                SetUI("Tgwj");
             }
         }
 
@@ -453,10 +387,7 @@ namespace GroundWellDesign
             set
             {
                 tgbh = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Tgbh"));
-                }
+                SetUI("Tgbh");
             }
         }
 
@@ -466,10 +397,7 @@ namespace GroundWellDesign
             set
             {
                 tgtxml = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Tgtxml"));
-                }
+                SetUI("Tgtxml");
             }
         }
 
@@ -479,10 +407,7 @@ namespace GroundWellDesign
             set
             {
                 lsqycd = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Lsqycd"));
-                }
+                SetUI("Lsqycd");
             }
         }
         public string Klqd
@@ -491,10 +416,7 @@ namespace GroundWellDesign
             set
             {
                 klqd = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Klqd"));
-                }
+                SetUI("Klqd");
             }
         }
         public double Lsyl
@@ -503,10 +425,7 @@ namespace GroundWellDesign
             set
             {
                 lsyl = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Lsyl"));
-                }
+                SetUI("Lsyl");
             }
         }
         public double Lsaqxs
@@ -515,10 +434,7 @@ namespace GroundWellDesign
             set
             {
                 lsaqxs = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Lsaqxs"));
-                }
+                SetUI("Lsaqxs");
             }
         }
 
@@ -528,10 +444,7 @@ namespace GroundWellDesign
             set
             {
                 jqqycd = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Jqqycd"));
-                }
+                SetUI("Jqqycd");
             }
         }
         public string Kjqd
@@ -540,10 +453,7 @@ namespace GroundWellDesign
             set
             {
                 kjqd = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Kjqd"));
-                }
+                SetUI("Kjqd");
             }
         }
         public double Zdjqyl
@@ -552,10 +462,7 @@ namespace GroundWellDesign
             set
             {
                 zdjqyl = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Zdjqyl"));
-                }
+                SetUI("Zdjqyl");
             }
         }
         public double Zdjqyb
@@ -564,10 +471,7 @@ namespace GroundWellDesign
             set
             {
                 zdjqyb = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Zdjqyb"));
-                }
+                SetUI("Zdjqyb");
             }
         }
         public double Jqaqxs
@@ -576,10 +480,16 @@ namespace GroundWellDesign
             set
             {
                 jqaqxs = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Jqaqxs"));
-                }
+                SetUI("Jqaqxs");
+            }
+        }
+
+
+        private void SetUI(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
             }
         }
 

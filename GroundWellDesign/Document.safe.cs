@@ -88,8 +88,8 @@ namespace GroundWellDesign
                 {
                     e[i] = 2.070e11;
                 }
-                r1[i] = keyLayers[i].tgwj;
-                t[i] = keyLayers[i].tgbh;
+                r1[i] = keyLayers[i].tgwj / 1000; //毫米转米
+                t[i] = keyLayers[i].tgbh / 1000;
                 a[i] = keyLayers[i].jqqycd;
                 if(keyLayers[i].kjqd.Equals(KjqdOpt[0]))
                 {

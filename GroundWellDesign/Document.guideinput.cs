@@ -17,12 +17,12 @@ namespace GroundWellDesign
 
             if (layerNum == layers.Count + 1)
             {
-                LayerParams layer = new LayerParams(editLayer);
+                LayerBaseParams layer = new LayerBaseParams(editLayer);
                 layers.Add(layer);
             }
             else
             {
-                LayerParams layer = new LayerParams(editLayer);
+                LayerBaseParams layer = new LayerBaseParams(editLayer);
                 layers[layerNum - 1] = layer;
             }
                 

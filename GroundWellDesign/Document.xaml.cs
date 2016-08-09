@@ -23,20 +23,22 @@ namespace GroundWellDesign
                 logic = new MkyLogic();
             
             //岩层参数录入初始化
-            LayerParams dibiao = new LayerParams(this);
+            LayerBaseParams dibiao = new LayerBaseParams(this);
             dibiao.yanXing = YanXingOpt[0];
             layers.Add(dibiao);
             caiDongComBox.SelectedIndex = 0;
 
             //向导式录入初始化
-            editLayer = new LayerParams(this);
+            editLayer = new LayerBaseParams(this);
             guideBind(editLayer);
 
             //水泥环增益初始化
-            Ec = Es = E = TgtxmlOpt[0];
+            Ec = TgtxmlOpt[0];
             ecCombo.Text = Ec;
-            esCombo.Text = Es;
-            eCombo.Text = E;
+
+
+            //井型人工设计初始化
+
 
             //cad初始化
             cadViewer = new AxMxDrawX();
@@ -73,6 +75,7 @@ namespace GroundWellDesign
             cutOffsetDataGrid.ItemsSource = layers;
             lcOffsetDataGrid.ItemsSource = keyLayers;
             taoGuanDataGrid.ItemsSource = keyLayers;
+            manuDesignGrid.DataContext = manuDesignParams;
 
             //关键层计算相关其他参数绑定
             meiCengQingJIaoTb.DataContext = this;
@@ -89,9 +92,9 @@ namespace GroundWellDesign
 
             ecCombo.DataContext = this;
             vcTb.DataContext = this;
-            esCombo.DataContext = this;
+            esTb.DataContext = this;
             vsTb.DataContext = this;
-            eCombo.DataContext = this;
+            eTb.DataContext = this;
             vTb.DataContext = this;
             a0Tb.DataContext = this;
             awTb.DataContext = this;
@@ -166,7 +169,7 @@ namespace GroundWellDesign
         }
 
         //向导式绑定
-        private void guideBind(LayerParams editLayer)
+        private void guideBind(LayerBaseParams editLayer)
         {
             miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu") { Source = editLayer });
             yanXingCB.SetBinding(ComboBox.TextProperty, new Binding("YanXing") { Source = editLayer });
@@ -199,19 +202,23 @@ namespace GroundWellDesign
             }
             DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
 
-            //回复基本参数
+            //恢复基本参数
             layers.Clear();
-            foreach (BaseParams baseParam in data.Layers)
+            foreach (BaseLayerBaseParams baseParam in data.Layers)
             {
-                LayerParams layer = new LayerParams(baseParam);
+                LayerBaseParams layer = new LayerBaseParams(baseParam);
                 layer.mainWindow = this;
                 layers.Add(layer);
             }
 
+            //恢复人工设计数据
+            manuDesignParams.copyAndEvent(data.ManuDesignParams);
 
-            //回复关键层数据
+
+
+            //恢复关键层数据
             keyLayers.Clear();
-            foreach (BaseKeyParams baseParam in data.KeyLayers)
+            foreach (BaseKeyLayerParams baseParam in data.KeyLayers)
             {
                 KeyLayerParams layer = new KeyLayerParams(baseParam);
                 layer.mainWindow = this;
@@ -236,9 +243,9 @@ namespace GroundWellDesign
 
                 Ec = TgtxmlOpt[(int)data.KeyLayerData[10]];
                 Vc = data.KeyLayerData[11];
-                Es = TgtxmlOpt[(int)data.KeyLayerData[12]];
+                Es = data.KeyLayerData[12];
                 Vs = data.KeyLayerData[13];
-                E = TgtxmlOpt[(int)data.KeyLayerData[14]];
+                E = data.KeyLayerData[14];
                 V = data.KeyLayerData[15];
                 A0 = data.KeyLayerData[16];
                 Aw = data.KeyLayerData[17];
@@ -260,9 +267,9 @@ namespace GroundWellDesign
 
                 ecCombo.Text = Ec;
                 vcTb.Text = Vc + "";
-                esCombo.Text = Es;
+                esTb.Text = Es + "";
                 vsTb.Text = Vs + "";
-                eCombo.Text = E;
+                eTb.Text = E + "";
                 vTb.Text = V + "";
                 a0Tb.Text = A0 + "";
                 awTb.Text = Aw + "";
@@ -282,17 +289,20 @@ namespace GroundWellDesign
             DataSaveAndRestore.DataToSave data = new DataSaveAndRestore.DataToSave();
 
             //基本参数
-            data.Layers = new ObservableCollection<BaseParams>();
-            foreach (LayerParams layerParam in layers)
+            data.Layers = new ObservableCollection<BaseLayerBaseParams>();
+            foreach (LayerBaseParams layerParam in layers)
             {
-                data.Layers.Add(new BaseParams(layerParam));
+                data.Layers.Add(new BaseLayerBaseParams(layerParam));
             }
 
+            //人工设计数据
+            data.ManuDesignParams = new BaseManuDesignParams(manuDesignParams);
+
             //关键层参数
-            data.KeyLayers = new ObservableCollection<BaseKeyParams>();
+            data.KeyLayers = new ObservableCollection<BaseKeyLayerParams>();
             foreach (KeyLayerParams layerParam in keyLayers)
             {
-                data.KeyLayers.Add(new BaseKeyParams(layerParam));
+                data.KeyLayers.Add(new BaseKeyLayerParams(layerParam));
             }
 
 
@@ -316,16 +326,10 @@ namespace GroundWellDesign
                 data.KeyLayerData.Add(1);
             data.KeyLayerData.Add(Vc);
 
-            if (Es.Equals(TgtxmlOpt[0]))
-                data.KeyLayerData.Add(0);
-            else
-                data.KeyLayerData.Add(1);
+            data.KeyLayerData.Add(Es);
             data.KeyLayerData.Add(Vs);
 
-            if (E.Equals(TgtxmlOpt[0]))
-                data.KeyLayerData.Add(0);
-            else
-                data.KeyLayerData.Add(1);
+            data.KeyLayerData.Add(E);
             data.KeyLayerData.Add(V);
 
             data.KeyLayerData.Add(A0);
@@ -343,7 +347,13 @@ namespace GroundWellDesign
             {
                 if (tabControl.SelectedItem == guidinputTabItem)
                 {
-                    editLayer.copyNoEvent(layers[int.Parse(currLayerTb.Text) - 1]);
+                    int index = paramGrid.SelectedIndex;
+                    if(index < 0)
+                    {
+                        index = 0;
+                    }
+                    currLayerTb.Text = (index + 1).ToString();
+                    editLayer.copyNoEvent(layers[index]);
                     guideBind(editLayer);
                 }else if(tabControl.SelectedItem == autoCadTabItem)
                 {
@@ -422,6 +432,7 @@ namespace GroundWellDesign
                 }
             }
         }
+
     }
 
 }

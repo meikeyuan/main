@@ -9,6 +9,12 @@ namespace GroundWellDesign
 {
     partial class Document
     {
+
+        private void resetManuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            manuDesignParams.reset();
+        }
+
         private void makeImgBtn_Click(object sender, RoutedEventArgs e)
         {
             tabControl.SelectedItem = manCadTabItem;

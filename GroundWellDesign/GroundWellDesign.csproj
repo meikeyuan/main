@@ -118,9 +118,6 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManDesign1.xaml.cs">
-      <DependentUpon>ManDesign1.xaml</DependentUpon>
-    </Compile>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -128,9 +125,7 @@
     <Compile Include="ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManDesign2.xaml.cs">
-      <DependentUpon>ManDesign2.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ManuDesignParams.cs" />
     <Compile Include="SaveToDBWindow.xaml.cs">
       <DependentUpon>SaveToDBWindow.xaml</DependentUpon>
     </Compile>
@@ -188,10 +183,6 @@
       <DependentUpon>Document.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ManDesign2.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SaveToDBWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,10 +214,6 @@
     <Page Include="Styles\ListBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ManDesign1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\MenuStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -287,6 +274,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="cads\三开-一二全固三悬挂.dwg" />
+    <None Include="cads\三开-一二全固三自由.dwg" />
+    <None Include="cads\三开-一二全固三裸孔.dwg" />
+    <None Include="cads\三开-一全固二局固三悬挂-默认.dwg" />
+    <None Include="cads\三开-一全固二局固三自由.dwg" />
+    <None Include="cads\三开-一全固二局固三裸孔.dwg" />
+    <None Include="cads\二开-一全固二悬挂.dwg" />
+    <None Include="cads\二开-一全固二自由.dwg" />
+    <None Include="cads\二开-一全固二裸孔.dwg" />
+    <None Include="cads\二开-一局固二悬挂.dwg" />
+    <None Include="cads\二开-一局固二自由.dwg" />
+    <None Include="cads\二开-一局固二裸孔.dwg" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

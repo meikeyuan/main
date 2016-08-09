@@ -23,20 +23,20 @@ namespace GroundWellDesign
     {
 
 
-        public ObservableCollection<LayerParams> existedLayers = new ObservableCollection<LayerParams>();
+        public ObservableCollection<LayerBaseParams> existedLayers = new ObservableCollection<LayerBaseParams>();
         private List<String> items = new List<string>();
         private string cus = "所有矿井";
 
         private string yanXing;
 
         private bool allSelcted;
-        public LayerParams WantedLayer
+        public LayerBaseParams WantedLayer
         {
             set;
             get;
         }
 
-        public SelectLayerWindow(string yanXing, LayerParams wantedLayer)
+        public SelectLayerWindow(string yanXing, LayerBaseParams wantedLayer)
         {
             InitializeComponent();
 
@@ -107,7 +107,7 @@ namespace GroundWellDesign
 
         private void selectAvgBtn_Click(object sender, RoutedEventArgs e)
         {
-            LayerParams tmpLayer = new LayerParams(WantedLayer.mainWindow);
+            LayerBaseParams tmpLayer = new LayerBaseParams(WantedLayer.mainWindow);
             tmpLayer.yanXing = yanXing;
 
             //将选择的序号存入list
@@ -145,7 +145,7 @@ namespace GroundWellDesign
             //遍历编号list
             foreach(int i in selectedList)
             {
-                LayerParams layer = existedLayers[i];
+                LayerBaseParams layer = existedLayers[i];
                 tmpLayer.leiJiShenDu += layer.leiJiShenDu;
                 tmpLayer.juLiMeiShenDu += layer.juLiMeiShenDu;
                 tmpLayer.cengHou += layer.cengHou;

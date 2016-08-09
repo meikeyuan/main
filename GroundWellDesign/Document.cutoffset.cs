@@ -192,7 +192,7 @@ namespace GroundWellDesign
         }
 
 
-        private void CreateJqChartSpline(ObservableCollection<LayerParams> layers, int drawCount)
+        private void CreateJqChartSpline(ObservableCollection<LayerBaseParams> layers, int drawCount)
         {
             //添加横坐标
             if (jqChart.AxesX.Count == 1)

@@ -31,7 +31,7 @@ namespace GroundWellDesign
                 return;
             }
 
-            LayerParams layer = layers[selectedIndex];
+            LayerBaseParams layer = layers[selectedIndex];
 /*            string path = DATABASE_PATH + layer.yanXing;
             if (layer.dataBaseNum == 0 || !File.Exists(path + "\\" + layer.dataBaseNum))
             {
@@ -108,22 +108,22 @@ namespace GroundWellDesign
             int selectedIndex = paramGrid.SelectedIndex;
             if (selectedIndex == -1) //未选择行
             {
-                layers.Add(new LayerParams(this));
+                layers.Add(new LayerBaseParams(this));
                 return;
             }
             if (selectedIndex >= layers.Count)  //选择了空行
             {
-                layers.Insert(selectedIndex, new LayerParams(this));
+                layers.Insert(selectedIndex, new LayerBaseParams(this));
                 return;
             }
-            layers.Insert(selectedIndex + 1, new LayerParams(this));  //选择了非空行
+            layers.Insert(selectedIndex + 1, new LayerBaseParams(this));  //选择了非空行
         }
 
 
         //删除选中行
         private void click_delRow(object sender, RoutedEventArgs e)
         {
-
+            
             int selectedIndex = paramGrid.SelectedIndex;
             //未选择行
             if (selectedIndex == -1)
@@ -137,10 +137,17 @@ namespace GroundWellDesign
 
             if (MessageBox.Show("确定删除第" + (selectedIndex + 1) + "层数据吗？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                layers.RemoveAt(selectedIndex);//选择了非空行
+                layers.RemoveAt(selectedIndex);
                 paramGrid.SelectedIndex = selectedIndex;
             }
 
+            if (layers.Count == 0)
+            {
+                LayerBaseParams param = new LayerBaseParams(this);
+                param.yanXing = "地表";
+                layers.Add(param);
+                return;
+            }
 
         }
 
@@ -160,7 +167,7 @@ namespace GroundWellDesign
                 return;
 
             //交换
-            LayerParams layer = layers[selectedIndex];
+            LayerBaseParams layer = layers[selectedIndex];
             layers[selectedIndex] = layers[selectedIndex - 1];
             layers[selectedIndex - 1] = layer;
             paramGrid.SelectedIndex = selectedIndex - 1;
@@ -181,7 +188,7 @@ namespace GroundWellDesign
             if (selectedIndex >= layers.Count - 1)
                 return;
 
-            LayerParams layer = layers[selectedIndex];
+            LayerBaseParams layer = layers[selectedIndex];
             layers[selectedIndex] = layers[selectedIndex + 1];
             layers[selectedIndex + 1] = layer;
             paramGrid.SelectedIndex = selectedIndex + 1;
@@ -286,7 +293,7 @@ namespace GroundWellDesign
 
             for (int i = 0; i <= count + 1; i++)
             {
-                LayerParams param = layers[i];
+                LayerBaseParams param = layers[i];
                 if (param.yanXing == "地表")
                 {
                     res[i, 0] = 1;
@@ -353,7 +360,7 @@ namespace GroundWellDesign
 
 
 
-        //需要提供的计算出关键层接口
+        //计算关键层接口
         private void getKeyLayer(ref int[] bianHao, ref double[] pjxs)
         {
 
@@ -366,7 +373,7 @@ namespace GroundWellDesign
 
 
             double[] rowData = arrayTrans(data);
-            MWNumericArray mwdata = new MWNumericArray(89, 11, rowData);
+            MWNumericArray mwdata = new MWNumericArray(rowData.Length / 11, 11, rowData);
 
             try
             {

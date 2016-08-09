@@ -15,9 +15,9 @@ namespace GroundWellDesign
         {
             Ec = TgtxmlOpt[0];
             Vc = 0;
-            Es = TgtxmlOpt[0];
+            Es = 0;
             Vs = 0;
-            E = TgtxmlOpt[0];
+            E = 0;
             V = 0;
             A0 = 0;
             Aw = 0;
@@ -27,9 +27,9 @@ namespace GroundWellDesign
 
             ecCombo.Text = Ec;
             vcTb.Text = 0.000 + "";
-            esCombo.Text = Es;
+            esTb.Text = 0.000 + "";
             vsTb.Text = 0.000 + "";
-            eCombo.Text = E;
+            eTb.Text = 0.000 + "";
             vTb.Text = 0.000 + "";
             a0Tb.Text = 0.000 + "";
             awTb.Text = 0.000 + "";
@@ -47,15 +47,7 @@ namespace GroundWellDesign
         {
             try
             {
-                double e, ec, es;
-                if (E.Equals(TgtxmlOpt[0]))
-                {
-                    e = 2.050e11;
-                }
-                else
-                {
-                    e = 2.070e11;
-                }
+                double ec;
 
                 if (Ec.Equals(TgtxmlOpt[0]))
                 {
@@ -66,17 +58,8 @@ namespace GroundWellDesign
                     ec = 2.070e11;
                 }
 
-                if (Es.Equals(TgtxmlOpt[0]))
-                {
-                    es = 2.050e11;
-                }
-                else
-                {
-                    es = 2.070e11;
-                }
 
-
-                MWArray[] array = (MWArray[])logic.calpsi(3, A0, Aw, A1, B, e, V, ec, Vc, es, Vs);
+                MWArray[] array = (MWArray[])logic.calpsi(3, A0, Aw, A1, B, E, V, ec, Vc, Es, Vs);
                 double psi = ((MWNumericArray)array[0]).ToScalarDouble();
                 double kc = ((MWNumericArray)array[1]).ToScalarDouble();
                 double ks = ((MWNumericArray)array[2]).ToScalarDouble();

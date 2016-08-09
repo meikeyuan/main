@@ -12,10 +12,10 @@ namespace GroundWellDesign
     /// </summary>
     public partial class SaveToDBWindow : Window
     {
-        LayerParams layer;
+        LayerBaseParams layer;
         List<String> items = new List<string>();
         string cus = "其他(自定义)";
-        public SaveToDBWindow(LayerParams layer)
+        public SaveToDBWindow(LayerBaseParams layer)
         {
             InitializeComponent();
             this.layer = layer;

@@ -16,10 +16,11 @@ namespace GroundWellDesign
         AxMxDrawX cadViewer, cadViewer2;
         static MkyLogic logic;
 
-        
-        public ObservableCollection<LayerParams> layers = new ObservableCollection<LayerParams>();
-        LayerParams editLayer;
+
+        public ObservableCollection<LayerBaseParams> layers = new ObservableCollection<LayerBaseParams>();
+        LayerBaseParams editLayer;
         public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
+        ManuDesignParams manuDesignParams = new ManuDesignParams();
         
 
         public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
@@ -27,8 +28,9 @@ namespace GroundWellDesign
         public static List<String> KjqdOpt = new List<string> { "J55(0.2378GPa)", "N80(0.319GPa)" };
         public static List<String> TgtxmlOpt = new List<string> { "J55(2.050e11)", "N80(2.070e11)" };
         public static List<String> KlqdOpt = new List<string> { "J55(0.41GPa)", "N80(0.55GPa)" };
-
-
+        public static List<String> TggjOpt = new List<string> { "J55", "N80" };
+        public static List<String> GjfsOpt = new List<string> { "全井固井", "局部固井" };
+        public static List<String> WjfsOpt = new List<string> { "悬挂完井", "自由完井", "裸孔完井" };
 
         public string FilePath
         {
@@ -190,7 +192,7 @@ namespace GroundWellDesign
         }
 
 
-        public string Es
+        public double Es
         {
             set;
             get;
@@ -202,7 +204,7 @@ namespace GroundWellDesign
             get;
         }
 
-        public string E
+        public double E
         {
             set;
             get;

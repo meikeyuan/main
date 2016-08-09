@@ -52,7 +52,7 @@ namespace GroundWellDesign
         }
 
 
-        public static bool saveToSqlite(LayerParams layer, string uuid, bool cover, string wellName, bool wellExist)
+        public static bool saveToSqlite(LayerBaseParams layer, string uuid, bool cover, string wellName, bool wellExist)
         {
             SQLiteConnection conn = null;
             string dbPath = "Data Source =" + ContainerWindow.DATABASE_PATH;
@@ -154,7 +154,7 @@ namespace GroundWellDesign
         }
 
 
-        public static void getDBLayers(ObservableCollection<LayerParams> existedLayers, string yanXing, string wellName)
+        public static void getDBLayers(ObservableCollection<LayerBaseParams> existedLayers, string yanXing, string wellName)
         {
 
             if (existedLayers == null)
@@ -177,7 +177,7 @@ namespace GroundWellDesign
 
             while (reader.Read())
             {
-                LayerParams param = new LayerParams(new BaseParams());
+                LayerBaseParams param = new LayerBaseParams(new BaseLayerBaseParams());
                 param.wellNamePK = (string)reader["wellName"];
                 param.yanXing = (string)reader["yanXing"];
                 param.leiJiShenDu = (double)reader["leiJiShenDu"];
@@ -209,7 +209,13 @@ namespace GroundWellDesign
         [Serializable]
         public class DataToSave
         {
-            public ObservableCollection<BaseParams> Layers
+            public ObservableCollection<BaseLayerBaseParams> Layers
+            {
+                get;
+                set;
+            }
+
+            public BaseManuDesignParams ManuDesignParams
             {
                 get;
                 set;
@@ -222,7 +228,7 @@ namespace GroundWellDesign
             }
 
             
-            public ObservableCollection<BaseKeyParams> KeyLayers
+            public ObservableCollection<BaseKeyLayerParams> KeyLayers
             {
                 get;
                 set;
