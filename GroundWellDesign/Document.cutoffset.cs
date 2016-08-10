@@ -22,6 +22,13 @@ namespace GroundWellDesign
                 return;
             }
 
+            if (keyLayers.Count == 0)
+            {
+                MessageBox.Show("请先计算关键层");
+                tabControl.SelectedItem = gridinputTabItem;
+                return;
+            }
+
             int upCount = 0;
             switch (computeCutOffSet(keyLayers.Count, layers.Count, ref upCount))
             {

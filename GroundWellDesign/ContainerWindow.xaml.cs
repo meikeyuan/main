@@ -343,6 +343,33 @@ namespace GroundWellDesign
             curWindow.tabControl.SelectedItem = curWindow.lcOffsetTabItem;
         }
 
+        //*******************************参数优化****************************************
+        private void secureMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            showTitle("套管安全系数");
+            curWindow.tabControl.SelectedItem = curWindow.taoGuanTabItem;
+
+        }
+
+        private void snhComputeMenu_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            Document curWindow = windows[index];
+            showTitle("水泥环增益计算");
+            curWindow.tabControl.SelectedItem = curWindow.snhComputeTabItem;
+        }
+
+
         //******************************地面井设计****************************************
         private void autoDesignMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -353,7 +380,7 @@ namespace GroundWellDesign
             }
             Document curWindow = windows[index];
             showTitle("井型自动设计");
-            curWindow.tabControl.SelectedItem = curWindow.autoCadTabItem;
+            curWindow.tabControl.SelectedItem = curWindow.autoDesignTabItem;
         }
 
         private void manDesign1Menu_Click(object sender, RoutedEventArgs e)
@@ -392,38 +419,14 @@ namespace GroundWellDesign
             curWindow.tabControl.SelectedItem = curWindow.manDesignTabItem;
         }
 
-        private void secureMenu_Click(object sender, RoutedEventArgs e)
-        {
-            int index = tabControl.SelectedIndex;
-            if (index == -1)
-            {
-                return;
-            }
-            Document curWindow = windows[index];
-            showTitle("套管安全系数");
-            curWindow.tabControl.SelectedItem = curWindow.taoGuanTabItem;
-
-        }
-
-        private void snhComputeBtn_Click(object sender, RoutedEventArgs e)
-        {
-            int index = tabControl.SelectedIndex;
-            if (index == -1)
-            {
-                return;
-            }
-            Document curWindow = windows[index];
-            showTitle("水泥环增益计算");
-            curWindow.tabControl.SelectedItem = curWindow.snhComputeTabItem;
-        }
-
         private void showTitle(String title)
         {
             titleBlock.Text = title;
         }
-
-
         //***********************************菜单end******************
+
+
+
 
 
         //关闭选项卡
@@ -454,40 +457,6 @@ namespace GroundWellDesign
                 mergedDicts.RemoveAt(1);
             mergedDicts.Add(skinDict);
         }
-
-
-
-        //切换录入方式
-       /* private void ToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-                foreach (Document window in windows)
-                {
-                    ToggleInputType(window);
-                    
-                }
-        }
-
-
-        private void ToggleInputType(Document window)
-        {
-            if (window.tabControl.Items.Contains(window.guidinputTabItem))
-            {
-                window.tabControl.Items.RemoveAt(0);
-                window.tabControl.Items.Insert(0, window.gridinputTabItem);
-                window.tabControl.SelectedItem = window.gridinputTabItem;
-            }
-            else
-            {
-                window.tabControl.Items.RemoveAt(0);
-                window.tabControl.Items.Insert(0, window.guidinputTabItem);
-                window.tabControl.SelectedItem = window.guidinputTabItem;
-            }
-        }
-        */
-
-
-
-
 
     }
 }

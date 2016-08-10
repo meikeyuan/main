@@ -55,17 +55,23 @@
                     <MenuItem Name="lcoffsetMenu" Header="岩层离层位移" Click="lcoffsetMenu_Click"/>
                 </MenuItem>
             </Menu>
-
+            
+            <Menu>
+                <MenuItem Header="设计参数优化(_Y)">
+                    <MenuItem Name="secureMenu" Header="套管安全系数" Click="secureMenu_Click"/>
+                    <MenuItem Name="snhComputeMenu" Header="水泥环增益计算" Click="snhComputeMenu_Click"/>
+               </MenuItem>
+            </Menu>
+            
+            
             <Menu>
                 <MenuItem Header="地面井设计(_X)">
-                    <MenuItem Name="secureMenu" Header="套管安全系数" Click="secureMenu_Click"/>
                     <MenuItem Name="autoDesignMenu" Header="井型自动设计" Click="autoDesignMenu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
                     <MenuItem Name="manDesign1Menu" Header="井型人工设计-二开" Click="manDesign1Menu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
                     <MenuItem Name="manDesign2Menu" Header="井型人工设计-三开" Click="manDesign2Menu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
                 </MenuItem>
             </Menu>
             
-            <Button Name="snhComputeBtn" Content="水泥环增益计算" Click="snhComputeBtn_Click"/>
 
             <TextBlock VerticalAlignment="Center" Margin="30, 0, 0, 0"  Text="当前界面："/>
             <TextBlock Name="titleBlock" VerticalAlignment="Center" Foreground="Coral" Text="岩层基本数据录入"/>

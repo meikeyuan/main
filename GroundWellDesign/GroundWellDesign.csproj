@@ -112,7 +112,7 @@
     <Compile Include="Document.cutoffset.cs" />
     <Compile Include="Document.data.cs" />
     <Compile Include="Document.lcoffset.cs" />
-    <Compile Include="Document.manucad.cs" />
+    <Compile Include="Document.cadmanu.cs" />
     <Compile Include="Document.safe.cs" />
     <Compile Include="Document.snhzy.cs" />
     <Compile Include="LoginWindow.xaml.cs">
@@ -175,7 +175,7 @@
     <Compile Include="DataSaveAndRestore.cs" />
     <Compile Include="KeyLayerParams.cs" />
     <Compile Include="LayerBaseParams.cs" />
-    <Compile Include="Document.autocad.cs" />
+    <Compile Include="Document.cadauto.cs" />
     <Compile Include="Document.gridinput.cs" />
     <Compile Include="Document.guideinput.cs" />
     <Compile Include="Document.keylayer.cs" />

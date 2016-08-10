@@ -8,68 +8,29 @@ namespace GroundWellDesign
 {
     partial class Document : Window
     {
+        private void keyLayerDataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender != keyLayerDataGrid || tabControl.SelectedItem != keyLayerTabItem)
+            {
+                return;
+            }
+
+            if (keyLayers.Count == 0)
+            {
+                MessageBox.Show("请先计算关键层");
+                tabControl.SelectedItem = gridinputTabItem;
+                return;
+            }
+        }
+
+
         private void keyLayerDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
 
             if (e.AddedCells.Count == 0)
                 return;
-            //进入编辑模式  这样单击一次就可以打勾了
+            //进入编辑模式
             keyLayerDataGrid.BeginEdit();
-        }
-
-
-        private void showCadBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //操作控件
-            MxDrawSelectionSet ss = new MxDrawSelectionSet();
-            // 创建过滤对象.
-            MxDrawResbuf spFilte = new MxDrawResbuf();
-            // 把文字对象，当着过滤条件.
-            spFilte.AddStringEx("MTEXT", 5020);
-            // 得到图上，所有文字对象.
-            ss.Select2(MCAD_McSelect.mcSelectionSetAll, null, null, null, spFilte);
-            // 遍历每个文字.
-            for (int i = 0; i < ss.Count; i++)
-            {
-                MxDrawEntity ent = ss.Item(i);
-                if (ent == null)
-                    continue;
-                if (ent.ObjectName == "McDbText" || ent.ObjectName == "McDbMText")
-                {
-                    // 是文字
-                    MxDrawMText text = (MxDrawMText)ent;
-                    string sTxt = text.Contents;
-
-                    if (sTxt.StartsWith("地面井编号"))
-                    {
-                        text.Contents = "地面井编号:  #1";
-                    }
-                    else if (sTxt.StartsWith("布井位置描述"))
-                    {
-                        text.Contents = "布井位置描述: \n离回风巷100M处";
-                    }
-                    else if (sTxt.StartsWith("各级套管型号及参数"))
-                    {
-                        text.Contents = "各级套管型号及参数: \n型号。。。参数。。。";
-                    }
-                    else if (sTxt.StartsWith("固井工艺"))
-                    {
-                        text.Contents = "固井工艺: 工艺。。。";
-                    }
-                    else if (sTxt.StartsWith("高危位置数量"))
-                    {
-                        text.Contents = "高危位置数量: 1个";
-                    }
-                }
-
-            }
-
-
-
-
-            //显示
-            tabControl.SelectedItem = autoCadTabItem;
-
         }
 
         private void showResBtn_Click(object sender, RoutedEventArgs e)
@@ -97,7 +58,6 @@ namespace GroundWellDesign
                 case ERRORCODE.没有工作面推进速度:
                     MessageBox.Show("没有工作面推进速度，部分参数未计算");
                     break;
-
             }
 
         }

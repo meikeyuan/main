@@ -11,6 +11,21 @@ namespace GroundWellDesign
 {
     partial class Document
     {
+        private void taoGuanDataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender != taoGuanDataGrid || tabControl.SelectedItem != taoGuanTabItem)
+            {
+                return;
+            }
+
+            if (keyLayers.Count == 0)
+            {
+                MessageBox.Show("请先计算关键层");
+                tabControl.SelectedItem = gridinputTabItem;
+                return;
+            }
+        }
+
 
         private void taoGuanDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {

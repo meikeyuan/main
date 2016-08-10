@@ -99,10 +99,7 @@ namespace GroundWellDesign
         //完成按钮
         private void stopBtn_Click(object sender, RoutedEventArgs e)
         {
-            tabControl.Items.Remove(guidinputTabItem);
-            tabControl.Items.Insert(0, gridinputTabItem);
             tabControl.SelectedItem = gridinputTabItem;
-
         }
 
 

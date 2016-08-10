@@ -21,6 +21,15 @@ namespace GroundWellDesign
                 return;
             }
 
+
+            if (keyLayers.Count == 0)
+            {
+                MessageBox.Show("请先计算关键层");
+                tabControl.SelectedItem = gridinputTabItem;
+                return;
+            }
+
+
             switch (computeMidData(keyLayers.Count))
             {
                 case ERRORCODE.计算成功:
@@ -51,10 +60,12 @@ namespace GroundWellDesign
 
         private void CreateLcChartSpline(ObservableCollection<KeyLayerParams> layers, int drawCount)
         {
+            lcChart.Watermark = false;
             //添加横坐标
             if (lcChart.AxesX.Count == 1)
             {
                 Axis xAxis = new Axis();
+                xAxis.Title = "岩层编号";
                 xAxis.IntervalType = IntervalTypes.Number;
                 xAxis.Interval = 1;
                 lcChart.AxesX.Add(xAxis);
@@ -65,10 +76,12 @@ namespace GroundWellDesign
             if (lcChart.AxesY.Count == 1)
             {
                 Axis yAxis = new Axis();
+                yAxis.Title = "剪切合位移";
                 yAxis.AxisMinimum = 0;
                 yAxis.Suffix = "米";
                 lcChart.AxesY.Add(yAxis);
             }
+
             //设置数据点
             lcDataSeries.DataPoints.Clear();
             DataPoint dataPoint;
