@@ -109,9 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter.cs" />
-    <Compile Include="Document.cutoffset.cs" />
+    <Compile Include="Document.offsetcut.cs" />
     <Compile Include="Document.data.cs" />
-    <Compile Include="Document.lcoffset.cs" />
+    <Compile Include="Document.offsetlc.cs" />
     <Compile Include="Document.cadmanu.cs" />
     <Compile Include="Document.safe.cs" />
     <Compile Include="Document.snhzy.cs" />

@@ -37,8 +37,10 @@ namespace GroundWellDesign
             ecCombo.Text = Ec;
 
 
-            //井型人工设计初始化
-
+            //井型自动设计初始化
+            AutoTgxh1 = TggjOpt[0];
+            AutoTgxh2 = TggjOpt[1];
+            AutoWjfs3 = WjfsOpt[0];
 
             //cad初始化
             cadViewer = new AxMxDrawX();
@@ -76,6 +78,7 @@ namespace GroundWellDesign
             lcOffsetDataGrid.ItemsSource = keyLayers;
             taoGuanDataGrid.ItemsSource = keyLayers;
             manuDesignGrid.DataContext = manuDesignParams;
+            autoDesignGrid.DataContext = this;
 
             //关键层计算相关其他参数绑定
             meiCengQingJIaoTb.DataContext = this;
@@ -345,8 +348,9 @@ namespace GroundWellDesign
         {
             if (e.Source is TabControl)
             {
+                object selectedItem = tabControl.SelectedItem;
                 //选择了向导式录入
-                if (tabControl.SelectedItem == guidinputTabItem)
+                if (selectedItem == guidinputTabItem)
                 {
                     int index = paramGrid.SelectedIndex;
                     if(index < 0)
@@ -356,6 +360,16 @@ namespace GroundWellDesign
                     currLayerTb.Text = (index + 1).ToString();
                     editLayer.copyNoEvent(layers[index]);
                     guideBind(editLayer);
+                }
+                else if(selectedItem == autoDesignTabItem || selectedItem == manuDesignTabItem || selectedItem == taoGuanTabItem
+                    || selectedItem == keyLayerTabItem || selectedItem == cutOffsetTabItem || selectedItem == lcOffsetTabItem)
+                {
+                    if(keyLayers.Count == 0)
+                    {
+                        MessageBox.Show("请先计算关键层");
+                        tabControl.SelectedItem = gridinputTabItem;
+                        return;
+                    }
                 }
             }
         }

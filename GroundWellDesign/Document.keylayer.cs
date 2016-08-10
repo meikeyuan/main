@@ -14,13 +14,7 @@ namespace GroundWellDesign
             {
                 return;
             }
-
-            if (keyLayers.Count == 0)
-            {
-                MessageBox.Show("请先计算关键层");
-                tabControl.SelectedItem = gridinputTabItem;
-                return;
-            }
+            
         }
 
 

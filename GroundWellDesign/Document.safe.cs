@@ -17,13 +17,6 @@ namespace GroundWellDesign
             {
                 return;
             }
-
-            if (keyLayers.Count == 0)
-            {
-                MessageBox.Show("请先计算关键层");
-                tabControl.SelectedItem = gridinputTabItem;
-                return;
-            }
         }
 
 
@@ -39,17 +32,22 @@ namespace GroundWellDesign
         private void calSafeBtn_Click(object sender, RoutedEventArgs e)
         {
             int keycount = keyLayers.Count;
-            for (int i = 0; i < keycount; i++)
-            {
-                keyLayers[i].IsDangerous = null;
-            }
-
 
             ERRORCODE errcode = computeSafe(keycount);
             switch (errcode)
             {
                 case ERRORCODE.计算成功:
-                    //MessageBox.Show("计算成功");
+                    for (int i = 0; i < keycount; i++)
+                    {
+                        if (keyLayers[i].jqaqxs < 1 || keyLayers[i].lsaqxs < 1)
+                        {
+                            keyLayers[i].IsDangerous = true;
+                        }
+                        else
+                        {
+                            keyLayers[i].IsDangerous = false;
+                        }
+                    }
                     break;
                 case ERRORCODE.计算异常:
                     MessageBox.Show("计算出错，请检查数据合理性");
@@ -57,22 +55,6 @@ namespace GroundWellDesign
                 case ERRORCODE.没有关键层数据:
                     MessageBox.Show("没有关键层数据");
                     break;
-            }
-        }
-
-        private void dangerBtn_Click(object sender, RoutedEventArgs e)
-        {
-            int keycount = keyLayers.Count;
-            for (int i = 0; i < keycount; i++)
-            {
-                if (keyLayers[i].jqaqxs < 1 || keyLayers[i].lsaqxs < 1)
-                {
-                    keyLayers[i].IsDangerous = true;
-                }
-                else
-                {
-                    keyLayers[i].IsDangerous = false;
-                }
             }
         }
 

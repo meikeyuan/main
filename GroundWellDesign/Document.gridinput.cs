@@ -16,7 +16,7 @@ namespace GroundWellDesign
 
             if (e.AddedCells.Count == 0)
                 return;
-            paramGrid.BeginEdit();    //  进入编辑模式
+            paramGrid.BeginEdit();    //进入编辑模式
         }
 
 
@@ -194,39 +194,7 @@ namespace GroundWellDesign
             paramGrid.SelectedIndex = selectedIndex + 1;
         }
 
-        //横三区竖三代计算
-        private void computeMLBtn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var array1 = (MWNumericArray)logic.calHm(FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
-                double maoLuoDai = array1.ToScalarDouble();
-                maoLuoDaiTb.Text = maoLuoDai.ToString("f3");
-                var array2 = (MWNumericArray)logic.calHl(CaiGao, 1);
-                double lieXiDai = array2.ToScalarDouble();
-                lieXiDaiTb.Text = lieXiDai.ToString("f3");
-
-                for(int i = keyLayers.Count; i > 0; i--)
-                {
-                    if(keyLayers[i-1].mcms < lieXiDai)
-                    {
-                        continue;
-                    }
-                    double wanquDai = keyLayers[i-1].mcms;
-                    wanQuDaiTb.Text = wanquDai.ToString("f3");
-                    break;
-                }
-
-            }
-            catch (Exception)
-            {
-                e.ToString();
-                MessageBox.Show("计算出错，请检查数据合理性");
-            }
-        }
-
-
-        //显示关键层
+        //计算关键层和竖三带
         private void click_showKeyRow(object sender, RoutedEventArgs e)
         {
             //先撤销之前的变色
@@ -235,20 +203,16 @@ namespace GroundWellDesign
                 layers[nbr.ycbh - 1].IsKeyLayer = false;
             }
 
-
             //当前关键层变色显示
             int[] biaoHaoList = null;
             double[] pjxsList = null;
-
             getKeyLayer(ref biaoHaoList, ref pjxsList);
-
 
             if (biaoHaoList == null || pjxsList == null)
             {
-                //keyLayerNbr.Clear();
+                MessageBox.Show("未计算出关键层，请检查数据合理性");
                 return;
             }
-
             keyLayers.Clear();
             int count = biaoHaoList.Length;
             for (int i = 0; i < count; i++)
@@ -263,18 +227,43 @@ namespace GroundWellDesign
                 keyLayers.Add(layer);
 
                 layers[biaoHaoList[i] - 1].IsKeyLayer = true;
+            }
 
+            //竖三带计算
+            try
+            {
+                var array1 = (MWNumericArray)logic.calHm(FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
+                double maoLuoDai = array1.ToScalarDouble();
+                maoLuoDaiTb.Text = maoLuoDai.ToString("f3");
+                var array2 = (MWNumericArray)logic.calHl(CaiGao, 1);
+                double lieXiDai = array2.ToScalarDouble();
+                lieXiDaiTb.Text = lieXiDai.ToString("f3");
+
+                bool bWanquDai = false;
+                for (int i = keyLayers.Count; i > 0; i--)
+                {
+                    if (keyLayers[i - 1].mcms < lieXiDai)
+                    {
+                        continue;
+                    }
+                    bWanquDai = true;
+                    double wanquDai = keyLayers[i - 1].mcms;
+                    wanQuDaiTb.Text = wanquDai.ToString("f3");
+                    break;
+                }
+                if(!bWanquDai)
+                {
+                    MessageBox.Show("没有找到弯曲带，请检查数据合理性");
+                }
+            }
+            catch (Exception)
+            {
+                e.ToString();
+                MessageBox.Show("竖三带计算出错，请检查数据合理性");
             }
 
         }
 
-
-        //转到输入关键层数据
-       /* private void click_inputOtherData(object sender, RoutedEventArgs e)
-        {
-
-            tabControl.SelectedItem = keyLayerTabItem;
-        }*/
 
 
         //模块一获取岩层参数的回调函数

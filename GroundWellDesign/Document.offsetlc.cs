@@ -21,15 +21,6 @@ namespace GroundWellDesign
                 return;
             }
 
-
-            if (keyLayers.Count == 0)
-            {
-                MessageBox.Show("请先计算关键层");
-                tabControl.SelectedItem = gridinputTabItem;
-                return;
-            }
-
-
             switch (computeMidData(keyLayers.Count))
             {
                 case ERRORCODE.计算成功:
@@ -76,7 +67,8 @@ namespace GroundWellDesign
             if (lcChart.AxesY.Count == 1)
             {
                 Axis yAxis = new Axis();
-                yAxis.Title = "剪切合位移";
+                yAxis.Title = "岩层最大下沉值W0";
+                yAxis.IntervalType = IntervalTypes.Number;
                 yAxis.AxisMinimum = 0;
                 yAxis.Suffix = "米";
                 lcChart.AxesY.Add(yAxis);

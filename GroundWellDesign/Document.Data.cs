@@ -258,5 +258,39 @@ namespace GroundWellDesign
             get;
         }
 
+
+        //以下为自动设计需要相关变量
+        public string AutoTgxh1
+        {
+            set;
+            get;
+        }
+
+        public string AutoMiaoshu1
+        {
+            set;
+            get;
+        }
+        public string AutoTgxh2
+        {
+            set;
+            get;
+        }
+
+        public string AutoMiaoshu2
+        {
+            set;
+            get;
+        }
+        public string AutoWjfs3
+        {
+            set;
+            get;
+        }
+        public string AutoMiaoshu3
+        {
+            set;
+            get;
+        }
     }
 }

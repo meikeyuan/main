@@ -22,13 +22,6 @@ namespace GroundWellDesign
                 return;
             }
 
-            if (keyLayers.Count == 0)
-            {
-                MessageBox.Show("请先计算关键层");
-                tabControl.SelectedItem = gridinputTabItem;
-                return;
-            }
-
             int upCount = 0;
             switch (computeCutOffSet(keyLayers.Count, layers.Count, ref upCount))
             {
@@ -205,6 +198,7 @@ namespace GroundWellDesign
             if (jqChart.AxesX.Count == 1)
             {
                 Axis xAxis = new Axis();
+                xAxis.Title = "岩层编号";
                 xAxis.IntervalType = IntervalTypes.Number;
                 xAxis.Interval = 1;
                 jqChart.AxesX.Add(xAxis);
@@ -215,6 +209,8 @@ namespace GroundWellDesign
             if (jqChart.AxesY.Count == 1)
             {
                 Axis yAxis = new Axis();
+                yAxis.Title = "剪切合位移Up";
+                yAxis.IntervalType = IntervalTypes.Number;
                 yAxis.AxisMinimum = 0;
                 yAxis.Suffix = "厘米";
                 jqChart.AxesY.Add(yAxis);

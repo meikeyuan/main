@@ -115,7 +115,7 @@
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="paramGrid" SelectedCellsChanged="paramGrid_SelectedCellsChanged" SelectionChanged="paramGrid_SelectionChanged">
+                    <DataGrid x:Name="paramGrid" SelectedCellsChanged="paramGrid_SelectedCellsChanged" SelectionChanged="paramGrid_SelectionChanged" SelectionMode="Single">
                         <DataGrid.Resources>
                             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#3399ff"/>
                         </DataGrid.Resources>
@@ -126,7 +126,7 @@
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.YanXingOpt}" SelectedItemBinding="{Binding YanXing, UpdateSourceTrigger=LostFocus}" Header="岩性" />
-                            <DataGridTextColumn Header="累计深度/m" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource elementStyle}" IsReadOnly="True" Foreground="Green">
+                            <DataGridTextColumn Header="累计深度/m" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource elementStyle}" IsReadOnly="True" Foreground="Red">
                                 <DataGridTextColumn.Binding>
                                     <Binding Path="LeiJiShenDu" StringFormat="n3" UpdateSourceTrigger="LostFocus">
                                         <Binding.ValidationRules>
@@ -135,7 +135,8 @@
                                     </Binding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="距离煤层深度/m" IsReadOnly="True" Foreground="Green" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   
+                                                Header="距离煤层深度/m" IsReadOnly="True" Foreground="Red" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3, UpdateSourceTrigger=LostFocus}"   Header="层厚/m"  ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
                             <DataGridTextColumn Header="自然视密度/kg/㎥" EditingElementStyle="{StaticResource editValidStyle}" ElementStyle="{StaticResource ResourceKey=elementStyle}">
                                 <DataGridTextColumn.Binding>
@@ -262,8 +263,7 @@
                         </StackPanel>
 
 
-                        <Button Content="计算关键层"  Click="click_showKeyRow"/>
-                        <Button Content="计算竖三带" x:Name="computeMLBtn" Margin="0, 0, 20, 0" Click="computeMLBtn_Click"/>
+                        <Button Content="计算关键层和竖三带" Margin="0, 0, 20, 0" Click="click_showKeyRow"/>
 
                         <StackPanel  Orientation="Vertical" VerticalAlignment="Center" Margin="0, 0, 20, 0" >
                             <TextBlock Text="冒落带高度H" />
@@ -398,14 +398,14 @@
                         <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
 
-                    <DataGrid x:Name="keyLayerDataGrid" SelectedCellsChanged="keyLayerDataGrid_SelectedCellsChanged" Loaded="keyLayerDataGrid_Loaded">
+                    <DataGrid x:Name="keyLayerDataGrid" SelectedCellsChanged="keyLayerDataGrid_SelectedCellsChanged" Loaded="keyLayerDataGrid_Loaded" SelectionUnit="Cell">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3}"   Header="岩层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3}"   Header="距离煤层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Fypjxs, StringFormat=n3}"   Header="覆岩综合评价系数P" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Fypjxsxz, StringFormat=n3}"   Header="修正的评价系数P" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Gzmtjsj, StringFormat=n0, UpdateSourceTrigger=PropertyChanged}"   Header="工作面推进时间/d" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Gzmtjsj, StringFormat=n0, UpdateSourceTrigger=PropertyChanged}"   Header="工作面推进时间/d" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
 
 
                             <DataGridTextColumn Binding="{Binding Cfcdcjwy, StringFormat=n3}"   Header="充分采动沉降位移Wmax" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
@@ -484,15 +484,15 @@
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid x:Name="cutOffsetDataGrid" IsReadOnly="True" Loaded="cutOffsetDataGrid_Loaded">
+                    <DataGrid x:Name="cutOffsetDataGrid" IsReadOnly="True" Loaded="cutOffsetDataGrid_Loaded" SelectionUnit="Cell">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding YanXing}" Header="岩性" />
                             <DataGridTextColumn Header="累计深度/m" Binding="{Binding LeiJiShenDu, StringFormat=n3}" />
                             <DataGridTextColumn Binding="{Binding JuLiMeiShenDu, StringFormat=n3}"   Header="距离煤层深度/m" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding CengHou, StringFormat=n3}"   Header="层厚/m" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding QXJQWY, StringFormat=n3}"   Header="倾向剪切位移u(x)" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding ZXJQWY, StringFormat=n3}"   Header="走向剪切位移u(z)" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding JQHWY, StringFormat=n3}"   Header="剪切合位移u(p)" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding QXJQWY, StringFormat=n3}"   Header="倾向剪切位移u(x)/cm" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding ZXJQWY, StringFormat=n3}"   Header="走向剪切位移u(z)/cm" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding JQHWY, StringFormat=n3}"   Header="剪切合位移u(p)/cm" ElementStyle="{StaticResource elementStyle}"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -515,17 +515,17 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="lcOffsetDataGrid" IsReadOnly="True" Loaded="lcOffsetDataGrid_Loaded">
+                    <DataGrid x:Name="lcOffsetDataGrid" IsReadOnly="True" Loaded="lcOffsetDataGrid_Loaded" SelectionUnit="Cell">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3 }"   Header="岩层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3 }"   Header="距离煤层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
                             <DataGridTextColumn Binding="{Binding Sjxcxs, StringFormat=n3 }"   Header="实际下沉系数η0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3 }"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3 }"   Header="岩层最大下沉值W0/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3 }"   Header="计算点即时沉降位移1Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" />
-                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3 }"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Jsdjscjwy, StringFormat=n3 }"   Header="计算点即时沉降位移1Wt/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}" />
+                            <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3 }"   Header="计算点即时离层位移△Wt/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <!--<DataGridTextColumn Header="最大离层位移△w/cm" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/> -->
 
                         </DataGrid.Columns>
@@ -570,16 +570,16 @@
                             <DataGridTextColumn Binding="{Binding Yczdxcz, StringFormat=n3 }"   Header="岩层最大下沉值W0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Jsdjslcwy, StringFormat=n3 }"   Header="计算点即时离层位移△Wt" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Tgwj, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="套管外径/mm" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Tgbh, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="套管壁厚/mm" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Tgwj, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="套管外径/mm" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Tgbh, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="套管壁厚/mm" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.TgtxmlOpt}" SelectedItemBinding="{Binding Tgtxml, UpdateSourceTrigger=LostFocus}" Header="套管弹性模量/Pa" />
 
-                            <DataGridTextColumn Binding="{Binding Jqqycd, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="剪切区域长度/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Jqqycd, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="剪切区域长度/m" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.KjqdOpt}" SelectedItemBinding="{Binding Kjqd, UpdateSourceTrigger=LostFocus}" Header="抗剪强度/Gpa" />
                             <DataGridTextColumn Binding="{Binding Zdjqyl, StringFormat=n3}"   Header="最大剪切应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Jqaqxs, StringFormat=n3}"   Header="剪切安全系数" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding Lsqycd, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="拉伸区域长度/m" Foreground="Green" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Lsqycd, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="拉伸区域长度/m" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.KlqdOpt}" SelectedItemBinding="{Binding Klqd, UpdateSourceTrigger=LostFocus}" Header="抗拉强度/Gpa" />
                             <DataGridTextColumn Binding="{Binding Zdjqyb, StringFormat=e3}"   Header="最大剪切应变ε" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Lsyl, StringFormat=n3}"   Header="拉伸应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
@@ -588,13 +588,7 @@
                     </DataGrid>
 
                     <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Button Name="calSafeBtn" Content="计算安全系数" Click="calSafeBtn_Click"/>
-                        <Button Name="dangerBtn" Content="标识高危位置" Grid.Column="1" Click="dangerBtn_Click"/>
+                        <Button Name="calSafeBtn" Content="计算安全系数、标识高危位置" Click="calSafeBtn_Click"/>
                     </Grid>
 
 
@@ -694,7 +688,7 @@
                 <Grid Width="500" Height="200">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="34"/>
                     </Grid.RowDefinitions>
 
                     <Grid ShowGridLines="True" Name="autoDesignGrid" Grid.Row="0">
@@ -727,8 +721,8 @@
                             <TextBlock Text="套管型号" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Text="描述" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                            <ComboBox Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding Gjfs1, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Grid.Column="3" Margin="5" Text="{Binding Miaoshu1, UpdateSourceTrigger=LostFocus}"/>
+                            <ComboBox Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding AutoTgxh1, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Grid.Column="3" Margin="5" Text="{Binding AutoMiaoshu1, UpdateSourceTrigger=LostFocus}"/>
 
                         </Grid>
 
@@ -747,8 +741,8 @@
                             <TextBlock Text="套管型号" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Text="描述" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                            <ComboBox Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding Gjfs1, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Grid.Column="3" Margin="5" Text="{Binding Miaoshu1, UpdateSourceTrigger=LostFocus}"/>
+                            <ComboBox Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding AutoTgxh2, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Grid.Column="3" Margin="5" Text="{Binding AutoMiaoshu2, UpdateSourceTrigger=LostFocus}"/>
                         </Grid>
                         <!-- 三开结构   -->
                         <Grid Grid.Column="1" Grid.Row="2">
@@ -765,8 +759,8 @@
                             <TextBlock Text="完井方式" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Text="描述" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                            <ComboBox Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding Gjfs1, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Grid.Column="3"  Margin="5" Text="{Binding Miaoshu1, UpdateSourceTrigger=LostFocus}"/>
+                            <ComboBox Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding AutoWjfs3, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Grid.Column="3"  Margin="5" Text="{Binding AutoMiaoshu3, UpdateSourceTrigger=LostFocus}"/>
                         </Grid>
                     </Grid>
 
@@ -791,7 +785,7 @@
             </TabItem>
             
 
-            <TabItem x:Name="manDesignTabItem" Header="井型人工设计" >
+            <TabItem x:Name="manuDesignTabItem" Header="井型人工设计" >
                 <!--Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" -->
                 <Grid>
 

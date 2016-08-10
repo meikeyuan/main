@@ -398,7 +398,7 @@ namespace GroundWellDesign
             curWindow.gjCombo.Visibility = Visibility.Hidden;
             curWindow.wjTB2.Visibility = Visibility.Visible;
             curWindow.wjCombo.Visibility = Visibility.Visible;
-            curWindow.tabControl.SelectedItem = curWindow.manDesignTabItem;
+            curWindow.tabControl.SelectedItem = curWindow.manuDesignTabItem;
         }
 
         private void manDesign2Menu_Click(object sender, RoutedEventArgs e)
@@ -416,7 +416,7 @@ namespace GroundWellDesign
             curWindow.gjCombo.Visibility = Visibility.Visible;
             curWindow.wjTB2.Visibility = Visibility.Hidden;
             curWindow.wjCombo.Visibility = Visibility.Hidden;
-            curWindow.tabControl.SelectedItem = curWindow.manDesignTabItem;
+            curWindow.tabControl.SelectedItem = curWindow.manuDesignTabItem;
         }
 
         private void showTitle(String title)

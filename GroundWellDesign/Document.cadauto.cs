@@ -12,41 +12,71 @@ namespace GroundWellDesign
 
         private void makeAutoImgBtn_Click(object sender, RoutedEventArgs e)
         {
-            //先进行参数计算  应该在选择菜单的时候就计算？
-            double oneKai = 20;
-            int i = layers.Count - 1;
-            for (; i >= 0; i--)
-            {
-                if (layers[i].yanXing.Equals("煤"))
-                {
-                    break;
-                }
-            }
-            if (i <= 0)
-            {
-                MessageBox.Show("岩层数据有误，请修正再尝试自动设计");
-                tabControl.SelectedItem = gridinputTabItem;
-                return;
-            }
+
+            //先进行参数计算
+            //第一点是：每一开深度，三开底部和煤层顶板的距离
+            double oneKai = 30;
 
             if (wanQuDaiTb.Text.Trim().Equals(""))
             {
                 MessageBox.Show("部分计算未完成，请修正再尝试自动设计");
                 return;
             }
-
             double twoKai = double.Parse(wanQuDaiTb.Text) + 20;
-            double threeKai = layers[i - 1].leiJiShenDu - 10;
 
-            //显示cad 参数标注
+            int meiIndex = layers.Count - 1;
+            for (; meiIndex >= 0; meiIndex--)
+            {
+                if (layers[meiIndex].yanXing.Equals("煤"))
+                {
+                    break;
+                }
+            }
+            if (meiIndex <= 0)
+            {
+                MessageBox.Show("岩层数据有误，请修正再尝试自动设计");
+                tabControl.SelectedItem = gridinputTabItem;
+                return;
+            }
+            double threeKai = layers[meiIndex - 1].leiJiShenDu - 10;
+            double threeToMei = 10;
+
+            //第二点是：各级套管外径；水泥环厚度
+            double snhHoudu = a1 - aw;
+            //double tgwj1, tgwj2, tgwj3;
+
+            //第三点是：局部固井的深度值
+
+
+
+            //第四点是：高位位置数量，破坏主因
+            if(keyLayers[0].IsDangerous == null)
+            {
+                MessageBox.Show("请先计算套管安全系数");
+                return;
+            }
+            int dangerCount = 0;
+            int keycount = keyLayers.Count;
+            for (int i = 0; i < keycount; i++ )
+            {
+                if(keyLayers[i].IsDangerous == true)
+                {
+                    dangerCount++;
+                }
+            }
+
+
+            //显示cad
             tabControl.SelectedItem = autoDesignCadTabItem;
-            cadViewer.OpenDwgFile("cads/三开-一全固二局固三悬挂-默认.dwg");
-            cadViewer.ZoomCenter(1500, 300);
+            cadViewer.OpenDwgFile("cads/三开-一全固二局固三" + AutoWjfs3.Substring(0, 2) + ".dwg");
+            cadViewer.ZoomCenter(3000, 300);
             cadViewer.ZoomScale(1);
 
+            //参数标注
+            //各级套管直径、长度、水泥环厚度、三开底部和煤层顶板的距离
             MxDrawSelectionSet ss = new MxDrawSelectionSet();
             IMxDrawResbuf spFilter = new MxDrawResbuf();
-            ss.Select2(MCAD_McSelect.mcSelectionSetUserSelect, null, null, null, null);
+            ss.Select2(MCAD_McSelect.mcSelectionSetAll, null, null, null, null);
 
             for (int j = 0; j < ss.Count; j++)
             {
@@ -55,24 +85,34 @@ namespace GroundWellDesign
                 if (ent is MxDrawMText)
                 {
                     MxDrawMText mText = (MxDrawMText)ent;
-                    if (mText.Contents.EndsWith("m"))
+                    string contents = mText.Contents;
+                    if (contents.Contains("50m"))
                     {
-                        mText.Contents = "长度标注";
+                        mText.Contents = contents.Replace("50", oneKai.ToString("f3"));
                     }
-                    else
+                    else if (contents.Contains("250m"))
                     {
-                        mText.Contents = "其他标注";
+                        mText.Contents = contents.Replace("250", twoKai.ToString("f3"));
                     }
-
+                    else if (contents.Contains("310m"))
+                    {
+                        mText.Contents = contents.Replace("310", threeKai.ToString("f3"));
+                    }
                 }
-                else if (ent is MxDrawDimRotated)
+                /*else if (ent is MxDrawDimRotated)
                 {
                     MxDrawDimRotated dim = (MxDrawDimRotated)ent;
                     MessageBox.Show(dim.DimensionText);
                     dim.DimensionText = "20m";
                     dim.RecomputeDimBlock(true);
-                }
+                }*/
             }
+            //旁边标出各级套管型号，固井工艺、完井工艺、高危位置等
+
+
+
+
+
             cadViewer.ReDraw();
         }
 

@@ -371,12 +371,23 @@ namespace GroundWellDesign
         }
 
         //套管安全系数部分
+        private void InvalidDanger()
+        {
+            int keycount = mainWindow.keyLayers.Count;
+                for (int i = 0; i < keycount; i++)
+                {
+                    mainWindow.keyLayers[i].IsDangerous = null;
+                }
+        }
+
+
         public double Tgwj
         {
             get { return tgwj; }
             set
             {
                 tgwj = value;
+                InvalidDanger();
                 SetUI("Tgwj");
             }
         }
@@ -387,6 +398,7 @@ namespace GroundWellDesign
             set
             {
                 tgbh = value;
+                InvalidDanger();
                 SetUI("Tgbh");
             }
         }
@@ -397,6 +409,7 @@ namespace GroundWellDesign
             set
             {
                 tgtxml = value;
+                InvalidDanger();
                 SetUI("Tgtxml");
             }
         }
@@ -407,6 +420,7 @@ namespace GroundWellDesign
             set
             {
                 lsqycd = value;
+                InvalidDanger();
                 SetUI("Lsqycd");
             }
         }
@@ -416,6 +430,7 @@ namespace GroundWellDesign
             set
             {
                 klqd = value;
+                InvalidDanger();
                 SetUI("Klqd");
             }
         }
@@ -444,6 +459,7 @@ namespace GroundWellDesign
             set
             {
                 jqqycd = value;
+                InvalidDanger();
                 SetUI("Jqqycd");
             }
         }
@@ -453,6 +469,7 @@ namespace GroundWellDesign
             set
             {
                 kjqd = value;
+                InvalidDanger();
                 SetUI("Kjqd");
             }
         }
