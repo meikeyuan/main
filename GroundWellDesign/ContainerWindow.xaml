@@ -67,8 +67,7 @@
             <Menu>
                 <MenuItem Header="地面井设计(_X)">
                     <MenuItem Name="autoDesignMenu" Header="井型自动设计" Click="autoDesignMenu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
-                    <MenuItem Name="manDesign1Menu" Header="井型人工设计-二开" Click="manDesign1Menu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
-                    <MenuItem Name="manDesign2Menu" Header="井型人工设计-三开" Click="manDesign2Menu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
+                    <MenuItem Name="manDesignMenu" Header="井型人工设计" Click="manDesignMenu_Click" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}"/>
                 </MenuItem>
             </Menu>
             

@@ -206,13 +206,18 @@ namespace GroundWellDesign
             //当前关键层变色显示
             int[] biaoHaoList = null;
             double[] pjxsList = null;
-            getKeyLayer(ref biaoHaoList, ref pjxsList);
+            bool isOk = getKeyLayer(ref biaoHaoList, ref pjxsList);
 
-            if (biaoHaoList == null || pjxsList == null)
+            if(!isOk)
+            {
+                return;
+            }
+            else if (biaoHaoList == null || pjxsList == null)
             {
                 MessageBox.Show("未计算出关键层，请检查数据合理性");
                 return;
             }
+
             keyLayers.Clear();
             int count = biaoHaoList.Length;
             for (int i = 0; i < count; i++)
@@ -350,14 +355,14 @@ namespace GroundWellDesign
 
 
         //计算关键层接口
-        private void getKeyLayer(ref int[] bianHao, ref double[] pjxs)
+        private bool getKeyLayer(ref int[] bianHao, ref double[] pjxs)
         {
 
             double[,] data = getParams();
             if (data == null)
             {
-                MessageBox.Show("数据录入有误，请检查。(第一层应为地表，应该有煤层底板。)");
-                return;
+                MessageBox.Show("数据录入有误，请检查。(第一层应为地表，煤层应有底板。)");
+                return false;
             }
 
 
@@ -381,14 +386,14 @@ namespace GroundWellDesign
 
                 pjxs = (double[])pjxsList.ToVector(MWArrayComponent.Real);
 
-                return;
+                return true;
 
             }
             catch (Exception e)
             {
                 e.ToString();
-                MessageBox.Show("计算出现错误，请检查数据准确性");
-                return;
+                MessageBox.Show("关键层计算出现错误，请检查数据合理性");
+                return false;
 
             }
 

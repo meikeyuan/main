@@ -27,7 +27,7 @@ namespace GroundWellDesign
             {
                 case ERRORCODE.计算成功:
                     //MessageBox.Show("计算成功");
-                    CreateJqChartSpline(layers, upCount);
+                    CreateJqChartSpline(upCount);
                     break;
                 case ERRORCODE.计算异常:
                     MessageBox.Show("计算出错，请检查数据合理性");
@@ -192,7 +192,7 @@ namespace GroundWellDesign
         }
 
 
-        private void CreateJqChartSpline(ObservableCollection<LayerBaseParams> layers, int drawCount)
+        private void CreateJqChartSpline(int drawCount)
         {
             //添加横坐标
             if (jqChart.AxesX.Count == 1)
@@ -211,7 +211,8 @@ namespace GroundWellDesign
                 Axis yAxis = new Axis();
                 yAxis.Title = "剪切合位移Up";
                 yAxis.IntervalType = IntervalTypes.Number;
-                yAxis.AxisMinimum = 0;
+                yAxis.ValueFormatString = "f4";
+                //yAxis.AxisMinimum = 0;
                 yAxis.Suffix = "厘米";
                 jqChart.AxesY.Add(yAxis);
             }

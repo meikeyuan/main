@@ -36,6 +36,9 @@ namespace GroundWellDesign
             Ec = TgtxmlOpt[0];
             ecCombo.Text = Ec;
 
+            //人工设计
+            manuDesignParams = new ManuDesignParams(this);
+            manuDesignParams.JieGou = JieGouOpt[1];
 
             //井型自动设计初始化
             AutoTgxh1 = TggjOpt[0];

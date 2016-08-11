@@ -16,7 +16,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="25*"/>
-                <RowDefinition Height="15*"/>
+                <RowDefinition Height="20*"/>
             </Grid.RowDefinitions>
             <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal">
                 <Button x:Name="closeBtn" Click="closeBtn_Click"  Content=" X " Padding="10, 0, 10, 0" Height="30" Style="{x:Null}" BorderBrush="Transparent" Background="Transparent" Foreground="White"/>
@@ -26,11 +26,12 @@
             </StackPanel>
 
 
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="19" Foreground="Black" Margin="116,29,106,10" Grid.Row="1" Height="68" TextAlignment="Center" LineHeight="35" ><Bold><Run Text="煤矿采动区煤层气地面井"/><LineBreak/><Run Text="优化设计软件"/></Bold></TextBlock>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Foreground="Black" Margin="225,22,10,10" Grid.Row="2" Height="32"><Bold><Run Text="中煤科工集团重庆研究院有限公司"/></Bold></TextBlock>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="19" Foreground="Black" Grid.Row="1" TextAlignment="Center" LineHeight="35" ><Bold><Run Text="煤矿采动区煤层气地面井"/><LineBreak/><Run Text="优化设计软件"/></Bold></TextBlock>
+            
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Foreground="Black" Margin="225,22,10,10" Grid.Row="2" TextAlignment="Center" LineHeight="5"><Bold><Run Text="中煤科工集团重庆研究院有限公司"/><LineBreak/><Run Text="瓦斯研究分院"/></Bold></TextBlock>
         </Grid>
 
-        <Grid Grid.Row="1" Background="#FFE2E2E2">
+        <Grid Grid.Row="1" Background="#FFFFFFE2">
             <Grid Grid.Row="1" Margin="20, 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="62*"/>
@@ -38,7 +39,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Image Source="./img/splash.jpg"/>
-                <StackPanel Orientation="Vertical" Grid.Column="2" Margin="0, 25, 0, 10">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="2">
 
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>

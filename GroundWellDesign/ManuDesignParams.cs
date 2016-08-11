@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GroundWellDesign
 {
@@ -12,6 +13,7 @@ namespace GroundWellDesign
     {
         public BaseManuDesignParams()
         {
+            jieGou = Document.JieGouOpt[0];
             tggj1 = Document.TggjOpt[0];
             gjfs1 = Document.GjfsOpt[0];
             tggj2 = Document.TggjOpt[0];
@@ -25,6 +27,8 @@ namespace GroundWellDesign
 
         public BaseManuDesignParams(ManuDesignParams param)
         {
+            jieGou = param.jieGou;
+
             zjsd1 = param.zjsd1;
             tggj1 = param.tggj1;
             tgxh1 = param.tgxh1;
@@ -44,6 +48,8 @@ namespace GroundWellDesign
             wjfs3 = param.wjfs3;
             miaoshu3 = param.miaoshu3;
         }
+
+        public string jieGou;
 
         public double zjsd1;
         public string tggj1;
@@ -71,7 +77,11 @@ namespace GroundWellDesign
 
     public class ManuDesignParams : BaseManuDesignParams, INotifyPropertyChanged
     {
-
+        public Document mainWindow;
+        public ManuDesignParams(Document mainWindow)
+        {
+            this.mainWindow = mainWindow;
+        }
         public void reset()
         {
             copyAndEvent(new BaseManuDesignParams());       
@@ -80,6 +90,8 @@ namespace GroundWellDesign
 
         public void copyAndEvent(BaseManuDesignParams param)
         {
+            JieGou = param.jieGou;
+
             Zjsd1 = param.zjsd1;
             Tggj1 = param.tggj1;
             Tgxh1 = param.tgxh1;
@@ -100,6 +112,40 @@ namespace GroundWellDesign
             Miaoshu3 = param.miaoshu3;
         }
 
+        public string JieGou
+        {
+            set
+            {
+                if (jieGou != value)
+                {
+                    jieGou = value;
+                    if (jieGou.Equals(Document.JieGouOpt[0]))
+                    {
+                        //二开
+                        mainWindow.threeGrid.Visibility = Visibility.Hidden;
+                        mainWindow.threeTb.Visibility = Visibility.Hidden;
+                        mainWindow.gjTB2.Visibility = Visibility.Hidden;
+                        mainWindow.gjCombo.Visibility = Visibility.Hidden;
+                        mainWindow.wjTB2.Visibility = Visibility.Visible;
+                        mainWindow.wjCombo.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        //三开
+                        mainWindow.threeGrid.Visibility = Visibility.Visible;
+                        mainWindow.threeTb.Visibility = Visibility.Visible;
+                        mainWindow.gjTB2.Visibility = Visibility.Visible;
+                        mainWindow.gjCombo.Visibility = Visibility.Visible;
+                        mainWindow.wjTB2.Visibility = Visibility.Hidden;
+                        mainWindow.wjCombo.Visibility = Visibility.Hidden;
+                    }
+                }
+            }
+            get
+            {
+                return jieGou;
+            }
+        }
 
         public double Zjsd1
         {

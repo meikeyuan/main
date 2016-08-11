@@ -25,7 +25,7 @@ namespace GroundWellDesign
             {
                 case ERRORCODE.计算成功:
                     //MessageBox.Show("计算成功");
-                    CreateLcChartSpline(keyLayers, keyLayers.Count);
+                    CreateLcChartSpline();
                     break;
                 case ERRORCODE.计算异常:
                     MessageBox.Show("计算出错，请检查数据合理性");
@@ -49,7 +49,7 @@ namespace GroundWellDesign
         }
 
 
-        private void CreateLcChartSpline(ObservableCollection<KeyLayerParams> layers, int drawCount)
+        private void CreateLcChartSpline()
         {
             lcChart.Watermark = false;
             //添加横坐标
@@ -57,8 +57,8 @@ namespace GroundWellDesign
             {
                 Axis xAxis = new Axis();
                 xAxis.Title = "岩层编号";
-                xAxis.IntervalType = IntervalTypes.Number;
-                xAxis.Interval = 1;
+                //xAxis.IntervalType = IntervalTypes.Auto;
+                //xAxis.Interval = 1;
                 lcChart.AxesX.Add(xAxis);
             }
 
@@ -69,7 +69,8 @@ namespace GroundWellDesign
                 Axis yAxis = new Axis();
                 yAxis.Title = "岩层最大下沉值W0";
                 yAxis.IntervalType = IntervalTypes.Number;
-                yAxis.AxisMinimum = 0;
+                yAxis.ValueFormatString = "f3";
+                //yAxis.AxisMinimum = 0;
                 yAxis.Suffix = "米";
                 lcChart.AxesY.Add(yAxis);
             }
@@ -77,14 +78,16 @@ namespace GroundWellDesign
             //设置数据点
             lcDataSeries.DataPoints.Clear();
             DataPoint dataPoint;
+            int drawCount = keyLayers.Count;
             for (int i = 0; i < drawCount; i++)
             {
                 //创建一个数据点的实例
                 dataPoint = new DataPoint();
                 //设置X轴点
+                dataPoint.AxisXLabel = keyLayers[i].ycbh.ToString();
                 dataPoint.XValue = i + 1;
                 //设置Y轴点
-                dataPoint.YValue = layers[i].yczdxcz;
+                dataPoint.YValue = keyLayers[i].yczdxcz;
                 dataPoint.MarkerSize = 8;
                 dataPoint.MouseLeftButtonDown += new MouseButtonEventHandler(lcdataPoint_MouseLeftButtonDown);
                 //添加数据点

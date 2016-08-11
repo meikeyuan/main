@@ -318,7 +318,6 @@ namespace GroundWellDesign
 
 
         //*************************************位移计算**************************
-
         private void jqoffsetMenu_Click(object sender, RoutedEventArgs e)
         {
             int index = tabControl.SelectedIndex;
@@ -383,7 +382,7 @@ namespace GroundWellDesign
             curWindow.tabControl.SelectedItem = curWindow.autoDesignTabItem;
         }
 
-        private void manDesign1Menu_Click(object sender, RoutedEventArgs e)
+        private void manDesignMenu_Click(object sender, RoutedEventArgs e)
         {
             int index = tabControl.SelectedIndex;
             if (index == -1)
@@ -391,31 +390,7 @@ namespace GroundWellDesign
                 return;
             }
             Document curWindow = windows[index];
-            showTitle("井型人工设计-二开");
-            curWindow.threeGrid.Visibility = Visibility.Hidden;
-            curWindow.threeTb.Visibility = Visibility.Hidden;
-            curWindow.gjTB2.Visibility = Visibility.Hidden;
-            curWindow.gjCombo.Visibility = Visibility.Hidden;
-            curWindow.wjTB2.Visibility = Visibility.Visible;
-            curWindow.wjCombo.Visibility = Visibility.Visible;
-            curWindow.tabControl.SelectedItem = curWindow.manuDesignTabItem;
-        }
-
-        private void manDesign2Menu_Click(object sender, RoutedEventArgs e)
-        {
-            int index = tabControl.SelectedIndex;
-            if (index == -1)
-            {
-                return;
-            }
-            Document curWindow = windows[index];
-            showTitle("井型人工设计-三开");
-            curWindow.threeGrid.Visibility = Visibility.Visible;
-            curWindow.threeTb.Visibility = Visibility.Visible;
-            curWindow.gjTB2.Visibility = Visibility.Visible;
-            curWindow.gjCombo.Visibility = Visibility.Visible;
-            curWindow.wjTB2.Visibility = Visibility.Hidden;
-            curWindow.wjCombo.Visibility = Visibility.Hidden;
+            showTitle("井型人工设计");
             curWindow.tabControl.SelectedItem = curWindow.manuDesignTabItem;
         }
 
