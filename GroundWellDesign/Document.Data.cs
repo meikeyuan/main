@@ -266,19 +266,24 @@ namespace GroundWellDesign
             set;
             get;
         }
-
         public string AutoMiaoshu1
         {
             set;
             get;
         }
+
         public string AutoTgxh2
         {
             set;
             get;
         }
-
         public string AutoMiaoshu2
+        {
+            set;
+            get;
+        }
+
+        public string AutoTgxh3
         {
             set;
             get;

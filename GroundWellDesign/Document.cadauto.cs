@@ -8,13 +8,15 @@ namespace GroundWellDesign
     {
         private void resetAutoBtn_Click(object sender, RoutedEventArgs e)
         {
-            AutoTgxh1 = TggjOpt[0];
-            AutoTgxh2 = TggjOpt[0];
-            AutoWjfs3 = WjfsOpt[0];
+            autoTgxh1Combo.Text = AutoTgxh1 = TggjOpt[0];
 
-            AutoMiaoshu1 = "";
-            AutoMiaoshu2 = "";
-            AutoMiaoshu3 = "";
+            autoTgxh2Combo.Text = AutoTgxh2 = TggjOpt[0];
+            autoTgxh3Combo.Text = AutoTgxh3 = TggjOpt[0];
+            autoWjfs3Combo.Text = AutoWjfs3 = WjfsOpt[0];
+
+            autoMiaoshu1Tb.Text = AutoMiaoshu1 = "";
+            autoMiaoshu2Tb.Text = AutoMiaoshu2 = "";
+            autoMiaoshu3Tb.Text = AutoMiaoshu3 = "";
         }
 
         private void makeAutoImgBtn_Click(object sender, RoutedEventArgs e)
@@ -108,7 +110,7 @@ namespace GroundWellDesign
                         mText.Contents = contents.Replace("二开结构", "二开结构\\P\\P" + AutoMiaoshu2);
                     }
                     else if(contents.Contains("三开结构")){
-                        mText.Contents = contents.Replace("三开结构", "二开结构\\P\\P" + AutoMiaoshu3);
+                        mText.Contents = contents.Replace("三开结构", "三开结构\\P\\P" + AutoMiaoshu3);
                     }
                     //各级套管深度、局部固井深度、三开底部和煤层顶板的距离
                     else if (contents.Contains("一开深度"))
@@ -137,7 +139,7 @@ namespace GroundWellDesign
                         mText.Contents = contents.Replace("各级套管型号和参数", "各级套管型号和参数\\P\\P" +
                             "一开型号：" + AutoTgxh1 + "   外径：" + tgwj1 + "\\P" +
                             "二开型号：" + AutoTgxh2 + "   外径：" + tgwj2 + "\\P" + 
-                            "三开型号：" + AutoTgxh2 + "   外径：" + tgwj3 );
+                            "三开型号：" + AutoTgxh3 + "   外径：" + tgwj3 );
                     }
                     //固井工艺、完井工艺、水泥环厚度
                     else if (contents.Contains("固井工艺、完井工艺、水泥环厚度"))

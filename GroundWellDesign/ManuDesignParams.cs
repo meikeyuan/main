@@ -122,6 +122,7 @@ namespace GroundWellDesign
                     if (jieGou.Equals(Document.JieGouOpt[0]))
                     {
                         //二开
+                        mainWindow.gjfs1Combo.IsEnabled = true;
                         mainWindow.threeGrid.Visibility = Visibility.Hidden;
                         mainWindow.threeTb.Visibility = Visibility.Hidden;
                         mainWindow.gjTB2.Visibility = Visibility.Hidden;
@@ -132,6 +133,8 @@ namespace GroundWellDesign
                     else
                     {
                         //三开
+                        Gjfs1 = Document.GjfsOpt[0];
+                        mainWindow.gjfs1Combo.IsEnabled = false;
                         mainWindow.threeGrid.Visibility = Visibility.Visible;
                         mainWindow.threeTb.Visibility = Visibility.Visible;
                         mainWindow.gjTB2.Visibility = Visibility.Visible;

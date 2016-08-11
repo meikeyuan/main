@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         
-        Title="保存岩层到数据库" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+        Title="保存岩层到数据库" Height="200" Width="300" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -11,18 +11,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="选择矿井" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ComboBox Name="comboBox" Width="150" Text="111" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" SelectionChanged="comboBox_SelectionChanged"/>
+        <TextBlock Text="矿井名称" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ComboBox Name="comboBox" IsEditable="True" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
 
-
-        <TextBlock Text="其他名称" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
-        <TextBox Name="textBox" Width="150" Text="example" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1"/>
-
-
-        <Grid Grid.ColumnSpan="2"  Grid.Row="2" >
+        <Grid Grid.ColumnSpan="2" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -32,7 +26,5 @@
             <Button Content="取消" Width="100" Grid.Column="1" Name="saveCancelBtn" Click="saveCancelBtn_Click"/>
 
         </Grid>
-
-
     </Grid>
 </Window>

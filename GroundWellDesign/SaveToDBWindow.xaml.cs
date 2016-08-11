@@ -14,7 +14,6 @@ namespace GroundWellDesign
     {
         LayerBaseParams layer;
         List<String> items = new List<string>();
-        string cus = "其他(自定义)";
         public SaveToDBWindow(LayerBaseParams layer)
         {
             InitializeComponent();
@@ -22,7 +21,6 @@ namespace GroundWellDesign
 
             DataSaveAndRestore.getAllWellName(items);
 
-            items.Add(cus);
             comboBox.ItemsSource = items;
             if(items.Count > 0)
                 comboBox.SelectedIndex = 0;
@@ -30,22 +28,12 @@ namespace GroundWellDesign
 
         private void saveOkBtn_Click(object sender, RoutedEventArgs e)
         {
-            string wellName = comboBox.SelectedValue.ToString();
-            //如果选择的是其他。。。
-            if(wellName.Equals(cus))
+            string wellName = comboBox.Text;
+            if(wellName.Equals(""))
             {
-                wellName = textBox.Text;
-                if(wellName.Equals(""))
-                {
-                    MessageBox.Show("请输入矿井名称");
-                    return;
-                }else if(items.Contains(wellName))
-                {
-                    MessageBox.Show("您输入的矿井名称已存在，请在下拉列表选择");
-                    return;
-                }
+                MessageBox.Show("请输入矿井名称");
+                return;
             }
-
 
             string uuid = Guid.NewGuid().ToString();
             bool success = DataSaveAndRestore.saveToSqlite(layer, uuid, false, wellName, items.Contains(wellName));
@@ -69,17 +57,5 @@ namespace GroundWellDesign
             Close();
         }
 
-        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (comboBox.SelectedValue.Equals(cus))
-            {
-                textBox.IsEnabled = true;
-            }
-            else
-            {
-                textBox.IsEnabled = false;
-            }
-
-        }
     }
 }

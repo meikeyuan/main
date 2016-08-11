@@ -112,7 +112,7 @@ namespace GroundWellDesign
                     }
                     else if (contents.Contains("三开结构"))
                     {
-                        mText.Contents = contents.Replace("三开结构", "二开结构\\P\\P" + manuDesignParams.miaoshu3);
+                        mText.Contents = contents.Replace("三开结构", "三开结构\\P\\P" + manuDesignParams.miaoshu3);
                     }
                     //各级套管深度、局部固井深度、三开底部和煤层顶板的距离
                     else if (contents.Contains("一开深度"))
