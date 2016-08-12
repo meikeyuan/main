@@ -24,7 +24,7 @@ namespace GroundWellDesign
             double oneKai = manuDesignParams.zjsd1;
             double twoKai = manuDesignParams.zjsd2;
             double threeKai = manuDesignParams.zjsd3;
-            /*int meiIndex = layers.Count - 1;
+            int meiIndex = layers.Count - 1;
             for (; meiIndex >= 0; meiIndex--)
             {
                 if (layers[meiIndex].yanXing.Equals("煤"))
@@ -38,32 +38,58 @@ namespace GroundWellDesign
                 tabControl.SelectedItem = gridinputTabItem;
                 return;
             }
-            double threeKai = layers[meiIndex - 1].leiJiShenDu - 10;*/
-            double threeToMei = 10;
+            double threeToMei = layers[meiIndex - 1].leiJiShenDu - threeKai;
 
             //局部固井的深度值
-            double jbgjShendu = 0;
+            if (wanQuDaiTb.Text.Trim().Equals(""))
+            {
+                MessageBox.Show("未计算弯曲带高度，请修正再尝试井型设计");
+                return;
+            }
+            double jbgjShendu = double.Parse(wanQuDaiTb.Text); ;
 
             //各级套管外径；水泥环厚度
             double snhHoudu = editZengYi.a1 - editZengYi.aw;
             double tgwj1, tgwj2, tgwj3;
-            tgwj1 = tgwj2 = tgwj3 = 0;
+            tgwj1 = keyLayers[0].tgwj;
+            tgwj2 = keyLayers[wanQuDaiIndex].tgwj;
+            tgwj3 = keyLayers[keyLayers.Count - 1].tgwj;
 
 
             //高位位置数量，破坏主因
-            if (keyLayers[0].IsDangerous == null)
+            //高位位置数量，破坏主因
+            string dangerStr = "";
+            int dangerCnt = 0;
+            ERRORCODE errcode = computeSafe(keyLayers.Count);
+            switch (errcode)
             {
-                MessageBox.Show("请先计算套管安全系数");
-                return;
-            }
-            int dangerCount = 0;
-            int keycount = keyLayers.Count;
-            for (int i = 0; i < keycount; i++)
-            {
-                if (keyLayers[i].IsDangerous == true)
-                {
-                    dangerCount++;
-                }
+                case ERRORCODE.计算成功:
+                    for (int i = 0; i < keyLayers.Count; i++)
+                    {
+                        if (keyLayers[i].jqaqxs < 1)
+                        {
+                            keyLayers[i].IsDangerous = true;
+                            dangerCnt++;
+                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].jqaqxs.ToString("f3");
+                        }
+                        else if (keyLayers[i].lsaqxs < 1)
+                        {
+                            keyLayers[i].IsDangerous = true;
+                            dangerCnt++;
+                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].lsaqxs.ToString("f3");
+                        }
+                        else
+                        {
+                            keyLayers[i].IsDangerous = false;
+                        }
+                    }
+                    break;
+                case ERRORCODE.计算异常:
+                    MessageBox.Show("因计算安全系数出错，未生成cad图，请检查数据合理性");
+                    return;
+                case ERRORCODE.没有关键层数据:
+                    MessageBox.Show("因没有关键层数据，未生成cad图");
+                    return;
             }
 
             //显示cad
@@ -138,11 +164,11 @@ namespace GroundWellDesign
                     //各级套管型号和参数
                     else if (contents.Contains("各级套管型号和参数"))
                     {
-                        string tgcs = "一开型号：" + manuDesignParams.tgxh1 + "   外径：" + tgwj1 + "\\P" +
-                            "二开型号：" + manuDesignParams.tgxh2 + "   外径：" + tgwj2;
+                        string tgcs = "一开型号：" + manuDesignParams.tgxh1 + "   外径：" + tgwj1 + "mm" + "\\P" +
+                            "二开型号：" + manuDesignParams.tgxh2 + "   外径：" + tgwj2 + "mm";
                         if(manuDesignParams.jieGou.Equals(JieGouOpt[1]))
                         {
-                            tgcs += "\\P三开型号：" + manuDesignParams.tgxh3 + "   外径：" + tgwj3;
+                            tgcs += "\\P三开型号：" + manuDesignParams.tgxh3 + "   外径：" + tgwj3 + "mm";
                         }
                         mText.Contents = contents.Replace("各级套管型号和参数", "各级套管型号和参数\\P\\P" + tgcs);
                     }
@@ -150,12 +176,12 @@ namespace GroundWellDesign
                     else if (contents.Contains("固井工艺、完井工艺、水泥环厚度"))
                     {
                         mText.Contents = contents.Replace("固井工艺、完井工艺、水泥环厚度", "固井工艺、完井工艺、水泥环厚度\\P\\P" +
-                            gy + "\\P" + "水泥环厚度：" + snhHoudu);
+                            gy + "\\P" + "水泥环厚度：" + snhHoudu + "m");
                     }
                     //高危位置
                     else if (contents.Contains("高危位置"))
                     {
-                        mText.Contents = contents.Replace("高危位置", "高危位置数量：" + dangerCount);
+                        mText.Contents = contents.Replace("高危位置", "高危位置数量：" + dangerCnt + "\\P" + dangerStr);
                     }
                 }
             }

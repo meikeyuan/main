@@ -247,12 +247,13 @@ namespace GroundWellDesign
                 bool bWanquDai = false;
                 for (int i = keyLayers.Count; i > 0; i--)
                 {
-                    if (keyLayers[i - 1].mcms < lieXiDai)
+                    if (keyLayers[i - 1].ycsd > lieXiDai)
                     {
                         continue;
                     }
                     bWanquDai = true;
-                    double wanquDai = keyLayers[i - 1].mcms;
+                    wanQuDaiIndex = i - 1;
+                    double wanquDai = keyLayers[i - 1].ycsd;
                     wanQuDaiTb.Text = wanquDai.ToString("f3");
                     break;
                 }
@@ -268,7 +269,7 @@ namespace GroundWellDesign
             }
 
         }
-
+        int wanQuDaiIndex = 0;
 
 
         //模块一获取岩层参数的回调函数

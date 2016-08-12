@@ -28,7 +28,7 @@ namespace GroundWellDesign
 
             if (wanQuDaiTb.Text.Trim().Equals(""))
             {
-                MessageBox.Show("部分计算未完成，请修正再尝试自动设计");
+                MessageBox.Show("未计算弯曲带高度，请修正再尝试井型设计");
                 return;
             }
             double twoKai = double.Parse(wanQuDaiTb.Text) + 20;
@@ -51,28 +51,49 @@ namespace GroundWellDesign
             double threeToMei = 10;
 
             //局部固井的深度值
-            double jbgjShendu = 0;
+            double jbgjShendu = double.Parse(wanQuDaiTb.Text);
 
             //各级套管外径；水泥环厚度
             double snhHoudu = editZengYi.a1 - editZengYi.aw;
-            double tgwj1, tgwj2, tgwj3;
-            tgwj1 = tgwj2 = tgwj3 = 0;
 
+            double tgwj1, tgwj2, tgwj3;
+            tgwj1 = keyLayers[0].tgwj;
+            tgwj2 = keyLayers[wanQuDaiIndex].tgwj;
+            tgwj3 = keyLayers[keyLayers.Count - 1].tgwj;
            
             //高位位置数量，破坏主因
-            if(keyLayers[0].IsDangerous == null)
+            string dangerStr = "";
+            int dangerCnt = 0;
+            ERRORCODE errcode = computeSafe(keyLayers.Count);
+            switch (errcode)
             {
-                MessageBox.Show("请先计算套管安全系数");
-                return;
-            }
-            int dangerCount = 0;
-            int keycount = keyLayers.Count;
-            for (int i = 0; i < keycount; i++ )
-            {
-                if(keyLayers[i].IsDangerous == true)
-                {
-                    dangerCount++;
-                }
+                case ERRORCODE.计算成功:
+                    for (int i = 0; i < keyLayers.Count; i++)
+                    {
+                        if (keyLayers[i].jqaqxs < 1)
+                        {
+                            keyLayers[i].IsDangerous = true;
+                            dangerCnt++;
+                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].jqaqxs.ToString("f3");
+                        }
+                        else if(keyLayers[i].lsaqxs < 1)
+                        {
+                            keyLayers[i].IsDangerous = true;
+                            dangerCnt++;
+                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].lsaqxs.ToString("f3");
+                        }
+                        else
+                        {
+                            keyLayers[i].IsDangerous = false;
+                        }
+                    }
+                    break;
+                case ERRORCODE.计算异常:
+                    MessageBox.Show("因计算安全系数出错，未生成cad图，请检查数据合理性");
+                    return;
+                case ERRORCODE.没有关键层数据:
+                    MessageBox.Show("因没有关键层数据，未生成cad图");
+                    return;
             }
 
 
@@ -137,21 +158,21 @@ namespace GroundWellDesign
                     else if (contents.Contains("各级套管型号和参数"))
                     {
                         mText.Contents = contents.Replace("各级套管型号和参数", "各级套管型号和参数\\P\\P" +
-                            "一开型号：" + AutoTgxh1 + "   外径：" + tgwj1 + "\\P" +
-                            "二开型号：" + AutoTgxh2 + "   外径：" + tgwj2 + "\\P" + 
-                            "三开型号：" + AutoTgxh3 + "   外径：" + tgwj3 );
+                            "一开型号：" + AutoTgxh1 + "   外径：" + tgwj1 + "mm" + "\\P" +
+                            "二开型号：" + AutoTgxh2 + "   外径：" + tgwj2 + "mm" + "\\P" + 
+                            "三开型号：" + AutoTgxh3 + "   外径：" + tgwj3 + "mm" );
                     }
                     //固井工艺、完井工艺、水泥环厚度
                     else if (contents.Contains("固井工艺、完井工艺、水泥环厚度"))
                     {
                         mText.Contents = contents.Replace("固井工艺、完井工艺、水泥环厚度", "固井工艺、完井工艺、水泥环厚度\\P\\P" +
                             "一全固二局固三" + AutoWjfs3 + "\\P" +
-                            "水泥环厚度：" + snhHoudu);
+                            "水泥环厚度：" + snhHoudu + "m");
                     }
                     //高危位置
                     else if (contents.Contains("高危位置"))
                     {
-                        mText.Contents = contents.Replace("高危位置", "高危位置数量：" + dangerCount);
+                        mText.Contents = contents.Replace("高危位置", "高危位置数量：" + dangerCnt + "\\P" + dangerStr);
                     }
                 }
             }
