@@ -19,7 +19,12 @@ namespace GroundWellDesign
 
         public ObservableCollection<LayerBaseParams> layers = new ObservableCollection<LayerBaseParams>();
         LayerBaseParams editLayer;
+
         public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
+
+        public ObservableCollection<ZengYiParams> zengYis = new ObservableCollection<ZengYiParams>();
+        ZengYiParams editZengYi;
+
         ManuDesignParams manuDesignParams;
         
 
@@ -32,6 +37,9 @@ namespace GroundWellDesign
         public static List<String> GjfsOpt = new List<string> { "全固", "局固" };
         public static List<String> WjfsOpt = new List<string> { "悬挂", "自由", "裸孔" };
         public static List<String> JieGouOpt = new List<string> { "二开", "三开" };
+
+        public static List<String> JQDestOpt = new List<string> { "倾向剪切位移u(x)", "走向剪切位移u(z)", "剪切合位移u(p)"};
+        public static List<String> LCDestOpt = new List<string> { "岩层最大下沉值W0", "计算点即时沉降位移Wt", "计算点即时离层位移△Wt" };
 
         public string FilePath
         {
@@ -72,7 +80,6 @@ namespace GroundWellDesign
             get;
             set;
         }
-
 
 
         //以下为计算关键层中间数据需要的变量
@@ -176,87 +183,6 @@ namespace GroundWellDesign
             {
                 return jswzjl;
             }
-        }
-
-
-        //计算为水泥环增益相关变量
-        public string Ec
-        {
-            set;
-            get;
-        }
-
-        public double Vc
-        {
-            set;
-            get;
-        }
-
-
-        public double Es
-        {
-            set;
-            get;
-        }
-
-        public double Vs
-        {
-            set;
-            get;
-        }
-
-        public double E
-        {
-            set;
-            get;
-        }
-
-        public double V
-        {
-            set;
-            get;
-        }
-
-
-        public double A0
-        {
-            set;
-            get;
-        }
-
-        public double aw;
-        public double Aw
-        {
-            set
-            {
-                aw = value;
-                aw2Tb.Text = value.ToString("f3");
-            }
-            get
-            {
-                return aw;
-            }
-        }
-
-        public double a1;
-        public double A1
-        {
-            set
-            {
-                a1 = value;
-                a12Tb.Text = value.ToString("f3");
-            }
-            get
-            {
-                return a1;
-            }
-        }
-
-
-        public double B
-        {
-            set;
-            get;
         }
 
 

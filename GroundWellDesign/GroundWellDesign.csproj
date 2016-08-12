@@ -114,10 +114,11 @@
     <Compile Include="Document.offsetlc.cs" />
     <Compile Include="Document.cadmanu.cs" />
     <Compile Include="Document.safe.cs" />
-    <Compile Include="Document.snhzy.cs" />
+    <Compile Include="Document.zengyi.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ZengYiParams.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

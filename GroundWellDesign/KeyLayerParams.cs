@@ -112,8 +112,9 @@ namespace GroundWellDesign
             this.mainWindow = mainWindow;
         }
 
-        public KeyLayerParams(BaseKeyLayerParams layer)
+        public KeyLayerParams(Document mainWindow, BaseKeyLayerParams layer)
         {
+            this.mainWindow = mainWindow;
             copyAndNoEvent(layer);
         }
 

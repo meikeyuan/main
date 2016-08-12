@@ -54,7 +54,7 @@ namespace GroundWellDesign
             double jbgjShendu = 0;
 
             //各级套管外径；水泥环厚度
-            double snhHoudu = a1 - aw;
+            double snhHoudu = editZengYi.a1 - editZengYi.aw;
             double tgwj1, tgwj2, tgwj3;
             tgwj1 = tgwj2 = tgwj3 = 0;
 

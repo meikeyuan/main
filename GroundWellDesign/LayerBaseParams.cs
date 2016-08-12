@@ -79,8 +79,9 @@ namespace GroundWellDesign
             this.mainWindow = mainWindow;                                                                     
         }
 
-        public LayerBaseParams(BaseLayerBaseParams layer)
+        public LayerBaseParams(Document mainWindow, BaseLayerBaseParams layer)
         {
+            this.mainWindow = mainWindow;
             copyNoEvent(layer);
         }
 

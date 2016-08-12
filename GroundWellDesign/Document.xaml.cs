@@ -26,16 +26,18 @@ namespace GroundWellDesign
             LayerBaseParams dibiao = new LayerBaseParams(this);
             dibiao.yanXing = YanXingOpt[0];
             layers.Add(dibiao);
-            
             caiDongComBox.SelectedIndex = 0;
 
             //向导式录入初始化
             editLayer = new LayerBaseParams(this);
             guideBind(editLayer);
 
+            //位移计算初始化
+            JQDestCombo.Text = JQDestOpt[0];
+            LCDestCombo.Text = LCDestOpt[0];
+
             //水泥环增益初始化
-            Ec = TgtxmlOpt[0];
-            ecCombo.Text = Ec;
+            editZengYi = new ZengYiParams(this);
 
             //人工设计
             manuDesignParams = new ManuDesignParams(this);
@@ -82,8 +84,11 @@ namespace GroundWellDesign
             cutOffsetDataGrid.ItemsSource = layers;
             lcOffsetDataGrid.ItemsSource = keyLayers;
             taoGuanDataGrid.ItemsSource = keyLayers;
+            zengYiDataGrid.ItemsSource = zengYis;
+            zengYiGrid.DataContext = editZengYi;
             manuDesignGrid.DataContext = manuDesignParams;
             autoDesignGrid.DataContext = this;
+            
 
             //关键层计算相关其他参数绑定
             meiCengQingJIaoTb.DataContext = this;
@@ -98,18 +103,7 @@ namespace GroundWellDesign
             gZMTJSDTb.DataContext = this;
             jswzjlTb.DataContext = this;
 
-            ecCombo.DataContext = this;
-            vcTb.DataContext = this;
-            esTb.DataContext = this;
-            vsTb.DataContext = this;
-            eTb.DataContext = this;
-            vTb.DataContext = this;
-            a0Tb.DataContext = this;
-            awTb.DataContext = this;
-            aw2Tb.DataContext = this;
-            a1Tb.DataContext = this;
-            a12Tb.DataContext = this;
-            bTb.DataContext = this;
+            
 
             //initialData();
         }
@@ -216,8 +210,7 @@ namespace GroundWellDesign
             layers.Clear();
             foreach (BaseLayerBaseParams baseParam in data.Layers)
             {
-                LayerBaseParams layer = new LayerBaseParams(baseParam);
-                layer.mainWindow = this;
+                LayerBaseParams layer = new LayerBaseParams(this, baseParam);
                 layers.Add(layer);
             }
 
@@ -230,37 +223,30 @@ namespace GroundWellDesign
             keyLayers.Clear();
             foreach (BaseKeyLayerParams baseParam in data.KeyLayers)
             {
-                KeyLayerParams layer = new KeyLayerParams(baseParam);
-                layer.mainWindow = this;
+                KeyLayerParams layer = new KeyLayerParams(this, baseParam);
                 keyLayers.Add(layer);
 
             }
 
             //恢复关键层其他数据
-            if (data.KeyLayerData != null && data.KeyLayerData.Count == 20)
+            if (data.KeyLayerData != null && data.KeyLayerData.Count == 13)
             {
-                mcqj = data.KeyLayerData[0];
-                FuYanXCL = data.KeyLayerData[1];
-                CaiGao = data.KeyLayerData[2];
-                SuiZhangXS = data.KeyLayerData[3];
+                int i = 0;
+                mcqj = data.KeyLayerData[i++];
+                FuYanXCL = data.KeyLayerData[i++];
+                CaiGao = data.KeyLayerData[i++];
+                SuiZhangXS = data.KeyLayerData[i++];
+                maoLuoDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
+                lieXiDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
+                wanQuDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
 
-                mchd = data.KeyLayerData[4];
-                pjxsxz = data.KeyLayerData[5];
-                hcqZxcd = data.KeyLayerData[6];
-                hcqQxcd = data.KeyLayerData[7];
-                gzmsd = data.KeyLayerData[8];
-                jswzjl = data.KeyLayerData[9];
+                mchd = data.KeyLayerData[i++];
+                pjxsxz = data.KeyLayerData[i++];
+                hcqZxcd = data.KeyLayerData[i++];
+                hcqQxcd = data.KeyLayerData[i++];
+                gzmsd = data.KeyLayerData[i++];
+                jswzjl = data.KeyLayerData[i++];
 
-                Ec = TgtxmlOpt[(int)data.KeyLayerData[10]];
-                Vc = data.KeyLayerData[11];
-                Es = data.KeyLayerData[12];
-                Vs = data.KeyLayerData[13];
-                E = data.KeyLayerData[14];
-                V = data.KeyLayerData[15];
-                A0 = data.KeyLayerData[16];
-                Aw = data.KeyLayerData[17];
-                A1 = data.KeyLayerData[18];
-                B = data.KeyLayerData[19];
 
                 //没有刷新ui
                 meiCengQingJIaoTb.Text = mcqj + "";
@@ -274,20 +260,16 @@ namespace GroundWellDesign
                 hcqQXcdTb.Text = hcqQxcd + "";
                 gZMTJSDTb.Text = gzmsd + "";
                 jswzjlTb.Text = jswzjl + "";
-
-                ecCombo.Text = Ec;
-                vcTb.Text = Vc + "";
-                esTb.Text = Es + "";
-                vsTb.Text = Vs + "";
-                eTb.Text = E + "";
-                vTb.Text = V + "";
-                a0Tb.Text = A0 + "";
-                awTb.Text = Aw + "";
-                aw2Tb.Text = Aw + "";
-                a1Tb.Text = A1 + "";
-                a12Tb.Text = A1 + "";
-                bTb.Text = B + "";
             }
+
+            //恢复水泥环数据
+            zengYis.Clear();
+            foreach (BaseZengYiParams baseParam in data.ZengYis)
+            {
+                ZengYiParams param = new ZengYiParams(this, baseParam);
+                zengYis.Add(param);
+            }
+
 
             return true;
 
@@ -322,6 +304,13 @@ namespace GroundWellDesign
             data.KeyLayerData.Add(FuYanXCL);
             data.KeyLayerData.Add(CaiGao);
             data.KeyLayerData.Add(SuiZhangXS);
+            double maoLuoDai, lieXiDai, wanQuDai;
+            double.TryParse(maoLuoDaiTb.Text, out maoLuoDai);
+            double.TryParse(lieXiDaiTb.Text, out lieXiDai);
+            double.TryParse(wanQuDaiTb.Text, out wanQuDai);
+            data.KeyLayerData.Add(maoLuoDai);
+            data.KeyLayerData.Add(lieXiDai);
+            data.KeyLayerData.Add(wanQuDai);
             //保存关键层计算相关数据
             data.KeyLayerData.Add(Mchd);
             data.KeyLayerData.Add(Pjxsxz);
@@ -329,23 +318,13 @@ namespace GroundWellDesign
             data.KeyLayerData.Add(HcqQXcd);
             data.KeyLayerData.Add(Gzmsd);
             data.KeyLayerData.Add(Jswzjl);
+
             //保存水泥环增益计算的数据
-            if (Ec.Equals(TgtxmlOpt[0]))
-                data.KeyLayerData.Add(0);
-            else
-                data.KeyLayerData.Add(1);
-            data.KeyLayerData.Add(Vc);
-
-            data.KeyLayerData.Add(Es);
-            data.KeyLayerData.Add(Vs);
-
-            data.KeyLayerData.Add(E);
-            data.KeyLayerData.Add(V);
-
-            data.KeyLayerData.Add(A0);
-            data.KeyLayerData.Add(Aw);
-            data.KeyLayerData.Add(A1);
-            data.KeyLayerData.Add(B);
+            data.ZengYis = new ObservableCollection<BaseZengYiParams>();
+            foreach (ZengYiParams param in zengYis)
+            {
+                data.ZengYis.Add(new BaseZengYiParams(param));
+            }
             
             return DataSaveAndRestore.saveObj(data, FilePath);
         }
@@ -407,6 +386,8 @@ namespace GroundWellDesign
                 param.q0 = data2[i * 10 + 9];
             }
         }
+
+
     }
 
 }

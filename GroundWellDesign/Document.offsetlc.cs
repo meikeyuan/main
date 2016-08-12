@@ -14,6 +14,7 @@ namespace GroundWellDesign
 {
     partial class Document
     {
+        int lcIndex = 0;
         private void lcOffsetDataGrid_Loaded(object sender, RoutedEventArgs e)
         {
             if (sender != lcOffsetDataGrid || tabControl.SelectedItem != lcOffsetTabItem)
@@ -25,7 +26,7 @@ namespace GroundWellDesign
             {
                 case ERRORCODE.计算成功:
                     //MessageBox.Show("计算成功");
-                    CreateLcChartSpline();
+                    CreateLcChartSpline(lcIndex);
                     break;
                 case ERRORCODE.计算异常:
                     MessageBox.Show("计算出错，请检查数据合理性");
@@ -48,31 +49,37 @@ namespace GroundWellDesign
             }
         }
 
-
-        private void CreateLcChartSpline()
+        private void LCDestCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lcChart.Watermark = false;
+            lcIndex = LCDestCombo.SelectedIndex;
+            CreateLcChartSpline(lcIndex);
+        }
+
+
+        private void CreateLcChartSpline(int index)
+        {
             //添加横坐标
-            if (lcChart.AxesX.Count == 1)
+            if (lcChart.AxesX.Count == 0)
             {
                 Axis xAxis = new Axis();
                 xAxis.Title = "岩层编号";
-                //xAxis.IntervalType = IntervalTypes.Auto;
-                //xAxis.Interval = 1;
                 lcChart.AxesX.Add(xAxis);
             }
 
 
             //添加纵坐标
-            if (lcChart.AxesY.Count == 1)
+            if (lcChart.AxesY.Count == 0)
             {
                 Axis yAxis = new Axis();
-                yAxis.Title = "岩层最大下沉值W0";
+                yAxis.Title = LCDestOpt[index];
                 yAxis.IntervalType = IntervalTypes.Number;
                 yAxis.ValueFormatString = "f3";
-                //yAxis.AxisMinimum = 0;
-                yAxis.Suffix = "米";
+                yAxis.Suffix = "m";
                 lcChart.AxesY.Add(yAxis);
+            }
+            else
+            {
+                lcChart.AxesY[0].Title = LCDestOpt[index];
             }
 
             //设置数据点
@@ -87,7 +94,19 @@ namespace GroundWellDesign
                 dataPoint.AxisXLabel = keyLayers[i].ycbh.ToString();
                 dataPoint.XValue = i + 1;
                 //设置Y轴点
-                dataPoint.YValue = keyLayers[i].yczdxcz;
+                switch(index)
+                {
+                    case 0:
+                        dataPoint.YValue = keyLayers[i].yczdxcz;
+                        break;
+                    case 1:
+                        dataPoint.YValue = keyLayers[i].jsdjscjwy;
+                        break;
+                    case 2:
+                        dataPoint.YValue = keyLayers[i].jsdjslcwy;
+                        break;
+                }
+                
                 dataPoint.MarkerSize = 8;
                 dataPoint.MouseLeftButtonDown += new MouseButtonEventHandler(lcdataPoint_MouseLeftButtonDown);
                 //添加数据点
@@ -99,7 +118,7 @@ namespace GroundWellDesign
         void lcdataPoint_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DataPoint dp = sender as DataPoint;
-            MessageBox.Show("岩层最大下沉值W0：" + dp.YValue.ToString());
+            MessageBox.Show(LCDestOpt[lcIndex] + "：  " + dp.YValue.ToString("f5") + "m");
         }
     }
 }

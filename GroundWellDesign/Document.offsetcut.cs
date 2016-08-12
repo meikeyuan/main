@@ -15,6 +15,8 @@ namespace GroundWellDesign
     partial class Document
     {
 
+        int upCount = 0;
+        int jqIndex = 0;
         private void cutOffsetDataGrid_Loaded(object sender, RoutedEventArgs e)
         {
             if (sender != cutOffsetDataGrid || tabControl.SelectedItem != cutOffsetTabItem)
@@ -22,12 +24,11 @@ namespace GroundWellDesign
                 return;
             }
 
-            int upCount = 0;
             switch (computeCutOffSet(keyLayers.Count, layers.Count, ref upCount))
             {
                 case ERRORCODE.计算成功:
                     //MessageBox.Show("计算成功");
-                    CreateJqChartSpline(upCount);
+                    CreateJqChartSpline(0, upCount);
                     break;
                 case ERRORCODE.计算异常:
                     MessageBox.Show("计算出错，请检查数据合理性");
@@ -192,10 +193,21 @@ namespace GroundWellDesign
         }
 
 
-        private void CreateJqChartSpline(int drawCount)
+
+
+        private void JQDestCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            jqIndex = JQDestCombo.SelectedIndex;
+            CreateJqChartSpline(jqIndex, upCount);
+        }
+
+
+
+
+        private void CreateJqChartSpline(int index, int drawCount)
         {
             //添加横坐标
-            if (jqChart.AxesX.Count == 1)
+            if (jqChart.AxesX.Count == 0)
             {
                 Axis xAxis = new Axis();
                 xAxis.Title = "岩层编号";
@@ -206,15 +218,18 @@ namespace GroundWellDesign
 
 
             //添加纵坐标
-            if (jqChart.AxesY.Count == 1)
+            if (jqChart.AxesY.Count == 0)
             {
                 Axis yAxis = new Axis();
-                yAxis.Title = "剪切合位移Up";
+                yAxis.Title = JQDestOpt[index];
                 yAxis.IntervalType = IntervalTypes.Number;
                 yAxis.ValueFormatString = "f4";
-                //yAxis.AxisMinimum = 0;
-                yAxis.Suffix = "厘米";
+                yAxis.Suffix = "cm";
                 jqChart.AxesY.Add(yAxis);
+            }
+            else  //更改Y坐标标题
+            {
+                jqChart.AxesY[0].Title = JQDestOpt[index];
             }
 
             // 设置数据点
@@ -227,7 +242,19 @@ namespace GroundWellDesign
                 // 设置X轴点                    
                 dataPoint.XValue = i + 1;
                 //设置Y轴点
-                dataPoint.YValue = layers[i].jqHWY;
+                switch(index)
+                {
+                    case 0:
+                        dataPoint.YValue = layers[i].zxJQWY;
+                        break;
+                    case 1:
+                        dataPoint.YValue = layers[i].qxJQWY;
+                        break;
+                    case 2:
+                        dataPoint.YValue = layers[i].jqHWY;
+                        break;
+                }
+                
                 dataPoint.MarkerSize = 8;                 
                 dataPoint.MouseLeftButtonDown += new MouseButtonEventHandler(jqdataPoint_MouseLeftButtonDown);
                 //添加数据点
@@ -239,7 +266,7 @@ namespace GroundWellDesign
         void jqdataPoint_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DataPoint dp = sender as DataPoint;
-            MessageBox.Show("剪切合位移u(p)：" + dp.YValue.ToString());
+            MessageBox.Show(JQDestOpt[jqIndex] + "：  " +  dp.YValue.ToString("f5") + "cm");
         }
     }
 }

@@ -177,7 +177,7 @@ namespace GroundWellDesign
 
             while (reader.Read())
             {
-                LayerBaseParams param = new LayerBaseParams(new BaseLayerBaseParams());
+                LayerBaseParams param = new LayerBaseParams(null, new BaseLayerBaseParams());
                 param.wellNamePK = (string)reader["wellName"];
                 param.yanXing = (string)reader["yanXing"];
                 param.leiJiShenDu = (double)reader["leiJiShenDu"];
@@ -215,7 +215,7 @@ namespace GroundWellDesign
                 set;
             }
 
-            public BaseManuDesignParams ManuDesignParams
+            public ObservableCollection<BaseKeyLayerParams> KeyLayers
             {
                 get;
                 set;
@@ -227,8 +227,13 @@ namespace GroundWellDesign
                 set;
             }
 
+            public ObservableCollection<BaseZengYiParams> ZengYis
+            {
+                get;
+                set;
+            }
             
-            public ObservableCollection<BaseKeyLayerParams> KeyLayers
+            public BaseManuDesignParams ManuDesignParams
             {
                 get;
                 set;
