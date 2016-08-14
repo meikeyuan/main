@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,60 @@ namespace GroundWellDesign
 {
     class DataSaveAndRestore
     {
+        public static DataToSave getObject(Document document)
+        {
+            DataToSave data = new DataToSave();
+
+            //基本参数
+            data.Layers = new ObservableCollection<BaseLayerBaseParams>();
+            foreach (LayerBaseParams layerParam in document.layers)
+            {
+                data.Layers.Add(new BaseLayerBaseParams(layerParam));
+            }
+
+            //人工设计数据
+            data.ManuDesignParams = new BaseManuDesignParams(document.manuDesignParams);
+
+            //关键层参数
+            data.KeyLayers = new ObservableCollection<BaseKeyLayerParams>();
+            foreach (KeyLayerParams layerParam in document.keyLayers)
+            {
+                data.KeyLayers.Add(new BaseKeyLayerParams(layerParam));
+            }
+
+
+            data.KeyLayerData = new List<double>();
+            //保存横三带竖三代数据
+            data.KeyLayerData.Add(document.Mcqj);
+            data.KeyLayerData.Add(document.FuYanXCL);
+            data.KeyLayerData.Add(document.CaiGao);
+            data.KeyLayerData.Add(document.SuiZhangXS);
+            double maoLuoDai, lieXiDai, wanQuDai;
+            double.TryParse(document.maoLuoDaiTb.Text, out maoLuoDai);
+            double.TryParse(document.lieXiDaiTb.Text, out lieXiDai);
+            double.TryParse(document.wanQuDaiTb.Text, out wanQuDai);
+            data.KeyLayerData.Add(maoLuoDai);
+            data.KeyLayerData.Add(lieXiDai);
+            data.KeyLayerData.Add(wanQuDai);
+            //保存关键层计算相关数据
+            data.KeyLayerData.Add(document.Mchd);
+            data.KeyLayerData.Add(document.Pjxsxz);
+            data.KeyLayerData.Add(document.HcqZXcd);
+            data.KeyLayerData.Add(document.HcqQXcd);
+            data.KeyLayerData.Add(document.Gzmsd);
+            data.KeyLayerData.Add(document.Jswzjl);
+
+            //保存水泥环增益计算的数据
+            data.ZengYis = new ObservableCollection<BaseZengYiParams>();
+            foreach (ZengYiParams param in document.zengYis)
+            {
+                data.ZengYis.Add(new BaseZengYiParams(param));
+            }
+
+            return data;
+        }
+
+
         public static bool saveObj(object obj, string path)
         {
             IFormatter formatter = new BinaryFormatter();
@@ -126,6 +181,7 @@ namespace GroundWellDesign
             return success;
 
         }
+
 
         public static void getAllWellName(List<String> wells)
         {

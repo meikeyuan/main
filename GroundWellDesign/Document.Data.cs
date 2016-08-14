@@ -25,7 +25,7 @@ namespace GroundWellDesign
         public ObservableCollection<ZengYiParams> zengYis = new ObservableCollection<ZengYiParams>();
         ZengYiParams editZengYi;
 
-        ManuDesignParams manuDesignParams;
+        public ManuDesignParams manuDesignParams;
         
 
         public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };

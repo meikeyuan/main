@@ -15,10 +15,9 @@ namespace GroundWellDesign
 {
     public partial class Document : Window
     {
-        public Document(string filepath)
+        public Document()
         {
             InitializeComponent();
-            FilePath = filepath;
             if (logic == null)
                 logic = new MkyLogic();
             
@@ -193,13 +192,15 @@ namespace GroundWellDesign
         }
 
         //打开文件
-        public bool openFile()
+        public bool openFile(string filePath)
         {
-            if (FilePath == null)
+            if (filePath == null)
             {
+                FilePath = filePath;
                 return true;
             }
-            object obj = DataSaveAndRestore.restoreObj(FilePath);
+
+            object obj = DataSaveAndRestore.restoreObj(filePath);
             if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
             {
                 return false;
@@ -213,11 +214,6 @@ namespace GroundWellDesign
                 LayerBaseParams layer = new LayerBaseParams(this, baseParam);
                 layers.Add(layer);
             }
-
-            //恢复人工设计数据
-            manuDesignParams.copyAndEvent(data.ManuDesignParams);
-
-
 
             //恢复关键层数据
             keyLayers.Clear();
@@ -262,7 +258,7 @@ namespace GroundWellDesign
                 jswzjlTb.Text = jswzjl + "";
             }
 
-            //恢复水泥环数据
+            //恢复水泥环历史数据
             zengYis.Clear();
             foreach (BaseZengYiParams baseParam in data.ZengYis)
             {
@@ -270,63 +266,20 @@ namespace GroundWellDesign
                 zengYis.Add(param);
             }
 
+            //恢复人工设计数据
+            manuDesignParams.copyAndEvent(data.ManuDesignParams);
 
+            FilePath = filePath;
             return true;
 
         }
 
         //保存到文件
-        public bool saveFile()
+        public bool saveFile(string filePath)
         {
-            DataSaveAndRestore.DataToSave data = new DataSaveAndRestore.DataToSave();
-
-            //基本参数
-            data.Layers = new ObservableCollection<BaseLayerBaseParams>();
-            foreach (LayerBaseParams layerParam in layers)
-            {
-                data.Layers.Add(new BaseLayerBaseParams(layerParam));
-            }
-
-            //人工设计数据
-            data.ManuDesignParams = new BaseManuDesignParams(manuDesignParams);
-
-            //关键层参数
-            data.KeyLayers = new ObservableCollection<BaseKeyLayerParams>();
-            foreach (KeyLayerParams layerParam in keyLayers)
-            {
-                data.KeyLayers.Add(new BaseKeyLayerParams(layerParam));
-            }
-
-
-            data.KeyLayerData = new List<double>();
-            //保存横三带竖三代数据
-            data.KeyLayerData.Add(Mcqj);
-            data.KeyLayerData.Add(FuYanXCL);
-            data.KeyLayerData.Add(CaiGao);
-            data.KeyLayerData.Add(SuiZhangXS);
-            double maoLuoDai, lieXiDai, wanQuDai;
-            double.TryParse(maoLuoDaiTb.Text, out maoLuoDai);
-            double.TryParse(lieXiDaiTb.Text, out lieXiDai);
-            double.TryParse(wanQuDaiTb.Text, out wanQuDai);
-            data.KeyLayerData.Add(maoLuoDai);
-            data.KeyLayerData.Add(lieXiDai);
-            data.KeyLayerData.Add(wanQuDai);
-            //保存关键层计算相关数据
-            data.KeyLayerData.Add(Mchd);
-            data.KeyLayerData.Add(Pjxsxz);
-            data.KeyLayerData.Add(HcqZXcd);
-            data.KeyLayerData.Add(HcqQXcd);
-            data.KeyLayerData.Add(Gzmsd);
-            data.KeyLayerData.Add(Jswzjl);
-
-            //保存水泥环增益计算的数据
-            data.ZengYis = new ObservableCollection<BaseZengYiParams>();
-            foreach (ZengYiParams param in zengYis)
-            {
-                data.ZengYis.Add(new BaseZengYiParams(param));
-            }
+            Object data = DataSaveAndRestore.getObject(this);
             
-            return DataSaveAndRestore.saveObj(data, FilePath);
+            return DataSaveAndRestore.saveObj(data, filePath);
         }
 
 

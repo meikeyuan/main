@@ -199,8 +199,8 @@ namespace GroundWellDesign
         //打开文件
         private bool openFileHelper(string filePath)
         {
-            Document document = new Document(filePath);
-            if (!document.openFile())
+            Document document = new Document();
+            if (!document.openFile(filePath))
             {
                 return false;
             }
@@ -236,12 +236,12 @@ namespace GroundWellDesign
                 savetoFileHelper(window);
                 return;
             }
-            if (MessageBox.Show(Path.GetFileNameWithoutExtension(window.FilePath) + ":确定覆盖此文件吗？", 
+            if (MessageBox.Show(Path.GetFileNameWithoutExtension(window.FilePath) + ":确定覆盖原文件吗？", 
                 "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
-            if (window.saveFile())
+            if (window.saveFile(window.FilePath))
             {
                 MessageBox.Show("保存成功");
             }
@@ -263,17 +263,19 @@ namespace GroundWellDesign
             if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
-                string oldPath = window.FilePath;
-                window.FilePath = filePath;
-                if (window.saveFile())
+                if (window.saveFile(filePath))
                 {
                     MessageBox.Show("保存成功");
-                    ((ContentControl)tabitem.Header).Content = Path.GetFileNameWithoutExtension(filePath);
+                    if (window.FilePath == null)
+                    {
+                        window.FilePath = filePath;
+                        ((ContentControl)tabitem.Header).Content = Path.GetFileNameWithoutExtension(filePath);
+                    }
+                        
                 }
                 else
                 {
                     MessageBox.Show("保存失败");
-                    window.FilePath = oldPath;
                 }
             }
         }

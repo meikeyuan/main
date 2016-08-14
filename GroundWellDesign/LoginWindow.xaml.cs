@@ -26,6 +26,17 @@ namespace GroundWellDesign
             this.filepath = filepath;
         }
 
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+
+            if(e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
             
