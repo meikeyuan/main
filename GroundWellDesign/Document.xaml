@@ -215,7 +215,15 @@
                             <DataGridTextColumn Binding="{Binding Q1, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q1值" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Q2, StringFormat=n2, UpdateSourceTrigger=LostFocus}" Header="Q2值" ElementStyle="{StaticResource ResourceKey=elementStyle}"/>
 
-                            <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=LostFocus}"   Header="岩性描述" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding MiaoShu, UpdateSourceTrigger=LostFocus}"   Header="岩性描述" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock" >
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="Height" Value="auto" />
+                                        <Setter Property="MinWidth" Value="100" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
 
                         <DataGrid.ContextMenu>
@@ -345,14 +353,27 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="3" Grid.Row="1" Text="描述"  HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBox x:Name="miaoshuTb" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" />
+                    <TextBox x:Name="miaoshuTb" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" >
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="MaxLength" Value="50" />
+                                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
                     <TextBlock Grid.Column="1" Text="层号" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBox x:Name="currLayerTb" Grid.Column="2" Grid.Row="1" Text="1"/>
+                    <ComboBox x:Name="currLayerCombo" Grid.Column="2" Grid.Row="1" VerticalContentAlignment="Center" 
+                              ItemsSource="{x:Static local:Document.LayerNbrs}" SelectionChanged="currLayerCombo_SelectionChanged"/>
 
                     <TextBlock Text="岩性" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <ComboBox x:Name="yanXingCB"  Grid.Column="2" Grid.Row="2" ItemsSource="{x:Static local:Document.YanXingOpt}"/>
+                    <!--
                     <TextBlock Grid.Column="3" Grid.Row="2" Text="累计深度/m"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBox x:Name="leiJiShenDuTb" Grid.Column="4" Grid.Row="2" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="leiJiShenDuTb" Grid.Column="4" Grid.Row="2" IsReadOnly="True" VerticalContentAlignment="Center"/>
+                    <TextBlock Grid.Column="5" Grid.Row="2" Text="距离煤层深度/m"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="juLiMeiShenDuTb" Grid.Column="6" Grid.Row="2" IsReadOnly="True" VerticalContentAlignment="Center"/>
+                    -->
                     <TextBlock Grid.Column="1" Grid.Row="3" Text="层厚/m"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <TextBox x:Name="cengHouTb" Grid.Column="2" Grid.Row="3" VerticalContentAlignment="Center"/>
                     <TextBlock Grid.Column="3"  Grid.Row="3" Text="自然视密度" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -650,9 +671,9 @@
                         <TextBlock Grid.Column="2" Grid.Row="1" Text="泊松比Vc" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding Vc, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
 
-                        <TextBlock Grid.Column="0" Grid.Row="2" Text="内半径a0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="内半径a0/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding A0, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Grid.Row="2" Text="外半径aw" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Grid.Row="2" Text="外半径aw/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding Aw, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
                         <!--地层相关量-->
                         <TextBlock Grid.Column="0" Grid.Row="3" Text="地层相关量" 
@@ -662,9 +683,9 @@
                         <TextBlock Grid.Column="2" Grid.Row="4" Text="泊松比Vs" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding Vs, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
 
-                        <TextBlock Grid.Column="0" Grid.Row="5" Text="内半径a1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="5" Text="内半径a1/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding A1, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Grid.Row="5" Text="外半径b" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Grid.Row="5" Text="外半径b/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding B, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
                         <!--水泥环相关量-->
                         <TextBlock Grid.Column="0" Grid.Row="6" Text="水泥环相关量" 
@@ -674,9 +695,9 @@
                         <TextBlock Grid.Column="2" Grid.Row="7" Text="泊松比V" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="3" Grid.Row="7" Text="{Binding V, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
 
-                        <TextBlock Grid.Column="0" Grid.Row="8" Text="内半径aw" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="8" Text="内半径aw/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="8" IsReadOnly="True" Text="{Binding Aw, StringFormat=n3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Grid.Row="8" Text="外半径a1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Grid.Row="8" Text="外半径a1/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="3" Grid.Row="8" IsReadOnly="True" Text="{Binding A1, StringFormat=n3}" VerticalContentAlignment="Center"/>
                         <!--计算的结果-->
                         <TextBlock Grid.Column="0" Grid.Row="9" Text="计算结果"
@@ -762,14 +783,22 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             
                             <TextBlock Text="套管型号" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Text="描述" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                             <ComboBox Name="autoTgxh1Combo" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding AutoTgxh1, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Name="autoMiaoshu1Tb" Grid.Column="3" Margin="5" Text="{Binding AutoMiaoshu1, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Name="autoMiaoshu1Tb" Grid.Column="3" Margin="5" Text="{Binding AutoMiaoshu1, UpdateSourceTrigger=LostFocus}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" >
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="MaxLength" Value="100" />
+                                        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
 
                         </Grid>
 
@@ -782,14 +811,22 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="套管型号" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Text="描述" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                             <ComboBox Name="autoTgxh2Combo" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding AutoTgxh2, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Name="autoMiaoshu2Tb" Grid.Column="3" Margin="5" Text="{Binding AutoMiaoshu2, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Name="autoMiaoshu2Tb" Grid.Column="3" Margin="5" Text="{Binding AutoMiaoshu2, UpdateSourceTrigger=LostFocus}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" >
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="MaxLength" Value="100" />
+                                        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </Grid>
                         <!-- 三开结构   -->
                         <Grid Grid.Column="1" Grid.Row="2">
@@ -801,7 +838,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="套管型号" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -810,7 +847,15 @@
                             
                             <ComboBox Name="autoTgxh3Combo" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding AutoTgxh3, UpdateSourceTrigger=LostFocus}"/>
                             <ComboBox Name="autoWjfs3Combo" Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding AutoWjfs3, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Name="autoMiaoshu3Tb" Grid.Column="3" Grid.RowSpan="2"  Margin="5" Text="{Binding AutoMiaoshu3, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Name="autoMiaoshu3Tb" Grid.Column="3" Grid.RowSpan="2"  Margin="5" Text="{Binding AutoMiaoshu3, UpdateSourceTrigger=LostFocus}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" >
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="MaxLength" Value="100" />
+                                        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </Grid>
                     </Grid>
 
@@ -883,7 +928,15 @@
                             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding Tggj1, UpdateSourceTrigger=LostFocus}"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" Text="{Binding Tgxh1, UpdateSourceTrigger=LostFocus}"/>
                             <ComboBox Name="gjfs1Combo" Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.GjfsOpt}" Text="{Binding Gjfs1, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Margin="5" Text="{Binding Miaoshu1, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Margin="5" Text="{Binding Miaoshu1, UpdateSourceTrigger=LostFocus}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" >
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="MaxLength" Value="100" />
+                                        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
 
                         </Grid>
 
@@ -913,7 +966,15 @@
                             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding Tggj2, UpdateSourceTrigger=LostFocus}"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" Text="{Binding Tgxh2, UpdateSourceTrigger=LostFocus}"/>
                             <ComboBox Name="gjCombo" Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.GjfsOpt}" Text="{Binding Gjfs2, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Margin="5" Text="{Binding Miaoshu2, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Margin="5" Text="{Binding Miaoshu2, UpdateSourceTrigger=LostFocus}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" >
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="MaxLength" Value="100" />
+                                        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                             <ComboBox Name="wjCombo" Grid.Column="3" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding Wjfs2, UpdateSourceTrigger=LostFocus}"/>
 
                         </Grid>
@@ -941,7 +1002,15 @@
                             <TextBox Grid.Column="1" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" Text="{Binding Zjsd3, UpdateSourceTrigger=LostFocus, StringFormat=n3}"/>
                             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding Tggj3, UpdateSourceTrigger=LostFocus}"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" Text="{Binding Tgxh3, UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Margin="5" Text="{Binding Miaoshu3, UpdateSourceTrigger=LostFocus}"/>
+                            <TextBox Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Margin="5" Text="{Binding Miaoshu3, UpdateSourceTrigger=LostFocus}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" >
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="MaxLength" Value="100" />
+                                        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                             <ComboBox Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding Wjfs3, UpdateSourceTrigger=LostFocus}"/>
                         </Grid>
                     </Grid>

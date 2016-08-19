@@ -176,7 +176,8 @@ namespace GroundWellDesign
         {
             miaoshuTb.SetBinding(TextBox.TextProperty, new Binding("MiaoShu") { Source = editLayer });
             yanXingCB.SetBinding(ComboBox.TextProperty, new Binding("YanXing") { Source = editLayer });
-            leiJiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("LeiJiShenDu") { Source = editLayer, StringFormat = "n3" });
+            //leiJiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("LeiJiShenDu") { Source = editLayer, StringFormat = "n3" });
+            //juLiMeiShenDuTb.SetBinding(TextBox.TextProperty, new Binding("JuLiMeiShenDu") { Source = editLayer, StringFormat = "n3" });
             cengHouTb.SetBinding(TextBox.TextProperty, new Binding("CengHou") { Source = editLayer, StringFormat = "n3" });
             ziRanMiDuTb.SetBinding(TextBox.TextProperty, new Binding("ZiRanMiDu") { Source = editLayer, StringFormat = "n3" });
             bianXingMoLiangTb.SetBinding(TextBox.TextProperty, new Binding("BianXingMoLiang") { Source = editLayer, StringFormat = "n3" });
@@ -296,9 +297,12 @@ namespace GroundWellDesign
                     {
                         index = 0;
                     }
-                    currLayerTb.Text = (index + 1).ToString();
-                    editLayer.copyNoEvent(layers[index]);
-                    guideBind(editLayer);
+                    LayerNbrs.Clear();
+                    for(int i = 0; i < layers.Count; i++)
+                    {
+                        LayerNbrs.Add(i+1);
+                    }
+                    currLayerCombo.SelectedIndex = index;
                 }
                 else if(selectedItem == autoDesignTabItem || selectedItem == manuDesignTabItem || selectedItem == taoGuanTabItem
                     || selectedItem == keyLayerTabItem || selectedItem == cutOffsetTabItem || selectedItem == lcOffsetTabItem)
@@ -340,6 +344,7 @@ namespace GroundWellDesign
             }
         }
 
+ 
 
     }
 

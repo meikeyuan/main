@@ -416,6 +416,10 @@ namespace GroundWellDesign
             if (tabItem is TabItem)
             {
                 int index = tabControl.Items.IndexOf(tabItem);
+                if(MessageBox.Show("是否保存？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    saveFileHelper(windows[index]);
+                }
                 tabControl.Items.RemoveAt(index);
                 windows.RemoveAt(index);
             }

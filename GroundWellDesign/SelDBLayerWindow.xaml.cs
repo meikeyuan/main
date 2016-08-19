@@ -177,7 +177,7 @@ namespace GroundWellDesign
             WantedLayer.Q0 = tmpLayer.q0 / count;
             WantedLayer.Q1 = tmpLayer.q1 / count;
             WantedLayer.Q2 = tmpLayer.q2 / count;
-            WantedLayer.MiaoShu = "取数据库平均值";
+            //WantedLayer.MiaoShu = "取数据库平均值";
             WantedLayer.dataBaseKey = null;
             this.Close();
         }
