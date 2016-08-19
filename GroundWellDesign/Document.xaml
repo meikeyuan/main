@@ -753,7 +753,7 @@
 
 
             <TabItem x:Name="autoDesignTabItem" Header="井型自动设计" >
-                <Grid Width="500" Height="200">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="34"/>
@@ -843,7 +843,7 @@
 
                             <TextBlock Text="套管型号" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Text="完井方式" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Text="描述" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Text="描述" Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             
                             <ComboBox Name="autoTgxh3Combo" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding AutoTgxh3, UpdateSourceTrigger=LostFocus}"/>
                             <ComboBox Name="autoWjfs3Combo" Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding AutoWjfs3, UpdateSourceTrigger=LostFocus}"/>
@@ -875,7 +875,13 @@
 
             <TabItem x:Name="autoDesignCadTabItem" Header="井型自动设计Cad">
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+
                     <WindowsFormsHost x:Name="wfHost" />
+                    <Button Name="saveAutoCadBtn" Content="保存设计图" Grid.Row="1" Click="saveAutoCadBtn_Click"/>
                 </Grid>
             </TabItem>
             
@@ -1032,7 +1038,13 @@
 
             <TabItem x:Name="manDesignCadTabItem" Header="井型人工设计Cad">
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+
                     <WindowsFormsHost x:Name="wfHost2" />
+                    <Button Name="saveManuCadBtn" Content="保存设计图" Grid.Row="1" Click="saveManuCadBtn_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

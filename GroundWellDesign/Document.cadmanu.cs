@@ -187,5 +187,29 @@ namespace GroundWellDesign
             }
             cadViewer2.ReDraw();
         }
+
+
+
+        private void saveManuCadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
+            fileDialog.Title = "存为";
+            fileDialog.Filter = "dwg文件(*.dwg)|*.dwg";
+            fileDialog.FileName = "example.dwg";
+
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = fileDialog.FileName;
+                if (cadViewer2.SaveDwgFile(filePath))
+                {
+                    MessageBox.Show("保存成功");
+                }
+                else
+                {
+                    MessageBox.Show("保存失败");
+                }
+            }
+        }
+
     }
 }

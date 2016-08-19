@@ -164,6 +164,7 @@ namespace GroundWellDesign
             bool success = false;
             try
             {
+                //矿井不存在则新建
                 if(!wellExist)
                     cmd1.ExecuteNonQuery();
                 if(cover)
