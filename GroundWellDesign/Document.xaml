@@ -505,7 +505,7 @@
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid x:Name="cutOffsetDataGrid" IsReadOnly="True" Loaded="cutOffsetDataGrid_Loaded" SelectionUnit="Cell">
+                    <DataGrid x:Name="cutOffsetDataGrid" IsReadOnly="True" Loaded="cutOffsetDataGrid_Loaded">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding YanXing}" Header="岩性" />
                             <DataGridTextColumn Header="累计深度/m" Binding="{Binding LeiJiShenDu, StringFormat=n3}" />
@@ -543,7 +543,7 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="lcOffsetDataGrid" IsReadOnly="True" Loaded="lcOffsetDataGrid_Loaded" SelectionUnit="Cell">
+                    <DataGrid x:Name="lcOffsetDataGrid" IsReadOnly="True" Loaded="lcOffsetDataGrid_Loaded">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Ycbh, StringFormat=n0}"   Header="岩层编号" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Ycsd, StringFormat=n3 }"   Header="岩层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
@@ -652,6 +652,7 @@
                             <RowDefinition Height="25*"/>
                             <RowDefinition Height="30*"/>
                             <RowDefinition Height="30*"/>
+                            <RowDefinition Height="30*"/>
 
                             <RowDefinition Height="25*"/>
                             <RowDefinition Height="30*"/>
@@ -678,39 +679,44 @@
                         <!--地层相关量-->
                         <TextBlock Grid.Column="0" Grid.Row="3" Text="地层相关量" 
                                Foreground="{DynamicResource ThemeColorBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBlock Grid.Column="0" Grid.Row="4" Text="弹性模量Es"  HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBox Grid.Column="1" Grid.Row="4"  Text="{Binding Es, UpdateSourceTrigger=LostFocus, StringFormat=e3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Grid.Row="4" Text="泊松比Vs" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding Vs, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        
+                        <TextBlock Grid.Column="0" Grid.Row="4" Text="岩层编号"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <ComboBox Name="snhtcbhCombo" Grid.Column="1" Grid.Row="4"  VerticalContentAlignment="Center" 
+                                  ItemsSource="{x:Static local:Document.LayerNbrs}" SelectionChanged="ycbhCombo_SelectionChanged"/>
+                        
+                        <TextBlock Grid.Column="0" Grid.Row="5" Text="弹性模量Es"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Es, UpdateSourceTrigger=LostFocus, StringFormat=e3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Grid.Row="5" Text="泊松比Vs" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding Vs, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
 
-                        <TextBlock Grid.Column="0" Grid.Row="5" Text="内半径a1/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding A1, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Grid.Row="5" Text="外半径b/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding B, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="6" Text="内半径a1/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding A1, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Grid.Row="6" Text="外半径b/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="3" Grid.Row="6" Text="{Binding B, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
                         <!--水泥环相关量-->
-                        <TextBlock Grid.Column="0" Grid.Row="6" Text="水泥环相关量" 
+                        <TextBlock Grid.Column="0" Grid.Row="7" Text="水泥环相关量" 
                                Foreground="{DynamicResource ThemeColorBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBlock Grid.Column="0" Grid.Row="7" Text="弹性模量E"  HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding E, UpdateSourceTrigger=LostFocus, StringFormat=e3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Grid.Row="7" Text="泊松比V" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="3" Grid.Row="7" Text="{Binding V, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="8" Text="弹性模量E"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding E, UpdateSourceTrigger=LostFocus, StringFormat=e3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Grid.Row="8" Text="泊松比V" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding V, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
 
-                        <TextBlock Grid.Column="0" Grid.Row="8" Text="内半径aw/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Grid.Row="8" IsReadOnly="True" Text="{Binding Aw, StringFormat=n3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Grid.Row="8" Text="外半径a1/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="3" Grid.Row="8" IsReadOnly="True" Text="{Binding A1, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="9" Text="内半径aw/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="9" IsReadOnly="True" Text="{Binding Aw, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Grid.Row="9" Text="外半径a1/m" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="3" Grid.Row="9" IsReadOnly="True" Text="{Binding A1, StringFormat=n3}" VerticalContentAlignment="Center"/>
                         <!--计算的结果-->
-                        <TextBlock Grid.Column="0" Grid.Row="9" Text="计算结果"
+                        <TextBlock Grid.Column="0" Grid.Row="10" Text="计算结果"
                                Foreground="{DynamicResource ThemeColorBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBlock Text="套管刚度Kc" Grid.Column="0" Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBox Grid.Column="1" Grid.Row="10" IsReadOnly="True" Text="{Binding Kc, StringFormat=n3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Text="地层刚度Ks" Grid.Column="2" Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBox Grid.Column="3" Grid.Row="10" IsReadOnly="True" Text="{Binding Ks, StringFormat=n3}" VerticalContentAlignment="Center"/>
-                        <TextBlock Text="水泥环增益" Grid.Column="0" Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBox Grid.Column="1" Grid.Row="11" IsReadOnly="True" Text="{Binding Psi, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Text="套管刚度Kc" Grid.Column="0" Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Grid.Row="11" IsReadOnly="True" Text="{Binding Kc, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Text="地层刚度Ks" Grid.Column="2" Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="3" Grid.Row="11" IsReadOnly="True" Text="{Binding Ks, StringFormat=n3}" VerticalContentAlignment="Center"/>
+                        <TextBlock Text="水泥环增益" Grid.Column="0" Grid.Row="12" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Grid.Row="12" IsReadOnly="True" Text="{Binding Psi, StringFormat=n3}" VerticalContentAlignment="Center"/>
 
-                        <Button Name="resetSnhBtn" Content="重置" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2"  Click="resetSnhBtn_Click"/>
-                        <Button Name="saveSnhBtn" Content="计算" Grid.Column="2" Grid.Row="12" Grid.ColumnSpan="2"  Click="computeZYBtn_Click" />
+                        <Button Name="resetSnhBtn" Content="重置" Grid.Column="0" Grid.Row="13" Grid.ColumnSpan="2"  Click="resetSnhBtn_Click"/>
+                        <Button Name="saveSnhBtn" Content="计算" Grid.Column="2" Grid.Row="13" Grid.ColumnSpan="2"  Click="computeZYBtn_Click" />
                     </Grid>
                     
                     

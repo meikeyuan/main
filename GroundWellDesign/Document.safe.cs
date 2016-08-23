@@ -19,6 +19,14 @@ namespace GroundWellDesign
             }
         }
 
+        private void ycbhCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox combo = sender as ComboBox;
+            int index = combo.SelectedIndex;
+            editZengYi.Es = layers[index].tanXingMoLiang;
+            editZengYi.Vs = layers[index].boSonBi;
+        }
+
 
         private void taoGuanDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {

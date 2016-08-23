@@ -267,6 +267,12 @@ namespace GroundWellDesign
         {
             DataPoint dp = sender as DataPoint;
             MessageBox.Show(JQDestOpt[jqIndex] + "：  " +  dp.YValue.ToString("f5") + "cm");
+
+            int index = jqDataSeries.DataPoints.IndexOf(dp);
+            cutOffsetDataGrid.SelectedIndex = index;
+            cutOffsetDataGrid.ScrollIntoView(cutOffsetDataGrid.Items[index]);
+
+
         }
     }
 }

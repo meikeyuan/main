@@ -119,6 +119,10 @@ namespace GroundWellDesign
         {
             DataPoint dp = sender as DataPoint;
             MessageBox.Show(LCDestOpt[lcIndex] + "：  " + dp.YValue.ToString("f5") + "m");
+
+            int index = lcDataSeries.DataPoints.IndexOf(dp);
+            lcOffsetDataGrid.SelectedIndex = index;
+            lcOffsetDataGrid.ScrollIntoView(lcOffsetDataGrid.Items[index]);
         }
     }
 }

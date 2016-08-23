@@ -303,6 +303,15 @@ namespace GroundWellDesign
                         LayerNbrs.Add(i+1);
                     }
                     currLayerCombo.SelectedIndex = index;
+                }else if(selectedItem == snhComputeTabItem)
+                {
+                    LayerNbrs.Clear();
+                    for (int i = 0; i < layers.Count; i++)
+                    {
+                        LayerNbrs.Add(i + 1);
+                    }
+                    if (layers.Count > 0)
+                        snhtcbhCombo.SelectedIndex = 0;
                 }
                 else if(selectedItem == autoDesignTabItem || selectedItem == manuDesignTabItem || selectedItem == taoGuanTabItem
                     || selectedItem == keyLayerTabItem || selectedItem == cutOffsetTabItem || selectedItem == lcOffsetTabItem)
@@ -343,6 +352,9 @@ namespace GroundWellDesign
                 param.q0 = data2[i * 10 + 9];
             }
         }
+
+
+
 
 
 
