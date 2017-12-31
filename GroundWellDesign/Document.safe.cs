@@ -23,6 +23,10 @@ namespace GroundWellDesign
         {
             ComboBox combo = sender as ComboBox;
             int index = combo.SelectedIndex;
+            if(index == -1)
+            {
+                return;
+            }
             editZengYi.Es = layers[index].tanXingMoLiang;
             editZengYi.Vs = layers[index].boSonBi;
         }

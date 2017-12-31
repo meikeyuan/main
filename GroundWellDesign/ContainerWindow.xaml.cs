@@ -403,6 +403,58 @@ namespace GroundWellDesign
         //***********************************菜单end******************
 
 
+        //导出表格到Excel
+        private void exportExcel_Click(object sender, RoutedEventArgs e)
+        {
+            int index = tabControl.SelectedIndex;
+            if (index == -1)
+            {
+                MessageBox.Show("当前界面无表格。");
+                return;
+            }
+            Document curWindow = windows[index];
+            Object selectedItem = curWindow.tabControl.SelectedItem;
+            DataGrid datagride = null;
+            if(selectedItem == curWindow.gridinputTabItem)
+            {
+                datagride = curWindow.paramGrid;
+            }
+            else if(selectedItem == curWindow.keyLayerTabItem)
+            {
+                datagride = curWindow.keyLayerDataGrid;
+            }
+            else if(selectedItem == curWindow.cutOffsetTabItem)
+            {
+                datagride = curWindow.cutOffsetDataGrid;
+            }
+            else if(selectedItem == curWindow.lcOffsetTabItem)
+            {
+                datagride = curWindow.lcOffsetDataGrid;
+            }
+            else if(selectedItem == curWindow.taoGuanTabItem)
+            {
+                datagride = curWindow.taoGuanDataGrid;
+            }
+
+            if(datagride == null)
+            {
+                MessageBox.Show("当前界面无表格。");
+                return;
+            }
+
+
+            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
+            fileDialog.Title = "导出为";
+            fileDialog.Filter = "Excel文件(*.xls)|*.xls";
+            fileDialog.FileName = ((TabItem)selectedItem).Header + ".xls";
+
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filePath = fileDialog.FileName;
+                new ExcelHelper().Export(datagride, filePath);
+            }
+        }
+
 
 
 
