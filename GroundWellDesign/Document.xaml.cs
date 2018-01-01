@@ -124,7 +124,7 @@ namespace GroundWellDesign
                         DataGridRow row = grid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
                         if (row != null)
                         {
-                            row.Header = i + 1;
+                            row.Header = i;
                         }
                     }
                     catch { }
