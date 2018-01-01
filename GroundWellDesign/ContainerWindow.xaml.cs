@@ -137,14 +137,9 @@ namespace GroundWellDesign
         //打开文件菜单
         private void openFileMenu_Click(object sender, RoutedEventArgs e)
         {
-
-            System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();
-            fileDialog.Title = "打开文件";
-            fileDialog.Filter = "数据文件(*.data)|*.data";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            string filePath = FileDialogHelper.getOpenPath("数据文件(*.data)|*.data");
+            if (filePath != null)
             {
-                string filePath = fileDialog.FileName;
                 foreach(Document document in windows)
                 {
                     if(document.FilePath == filePath)
@@ -228,55 +223,58 @@ namespace GroundWellDesign
         }
 
 
-        //保存文件
-        private void saveFileHelper(Document window)
+        //保存到文件
+        private bool saveFileHelper(Document window)
         {
             if (window.FilePath == null)
             {
-                savetoFileHelper(window);
-                return;
+                return savetoFileHelper(window);
             }
             if (MessageBox.Show(Path.GetFileNameWithoutExtension(window.FilePath) + ":确定覆盖原文件吗？", 
                 "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
-                return;
+                return false;
             }
             if (window.saveFile(window.FilePath))
             {
                 MessageBox.Show("保存成功");
+                return true;
             }
             else
             {
                 MessageBox.Show("保存失败");
+                return false;
             }
         }
 
-
-        private void savetoFileHelper(Document window)
+        // 另存到文件
+        private bool savetoFileHelper(Document window)
         {
-            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
             var tabitem = tabControl.Items.GetItemAt(windows.IndexOf(window)) as TabItem;
-            fileDialog.Title = "存为";
-            fileDialog.Filter = "数据文件(*.data)|*.data";
-            fileDialog.FileName = ((ContentControl)tabitem.Header).Content + ".data";
+            string defaultName = ((ContentControl)tabitem.Header).Content + ".data";
+            string filePath = FileDialogHelper.getSavePath(defaultName, "数据文件(*.data)|*.data");
 
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (filePath != null)
             {
-                string filePath = fileDialog.FileName;
                 if (window.saveFile(filePath))
                 {
-                    MessageBox.Show("保存成功");
+                    MessageBox.Show("保存成功。");
                     if (window.FilePath == null)
                     {
                         window.FilePath = filePath;
                         ((ContentControl)tabitem.Header).Content = Path.GetFileNameWithoutExtension(filePath);
                     }
-                        
+                    return true;
                 }
                 else
                 {
-                    MessageBox.Show("保存失败");
+                    MessageBox.Show("保存失败。");
+                    return false;
                 }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -442,15 +440,10 @@ namespace GroundWellDesign
                 return;
             }
 
-
-            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
-            fileDialog.Title = "导出为";
-            fileDialog.Filter = "Excel文件(*.xls)|*.xls";
-            fileDialog.FileName = ((TabItem)selectedItem).Header + ".xls";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            string defaultName = ((TabItem)selectedItem).Header + ".xls";
+            string filePath = FileDialogHelper.getSavePath(defaultName, "Excel文件(*.xls)|*.xls");
+            if (filePath != null)
             {
-                string filePath = fileDialog.FileName;
                 new ExcelHelper().Export(datagride, filePath);
             }
         }
@@ -470,7 +463,11 @@ namespace GroundWellDesign
                 int index = tabControl.Items.IndexOf(tabItem);
                 if(MessageBox.Show("是否保存？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    saveFileHelper(windows[index]);
+                    if(!saveFileHelper(windows[index]))
+                    {
+                        // 保存失败不能关闭选项卡
+                        return;
+                    }
                 }
                 tabControl.Items.RemoveAt(index);
                 windows.RemoveAt(index);

@@ -116,6 +116,7 @@
     <Compile Include="Document.safe.cs" />
     <Compile Include="Document.zengyi.cs" />
     <Compile Include="ExcelHelper.cs" />
+    <Compile Include="FileDialogHelper.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>

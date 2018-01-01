@@ -1,5 +1,6 @@
 ﻿using MathWorks.MATLAB.NET.Arrays;
 using System;
+using System.Data;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
@@ -101,6 +102,23 @@ namespace GroundWellDesign
         }
 
 
+        // 从Excel导入岩层参数
+        private void click_importExcel(object sender, RoutedEventArgs e)
+        {
+            string filePath = FileDialogHelper.getOpenPath("Excel文件(*.xls)|*.xls");
+            DataTable dt = null;
+            if(filePath != null)
+            {
+                dt = new ExcelHelper().LoadExcel(filePath);
+                layers.Clear();
+                for(int i = 0; i < dt.Rows.Count; ++i)
+                {
+                    LayerBaseParams baseParam = new LayerBaseParams(this);
+                    layers.Add(baseParam);
+                }
+            }
+        }
+        
 
         //下方增加行
         private void click_addRow(object sender, RoutedEventArgs e)

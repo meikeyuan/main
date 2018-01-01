@@ -239,6 +239,7 @@
                     
                     <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                            <Button Content="从Excel导入岩层参数"   ToolTip="从Excel导入岩层参数" Click="click_importExcel" Padding="10"/>
                             <Button Content="+"  Width="40" ToolTip="下方增行" Click="click_addRow" Padding="0"/>
                             <Button Content="-"   Width="40" ToolTip="删除(Del)" Click="click_delRow" Padding="0"/>
                             <Button Content="↑"  Width="40"  ToolTip="上移" Click="click_upRow" Padding="0"/>
