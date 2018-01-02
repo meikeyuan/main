@@ -18,29 +18,169 @@ namespace GroundWellDesign
         //用于提取参数 保存到文件
         public BaseLayerBaseParams(LayerBaseParams layer)
         {
-            yanXing = layer.yanXing;
-            leiJiShenDu = layer.leiJiShenDu;
-            juLiMeiShenDu = layer.juLiMeiShenDu;
-            cengHou = layer.cengHou;
-            ziRanMiDu = layer.ziRanMiDu;
-            bianXingMoLiang = layer.bianXingMoLiang;
-            kangLaQiangDu = layer.kangLaQiangDu;
-            kangYaQiangDu = layer.kangYaQiangDu;
-            tanXingMoLiang = layer.tanXingMoLiang;
-            boSonBi = layer.boSonBi;
-            neiMoCaJiao = layer.neiMoCaJiao;
-            nianJuLi = layer.nianJuLi;
-            q0 = layer.q0;
-            q1 = layer.q1;
-            q2 = layer.q2;
-            miaoShu = layer.miaoShu;
-            dataBaseKey = layer.dataBaseKey;
-            wellNamePK = layer.wellNamePK;
+            for (int i = 0; i < 21; i++)
+            {
+                this[i] = layer[i];
+            }
+            //yanXing = layer.yanXing;
+            //leiJiShenDu = layer.leiJiShenDu;
+            //juLiMeiShenDu = layer.juLiMeiShenDu;
+            //cengHou = layer.cengHou;
+            //ziRanMiDu = layer.ziRanMiDu;
+            //bianXingMoLiang = layer.bianXingMoLiang;
+            //kangLaQiangDu = layer.kangLaQiangDu;
+            //kangYaQiangDu = layer.kangYaQiangDu;
+            //tanXingMoLiang = layer.tanXingMoLiang;
+            //boSonBi = layer.boSonBi;
+            //neiMoCaJiao = layer.neiMoCaJiao;
+            //nianJuLi = layer.nianJuLi;
+            //q0 = layer.q0;
+            //q1 = layer.q1;
+            //q2 = layer.q2;
+            //miaoShu = layer.miaoShu;
+            //dataBaseKey = layer.dataBaseKey;
+            //wellNamePK = layer.wellNamePK;
 
-            qxJQWY = layer.qxJQWY;
-            zxJQWY = layer.zxJQWY;
-            jqHWY = layer.jqHWY;
+            //qxJQWY = layer.qxJQWY;
+            //zxJQWY = layer.zxJQWY;
+            //jqHWY = layer.jqHWY;
+        }
 
+        public object this[int index]
+        {
+            get
+            {
+                if(index < 0 || index > 20)
+                {
+                    return null;
+                }
+                switch(index)
+                {
+                    case 0:
+                        return yanXing;
+                    case 1:
+                        return leiJiShenDu;
+                    case 2:
+                        return juLiMeiShenDu;
+                    case 3:
+                        return cengHou;
+                    case 4:
+                        return ziRanMiDu;
+                    case 5:
+                        return bianXingMoLiang;
+                    case 6:
+                        return kangLaQiangDu;
+                    case 7:
+                        return kangYaQiangDu;
+                    case 8:
+                        return tanXingMoLiang;
+                    case 9:
+                        return boSonBi;
+                    case 10:
+                        return neiMoCaJiao;
+                    case 11:
+                        return nianJuLi;
+                    case 12:
+                        return q0;
+                    case 13:
+                        return q1;
+                    case 14:
+                        return q2;
+                    case 15:
+                        return miaoShu;
+                    case 16:
+                        return dataBaseKey;
+                    case 17:
+                        return wellNamePK;
+                    case 18:
+                        return qxJQWY;
+                    case 19:
+                        return zxJQWY;
+                    case 20:
+                        return jqHWY;
+                    default:
+                        return null;
+                }
+            }
+
+            set
+            {
+                if (index < 0 || index > 20)
+                {
+                    return;
+                }
+                double double_value;
+                double.TryParse(value.ToString(), out double_value);
+                string string_value = value.ToString();
+                switch (index)
+                {
+                    case 0:
+                        yanXing = string_value;
+                        break;
+                    case 1:
+                        leiJiShenDu = double_value;
+                        break;
+                    case 2:
+                        juLiMeiShenDu = double_value;
+                        break;
+                    case 3:
+                        cengHou = double_value;
+                        break;
+                    case 4:
+                        ziRanMiDu = double_value;
+                        break;
+                    case 5:
+                        bianXingMoLiang = double_value;
+                        break;
+                    case 6:
+                        kangLaQiangDu = double_value;
+                        break;
+                    case 7:
+                        kangYaQiangDu = double_value;
+                        break;
+                    case 8:
+                        tanXingMoLiang = double_value;
+                        break;
+                    case 9:
+                        boSonBi = double_value;
+                        break;
+                    case 10:
+                        neiMoCaJiao = double_value;
+                        break;
+                    case 11:
+                        nianJuLi = double_value;
+                        break;
+                    case 12:
+                        q0 = double_value;
+                        break;
+                    case 13:
+                        q1 = double_value;
+                        break;
+                    case 14:
+                        q2 = double_value;
+                        break;
+                    case 15:
+                        miaoShu = string_value;
+                        break;
+                    case 16:
+                        dataBaseKey = string_value;
+                        break;
+                    case 17:
+                        wellNamePK = string_value;
+                        break;
+                    case 18:
+                        qxJQWY = double_value;
+                        break;
+                    case 19:
+                        zxJQWY = double_value;
+                        break;
+                    case 20:
+                        jqHWY = double_value;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public string yanXing;
@@ -59,6 +199,7 @@ namespace GroundWellDesign
         public double q1;
         public double q2;
         public string miaoShu;
+
         public string dataBaseKey;
         public string wellNamePK;
 

@@ -1,5 +1,6 @@
 ﻿using MathWorks.MATLAB.NET.Arrays;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Globalization;
@@ -110,11 +111,28 @@ namespace GroundWellDesign
             if(filePath != null)
             {
                 dt = new ExcelHelper().LoadExcel(filePath);
-                layers.Clear();
-                for(int i = 0; i < dt.Rows.Count; ++i)
+                if(dt == null || dt.Columns.Count != 16)
                 {
-                    LayerBaseParams baseParam = new LayerBaseParams(this);
-                    layers.Add(baseParam);
+                    MessageBox.Show("读取文件失败。");
+                    return;
+                }
+                int rowIndex = 0;
+                try
+                {
+                    layers.Clear();
+                    for (; rowIndex < dt.Rows.Count; ++rowIndex)
+                    {
+                        LayerBaseParams baseParam = new LayerBaseParams(this);
+                        for (int col = 0; col < 16; ++col)
+                        {
+                            baseParam[col] = dt.Rows[rowIndex][col];
+                        }
+                        layers.Add(baseParam);
+                    }
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("读取文件失败,请检查文件第" + rowIndex + "行数据的格式问题。");
                 }
             }
         }

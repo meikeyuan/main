@@ -39,7 +39,16 @@ namespace GroundWellDesign
                     break;
                 case "yanXing":
                     string s = value as string;
-                    return Application.Current.FindResource(s);
+                    try 
+                    { 
+                        return Application.Current.FindResource(s);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                default:
+                    return null;
             }
             return null;
         }
