@@ -273,13 +273,17 @@ namespace GroundWellDesign
             //竖三带计算
             try
             {
+                // 冒落带
                 var array1 = (MWNumericArray)logic.calHm(FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
                 double maoLuoDai = array1.ToScalarDouble();
                 maoLuoDaiTb.Text = maoLuoDai.ToString("f3");
+                // 裂隙带
                 var array2 = (MWNumericArray)logic.calHl(CaiGao, 1);
                 double lieXiDai = array2.ToScalarDouble();
                 lieXiDaiTb.Text = lieXiDai.ToString("f3");
 
+
+                // 弯曲下沉带 = 煤层以上深度 - 裂隙带高度
                 bool bWanquDai = false;
                 for (int i = keyLayers.Count; i > 0; i--)
                 {
@@ -305,6 +309,7 @@ namespace GroundWellDesign
             }
 
         }
+        // 地面井设计需要用到该参数
         int wanQuDaiIndex = 0;
 
 
