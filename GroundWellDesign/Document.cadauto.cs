@@ -1,4 +1,5 @@
 ﻿using MxDrawXLib;
+using System.Drawing;
 using System.IO;
 using System.Windows;
 
@@ -98,7 +99,6 @@ namespace GroundWellDesign
 
 
             //显示cad
-            tabControl.SelectedItem = autoDesignCadTabItem;
             cadViewer.OpenDwgFile("cads/三开-一全固二局固三" + AutoWjfs3 + ".dwg");
             cadViewer.ZoomCenter(2500, 300);
             cadViewer.ZoomScale(1);
@@ -107,6 +107,12 @@ namespace GroundWellDesign
             MxDrawSelectionSet ss = new MxDrawSelectionSet();
             IMxDrawResbuf spFilter = new MxDrawResbuf();
             ss.Select2(MCAD_McSelect.mcSelectionSetAll, null, null, null, null);
+
+            if (ss.Count == 0)
+            {
+                MessageBox.Show("找不到符合需求的设计图。");
+                return;
+            }
 
             for (int j = 0; j < ss.Count; j++)
             {
@@ -177,26 +183,23 @@ namespace GroundWellDesign
                 }
             }
             cadViewer.ReDraw();
+            cadViewer.ViewColor = Color.White;
+            tabControl.SelectedItem = autoDesignCadTabItem;
         }
 
 
         private void saveAutoCadBtn_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
-            fileDialog.Title = "存为";
-            fileDialog.Filter = "dwg文件(*.dwg)|*.dwg";
-            fileDialog.FileName = "example.dwg";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            string filePath = FileDialogHelper.getSavePath("example.dwg", "dwg文件(*.dwg)|*.dwg");
+            if (filePath != null)
             {
-                string filePath = fileDialog.FileName;
                 if (cadViewer.SaveDwgFile(filePath))
                 {
-                    MessageBox.Show("保存成功");
+                    MessageBox.Show("保存成功。");
                 }
                 else
                 {
-                    MessageBox.Show("保存失败");
+                    MessageBox.Show("保存失败。");
                 }
             }
         }

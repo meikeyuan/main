@@ -1,6 +1,7 @@
 ﻿using MxDrawXLib;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -93,7 +94,7 @@ namespace GroundWellDesign
             }
 
             //显示cad
-            tabControl.SelectedItem = manDesignCadTabItem;
+            
             string gy = "";
             if(manuDesignParams.jieGou.Equals(JieGouOpt[0]))
             {
@@ -112,6 +113,12 @@ namespace GroundWellDesign
             MxDrawSelectionSet ss = new MxDrawSelectionSet();
             IMxDrawResbuf spFilter = new MxDrawResbuf();
             ss.Select2(MCAD_McSelect.mcSelectionSetAll, null, null, null, null);
+
+            if (ss.Count == 0)
+            {
+                MessageBox.Show("找不到符合需求的设计图。");
+                return;
+            }
 
             for (int j = 0; j < ss.Count; j++)
             {
@@ -186,27 +193,24 @@ namespace GroundWellDesign
                 }
             }
             cadViewer2.ReDraw();
+            cadViewer2.ViewColor = Color.White;
+            tabControl.SelectedItem = manDesignCadTabItem;
         }
 
 
 
         private void saveManuCadBtn_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
-            fileDialog.Title = "存为";
-            fileDialog.Filter = "dwg文件(*.dwg)|*.dwg";
-            fileDialog.FileName = "example.dwg";
-
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            string filePath = FileDialogHelper.getSavePath("example.dwg", "dwg文件(*.dwg)|*.dwg");
+            if (filePath != null)
             {
-                string filePath = fileDialog.FileName;
                 if (cadViewer2.SaveDwgFile(filePath))
                 {
-                    MessageBox.Show("保存成功");
+                    MessageBox.Show("保存成功。");
                 }
                 else
                 {
-                    MessageBox.Show("保存失败");
+                    MessageBox.Show("保存失败。");
                 }
             }
         }

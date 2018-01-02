@@ -5,11 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GroundWellDesign
 {
     partial class Document
     {
+
+        private void ycbhCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox combo = sender as ComboBox;
+            int index = combo.SelectedIndex;
+            if (index == -1)
+            {
+                return;
+            }
+            yanxingText.Text = layers[index].yanXing;
+            editZengYi.Es = layers[index].tanXingMoLiang;
+            editZengYi.Vs = layers[index].boSonBi;
+        }
+
 
         private void resetSnhBtn_Click(object sender, RoutedEventArgs e)
         {

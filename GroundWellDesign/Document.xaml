@@ -427,11 +427,11 @@
                             <DataGridTextColumn Binding="{Binding Mcms, StringFormat=n3}"   Header="距离煤层深度/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Fypjxs, StringFormat=n3}"   Header="覆岩综合评价系数P" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Fypjxsxz, StringFormat=n3}"   Header="修正的评价系数P" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Gzmtjsj, StringFormat=n0, UpdateSourceTrigger=PropertyChanged}"   Header="工作面推进时间/d" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Gzmtjsj, StringFormat=n0, UpdateSourceTrigger=PropertyChanged}"   Header="扰动时⼯作⾯推过时间/d" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
 
 
                             <DataGridTextColumn Binding="{Binding Cfcdcjwy, StringFormat=n3}"   Header="充分采动沉降位移Wmax" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridTextColumn Binding="{Binding Gzmtjjl, StringFormat=n3}"   Header="工作面推进累计距离/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
+                            <DataGridTextColumn Binding="{Binding Gzmtjjl, StringFormat=n3}"   Header="扰动时⼯作⾯推过距离/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Zx, StringFormat=n3}"   Header="走向l0/H0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Qx, StringFormat=n3}"   Header="倾向L0/H0" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Cdyxbj, StringFormat=n3}"   Header="采动影响半径r/m" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
@@ -669,7 +669,7 @@
                         <TextBlock Grid.Column="0" Grid.Row="0" Text="套管相关量" 
                                Foreground="{DynamicResource ThemeColorBrush}"  HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <TextBlock Grid.Column="0" Grid.Row="1" Text="弹性模量Ec"  HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{x:Static local:Document.TgtxmlOpt}" Text="{Binding Ec, UpdateSourceTrigger=LostFocus}"/>
+                        <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{x:Static local:Document.TgtxmlOpt}" Text="{Binding Ec, UpdateSourceTrigger=LostFocus, StringFormat=e3}" IsEditable="True"/>
                         <TextBlock Grid.Column="2" Grid.Row="1" Text="泊松比Vc" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding Vc, UpdateSourceTrigger =LostFocus, StringFormat=n3}" VerticalContentAlignment="Center"/>
 
@@ -684,6 +684,7 @@
                         <TextBlock Grid.Column="0" Grid.Row="4" Text="岩层编号"  HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <ComboBox Name="snhtcbhCombo" Grid.Column="1" Grid.Row="4"  VerticalContentAlignment="Center" 
                                   ItemsSource="{x:Static local:Document.LayerNbrs}" SelectionChanged="ycbhCombo_SelectionChanged"/>
+                        <TextBlock Name="yanxingText" Grid.Column="2" Grid.Row="4" Text="岩层岩性"  HorizontalAlignment="Center" VerticalAlignment="Center" />
                         
                         <TextBlock Grid.Column="0" Grid.Row="5" Text="弹性模量Es"  HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Es, UpdateSourceTrigger=LostFocus, StringFormat=e3}" VerticalContentAlignment="Center"/>
@@ -853,7 +854,7 @@
                             <TextBlock Text="描述" Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             
                             <ComboBox Name="autoTgxh3Combo" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding AutoTgxh3, UpdateSourceTrigger=LostFocus}"/>
-                            <ComboBox Name="autoWjfs3Combo" Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding AutoWjfs3, UpdateSourceTrigger=LostFocus}"/>
+                            <ComboBox Name="autoWjfs3Combo" Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding AutoWjfs3, UpdateSourceTrigger=LostFocus}" IsEditable="True"/>
                             <TextBox Name="autoMiaoshu3Tb" Grid.Column="3" Grid.RowSpan="2"  Margin="5" Text="{Binding AutoMiaoshu3, UpdateSourceTrigger=LostFocus}">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox" >
@@ -940,7 +941,7 @@
                             <TextBox Grid.Column="1" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" Text="{Binding Zjsd1, UpdateSourceTrigger=LostFocus, StringFormat=n3}"/>
                             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding Tggj1, UpdateSourceTrigger=LostFocus}"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" Text="{Binding Tgxh1, UpdateSourceTrigger=LostFocus}"/>
-                            <ComboBox Name="gjfs1Combo" Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.GjfsOpt}" Text="{Binding Gjfs1, UpdateSourceTrigger=LostFocus}"/>
+                            <ComboBox Name="gjfs1Combo" Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.GjfsOpt}" Text="{Binding Gjfs1, UpdateSourceTrigger=LostFocus}" IsEditable="True"/>
                             <TextBox Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Margin="5" Text="{Binding Miaoshu1, UpdateSourceTrigger=LostFocus}">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox" >
@@ -978,7 +979,7 @@
                             <TextBox Grid.Column="1" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" Text="{Binding Zjsd2, UpdateSourceTrigger=LostFocus, StringFormat=n3}"/>
                             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.TggjOpt}" Text="{Binding Tggj2, UpdateSourceTrigger=LostFocus}"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Margin="5" VerticalContentAlignment="Center" Text="{Binding Tgxh2, UpdateSourceTrigger=LostFocus}"/>
-                            <ComboBox Name="gjCombo" Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.GjfsOpt}" Text="{Binding Gjfs2, UpdateSourceTrigger=LostFocus}"/>
+                            <ComboBox Name="gjCombo" Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.GjfsOpt}" Text="{Binding Gjfs2, UpdateSourceTrigger=LostFocus}" IsEditable="True"/>
                             <TextBox Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Margin="5" Text="{Binding Miaoshu2, UpdateSourceTrigger=LostFocus}">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox" >
@@ -988,7 +989,7 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <ComboBox Name="wjCombo" Grid.Column="3" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding Wjfs2, UpdateSourceTrigger=LostFocus}"/>
+                            <ComboBox Name="wjCombo" Grid.Column="3" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding Wjfs2, UpdateSourceTrigger=LostFocus}" IsEditable="True"/>
 
                         </Grid>
                         <!-- 三开结构   -->
@@ -1024,7 +1025,7 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <ComboBox Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding Wjfs3, UpdateSourceTrigger=LostFocus}"/>
+                            <ComboBox Grid.Column="3" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" ItemsSource="{x:Static local:Document.WjfsOpt}" Text="{Binding Wjfs3, UpdateSourceTrigger=LostFocus}" IsEditable="True"/>
                         </Grid>
                     </Grid>
 
@@ -1043,7 +1044,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="manDesignCadTabItem" Header="井型人工设计Cad">
+            <TabItem x:Name="manDesignCadTabItem" Header="井型Cad">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

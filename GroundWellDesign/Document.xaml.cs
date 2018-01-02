@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
 using MxDrawXLib;
+using System.Drawing;
 
 namespace GroundWellDesign
 {
@@ -55,6 +56,7 @@ namespace GroundWellDesign
             Thread thread = new Thread(new ThreadStart(closeFuckDlg));
             thread.Start();
             cadViewer.EndInit();
+            cadViewer.ViewColor = Color.FromArgb(255, 255, 255);
 
 
             cadViewer2 = new AxMxDrawX();
@@ -63,6 +65,7 @@ namespace GroundWellDesign
             Thread thread2 = new Thread(new ThreadStart(closeFuckDlg));
             thread2.Start();
             cadViewer2.EndInit();
+            cadViewer2.ViewColor = Color.FromArgb(255, 255, 255);
 
             //自动更新层号 层号不保存在集合中
             paramGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
