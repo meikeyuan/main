@@ -157,6 +157,7 @@ namespace GroundWellDesign
                 tmpLayer.boSonBi += layer.boSonBi;
                 tmpLayer.neiMoCaJiao += layer.neiMoCaJiao;
                 tmpLayer.nianJuLi += layer.nianJuLi;
+                tmpLayer.f += layer.f;
                 tmpLayer.q0 += layer.q0;
                 tmpLayer.q1 += layer.q1;
                 tmpLayer.q2 += layer.q2;
@@ -174,6 +175,7 @@ namespace GroundWellDesign
             WantedLayer.BoSonBi = tmpLayer.boSonBi / count;
             WantedLayer.NeiMoCaJiao = tmpLayer.neiMoCaJiao / count;
             WantedLayer.NianJuLi = tmpLayer.nianJuLi / count;
+            WantedLayer.F = tmpLayer.f / count;
             WantedLayer.Q0 = tmpLayer.q0 / count;
             WantedLayer.Q1 = tmpLayer.q1 / count;
             WantedLayer.Q2 = tmpLayer.q2 / count;

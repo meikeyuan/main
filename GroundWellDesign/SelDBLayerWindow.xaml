@@ -39,6 +39,7 @@
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding NeiMoCaJiao, StringFormat=n3 }"   Header="内摩擦角" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding NianJuLi, StringFormat=n3 }"   Header="粘聚力" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
 
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding F, StringFormat=n2 }" Header="坚固性系数f" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Q0, StringFormat=n2 }" Header="Q0值" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Q1, StringFormat=n2 }" Header="Q1值" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Q2, StringFormat=n2 }" Header="Q2值" ElementStyle="{StaticResource ResourceKey=ColumnCellStyle}"/>

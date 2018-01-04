@@ -5,6 +5,26 @@ namespace GroundWellDesign
 {
     partial class Document : Window
     {
+        // 提醒用户是否需要保存的判断
+        private bool layer_equal(BaseLayerBaseParams layer1, BaseLayerBaseParams layer2)
+        {
+            if(layer1 == null || layer2 == null)
+            {
+                return false;
+            }
+
+            for(int i = 0; i < 17; ++i)
+            {
+                if(layer1[i] != layer2[i] || !layer1[i].Equals(layer2[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
         //保存
         private void saveEdit()
         {
@@ -53,7 +73,7 @@ namespace GroundWellDesign
             if (layerNum == 1)
                 return;
 
-            if (layerNum <= layers.Count && !layers[layerNum - 1].Equals(editLayer) || layerNum == layers.Count + 1)
+            if (layerNum <= layers.Count && !layer_equal(layers[layerNum - 1], editLayer) || layerNum == layers.Count + 1)
             {
                 if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
@@ -73,7 +93,7 @@ namespace GroundWellDesign
         private void nextBtn_Click(object sender, RoutedEventArgs e)
         {
             int layerNum = int.Parse(currLayerCombo.Text);
-            if (layerNum <= layers.Count && !layers[layerNum - 1].Equals(editLayer) || layerNum == layers.Count + 1)
+            if (layerNum <= layers.Count && !layer_equal(layers[layerNum - 1], editLayer) || layerNum == layers.Count + 1)
             {
                 if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
@@ -116,7 +136,7 @@ namespace GroundWellDesign
             if (index == layers.Count)
                 editLayer.reset();
             else
-                editLayer.copyNoEvent(layers[index]);
+                editLayer.copy(layers[index]);
 
             guideBind(editLayer);
         }

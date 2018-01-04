@@ -49,7 +49,7 @@ namespace GroundWellDesign
 
 
         //以下为横三带竖三代变量
-        private double mcqj;
+        public double mcqj;
         public double Mcqj
         {
             set
@@ -83,7 +83,7 @@ namespace GroundWellDesign
 
 
         //以下为计算关键层中间数据需要的变量
-        private double mchd;
+        public double mchd;
         public double Mchd
         {
             set
@@ -97,7 +97,7 @@ namespace GroundWellDesign
             }
         }
 
-        private double pjxsxz;
+        public double pjxsxz;
         public double Pjxsxz
         {
             set
@@ -116,7 +116,7 @@ namespace GroundWellDesign
             }
         }
 
-        private double hcqZxcd;
+        public double hcqZxcd;
         public double HcqZXcd
         {
             set
@@ -130,7 +130,7 @@ namespace GroundWellDesign
             }
         }
 
-        private double hcqQxcd;
+        public double hcqQxcd;
         public double HcqQXcd
         {
             set

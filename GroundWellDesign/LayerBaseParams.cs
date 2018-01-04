@@ -12,48 +12,29 @@ namespace GroundWellDesign
         public BaseLayerBaseParams()
         {
             yanXing = Document.YanXingOpt[1];
-            miaoShu = "岩层";
+            miaoShu = "岩层描述";
+            dataBaseKey = "";
+            wellNamePK = "";
         }
 
-        //用于提取参数 保存到文件
-        public BaseLayerBaseParams(LayerBaseParams layer)
+        //用于拆箱到本可序列化对象 保存到文件
+        public BaseLayerBaseParams(BaseLayerBaseParams layer)
         {
-            for (int i = 0; i < 21; i++)
+            copy(layer);
+        }
+
+        public void copy(BaseLayerBaseParams layer)
+        {
+            for (int i = 0; i < 22; i++)
             {
                 this[i] = layer[i];
             }
-            //yanXing = layer.yanXing;
-            //leiJiShenDu = layer.leiJiShenDu;
-            //juLiMeiShenDu = layer.juLiMeiShenDu;
-            //cengHou = layer.cengHou;
-            //ziRanMiDu = layer.ziRanMiDu;
-            //bianXingMoLiang = layer.bianXingMoLiang;
-            //kangLaQiangDu = layer.kangLaQiangDu;
-            //kangYaQiangDu = layer.kangYaQiangDu;
-            //tanXingMoLiang = layer.tanXingMoLiang;
-            //boSonBi = layer.boSonBi;
-            //neiMoCaJiao = layer.neiMoCaJiao;
-            //nianJuLi = layer.nianJuLi;
-            //q0 = layer.q0;
-            //q1 = layer.q1;
-            //q2 = layer.q2;
-            //miaoShu = layer.miaoShu;
-            //dataBaseKey = layer.dataBaseKey;
-            //wellNamePK = layer.wellNamePK;
-
-            //qxJQWY = layer.qxJQWY;
-            //zxJQWY = layer.zxJQWY;
-            //jqHWY = layer.jqHWY;
         }
 
         public object this[int index]
         {
             get
             {
-                if(index < 0 || index > 20)
-                {
-                    return null;
-                }
                 switch(index)
                 {
                     case 0:
@@ -81,22 +62,24 @@ namespace GroundWellDesign
                     case 11:
                         return nianJuLi;
                     case 12:
-                        return q0;
+                        return f;
                     case 13:
-                        return q1;
+                        return q0;
                     case 14:
-                        return q2;
+                        return q1;
                     case 15:
-                        return miaoShu;
+                        return q2;
                     case 16:
-                        return dataBaseKey;
+                        return miaoShu;
                     case 17:
-                        return wellNamePK;
+                        return dataBaseKey;
                     case 18:
-                        return qxJQWY;
+                        return wellNamePK;
                     case 19:
-                        return zxJQWY;
+                        return qxJQWY;
                     case 20:
+                        return zxJQWY;
+                    case 21:
                         return jqHWY;
                     default:
                         return null;
@@ -105,13 +88,20 @@ namespace GroundWellDesign
 
             set
             {
-                if (index < 0 || index > 20)
-                {
-                    return;
-                }
                 double double_value;
-                double.TryParse(value.ToString(), out double_value);
-                string string_value = value.ToString();
+                string string_value;
+
+                if(value == null)
+                {
+                    double_value = 0.0;
+                    string_value = null;
+                }
+                else
+                {
+                    double.TryParse(value.ToString(), out double_value);
+                    string_value = value.ToString();
+                }
+
                 switch (index)
                 {
                     case 0:
@@ -151,30 +141,33 @@ namespace GroundWellDesign
                         nianJuLi = double_value;
                         break;
                     case 12:
-                        q0 = double_value;
+                        f = double_value;
                         break;
                     case 13:
-                        q1 = double_value;
+                        q0 = double_value;
                         break;
                     case 14:
-                        q2 = double_value;
+                        q1 = double_value;
                         break;
                     case 15:
-                        miaoShu = string_value;
+                        q2 = double_value;
                         break;
                     case 16:
-                        dataBaseKey = string_value;
+                        miaoShu = string_value;
                         break;
                     case 17:
-                        wellNamePK = string_value;
+                        dataBaseKey = string_value;
                         break;
                     case 18:
-                        qxJQWY = double_value;
+                        wellNamePK = string_value;
                         break;
                     case 19:
-                        zxJQWY = double_value;
+                        qxJQWY = double_value;
                         break;
                     case 20:
+                        zxJQWY = double_value;
+                        break;
+                    case 21:
                         jqHWY = double_value;
                         break;
                     default:
@@ -195,6 +188,7 @@ namespace GroundWellDesign
         public double boSonBi;
         public double neiMoCaJiao;
         public double nianJuLi;
+        public double f;
         public double q0;
         public double q1;
         public double q2;
@@ -212,42 +206,22 @@ namespace GroundWellDesign
 
     public class LayerBaseParams : BaseLayerBaseParams, INotifyPropertyChanged
     {
-
+        // 增加对窗口的引用
         public Document mainWindow;
 
-        public LayerBaseParams(Document mainWindow)
-        {
-            this.mainWindow = mainWindow;                                                                     
-        }
-
-        public LayerBaseParams(Document mainWindow, BaseLayerBaseParams layer)
+        public LayerBaseParams(Document mainWindow, BaseLayerBaseParams layer = null)
         {
             this.mainWindow = mainWindow;
-            copyNoEvent(layer);
-        }
-
-        public bool Equals(BaseLayerBaseParams layer)
-        {
-            return yanXing.Equals(layer.yanXing) &&
-            LeiJiShenDu == layer.leiJiShenDu &&
-            JuLiMeiShenDu == layer.juLiMeiShenDu &&
-            CengHou == layer.cengHou &&
-            ZiRanMiDu == layer.ziRanMiDu &&
-            BianXingMoLiang == layer.bianXingMoLiang &&
-            KangLaQiangDu == layer.kangLaQiangDu &&
-            KangYaQiangDu == layer.kangYaQiangDu &&
-            TanXingMoLiang == layer.tanXingMoLiang &&
-            BoSonBi == layer.boSonBi &&
-            NeiMoCaJiao == layer.neiMoCaJiao &&
-            NianJuLi == layer.nianJuLi && MiaoShu.Equals(layer.miaoShu) &&
-            Q1 == layer.q1 && Q2 == layer.q2 && Q0 == layer.q0;
+            if(layer != null)
+            {
+                copy(layer);
+            }
         }
 
         public void reset()
         {
             copyAndEventEcpYanXing(new BaseLayerBaseParams());
         }
-
 
         public void copyAndEventEcpYanXing(BaseLayerBaseParams layer)
         {
@@ -263,10 +237,12 @@ namespace GroundWellDesign
             BoSonBi = layer.boSonBi;
             NeiMoCaJiao = layer.neiMoCaJiao;
             NianJuLi = layer.nianJuLi;
+            F = layer.f;
             Q0 = layer.q0;
             Q1 = layer.q1;
             Q2 = layer.q2;
             MiaoShu = layer.miaoShu;
+
             dataBaseKey = layer.dataBaseKey;
             WellNamePK = layer.wellNamePK;
 
@@ -274,37 +250,6 @@ namespace GroundWellDesign
             ZXJQWY = layer.zxJQWY;
             JQHWY = layer.jqHWY;
         }
-
-        public void copyNoEvent(BaseLayerBaseParams layer)
-        {
-            yanXing = layer.yanXing;
-            leiJiShenDu = layer.leiJiShenDu;
-            juLiMeiShenDu = layer.juLiMeiShenDu;
-            cengHou = layer.cengHou;
-            ziRanMiDu = layer.ziRanMiDu;
-            bianXingMoLiang = layer.bianXingMoLiang;
-            kangLaQiangDu = layer.kangLaQiangDu;
-            kangYaQiangDu = layer.kangYaQiangDu;
-            tanXingMoLiang = layer.tanXingMoLiang;
-            boSonBi = layer.boSonBi;
-            neiMoCaJiao = layer.neiMoCaJiao;
-            nianJuLi = layer.nianJuLi;
-            q0 = layer.q0;
-            q1 = layer.q1;
-            q2 = layer.q2;
-            miaoShu = layer.miaoShu;
-            dataBaseKey = layer.dataBaseKey;
-            wellNamePK = layer.wellNamePK;
-
-            qxJQWY = layer.qxJQWY;
-            zxJQWY = layer.zxJQWY;
-            jqHWY = layer.jqHWY;
-        }
-
-
-
-
-
 
 
         //增加是否为关键层标志
@@ -315,10 +260,7 @@ namespace GroundWellDesign
             set
             {
                 isKeyLayer = value;
-                if (PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IsKeyLayer"));
-                }
+                SetUI("IsKeyLayer");
 
             }
         }
@@ -343,42 +285,30 @@ namespace GroundWellDesign
                         break;
 
                     case 1:  // "黄土"
-                        Q0 = 1.0;
-                        Q1 = 1.1;
-                        Q2 = 1.1;
+                        F = 0.5;
                         break;
 
                     case 2://"细粒砂岩"
                     case 8://"细砂岩"
-                        Q0 = 0.8;
-                        Q1 = 0.9;
-                        Q2 = 1.0;
+                        F = 2;
                         break;
 
                     case 3://, "泥岩"
                     case 6://, "砂质泥岩"
-                        Q0 = 0.6;
-                        Q1 = 0.8;
-                        Q2 = 1.0;
+                        F = 3;
                         break;
 
                     case 4://, "中粒砂岩"
                     case 9://"中砂岩”
-                        Q0 = 0.1;
-                        Q1 = 0.3;
-                        Q2 = 0.6;
+                        F = 6;
                         break;
 
                     case 5://, "粉砂岩"
-                        Q0 = 0.9;
-                        Q1 = 1.0;
-                        Q2 = 1.1;
+                        F = 1;
                         break;
 
                     case 7://, "粗粒砂岩"
-                        Q0 = 0.1;
-                        Q1 = 0.2;
-                        Q2 = 0.5;
+                        F = 7;
                         break;
 
                 }
@@ -544,6 +474,56 @@ namespace GroundWellDesign
             {
                 nianJuLi = value;
                 SetUI("NianJuLi");
+            }
+        }
+
+        public double F
+        {
+            get { return f; }
+            set
+            {
+                f = value;
+                if(f >= 9)
+                {
+                    Q0 = 0.0; Q1 = 0.0; Q2 = 0.1;
+                }
+                else if(f >= 8)
+                {
+                    Q0 = 0.0; Q1 = 0.1; Q2 = 0.4;
+                }
+                else if (f >= 7)
+                {
+                    Q0 = 0.1; Q1 = 0.2; Q2 = 0.5;
+                }
+                else if (f >= 6)
+                {
+                    Q0 = 0.1; Q1 = 0.3; Q2 = 0.6;
+                }
+                else if (f >= 5)
+                {
+                    Q0 = 0.2; Q1 = 0.5; Q2 = 0.7;
+                }
+                else if (f >= 4)
+                {
+                    Q0 = 0.4; Q1 = 0.7; Q2 = 1.0;
+                }
+                else if (f >= 3)
+                {
+                    Q0 = 0.6; Q1 = 0.8; Q2 = 1.0;
+                }
+                else if (f >= 2)
+                {
+                    Q0 = 0.8; Q1 = 0.9; Q2 = 1.0;
+                }
+                else if (f >= 1)
+                {
+                    Q0 = 0.9; Q1 = 1.0; Q2 = 1.1;
+                }
+                else
+                {
+                    Q0 = 1.0; Q1 = 1.1; Q2 = 1.1;
+                }
+                SetUI("F");
             }
         }
 

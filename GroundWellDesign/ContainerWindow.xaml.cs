@@ -98,7 +98,7 @@ namespace GroundWellDesign
                          "id char(36) primary key, wellName text references well(wellName), " +
                          "yanXing text, leiJiShenDu double, juLiMeiShenDu double, cengHou double, ziRanMiDu double, " +
                          "bianXingMoLiang double, kangLaQiangDu double, kangYaQiangDu double, tanXingMoLiang double, boSonBi double, " +
-                         "neiMoCaJiao double, nianJuLi double, q0 double, q1 double, q2 double, miaoShu Text" +
+                         "neiMoCaJiao double, nianJuLi double, f double, q0 double, q1 double, q2 double, miaoShu Text" +
                          ");";
 
             string sql1 = "CREATE TABLE IF NOT EXISTS well(" +

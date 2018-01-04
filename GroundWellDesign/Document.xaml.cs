@@ -190,6 +190,7 @@ namespace GroundWellDesign
             boSonBiTb.SetBinding(TextBox.TextProperty, new Binding("BoSonBi") { Source = editLayer, StringFormat = "n3" });
             neiMoCaJiaoTb.SetBinding(TextBox.TextProperty, new Binding("NeiMoCaJiao") { Source = editLayer, StringFormat = "n3" });
             nianJuLiTb.SetBinding(TextBox.TextProperty, new Binding("NianJuLi") { Source = editLayer, StringFormat = "n3" });
+            fTb.SetBinding(TextBox.TextProperty, new Binding("F") { Source = editLayer, StringFormat = "n2" });
             q0Tb.SetBinding(TextBox.TextProperty, new Binding("Q0") { Source = editLayer, StringFormat = "n2" });
             q1Tb.SetBinding(TextBox.TextProperty, new Binding("Q1") { Source = editLayer, StringFormat = "n2" });
             q2Tb.SetBinding(TextBox.TextProperty, new Binding("Q2") { Source = editLayer, StringFormat = "n2" });
@@ -204,76 +205,7 @@ namespace GroundWellDesign
                 return true;
             }
 
-            object obj = DataSaveAndRestore.restoreObj(filePath);
-            if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
-            {
-                return false;
-            }
-            DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
-
-            //恢复基本参数
-            layers.Clear();
-            foreach (BaseLayerBaseParams baseParam in data.Layers)
-            {
-                LayerBaseParams layer = new LayerBaseParams(this, baseParam);
-                layers.Add(layer);
-            }
-
-            //恢复关键层数据
-            keyLayers.Clear();
-            foreach (BaseKeyLayerParams baseParam in data.KeyLayers)
-            {
-                KeyLayerParams layer = new KeyLayerParams(this, baseParam);
-                keyLayers.Add(layer);
-
-            }
-
-            //恢复关键层其他数据
-            if (data.KeyLayerData != null && data.KeyLayerData.Count == 13)
-            {
-                int i = 0;
-                mcqj = data.KeyLayerData[i++];
-                FuYanXCL = data.KeyLayerData[i++];
-                CaiGao = data.KeyLayerData[i++];
-                SuiZhangXS = data.KeyLayerData[i++];
-                maoLuoDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
-                lieXiDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
-                wanQuDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
-
-                mchd = data.KeyLayerData[i++];
-                pjxsxz = data.KeyLayerData[i++];
-                hcqZxcd = data.KeyLayerData[i++];
-                hcqQxcd = data.KeyLayerData[i++];
-                gzmsd = data.KeyLayerData[i++];
-                jswzjl = data.KeyLayerData[i++];
-
-
-                //没有刷新ui
-                meiCengQingJIaoTb.Text = mcqj + "";
-                fuYanXCLTb.Text = FuYanXCL + "";
-                caiGaoTb.Text = CaiGao + "";
-                suiZhangXSTb.Text = SuiZhangXS + "";
-
-                meiCengHouDuTb.Text = mchd + "";
-                xiuZhengXishuTb.Text = pjxsxz + "";
-                hcqZXcdTb.Text = hcqZxcd + "";
-                hcqQXcdTb.Text = hcqQxcd + "";
-                gZMTJSDTb.Text = gzmsd + "";
-                jswzjlTb.Text = jswzjl + "";
-            }
-
-            //恢复水泥环历史数据
-            zengYis.Clear();
-            foreach (BaseZengYiParams baseParam in data.ZengYis)
-            {
-                ZengYiParams param = new ZengYiParams(this, baseParam);
-                zengYis.Add(param);
-            }
-
-            //恢复人工设计数据
-            manuDesignParams.copyAndEvent(data.ManuDesignParams);
-
-            FilePath = filePath;
+            DataSaveAndRestore.restoreDocument(this, filePath);
             return true;
 
         }
@@ -281,9 +213,7 @@ namespace GroundWellDesign
         //保存到文件
         public bool saveFile(string filePath)
         {
-            Object data = DataSaveAndRestore.getObject(this);
-            
-            return DataSaveAndRestore.saveObj(data, filePath);
+            return DataSaveAndRestore.saveDocument(this, filePath);
         }
 
 

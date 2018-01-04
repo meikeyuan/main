@@ -34,41 +34,16 @@ namespace GroundWellDesign
             }
 
             LayerBaseParams layer = layers[selectedIndex];
-/*            string path = DATABASE_PATH + layer.yanXing;
-            if (layer.dataBaseNum == 0 || !File.Exists(path + "\\" + layer.dataBaseNum))
-            {
-                int count = Directory.GetFiles(path).Length;
-                layer.dataBaseNum = count + 1;
-            }
-            else
-            {
-                MessageBoxResult res = MessageBox.Show("该条记录已存在，覆盖旧的数据吗？选择否则新增一条", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                switch (res)
-                {
-                    case MessageBoxResult.Cancel:
-                        return;
-                    case MessageBoxResult.No:
-                        int count = Directory.GetFiles(path).Length;
-                        layer.dataBaseNum = count + 1;
-                        break;
-                    case MessageBoxResult.Yes:
-                        break;
-                }
-            }
-            BaseParams baseParam = new BaseParams(layer);
-            bool bSuccess = DataSaveAndRestore.saveObj(baseParam, path + "\\" + layer.dataBaseNum   */
-
-
             //先检查该岩层是否已经已经存在于数据库中
             if(layer.dataBaseKey != null)
             {
-                SQLiteConnection conn = null;
+                // 打开数据库,若文件不存在会自动创建
                 string dbPath = "Data Source =" + ContainerWindow.DATABASE_PATH;
-                conn = new SQLiteConnection(dbPath);//创建数据库实例，指定文件位置
-                conn.Open();//打开数据库，若文件不存在会自动创建
+                SQLiteConnection conn = new SQLiteConnection(dbPath);
+                conn.Open();
 
                 SQLiteCommand cmd = new SQLiteCommand(conn);
-                cmd.CommandText = "select * from yanceng where id = '" + layer.dataBaseKey + "'";//插入几条数据
+                cmd.CommandText = "select * from yanceng where id = '" + layer.dataBaseKey + "'";
                 var reader = cmd.ExecuteReader();
                 bool exist = reader.HasRows;
                 reader.Close();

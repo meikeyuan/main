@@ -14,7 +14,7 @@ namespace GroundWellDesign
 {
     class DataSaveAndRestore
     {
-        public static DataToSave getObject(Document document)
+        private static DataToSave dump_obj(Document document)
         {
             DataToSave data = new DataToSave();
 
@@ -68,8 +68,14 @@ namespace GroundWellDesign
         }
 
 
-        public static bool saveObj(object obj, string path)
+        public static bool saveDocument(Document document, string path)
         {
+            DataToSave obj = dump_obj(document);
+            if(obj == null)
+            {
+                return false;
+            }
+
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
 
@@ -88,30 +94,96 @@ namespace GroundWellDesign
         }
 
 
-        public static object restoreObj(string path)
+        public static void restoreDocument(Document document, string path)
         {
             //重新取回数据 
             IFormatter formatter = new BinaryFormatter();
             Stream stream2 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
 
+            object obj = null;
             try
             {
-                object obj = formatter.Deserialize(stream2);
+                obj = formatter.Deserialize(stream2);
                 stream2.Close();
-                return obj;
+                if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
+                {
+                    return;
+                }
             }
             catch (Exception)
             {
-                return null;
+                return;
             }
+            DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
+            //恢复基本参数
+            document.layers.Clear();
+            foreach (BaseLayerBaseParams baseParam in data.Layers)
+            {
+                LayerBaseParams layer = new LayerBaseParams(document, baseParam);
+                document.layers.Add(layer);
+            }
+
+            //恢复关键层数据
+            document.keyLayers.Clear();
+            foreach (BaseKeyLayerParams baseParam in data.KeyLayers)
+            {
+                KeyLayerParams layer = new KeyLayerParams(document, baseParam);
+                document.keyLayers.Add(layer);
+
+            }
+
+            //恢复关键层其他数据
+            if (data.KeyLayerData != null && data.KeyLayerData.Count == 13)
+            {
+                int i = 0;
+                document.mcqj = data.KeyLayerData[i++];
+                document.FuYanXCL = data.KeyLayerData[i++];
+                document.CaiGao = data.KeyLayerData[i++];
+                document.SuiZhangXS = data.KeyLayerData[i++];
+                document.maoLuoDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
+                document.lieXiDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
+                document.wanQuDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
+
+                document.mchd = data.KeyLayerData[i++];
+                document.pjxsxz = data.KeyLayerData[i++];
+                document.hcqZxcd = data.KeyLayerData[i++];
+                document.hcqQxcd = data.KeyLayerData[i++];
+                document.gzmsd = data.KeyLayerData[i++];
+                document.jswzjl = data.KeyLayerData[i++];
+
+
+                // 刷新UI
+                document.meiCengQingJIaoTb.Text = document.mcqj + "";
+                document.fuYanXCLTb.Text = document.FuYanXCL + "";
+                document.caiGaoTb.Text = document.CaiGao + "";
+                document.suiZhangXSTb.Text = document.SuiZhangXS + "";
+
+                document.meiCengHouDuTb.Text = document.mchd + "";
+                document.xiuZhengXishuTb.Text = document.pjxsxz + "";
+                document.hcqZXcdTb.Text = document.hcqZxcd + "";
+                document.hcqQXcdTb.Text = document.hcqQxcd + "";
+                document.gZMTJSDTb.Text = document.gzmsd + "";
+                document.jswzjlTb.Text = document.jswzjl + "";
+            }
+
+            //恢复水泥环历史数据
+            document.zengYis.Clear();
+            foreach (BaseZengYiParams baseParam in data.ZengYis)
+            {
+                ZengYiParams param = new ZengYiParams(document, baseParam);
+                document.zengYis.Add(param);
+            }
+
+            //恢复人工设计数据
+            document.manuDesignParams.copyAndEvent(data.ManuDesignParams);
+            document.FilePath = path;
         }
 
 
         public static bool saveToSqlite(LayerBaseParams layer, string uuid, bool cover, string wellName, bool wellExist)
         {
-            SQLiteConnection conn = null;
             string dbPath = "Data Source =" + ContainerWindow.DATABASE_PATH;
-            conn = new SQLiteConnection(dbPath);
+            SQLiteConnection conn = new SQLiteConnection(dbPath);
             conn.Open();
             var trans = conn.BeginTransaction();
 
@@ -138,7 +210,7 @@ namespace GroundWellDesign
             SQLiteCommand cmd3 = new SQLiteCommand(conn);
             cmd3.Transaction = trans;
             cmd3.CommandText = "insert into yanceng values(@id, @wellName, @yanXing, @leiJiShenDu, @juLiMeiShenDu, @cengHou, @ziRanMiDu, " +
-            "@bianXingMoLiang, @kangLaQiangDu, @kangYaQiangDu, @tanXingMoLiang, @boSonBi, @neiMoCaJiao, @nianJuLi, @q0, @q1, @q2, @miaoShu)";
+            "@bianXingMoLiang, @kangLaQiangDu, @kangYaQiangDu, @tanXingMoLiang, @boSonBi, @neiMoCaJiao, @nianJuLi, @f, @q0, @q1, @q2, @miaoShu)";
 
             cmd3.Parameters.AddRange(new[]{
                 new SQLiteParameter("@id", uuid),
@@ -155,6 +227,7 @@ namespace GroundWellDesign
                 new SQLiteParameter("@boSonBi", layer.boSonBi),
                 new SQLiteParameter("@neiMoCaJiao", layer.neiMoCaJiao),
                 new SQLiteParameter("@nianJuLi", layer.nianJuLi),
+                new SQLiteParameter("@f", layer.f),
                 new SQLiteParameter("@q0", layer.q0),
                 new SQLiteParameter("@q1", layer.q1),
                 new SQLiteParameter("@q2", layer.q2),
@@ -248,6 +321,7 @@ namespace GroundWellDesign
                 param.boSonBi = (double)reader["boSonBi"];
                 param.neiMoCaJiao = (double)reader["neiMoCaJiao"];
                 param.nianJuLi = (double)reader["nianJuLi"];
+                param.f = (double)reader["f"];
                 param.q0 = (double)reader["q0"];
                 param.q1 = (double)reader["q1"];
                 param.q2 = (double)reader["q2"];
