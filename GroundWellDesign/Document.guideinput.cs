@@ -15,7 +15,7 @@ namespace GroundWellDesign
 
             for(int i = 0; i < 17; ++i)
             {
-                if(layer1[i] != layer2[i] || !layer1[i].Equals(layer2[i]))
+                if(layer1[i] != layer2[i] && !layer1[i].Equals(layer2[i]))
                 {
                     return false;
                 }

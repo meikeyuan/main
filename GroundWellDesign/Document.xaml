@@ -331,7 +331,7 @@
             </TabItem >
 
             <TabItem x:Name="guidinputTabItem" Header="岩层基本参数录入">
-                <Grid>
+                <Grid MaxWidth="500" MaxHeight="300">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10*"/>
                         <ColumnDefinition Width="100*"/>
@@ -350,7 +350,7 @@
                         <RowDefinition Height="45*"/>
                         <RowDefinition Height="45*"/>
                         <RowDefinition Height="45*"/>
-                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="100*"/>
                         <RowDefinition Height="19*"/>
                     </Grid.RowDefinitions>
 
@@ -764,7 +764,7 @@
 
 
             <TabItem x:Name="autoDesignTabItem" Header="井型自动设计" >
-                <Grid>
+                <Grid MaxWidth="500" MaxHeight="300">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="34"/>
@@ -899,7 +899,7 @@
 
             <TabItem x:Name="manuDesignTabItem" Header="井型人工设计" >
                 <!--Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" -->
-                <Grid Name="manuDesignGrid">
+                <Grid Name="manuDesignGrid" MaxWidth="500" MaxHeight="300">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="32"/>
@@ -1047,7 +1047,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="manDesignCadTabItem" Header="井型Cad">
+            <TabItem x:Name="manDesignCadTabItem" Header="井型人工设计Cad">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
