@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GroundWellDesign.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -23,7 +24,7 @@ namespace GroundWellDesign
     {
 
 
-        public ObservableCollection<LayerBaseParams> existedLayers = new ObservableCollection<LayerBaseParams>();
+        public ObservableCollection<LayerBaseParamsViewModel> existedLayers = new ObservableCollection<LayerBaseParamsViewModel>();
         private List<String> items = new List<string>();
         private string cus = "所有矿井";
 
@@ -107,9 +108,6 @@ namespace GroundWellDesign
 
         private void selectAvgBtn_Click(object sender, RoutedEventArgs e)
         {
-            LayerBaseParams tmpLayer = new LayerBaseParams(WantedLayer.mainWindow);
-            tmpLayer.yanXing = yanXing;
-
             //将选择的序号存入list
             List<int> selectedList = new List<int>();
             for (int i = 0; i < existedLayerGrid.Items.Count; i++)
@@ -129,58 +127,41 @@ namespace GroundWellDesign
             }
 
 
-            //首先判断有没有选中
+            // 取List平均值
             int count = selectedList.Count;
             if (count <= 0)
             {
                 MessageBox.Show("请至少选择一项");
                 return;
-            }else if(count == 1)
+            }
+            
+            if(count == 1)
             {
-                WantedLayer.copyAndEventEcpYanXing(existedLayers[selectedList[0]]);
+                for (int j = 0; j < 17; ++j)
+                {
+                    WantedLayer[j] = existedLayers[selectedList[0]].LayerParams[j];
+                }
                 this.Close();
                 return;
             }
 
             //遍历编号list
+            LayerBaseParams tmpLayer = new LayerBaseParams();
             foreach(int i in selectedList)
             {
-                LayerBaseParams layer = existedLayers[i];
-                tmpLayer.leiJiShenDu += layer.leiJiShenDu;
-                tmpLayer.juLiMeiShenDu += layer.juLiMeiShenDu;
-                tmpLayer.cengHou += layer.cengHou;
-                tmpLayer.ziRanMiDu += layer.ziRanMiDu;
-                tmpLayer.bianXingMoLiang += layer.bianXingMoLiang;
-                tmpLayer.kangLaQiangDu += layer.kangLaQiangDu;
-                tmpLayer.kangYaQiangDu += layer.kangYaQiangDu;
-                tmpLayer.tanXingMoLiang += layer.tanXingMoLiang;
-                tmpLayer.boSonBi += layer.boSonBi;
-                tmpLayer.neiMoCaJiao += layer.neiMoCaJiao;
-                tmpLayer.nianJuLi += layer.nianJuLi;
-                tmpLayer.f += layer.f;
-                tmpLayer.q0 += layer.q0;
-                tmpLayer.q1 += layer.q1;
-                tmpLayer.q2 += layer.q2;
-                //tmpLayer.miaoShu = layer.miaoShu;
-                //tmpLayer.dataBaseKey = null;
+                LayerBaseParams layer = existedLayers[i].LayerParams;
+                for (int j = 0; j < 17; ++j)
+                {
+                    double res = (double)tmpLayer[j] + (double)layer[j];
+                    tmpLayer[j] = res;
+                }
             }
-            WantedLayer.LeiJiShenDu = tmpLayer.leiJiShenDu / count;
-            WantedLayer.JuLiMeiShenDu = tmpLayer.juLiMeiShenDu / count;
-            WantedLayer.CengHou = tmpLayer.cengHou / count;
-            WantedLayer.ZiRanMiDu = tmpLayer.ziRanMiDu / count;
-            WantedLayer.BianXingMoLiang = tmpLayer.bianXingMoLiang / count;
-            WantedLayer.KangLaQiangDu = tmpLayer.kangLaQiangDu / count;
-            WantedLayer.KangYaQiangDu = tmpLayer.kangYaQiangDu / count;
-            WantedLayer.TanXingMoLiang = tmpLayer.tanXingMoLiang / count;
-            WantedLayer.BoSonBi = tmpLayer.boSonBi / count;
-            WantedLayer.NeiMoCaJiao = tmpLayer.neiMoCaJiao / count;
-            WantedLayer.NianJuLi = tmpLayer.nianJuLi / count;
-            WantedLayer.F = tmpLayer.f / count;
-            WantedLayer.Q0 = tmpLayer.q0 / count;
-            WantedLayer.Q1 = tmpLayer.q1 / count;
-            WantedLayer.Q2 = tmpLayer.q2 / count;
-            //WantedLayer.MiaoShu = "取数据库平均值";
-            WantedLayer.dataBaseKey = null;
+            for (int j = 0; j < 17; ++j)
+            {
+                double res = (double)tmpLayer[j] / count;
+                WantedLayer[j] = res;
+            }
+            WantedLayer.DataBaseKey = null;
             this.Close();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using GroundWellDesign.ViewModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace GroundWellDesign
@@ -6,7 +7,7 @@ namespace GroundWellDesign
     partial class Document : Window
     {
         // 提醒用户是否需要保存的判断
-        private bool layer_equal(BaseLayerBaseParams layer1, BaseLayerBaseParams layer2)
+        private bool layer_equal(LayerBaseParams layer1, LayerBaseParams layer2)
         {
             if(layer1 == null || layer2 == null)
             {
@@ -29,24 +30,24 @@ namespace GroundWellDesign
         private void saveEdit()
         {
             int layerNum = int.Parse(currLayerCombo.Text);
-            if (layerNum > layers.Count + 1)
+            if (layerNum > layers.Count)
             {
                 MessageBox.Show("已经录入" + layers.Count + "层,请修改层号再保存。", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
 
-            if (layerNum == layers.Count + 1)
+            if (layerNum == layers.Count)
             {
-                LayerBaseParams layer = new LayerBaseParams(this, editLayer);
+                LayerBaseParamsViewModel layer = new LayerBaseParamsViewModel(this, editLayer.LayerParams);
                 layers.Add(layer);
-                layer.CengHou = layer.cengHou;
+                layer.CengHou = layer.CengHou;
             }
             else
             {
-                LayerBaseParams layer = new LayerBaseParams(this, editLayer);
-                layers[layerNum - 1] = layer;
-                layer.CengHou = layer.cengHou;
+                LayerBaseParamsViewModel layer = new LayerBaseParamsViewModel(this, editLayer.LayerParams);
+                layers[layerNum] = layer;
+                layer.CengHou = layer.CengHou;
             }
                 
 
@@ -69,50 +70,61 @@ namespace GroundWellDesign
         private void preBtn_Click(object sender, RoutedEventArgs e)
         {
             int layerNum = int.Parse(currLayerCombo.Text);
+            if (layerNum < layers.Count)
+            {
+                if (!layer_equal(layers[layerNum].LayerParams, editLayer.LayerParams))
+                    if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    {
+                        saveEdit();
+                    }
 
-            if (layerNum == 1)
-                return;
-
-            if (layerNum <= layers.Count && !layer_equal(layers[layerNum - 1], editLayer) || layerNum == layers.Count + 1)
+                if (layerNum > 0)
+                {
+                    currLayerCombo.SelectedIndex -= 1;
+                }
+            }
+            else
             {
                 if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
                     saveEdit();
+                    currLayerCombo.SelectedIndex -= 1;
                 }
-
-
+                else
+                {
+                    LayerNbrs.RemoveAt(layerNum);
+                    currLayerCombo.SelectedIndex -= 1;
+                }
             }
-            if (layerNum > 1 && layerNum <= layers.Count + 1)
-            {
-                currLayerCombo.SelectedIndex = layerNum - 2;
-            }
-
         }
 
         //下一层按钮
         private void nextBtn_Click(object sender, RoutedEventArgs e)
         {
             int layerNum = int.Parse(currLayerCombo.Text);
-            if (layerNum <= layers.Count && !layer_equal(layers[layerNum - 1], editLayer) || layerNum == layers.Count + 1)
+            if (layerNum < layers.Count)
+            {
+                if(!layer_equal(layers[layerNum].LayerParams, editLayer.LayerParams))
+                    if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    {
+                        saveEdit();
+                    }
+
+                if (layerNum == layers.Count - 1)
+                {
+                    LayerNbrs.Add(layerNum + 1);
+                }
+                currLayerCombo.SelectedIndex += 1;
+            }
+            else
             {
                 if (MessageBox.Show("保存修改？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
                     saveEdit();
+                    LayerNbrs.Add(layerNum + 1);
+                    currLayerCombo.SelectedIndex += 1;
                 }
             }
-
-
-            if (layerNum < layers.Count)
-            {
-                currLayerCombo.SelectedIndex = layerNum;
-            }
-            else if (layerNum == layers.Count)
-            {
-                if(LayerNbrs.Count < layerNum + 1)
-                    LayerNbrs.Add(layerNum + 1);
-                currLayerCombo.SelectedIndex = layerNum;
-            }
-
         }
 
         //完成按钮
@@ -136,12 +148,9 @@ namespace GroundWellDesign
             if (index == layers.Count)
                 editLayer.reset();
             else
-                editLayer.copy(layers[index]);
+                editLayer.LayerParams = layers[index].LayerParams;
 
             guideBind(editLayer);
         }
-
-
-
     }
 }

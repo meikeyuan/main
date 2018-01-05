@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GroundWellDesign.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
@@ -19,20 +20,20 @@ namespace GroundWellDesign
             DataToSave data = new DataToSave();
 
             //基本参数
-            data.Layers = new ObservableCollection<BaseLayerBaseParams>();
-            foreach (LayerBaseParams layerParam in document.layers)
+            data.Layers = new List<LayerBaseParams>();
+            foreach (LayerBaseParamsViewModel layerParam in document.layers)
             {
-                data.Layers.Add(new BaseLayerBaseParams(layerParam));
+                data.Layers.Add(layerParam.LayerParams);
             }
 
             //人工设计数据
-            data.ManuDesignParams = new BaseManuDesignParams(document.manuDesignParams);
+            data.ManuDesignParams = document.manuDesignParams.Param;
 
             //关键层参数
-            data.KeyLayers = new ObservableCollection<BaseKeyLayerParams>();
-            foreach (KeyLayerParams layerParam in document.keyLayers)
+            data.KeyLayers = new List<KeyLayerParams>();
+            foreach (KeyLayerParamsViewModel layerParam in document.keyLayers)
             {
-                data.KeyLayers.Add(new BaseKeyLayerParams(layerParam));
+                data.KeyLayers.Add(layerParam.Params);
             }
 
 
@@ -58,10 +59,10 @@ namespace GroundWellDesign
             data.KeyLayerData.Add(document.Jswzjl);
 
             //保存水泥环增益计算的数据
-            data.ZengYis = new ObservableCollection<BaseZengYiParams>();
-            foreach (ZengYiParams param in document.zengYis)
+            data.ZengYis = new List<ZengYiParams>();
+            foreach (ZengYiParamsViewModel param in document.zengYis)
             {
-                data.ZengYis.Add(new BaseZengYiParams(param));
+                data.ZengYis.Add(param.Params);
             }
 
             return data;
@@ -117,17 +118,17 @@ namespace GroundWellDesign
             DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
             //恢复基本参数
             document.layers.Clear();
-            foreach (BaseLayerBaseParams baseParam in data.Layers)
+            foreach (LayerBaseParams baseParam in data.Layers)
             {
-                LayerBaseParams layer = new LayerBaseParams(document, baseParam);
+                LayerBaseParamsViewModel layer = new LayerBaseParamsViewModel(document, baseParam);
                 document.layers.Add(layer);
             }
 
             //恢复关键层数据
             document.keyLayers.Clear();
-            foreach (BaseKeyLayerParams baseParam in data.KeyLayers)
+            foreach (KeyLayerParams baseParam in data.KeyLayers)
             {
-                KeyLayerParams layer = new KeyLayerParams(document, baseParam);
+                KeyLayerParamsViewModel layer = new KeyLayerParamsViewModel(document, baseParam);
                 document.keyLayers.Add(layer);
 
             }
@@ -168,14 +169,14 @@ namespace GroundWellDesign
 
             //恢复水泥环历史数据
             document.zengYis.Clear();
-            foreach (BaseZengYiParams baseParam in data.ZengYis)
+            foreach (ZengYiParams baseParam in data.ZengYis)
             {
-                ZengYiParams param = new ZengYiParams(document, baseParam);
+                ZengYiParamsViewModel param = new ZengYiParamsViewModel(document, baseParam);
                 document.zengYis.Add(param);
             }
 
             //恢复人工设计数据
-            document.manuDesignParams.copyAndEvent(data.ManuDesignParams);
+            document.manuDesignParams.Param = data.ManuDesignParams;
             document.FilePath = path;
         }
 
@@ -215,23 +216,23 @@ namespace GroundWellDesign
             cmd3.Parameters.AddRange(new[]{
                 new SQLiteParameter("@id", uuid),
                 new SQLiteParameter("@wellName", wellName),
-                new SQLiteParameter("@yanXing", layer.yanXing),
-                new SQLiteParameter("@leiJiShenDu", layer.leiJiShenDu),
-                new SQLiteParameter("@juLiMeiShenDu", layer.juLiMeiShenDu),
-                new SQLiteParameter("@cengHou", layer.cengHou),
-                new SQLiteParameter("@ziRanMiDu", layer.ziRanMiDu),
-                new SQLiteParameter("@bianXingMoLiang", layer.bianXingMoLiang),
-                new SQLiteParameter("@kangLaQiangDu", layer.kangLaQiangDu),
-                new SQLiteParameter("@kangYaQiangDu", layer.kangYaQiangDu),
-                new SQLiteParameter("@tanXingMoLiang", layer.tanXingMoLiang),
-                new SQLiteParameter("@boSonBi", layer.boSonBi),
-                new SQLiteParameter("@neiMoCaJiao", layer.neiMoCaJiao),
-                new SQLiteParameter("@nianJuLi", layer.nianJuLi),
-                new SQLiteParameter("@f", layer.f),
-                new SQLiteParameter("@q0", layer.q0),
-                new SQLiteParameter("@q1", layer.q1),
-                new SQLiteParameter("@q2", layer.q2),
-                new SQLiteParameter("@miaoShu", layer.miaoShu)
+                new SQLiteParameter("@yanXing", layer.YanXing),
+                new SQLiteParameter("@leiJiShenDu", layer.LeiJiShenDu),
+                new SQLiteParameter("@juLiMeiShenDu", layer.JuLiMeiShenDu),
+                new SQLiteParameter("@cengHou", layer.CengHou),
+                new SQLiteParameter("@ziRanMiDu", layer.ZiRanMiDu),
+                new SQLiteParameter("@bianXingMoLiang", layer.BianXingMoLiang),
+                new SQLiteParameter("@kangLaQiangDu", layer.KangLaQiangDu),
+                new SQLiteParameter("@kangYaQiangDu", layer.KangYaQiangDu),
+                new SQLiteParameter("@tanXingMoLiang", layer.TanXingMoLiang),
+                new SQLiteParameter("@boSonBi", layer.BoSonBi),
+                new SQLiteParameter("@neiMoCaJiao", layer.NeiMoCaJiao),
+                new SQLiteParameter("@nianJuLi", layer.NianJuLi),
+                new SQLiteParameter("@f", layer.F),
+                new SQLiteParameter("@q0", layer.Q0),
+                new SQLiteParameter("@q1", layer.Q1),
+                new SQLiteParameter("@q2", layer.Q2),
+                new SQLiteParameter("@miaoShu", layer.MiaoShu)
             });
 
             bool success = false;
@@ -261,14 +262,11 @@ namespace GroundWellDesign
         {
             if (wells == null)
                 return;
-
             wells.Clear();
 
-
             //查询well表
-            SQLiteConnection conn = null;
             string dbPath = "Data Source =" + ContainerWindow.DATABASE_PATH;
-            conn = new SQLiteConnection(dbPath);
+            SQLiteConnection conn = new SQLiteConnection(dbPath);
             conn.Open();
 
             string sql = "select wellName from well";
@@ -284,20 +282,19 @@ namespace GroundWellDesign
         }
 
 
-        public static void getDBLayers(ObservableCollection<LayerBaseParams> existedLayers, string yanXing, string wellName)
+        public static void getDBLayers(ObservableCollection<LayerBaseParamsViewModel> existedLayers, string yanXing, string wellName)
         {
 
             if (existedLayers == null)
                 return;
-
             existedLayers.Clear();
 
 
             //查询well表
-            SQLiteConnection conn = null;
             string dbPath = "Data Source =" + ContainerWindow.DATABASE_PATH;
-            conn = new SQLiteConnection(dbPath);
+            SQLiteConnection conn = new SQLiteConnection(dbPath);
             conn.Open();
+
             string sql = "select * from yanCeng where yanXing = '" + yanXing + "'";
             if(wellName != null)
                 sql += " and wellName = '" + wellName + "'";
@@ -307,26 +304,26 @@ namespace GroundWellDesign
 
             while (reader.Read())
             {
-                LayerBaseParams param = new LayerBaseParams(null, new BaseLayerBaseParams());
-                param.wellNamePK = (string)reader["wellName"];
-                param.yanXing = (string)reader["yanXing"];
-                param.leiJiShenDu = (double)reader["leiJiShenDu"];
-                param.juLiMeiShenDu = (double)reader["juLiMeiShenDu"];
-                param.cengHou = (double)reader["cengHou"];
-                param.ziRanMiDu = (double)reader["ziRanMiDu"];
-                param.bianXingMoLiang = (double)reader["bianXingMoLiang"];
-                param.kangLaQiangDu = (double)reader["kangYaQiangDu"];
-                param.kangYaQiangDu = (double)reader["kangYaQiangDu"];
-                param.tanXingMoLiang = (double)reader["tanXingMoLiang"];
-                param.boSonBi = (double)reader["boSonBi"];
-                param.neiMoCaJiao = (double)reader["neiMoCaJiao"];
-                param.nianJuLi = (double)reader["nianJuLi"];
-                param.f = (double)reader["f"];
-                param.q0 = (double)reader["q0"];
-                param.q1 = (double)reader["q1"];
-                param.q2 = (double)reader["q2"];
+                LayerBaseParamsViewModel param = new LayerBaseParamsViewModel();
+                param.LayerParams.WellNamePK = (string)reader["wellName"];
+                param.LayerParams.YanXing = (string)reader["yanXing"];
+                param.LayerParams.LeiJiShenDu = (double)reader["leiJiShenDu"];
+                param.LayerParams.JuLiMeiShenDu = (double)reader["juLiMeiShenDu"];
+                param.LayerParams.CengHou = (double)reader["cengHou"];
+                param.LayerParams.ZiRanMiDu = (double)reader["ziRanMiDu"];
+                param.LayerParams.BianXingMoLiang = (double)reader["bianXingMoLiang"];
+                param.LayerParams.KangLaQiangDu = (double)reader["kangYaQiangDu"];
+                param.LayerParams.KangYaQiangDu = (double)reader["kangYaQiangDu"];
+                param.LayerParams.TanXingMoLiang = (double)reader["tanXingMoLiang"];
+                param.LayerParams.BoSonBi = (double)reader["boSonBi"];
+                param.LayerParams.NeiMoCaJiao = (double)reader["neiMoCaJiao"];
+                param.LayerParams.NianJuLi = (double)reader["nianJuLi"];
+                param.LayerParams.F = (double)reader["f"];
+                param.LayerParams.Q0 = (double)reader["q0"];
+                param.LayerParams.Q1 = (double)reader["q1"];
+                param.LayerParams.Q2 = (double)reader["q2"];
+                param.LayerParams.MiaoShu = (string)reader["miaoShu"];
 
-                param.miaoShu = (string)reader["miaoShu"];
                 existedLayers.Add(param);
             }
             reader.Close();
@@ -340,13 +337,13 @@ namespace GroundWellDesign
         [Serializable]
         public class DataToSave
         {
-            public ObservableCollection<BaseLayerBaseParams> Layers
+            public List<LayerBaseParams> Layers
             {
                 get;
                 set;
             }
 
-            public ObservableCollection<BaseKeyLayerParams> KeyLayers
+            public List<KeyLayerParams> KeyLayers
             {
                 get;
                 set;
@@ -358,13 +355,13 @@ namespace GroundWellDesign
                 set;
             }
 
-            public ObservableCollection<BaseZengYiParams> ZengYis
+            public List<ZengYiParams> ZengYis
             {
                 get;
                 set;
             }
             
-            public BaseManuDesignParams ManuDesignParams
+            public ManuDesignParams ManuDesignParams
             {
                 get;
                 set;

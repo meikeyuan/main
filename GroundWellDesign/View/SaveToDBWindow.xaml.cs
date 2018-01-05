@@ -7,9 +7,7 @@ using System.Windows.Documents;
 
 namespace GroundWellDesign
 {
-    /// <summary>
-    /// SaveToDBWindow.xaml 的交互逻辑
-    /// </summary>
+
     public partial class SaveToDBWindow : Window
     {
         LayerBaseParams layer;
@@ -19,8 +17,8 @@ namespace GroundWellDesign
             InitializeComponent();
             this.layer = layer;
 
+            // 初始化矿井名下拉列表
             DataSaveAndRestore.getAllWellName(items);
-
             comboBox.ItemsSource = items;
             if(items.Count > 0)
                 comboBox.SelectedIndex = 0;
@@ -40,8 +38,8 @@ namespace GroundWellDesign
 
             if (success)
             {
-                layer.dataBaseKey = uuid;
-                layer.wellNamePK = wellName;
+                layer.DataBaseKey = uuid;
+                layer.WellNamePK = wellName;
                 MessageBox.Show("保存成功");
             }
             else

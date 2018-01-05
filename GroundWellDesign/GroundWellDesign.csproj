@@ -108,66 +108,74 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converter.cs" />
+    <Compile Include="Util\Converter.cs" />
     <Compile Include="Document.offsetcut.cs" />
     <Compile Include="Document.data.cs" />
     <Compile Include="Document.offsetlc.cs" />
     <Compile Include="Document.cadmanu.cs" />
     <Compile Include="Document.safe.cs" />
     <Compile Include="Document.zengyi.cs" />
-    <Compile Include="ExcelHelper.cs" />
-    <Compile Include="FileDialogHelper.cs" />
-    <Compile Include="LoginWindow.xaml.cs">
+    <Compile Include="Util\ExcelHelper.cs" />
+    <Compile Include="Util\FileDialogHelper.cs" />
+    <Compile Include="ViewModel\ManuDesignParamsViewModel.cs" />
+    <Compile Include="ViewModel\ZengYiParamsViewModel.cs" />
+    <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ZengYiParams.cs" />
+    <Compile Include="MVVMFoundation\Messenger.cs" />
+    <Compile Include="MVVMFoundation\ObservableObject.cs" />
+    <Compile Include="MVVMFoundation\PropertyObserver.cs" />
+    <Compile Include="MVVMFoundation\RelayCommand.cs" />
+    <Compile Include="ViewModel\KeyLayerParamsViewModel.cs" />
+    <Compile Include="ViewModel\LayerBaseParamsViewModel.cs" />
+    <Compile Include="Model\ZengYiParams.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="ContainerWindow.xaml.cs">
+    <Compile Include="View\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManuDesignParams.cs" />
-    <Compile Include="SaveToDBWindow.xaml.cs">
+    <Compile Include="Model\ManuDesignParams.cs" />
+    <Compile Include="View\SaveToDBWindow.xaml.cs">
       <DependentUpon>SaveToDBWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SelDBLayerWindow.xaml.cs">
+    <Compile Include="View\SelDBLayerWindow.xaml.cs">
       <DependentUpon>SelDBLayerWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Colors\Brushes.xaml">
+    <Page Include="Resource\Colors\Brushes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Colors\Colors.xaml">
+    <Page Include="Resource\Colors\Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Colors\Colors_Blue.xaml">
+    <Page Include="Resource\Colors\Colors_Blue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Colors\Colors_Neutral.xaml">
+    <Page Include="Resource\Colors\Colors_Neutral.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Colors\Colors_Ocean.xaml">
+    <Page Include="Resource\Colors\Colors_Ocean.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Colors\Colors_Violet.xaml">
+    <Page Include="Resource\Colors\Colors_Violet.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ContainerWindow.xaml">
+    <Page Include="View\ContainerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="View\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Document.xaml">
+    <Page Include="View\Document.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -176,85 +184,85 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataSaveAndRestore.cs" />
-    <Compile Include="KeyLayerParams.cs" />
-    <Compile Include="LayerBaseParams.cs" />
+    <Compile Include="Model\KeyLayerParams.cs" />
+    <Compile Include="Model\LayerBaseParams.cs" />
     <Compile Include="Document.cadauto.cs" />
     <Compile Include="Document.gridinput.cs" />
     <Compile Include="Document.guideinput.cs" />
     <Compile Include="Document.keylayer.cs" />
-    <Compile Include="Document.xaml.cs">
+    <Compile Include="View\Document.xaml.cs">
       <DependentUpon>Document.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SaveToDBWindow.xaml">
+    <Page Include="View\SaveToDBWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SelDBLayerWindow.xaml">
+    <Page Include="View\SelDBLayerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ButtonStyles.xaml">
+    <Page Include="Resource\Styles\ButtonStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\CheckBoxStyle.xaml">
+    <Page Include="Resource\Styles\CheckBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ComboBoxStyle.xaml">
+    <Page Include="Resource\Styles\ComboBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\DataGridStyle.xaml">
+    <Page Include="Resource\Styles\DataGridStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\DatePickerStyle.xaml">
+    <Page Include="Resource\Styles\DatePickerStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ListBoxStyle.xaml">
+    <Page Include="Resource\Styles\ListBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\MenuStyle.xaml">
+    <Page Include="Resource\Styles\MenuStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\PasswordBoxStyle.xaml">
+    <Page Include="Resource\Styles\PasswordBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ProgressBarStyle.xaml">
+    <Page Include="Resource\Styles\ProgressBarStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\RadioButtonStyle.xaml">
+    <Page Include="Resource\Styles\RadioButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ScrollViewerStyle.xaml">
+    <Page Include="Resource\Styles\ScrollViewerStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\SlyderStyle.xaml">
+    <Page Include="Resource\Styles\SlyderStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Style.xaml">
+    <Page Include="Resource\Styles\Style.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\TabControlStyle.xaml">
+    <Page Include="Resource\Styles\TabControlStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\TextBoxStyle.xaml">
+    <Page Include="Resource\Styles\TextBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\TreeViewStyle.xaml">
+    <Page Include="Resource\Styles\TreeViewStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -383,20 +391,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\System.Data.SQLite.dll">
+    <Content Include="Lib\System.Data.SQLite.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <SplashScreen Include="img\splash.jpg" />
-    <Content Include="lib\AxMxDrawXLib.dll">
+    <SplashScreen Include="Resource\img\splash.jpg" />
+    <Content Include="Lib\AxMxDrawXLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="lib\mky.dll">
+    <None Include="Lib\mky.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="lib\MWArray.dll">
+    <Content Include="Lib\MWArray.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\MxDrawXLib.dll">
+    <Content Include="Lib\MxDrawXLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

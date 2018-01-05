@@ -37,7 +37,7 @@ namespace GroundWellDesign
             int meiIndex = layers.Count - 1;
             for (; meiIndex >= 0; meiIndex--)
             {
-                if (layers[meiIndex].yanXing.Equals("煤"))
+                if (layers[meiIndex].YanXing.Equals("煤"))
                 {
                     break;
                 }
@@ -48,19 +48,19 @@ namespace GroundWellDesign
                 tabControl.SelectedItem = gridinputTabItem;
                 return;
             }
-            double threeKai = layers[meiIndex - 1].leiJiShenDu - 10;
+            double threeKai = layers[meiIndex - 1].LeiJiShenDu - 10;
             double threeToMei = 10;
 
             //局部固井的深度值
             double jbgjShendu = double.Parse(wanQuDaiTb.Text);
 
             //各级套管外径；水泥环厚度
-            double snhHoudu = editZengYi.a1 - editZengYi.aw;
+            double snhHoudu = editZengYi.A1 - editZengYi.Aw;
 
             double tgwj1, tgwj2, tgwj3;
-            tgwj1 = keyLayers[0].tgwj;
-            tgwj2 = keyLayers[wanQuDaiIndex].tgwj;
-            tgwj3 = keyLayers[keyLayers.Count - 1].tgwj;
+            tgwj1 = keyLayers[0].Tgwj;
+            tgwj2 = keyLayers[wanQuDaiIndex].Tgwj;
+            tgwj3 = keyLayers[keyLayers.Count - 1].Tgwj;
            
             //高位位置数量，破坏主因
             string dangerStr = "";
@@ -71,21 +71,21 @@ namespace GroundWellDesign
                 case ERRORCODE.计算成功:
                     for (int i = 0; i < keyLayers.Count; i++)
                     {
-                        if (keyLayers[i].jqaqxs < 1)
+                        if (keyLayers[i].Jqaqxs < 1)
                         {
-                            keyLayers[i].IsDangerous = true;
+                            keyLayers[i].IsDangerious = true;
                             dangerCnt++;
-                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].jqaqxs.ToString("f3");
+                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].Jqaqxs.ToString("f3");
                         }
-                        else if(keyLayers[i].lsaqxs < 1)
+                        else if(keyLayers[i].Lsaqxs < 1)
                         {
-                            keyLayers[i].IsDangerous = true;
+                            keyLayers[i].IsDangerious = true;
                             dangerCnt++;
-                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].lsaqxs.ToString("f3");
+                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].Lsaqxs.ToString("f3");
                         }
                         else
                         {
-                            keyLayers[i].IsDangerous = false;
+                            keyLayers[i].IsDangerious = false;
                         }
                     }
                     break;

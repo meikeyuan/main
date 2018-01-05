@@ -40,13 +40,13 @@ namespace GroundWellDesign
                 case ERRORCODE.计算成功:
                     for (int i = 0; i < keycount; i++)
                     {
-                        if (keyLayers[i].jqaqxs < 1 || keyLayers[i].lsaqxs < 1)
+                        if (keyLayers[i].Jqaqxs < 1 || keyLayers[i].Lsaqxs < 1)
                         {
-                            keyLayers[i].IsDangerous = true;
+                            keyLayers[i].IsDangerious = true;
                         }
                         else
                         {
-                            keyLayers[i].IsDangerous = false;
+                            keyLayers[i].IsDangerious = false;
                         }
                     }
                     break;
@@ -77,8 +77,8 @@ namespace GroundWellDesign
 
             for (int i = 0; i < keycount; i++)
             {
-                w0[i] = keyLayers[i].yczdxcz;
-                if (keyLayers[i].tgtxml.Equals(TgtxmlOpt[0]))
+                w0[i] = keyLayers[i].Yczdxcz;
+                if (keyLayers[i].Tgtxml.Equals(TgtxmlOpt[0]))
                 {
                     e[i] = 2.050e11;
                 }
@@ -86,17 +86,17 @@ namespace GroundWellDesign
                 {
                     e[i] = 2.070e11;
                 }
-                r1[i] = keyLayers[i].tgwj / 1000; //毫米转米
-                t[i] = keyLayers[i].tgbh / 1000;
-                a[i] = keyLayers[i].jqqycd;
-                if(keyLayers[i].kjqd.Equals(KjqdOpt[0]))
+                r1[i] = keyLayers[i].Tgwj / 1000; //毫米转米
+                t[i] = keyLayers[i].Tgbh / 1000;
+                a[i] = keyLayers[i].Jqqycd;
+                if(keyLayers[i].Kjqd.Equals(KjqdOpt[0]))
                 {
                     tlim[i] = 0.2378;
                 }else{
                     tlim[i] = 0.319;
                 }
                 
-                if(keyLayers[i].klqd.Equals(KlqdOpt[0]))
+                if(keyLayers[i].Klqd.Equals(KlqdOpt[0]))
                 {
                     sigmaLim[i] = 0.41;
 
@@ -109,7 +109,7 @@ namespace GroundWellDesign
             {
                 if (layers[i].IsKeyLayer)
                 {
-                    up[j++] = layers[i].jqHWY;
+                    up[j++] = layers[i].JQHWY;
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using MathWorks.MATLAB.NET.Arrays;
+﻿using GroundWellDesign.ViewModel;
+using MathWorks.MATLAB.NET.Arrays;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -33,9 +34,10 @@ namespace GroundWellDesign
                 return;
             }
 
-            LayerBaseParams layer = layers[selectedIndex];
+            LayerBaseParams layer = layers[selectedIndex].LayerParams;
             //先检查该岩层是否已经已经存在于数据库中
-            if(layer.dataBaseKey != null)
+            bool exist = false;
+            if(layer.DataBaseKey != null)
             {
                 // 打开数据库,若文件不存在会自动创建
                 string dbPath = "Data Source =" + ContainerWindow.DATABASE_PATH;
@@ -43,38 +45,41 @@ namespace GroundWellDesign
                 conn.Open();
 
                 SQLiteCommand cmd = new SQLiteCommand(conn);
-                cmd.CommandText = "select * from yanceng where id = '" + layer.dataBaseKey + "'";
+                cmd.CommandText = "select * from yanceng where id = '" + layer.DataBaseKey + "'";
                 var reader = cmd.ExecuteReader();
-                bool exist = reader.HasRows;
+                exist = reader.HasRows;
                 reader.Close();
                 conn.Close();
+            }
 
-                if(exist)
+            if(exist)
+            {
+                MessageBoxResult res = MessageBox.Show("该岩层记录已存在，是否覆盖旧记录？选择\"否\"可新增一条。", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                switch (res)
                 {
-                    MessageBoxResult res = MessageBox.Show("该记录已存在，覆盖旧的数据吗？选择\"否\"新增一条", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                    switch (res)
-                    {
-                        case MessageBoxResult.Cancel:
-                            break;
-                        case MessageBoxResult.No:
-                            new SaveToDBWindow(layer).ShowDialog();
-                            break;
-                        case MessageBoxResult.Yes:
-                            bool success = DataSaveAndRestore.saveToSqlite(layer, layer.dataBaseKey, true, layer.wellNamePK, true);
-                            if (success)
-                            {
-                                MessageBox.Show("操作成功");
-                            }
-                            else
-                            {
-                                MessageBox.Show("操作失败");
-                            }
-                            break;
-                    }
-                    return;
+                    case MessageBoxResult.Cancel:
+                        break;
+                    case MessageBoxResult.No:
+                        new SaveToDBWindow(layer).ShowDialog();
+                        break;
+                    case MessageBoxResult.Yes:
+                        bool success = DataSaveAndRestore.saveToSqlite(layer, layer.DataBaseKey, true, layer.WellNamePK, true);
+                        if (success)
+                        {
+                            MessageBox.Show("操作成功");
+                        }
+                        else
+                        {
+                            MessageBox.Show("操作失败");
+                        }
+                        break;
                 }
             }
-            new SaveToDBWindow(layer).ShowDialog();
+            else
+            {
+                new SaveToDBWindow(layer).ShowDialog();
+            }
+            
         }
 
 
@@ -86,9 +91,9 @@ namespace GroundWellDesign
             if(filePath != null)
             {
                 dt = new ExcelHelper().LoadExcel(filePath);
-                if(dt == null || dt.Columns.Count != 16)
+                if(dt == null || dt.Columns.Count != 17)
                 {
-                    MessageBox.Show("读取文件失败。");
+                    MessageBox.Show("读取文件失败，请检查格式。");
                     return;
                 }
                 int rowIndex = 0;
@@ -97,10 +102,10 @@ namespace GroundWellDesign
                     layers.Clear();
                     for (; rowIndex < dt.Rows.Count; ++rowIndex)
                     {
-                        LayerBaseParams baseParam = new LayerBaseParams(this);
-                        for (int col = 0; col < 16; ++col)
+                        LayerBaseParamsViewModel baseParam = new LayerBaseParamsViewModel(this);
+                        for (int col = 0; col < 17; ++col)
                         {
-                            baseParam[col] = dt.Rows[rowIndex][col];
+                            baseParam.LayerParams[col] = dt.Rows[rowIndex][col];
                         }
                         layers.Add(baseParam);
                     }
@@ -111,7 +116,7 @@ namespace GroundWellDesign
                 }
             }
         }
-        
+         
 
         //下方增加行
         private void click_addRow(object sender, RoutedEventArgs e)
@@ -119,15 +124,15 @@ namespace GroundWellDesign
             int selectedIndex = paramGrid.SelectedIndex;
             if (selectedIndex == -1) //未选择行
             {
-                layers.Add(new LayerBaseParams(this));
+                layers.Add(new LayerBaseParamsViewModel(this));
                 return;
             }
             if (selectedIndex >= layers.Count)  //选择了空行
             {
-                layers.Insert(selectedIndex, new LayerBaseParams(this));
+                layers.Insert(selectedIndex, new LayerBaseParamsViewModel(this));
                 return;
             }
-            layers.Insert(selectedIndex + 1, new LayerBaseParams(this));  //选择了非空行
+            layers.Insert(selectedIndex + 1, new LayerBaseParamsViewModel(this));  //选择了非空行
         }
 
 
@@ -146,7 +151,7 @@ namespace GroundWellDesign
             if (selectedIndex >= layers.Count)  //选择了空行
                 return;
 
-            if (MessageBox.Show("确定删除第" + (selectedIndex + 1) + "层数据吗？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (MessageBox.Show("确定删除第" + (selectedIndex) + "层数据吗？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 layers.RemoveAt(selectedIndex);
                 paramGrid.SelectedIndex = selectedIndex;
@@ -154,8 +159,8 @@ namespace GroundWellDesign
 
             if (layers.Count == 0)
             {
-                LayerBaseParams param = new LayerBaseParams(this);
-                param.yanXing = "地表";
+                LayerBaseParamsViewModel param = new LayerBaseParamsViewModel(this);
+                param.YanXing = "地表";
                 layers.Add(param);
                 return;
             }
@@ -178,7 +183,7 @@ namespace GroundWellDesign
                 return;
 
             //交换
-            LayerBaseParams layer = layers[selectedIndex];
+            LayerBaseParamsViewModel layer = layers[selectedIndex];
             layers[selectedIndex] = layers[selectedIndex - 1];
             layers[selectedIndex - 1] = layer;
             paramGrid.SelectedIndex = selectedIndex - 1;
@@ -199,7 +204,7 @@ namespace GroundWellDesign
             if (selectedIndex >= layers.Count - 1)
                 return;
 
-            LayerBaseParams layer = layers[selectedIndex];
+            LayerBaseParamsViewModel layer = layers[selectedIndex];
             layers[selectedIndex] = layers[selectedIndex + 1];
             layers[selectedIndex + 1] = layer;
             paramGrid.SelectedIndex = selectedIndex + 1;
@@ -209,9 +214,9 @@ namespace GroundWellDesign
         private void click_showKeyRow(object sender, RoutedEventArgs e)
         {
             //先撤销之前的变色
-            foreach (KeyLayerParams nbr in keyLayers)
+            foreach (KeyLayerParamsViewModel nbr in keyLayers)
             {
-                layers[nbr.ycbh - 1].IsKeyLayer = false;
+                layers[nbr.Ycbh - 1].IsKeyLayer = false;
             }
 
             //当前关键层变色显示
@@ -233,13 +238,13 @@ namespace GroundWellDesign
             int count = biaoHaoList.Length;
             for (int i = 0; i < count; i++)
             {
-                KeyLayerParams layer = new KeyLayerParams(this);
-                layer.ycbh = biaoHaoList[i];
-                layer.fypjxs = pjxsList[i];
+                KeyLayerParamsViewModel layer = new KeyLayerParamsViewModel(this);
+                layer.Ycbh = biaoHaoList[i];
+                layer.Fypjxs = pjxsList[i];
 
-                layer.ycsd = layers[biaoHaoList[i] - 1].LeiJiShenDu;
-                layer.mcms = layers[biaoHaoList[i] - 1].JuLiMeiShenDu;
-                layer.fypjxsxz = layer.fypjxs * pjxsxz;
+                layer.Ycsd = layers[biaoHaoList[i] - 1].LeiJiShenDu;
+                layer.Mcms = layers[biaoHaoList[i] - 1].JuLiMeiShenDu;
+                layer.Fypjxsxz = layer.Fypjxs * pjxsxz;
                 keyLayers.Add(layer);
 
                 layers[biaoHaoList[i] - 1].IsKeyLayer = true;
@@ -262,13 +267,13 @@ namespace GroundWellDesign
                 bool bWanquDai = false;
                 for (int i = keyLayers.Count; i > 0; i--)
                 {
-                    if (keyLayers[i - 1].ycsd > lieXiDai)
+                    if (keyLayers[i - 1].Ycsd > lieXiDai)
                     {
                         continue;
                     }
                     bWanquDai = true;
                     wanQuDaiIndex = i - 1;
-                    double wanquDai = keyLayers[i - 1].ycsd;
+                    double wanquDai = keyLayers[i - 1].Ycsd;
                     wanQuDaiTb.Text = wanquDai.ToString("f3");
                     break;
                 }
@@ -293,10 +298,10 @@ namespace GroundWellDesign
         {
 
             int count = layers.Count;
-            for (count--; count > 0 && layers[count].yanXing != "煤"; count--) ;
+            for (count--; count > 0 && layers[count].YanXing != "煤"; count--) ;
 
             //判断是否有煤层 或者 煤层是最后一层 或者第一层不是地表 则失败
-            if (count == 0 || count == layers.Count - 1 || !layers[0].yanXing.Equals("地表"))
+            if (count == 0 || count == layers.Count - 1 || !layers[0].YanXing.Equals("地表"))
                 return null;
 
 
@@ -304,16 +309,16 @@ namespace GroundWellDesign
 
             for (int i = 0; i <= count + 1; i++)
             {
-                LayerBaseParams param = layers[i];
-                if (param.yanXing == "地表")
+                LayerBaseParams param = layers[i].LayerParams;
+                if (param.YanXing == "地表")
                 {
                     res[i, 0] = 1;
                 }
-                else if (param.yanXing == "黄土")
+                else if (param.YanXing == "黄土")
                 {
                     res[i, 0] = 2;
                 }
-                else if (param.yanXing == "煤")
+                else if (param.YanXing == "煤")
                 {
                     res[i, 0] = 9;
                 }

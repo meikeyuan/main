@@ -1,4 +1,5 @@
 ﻿using AxMxDrawXLib;
+using GroundWellDesign.ViewModel;
 using mky;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,15 @@ namespace GroundWellDesign
         static MkyLogic logic;
 
 
-        public ObservableCollection<LayerBaseParams> layers = new ObservableCollection<LayerBaseParams>();
-        LayerBaseParams editLayer;
+        public ObservableCollection<LayerBaseParamsViewModel> layers = new ObservableCollection<LayerBaseParamsViewModel>();
+        LayerBaseParamsViewModel editLayer;
 
-        public ObservableCollection<KeyLayerParams> keyLayers = new ObservableCollection<KeyLayerParams>();
+        public ObservableCollection<KeyLayerParamsViewModel> keyLayers = new ObservableCollection<KeyLayerParamsViewModel>();
 
-        public ObservableCollection<ZengYiParams> zengYis = new ObservableCollection<ZengYiParams>();
-        ZengYiParams editZengYi;
+        public ObservableCollection<ZengYiParamsViewModel> zengYis = new ObservableCollection<ZengYiParamsViewModel>();
+        ZengYiParamsViewModel editZengYi;
 
-        public ManuDesignParams manuDesignParams;
+        public ManuDesignParamsViewModel manuDesignParams;
 
         public static ObservableCollection<int> LayerNbrs = new ObservableCollection<int>();
         public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
@@ -103,9 +104,9 @@ namespace GroundWellDesign
             set
             {
                 pjxsxz = value;
-                foreach (KeyLayerParams layer in keyLayers)
+                foreach (KeyLayerParamsViewModel layer in keyLayers)
                 {
-                    layer.Fypjxsxz = layer.fypjxs * value;
+                    layer.Fypjxsxz = layer.Fypjxs * value;
                 }
                 computeMidData(keyLayers.Count);
 
@@ -150,9 +151,9 @@ namespace GroundWellDesign
             set
             {
                 gzmsd = value;
-                foreach (KeyLayerParams layer in keyLayers)
+                foreach (KeyLayerParamsViewModel layer in keyLayers)
                 {
-                    layer.Gzmtjjl = gzmsd * layer.gzmtjsj;
+                    layer.Gzmtjjl = gzmsd * layer.Gzmtjsj;
                 }
             }
             get

@@ -1,4 +1,5 @@
-﻿using MathWorks.MATLAB.NET.Arrays;
+﻿using GroundWellDesign.ViewModel;
+using MathWorks.MATLAB.NET.Arrays;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace GroundWellDesign
             {
                 return;
             }
-            yanxingText.Text = layers[index].yanXing;
-            editZengYi.Es = layers[index].tanXingMoLiang;
-            editZengYi.Vs = layers[index].boSonBi;
+            yanxingText.Text = layers[index].YanXing;
+            editZengYi.Es = layers[index].TanXingMoLiang;
+            editZengYi.Vs = layers[index].BoSonBi;
         }
 
 
@@ -52,11 +53,11 @@ namespace GroundWellDesign
                 editZengYi.Psi = ((MWNumericArray)array[0]).ToScalarDouble();
                 editZengYi.Kc = ((MWNumericArray)array[1]).ToScalarDouble();
                 editZengYi.Ks = ((MWNumericArray)array[2]).ToScalarDouble();
-                editZengYi.time = DateTime.Now;
+                editZengYi.Time = DateTime.Now;
 
                 if(zengYis.Count < 10)
                 {
-                    zengYis.Add(new ZengYiParams(this, editZengYi));
+                    zengYis.Add(new ZengYiParamsViewModel(this, editZengYi.Params));
                 }
                 else
                 {
@@ -65,7 +66,7 @@ namespace GroundWellDesign
                     {
                         zengYis[i] = zengYis[i + 1];
                     }
-                    zengYis[9] = new ZengYiParams(this, editZengYi);
+                    zengYis[9] = new ZengYiParamsViewModel(this, editZengYi.Params);
                 }
             }
             catch (Exception)

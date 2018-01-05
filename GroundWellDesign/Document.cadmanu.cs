@@ -22,13 +22,13 @@ namespace GroundWellDesign
         {
             //先进行参数计算
             //每一开深度，三开底部和煤层顶板的距离
-            double oneKai = manuDesignParams.zjsd1;
-            double twoKai = manuDesignParams.zjsd2;
-            double threeKai = manuDesignParams.zjsd3;
+            double oneKai = manuDesignParams.Zjsd1;
+            double twoKai = manuDesignParams.Zjsd2;
+            double threeKai = manuDesignParams.Zjsd3;
             int meiIndex = layers.Count - 1;
             for (; meiIndex >= 0; meiIndex--)
             {
-                if (layers[meiIndex].yanXing.Equals("煤"))
+                if (layers[meiIndex].YanXing.Equals("煤"))
                 {
                     break;
                 }
@@ -39,7 +39,7 @@ namespace GroundWellDesign
                 tabControl.SelectedItem = gridinputTabItem;
                 return;
             }
-            double threeToMei = layers[meiIndex - 1].leiJiShenDu - threeKai;
+            double threeToMei = layers[meiIndex - 1].LeiJiShenDu - threeKai;
 
             //局部固井的深度值
             if (wanQuDaiTb.Text.Trim().Equals(""))
@@ -47,14 +47,13 @@ namespace GroundWellDesign
                 MessageBox.Show("未计算弯曲带高度，请修正再尝试井型设计");
                 return;
             }
-            double jbgjShendu = double.Parse(wanQuDaiTb.Text); ;
-
+            double jbgjShendu = double.Parse(wanQuDaiTb.Text);
             //各级套管外径；水泥环厚度
-            double snhHoudu = editZengYi.a1 - editZengYi.aw;
+            double snhHoudu = editZengYi.A1 - editZengYi.Aw;
             double tgwj1, tgwj2, tgwj3;
-            tgwj1 = keyLayers[0].tgwj;
-            tgwj2 = keyLayers[wanQuDaiIndex].tgwj;
-            tgwj3 = keyLayers[keyLayers.Count - 1].tgwj;
+            tgwj1 = keyLayers[0].Tgwj;
+            tgwj2 = keyLayers[wanQuDaiIndex].Tgwj;
+            tgwj3 = keyLayers[keyLayers.Count - 1].Tgwj;
 
 
             //高位位置数量，破坏主因
@@ -67,21 +66,21 @@ namespace GroundWellDesign
                 case ERRORCODE.计算成功:
                     for (int i = 0; i < keyLayers.Count; i++)
                     {
-                        if (keyLayers[i].jqaqxs < 1)
+                        if (keyLayers[i].Jqaqxs < 1)
                         {
-                            keyLayers[i].IsDangerous = true;
+                            keyLayers[i].IsDangerious = true;
                             dangerCnt++;
-                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].jqaqxs.ToString("f3");
+                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].Jqaqxs.ToString("f3");
                         }
-                        else if (keyLayers[i].lsaqxs < 1)
+                        else if (keyLayers[i].Lsaqxs < 1)
                         {
-                            keyLayers[i].IsDangerous = true;
+                            keyLayers[i].IsDangerious = true;
                             dangerCnt++;
-                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].lsaqxs.ToString("f3");
+                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].Lsaqxs.ToString("f3");
                         }
                         else
                         {
-                            keyLayers[i].IsDangerous = false;
+                            keyLayers[i].IsDangerious = false;
                         }
                     }
                     break;
@@ -96,14 +95,14 @@ namespace GroundWellDesign
             //显示cad
             
             string gy = "";
-            if(manuDesignParams.jieGou.Equals(JieGouOpt[0]))
+            if(manuDesignParams.JieGou.Equals(JieGouOpt[0]))
             {
-                gy = "一" + manuDesignParams.gjfs1 + "二" + manuDesignParams.wjfs2;
+                gy = "一" + manuDesignParams.Gjfs1 + "二" + manuDesignParams.Wjfs2;
                 cadViewer2.OpenDwgFile("cads/二开-" + gy + ".dwg");
             }
             else
             {
-                gy = "一全固" + "二" + manuDesignParams.gjfs2 + "三" + manuDesignParams.wjfs3;
+                gy = "一全固" + "二" + manuDesignParams.Gjfs2 + "三" + manuDesignParams.Wjfs3;
                 cadViewer2.OpenDwgFile("cads/三开-" + gy + ".dwg");
             }
             cadViewer2.ZoomCenter(2000, 300);
@@ -137,15 +136,15 @@ namespace GroundWellDesign
                     //描述
                     else if (contents.Contains("一开结构"))
                     {
-                        mText.Contents = contents.Replace("一开结构", "一开结构\\P\\P" + manuDesignParams.miaoshu1);
+                        mText.Contents = contents.Replace("一开结构", "一开结构\\P\\P" + manuDesignParams.Miaoshu1);
                     }
                     else if (contents.Contains("二开结构"))
                     {
-                        mText.Contents = contents.Replace("二开结构", "二开结构\\P\\P" + manuDesignParams.miaoshu2);
+                        mText.Contents = contents.Replace("二开结构", "二开结构\\P\\P" + manuDesignParams.Miaoshu2);
                     }
                     else if (contents.Contains("三开结构"))
                     {
-                        mText.Contents = contents.Replace("三开结构", "三开结构\\P\\P" + manuDesignParams.miaoshu3);
+                        mText.Contents = contents.Replace("三开结构", "三开结构\\P\\P" + manuDesignParams.Miaoshu3);
                     }
                     //各级套管深度、局部固井深度、三开底部和煤层顶板的距离
                     else if (contents.Contains("一开深度"))
@@ -171,11 +170,11 @@ namespace GroundWellDesign
                     //各级套管型号和参数
                     else if (contents.Contains("各级套管型号和参数"))
                     {
-                        string tgcs = "一开型号：" + manuDesignParams.tgxh1 + "   外径：" + tgwj1 + "mm" + "\\P" +
-                            "二开型号：" + manuDesignParams.tgxh2 + "   外径：" + tgwj2 + "mm";
-                        if(manuDesignParams.jieGou.Equals(JieGouOpt[1]))
+                        string tgcs = "一开型号：" + manuDesignParams.Tgxh1 + "   外径：" + tgwj1 + "mm" + "\\P" +
+                            "二开型号：" + manuDesignParams.Tgxh2 + "   外径：" + tgwj2 + "mm";
+                        if(manuDesignParams.JieGou.Equals(JieGouOpt[1]))
                         {
-                            tgcs += "\\P三开型号：" + manuDesignParams.tgxh3 + "   外径：" + tgwj3 + "mm";
+                            tgcs += "\\P三开型号：" + manuDesignParams.Tgxh3 + "   外径：" + tgwj3 + "mm";
                         }
                         mText.Contents = contents.Replace("各级套管型号和参数", "各级套管型号和参数\\P\\P" + tgcs);
                     }

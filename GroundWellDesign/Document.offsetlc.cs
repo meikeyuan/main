@@ -91,19 +91,19 @@ namespace GroundWellDesign
                 //创建一个数据点的实例
                 dataPoint = new DataPoint();
                 //设置X轴点
-                dataPoint.AxisXLabel = keyLayers[i].ycbh.ToString();
+                dataPoint.AxisXLabel = keyLayers[i].Ycbh.ToString();
                 dataPoint.XValue = i + 1;
                 //设置Y轴点
                 switch(index)
                 {
                     case 0:
-                        dataPoint.YValue = keyLayers[i].yczdxcz;
+                        dataPoint.YValue = keyLayers[i].Yczdxcz;
                         break;
                     case 1:
-                        dataPoint.YValue = keyLayers[i].jsdjscjwy;
+                        dataPoint.YValue = keyLayers[i].Jsdjscjwy;
                         break;
                     case 2:
-                        dataPoint.YValue = keyLayers[i].jsdjslcwy;
+                        dataPoint.YValue = keyLayers[i].Jsdjslcwy;
                         break;
                 }
                 

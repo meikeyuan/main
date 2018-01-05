@@ -13,7 +13,7 @@ using System.Windows.Data;
 namespace GroundWellDesign
 {
 
-
+    // 登录状态相关
     public class LoginInfo : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -36,7 +36,8 @@ namespace GroundWellDesign
             }
         }
     }
-
+    
+    // 登录状态相关
     public class BoolToTextConvert : IValueConverter
     {
 
@@ -70,6 +71,7 @@ namespace GroundWellDesign
 
         private int newFileCount = 1;
 
+        // 岩层数据库相关
         private static string DATABASE_DIR = "c:\\ProgramData\\GroundWellDesign";
         public static string DATABASE_PATH = DATABASE_DIR + "\\yanceng.db";
         
@@ -80,20 +82,13 @@ namespace GroundWellDesign
             loginInfo.BLogin = bLogin;
             openFileHelper(filepath);
 
+            // 创建岩层数据库目录
             Directory.CreateDirectory(DATABASE_DIR);
-            //创建数据库目录
-            //foreach (string yanxing in YanXingOpt)
-            //{
-            //Directory.CreateDirectory(DATABASE_PATH /*+ yanxing */);
-            //}
-            SQLiteConnection conn = null;
-
             string dbPath = "Data Source =" + DATABASE_PATH;
-            conn = new SQLiteConnection(dbPath);//创建数据库实例，指定文件位置
-            conn.Open();//打开数据库，若文件不存在会自动创建
-            //conn.SetPassword("123456");
+            SQLiteConnection conn = new SQLiteConnection(dbPath);
+            conn.Open();
 
-            //建表语句
+            // 创建矿井表和岩层表  1对多关系
             string sql2 = "CREATE TABLE IF NOT EXISTS yanceng(" +
                          "id char(36) primary key, wellName text references well(wellName), " +
                          "yanXing text, leiJiShenDu double, juLiMeiShenDu double, cengHou double, ziRanMiDu double, " +
@@ -105,7 +100,6 @@ namespace GroundWellDesign
                          "wellName text primary key" +
                          ");";
 
-            //如果表不存在，创建数据表 
             SQLiteCommand cmdCreateTable = new SQLiteCommand(conn);
             cmdCreateTable.CommandText = sql1;
             cmdCreateTable.ExecuteNonQuery();
@@ -124,15 +118,12 @@ namespace GroundWellDesign
         }
 
 
-        //**********************文件*******************************
-
-
+        //**********************文件菜单*******************************
         //新建文件菜单
         private void newFileMenu_Click(object sender, RoutedEventArgs e)
         {
             openFileHelper(null);
         }
-
 
         //打开文件菜单
         private void openFileMenu_Click(object sender, RoutedEventArgs e)
@@ -154,8 +145,6 @@ namespace GroundWellDesign
                 }
             }
         }
-
-       
 
         //另存为菜单
         private void saveOthFileMenu_Click(object sender, RoutedEventArgs e)
@@ -191,7 +180,7 @@ namespace GroundWellDesign
             }
         }
 
-        //打开文件
+        //打开文件工具方法
         private bool openFileHelper(string filePath)
         {
             Document document = new Document();
@@ -223,7 +212,7 @@ namespace GroundWellDesign
         }
 
 
-        //保存到文件
+        //保存到文件工具方法
         private bool saveFileHelper(Document window)
         {
             if (window.FilePath == null)
@@ -478,7 +467,7 @@ namespace GroundWellDesign
         private void themeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string[] themes = { "Colors_Blue.xaml", "Colors_Neutral.xaml", "Colors_Ocean.xaml", "Colors_Violet.xaml" };
-            Uri skinDictUri = new Uri(".\\Colors\\" + themes[styleComBox.SelectedIndex], UriKind.Relative);
+            Uri skinDictUri = new Uri("..\\Resource\\Colors\\" + themes[styleComBox.SelectedIndex], UriKind.Relative);
             if (skinDictUri == null)
                 return;
             ResourceDictionary skinDict = Application.LoadComponent(skinDictUri) as ResourceDictionary;

@@ -79,17 +79,17 @@ namespace GroundWellDesign
             int[] keyIndex = new int[keycount];
             for (int i = 0; i < allcount; i++)
             {
-                cengHou[i] = layers[i].cengHou;
+                cengHou[i] = layers[i].CengHou;
             }
 
             MWNumericArray Eta, Wmax, Zx, Qx, Type, D, tgbeta, S, Lp, Llc, Lc, R, C, W0, W, P1, P2, P3, Ux, Uz, Up;
 
             for (int i = 0; i < keycount; i++)
             {
-                Pxz[i] = keyLayers[i].fypjxsxz;
-                H0[i] = keyLayers[i].mcms;
-                T[i] = keyLayers[i].gzmtjsj;
-                keyIndex[i] = keyLayers[i].ycbh;
+                Pxz[i] = keyLayers[i].Fypjxsxz;
+                H0[i] = keyLayers[i].Mcms;
+                T[i] = keyLayers[i].Gzmtjsj;
+                keyIndex[i] = keyLayers[i].Ycbh;
             }
 
             try
@@ -245,13 +245,13 @@ namespace GroundWellDesign
                 switch(index)
                 {
                     case 0:
-                        dataPoint.YValue = layers[i].zxJQWY;
+                        dataPoint.YValue = layers[i].ZXJQWY;
                         break;
                     case 1:
-                        dataPoint.YValue = layers[i].qxJQWY;
+                        dataPoint.YValue = layers[i].QXJQWY;
                         break;
                     case 2:
-                        dataPoint.YValue = layers[i].jqHWY;
+                        dataPoint.YValue = layers[i].JQHWY;
                         break;
                 }
                 

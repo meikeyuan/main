@@ -88,9 +88,9 @@ namespace GroundWellDesign
 
             for (int i = 0; i < count; i++)
             {
-                Pxz[i] = keyLayers[i].fypjxsxz;
-                H0[i] = keyLayers[i].mcms;
-                T[i] = keyLayers[i].gzmtjsj;
+                Pxz[i] = keyLayers[i].Fypjxsxz;
+                H0[i] = keyLayers[i].Mcms;
+                T[i] = keyLayers[i].Gzmtjsj;
             }
 
             try
