@@ -28,35 +28,32 @@ namespace GroundWellDesign.ViewModel
 
         public void reset()
         {
-            copyAndEventEcpYanXing(new LayerBaseParams());
+            this.layerBaseParams = new LayerBaseParams();
+            RaiseUI();
         }
 
-        public void copyAndEventEcpYanXing(LayerBaseParams layer)
+        private void RaiseUI()
         {
-            this.layerBaseParams.YanXing = layer.YanXing;
-            LeiJiShenDu = layer.LeiJiShenDu;
-            JuLiMeiShenDu = layer.JuLiMeiShenDu;
-            CengHou = layer.CengHou;
-            ZiRanMiDu = layer.ZiRanMiDu;
-            BianXingMoLiang = layer.BianXingMoLiang;
-            KangLaQiangDu = layer.KangLaQiangDu;
-            KangYaQiangDu = layer.KangYaQiangDu;
-            TanXingMoLiang = layer.TanXingMoLiang;
-            BoSonBi = layer.BoSonBi;
-            NeiMoCaJiao = layer.NeiMoCaJiao;
-            NianJuLi = layer.NianJuLi;
-            F = layer.F;
-            Q0 = layer.Q0;
-            Q1 = layer.Q1;
-            Q2 = layer.Q2;
-            MiaoShu = layer.MiaoShu;
+            LeiJiShenDu = this.layerBaseParams.LeiJiShenDu;
+            JuLiMeiShenDu = this.layerBaseParams.JuLiMeiShenDu;
+            CengHou = this.layerBaseParams.CengHou;
+            ZiRanMiDu = this.layerBaseParams.ZiRanMiDu;
+            BianXingMoLiang = this.layerBaseParams.BianXingMoLiang;
+            KangLaQiangDu = this.layerBaseParams.KangLaQiangDu;
+            KangYaQiangDu = this.layerBaseParams.KangYaQiangDu;
+            TanXingMoLiang = this.layerBaseParams.TanXingMoLiang;
+            BoSonBi = this.layerBaseParams.BoSonBi;
+            NeiMoCaJiao = this.layerBaseParams.NeiMoCaJiao;
+            NianJuLi = this.layerBaseParams.NianJuLi;
+            F = this.layerBaseParams.F;
+            Q0 = this.layerBaseParams.Q0;
+            Q1 = this.layerBaseParams.Q1;
+            Q2 = this.layerBaseParams.Q2;
+            MiaoShu = this.layerBaseParams.MiaoShu;
 
-            this.layerBaseParams.DataBaseKey = layer.DataBaseKey;
-            this.layerBaseParams.WellNamePK = layer.WellNamePK;
-
-            QXJQWY = layer.QxJQWY;
-            ZXJQWY = layer.ZxJQWY;
-            JQHWY = layer.JqHWY;
+            QXJQWY = this.layerBaseParams.QxJQWY;
+            ZXJQWY = this.layerBaseParams.ZxJQWY;
+            JQHWY = this.layerBaseParams.JqHWY;
         }
 
         public LayerBaseParams LayerParams
@@ -80,6 +77,7 @@ namespace GroundWellDesign.ViewModel
                 var selectLayerWindow = new SelectLayerWindow(this.layerBaseParams.YanXing, this.layerBaseParams);
                 if(selectLayerWindow.existedLayers.Count > 0)
                     selectLayerWindow.ShowDialog();
+                RaiseUI();
                 int index = Document.YanXingOpt.IndexOf(value);
                 switch (index)
                 {

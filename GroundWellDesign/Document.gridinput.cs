@@ -16,18 +16,16 @@ namespace GroundWellDesign
     {
         private void paramGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-
             if (e.AddedCells.Count == 0)
                 return;
             paramGrid.BeginEdit();    //进入编辑模式
         }
 
 
-        //保存到数据库
+        // 保存到数据库
         private void click_saveToDB(object sender, RoutedEventArgs e)
         {
             int selectedIndex = paramGrid.SelectedIndex;
-            //未选择行
             if (selectedIndex == -1)
             {
                 MessageBox.Show("请选中一行");
@@ -35,6 +33,7 @@ namespace GroundWellDesign
             }
 
             LayerBaseParams layer = layers[selectedIndex].LayerParams;
+
             //先检查该岩层是否已经已经存在于数据库中
             bool exist = false;
             if(layer.DataBaseKey != null)
@@ -141,7 +140,6 @@ namespace GroundWellDesign
         {
             
             int selectedIndex = paramGrid.SelectedIndex;
-            //未选择行
             if (selectedIndex == -1)
             {
                 MessageBox.Show("请选中一行...");
@@ -160,7 +158,7 @@ namespace GroundWellDesign
             if (layers.Count == 0)
             {
                 LayerBaseParamsViewModel param = new LayerBaseParamsViewModel(this);
-                param.YanXing = "地表";
+                param.LayerParams.YanXing = "地表";
                 layers.Add(param);
                 return;
             }
@@ -172,14 +170,13 @@ namespace GroundWellDesign
         private void click_upRow(object sender, RoutedEventArgs e)
         {
             int selectedIndex = paramGrid.SelectedIndex;
-            //未选择行
             if (selectedIndex == -1)
             {
                 MessageBox.Show("请选中一行...");
                 return;
             }
             //选择了第一行 或者 下标超出已经录入范围
-            if (selectedIndex == 0 || selectedIndex > layers.Count - 1)
+            if (selectedIndex == 0 || selectedIndex >= layers.Count)
                 return;
 
             //交换
@@ -193,7 +190,6 @@ namespace GroundWellDesign
         private void click_downRow(object sender, RoutedEventArgs e)
         {
             int selectedIndex = paramGrid.SelectedIndex;
-            //未选择行
             if (selectedIndex == -1)
             {
                 MessageBox.Show("请选中一行...");
@@ -204,6 +200,7 @@ namespace GroundWellDesign
             if (selectedIndex >= layers.Count - 1)
                 return;
 
+            // 交换
             LayerBaseParamsViewModel layer = layers[selectedIndex];
             layers[selectedIndex] = layers[selectedIndex + 1];
             layers[selectedIndex + 1] = layer;
@@ -216,7 +213,7 @@ namespace GroundWellDesign
             //先撤销之前的变色
             foreach (KeyLayerParamsViewModel nbr in keyLayers)
             {
-                layers[nbr.Ycbh - 1].IsKeyLayer = false;
+                layers[nbr.Params.Ycbh].IsKeyLayer = false;
             }
 
             //当前关键层变色显示
@@ -239,7 +236,7 @@ namespace GroundWellDesign
             for (int i = 0; i < count; i++)
             {
                 KeyLayerParamsViewModel layer = new KeyLayerParamsViewModel(this);
-                layer.Ycbh = biaoHaoList[i];
+                layer.Ycbh = biaoHaoList[i] - 1;
                 layer.Fypjxs = pjxsList[i];
 
                 layer.Ycsd = layers[biaoHaoList[i] - 1].LeiJiShenDu;

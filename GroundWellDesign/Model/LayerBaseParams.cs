@@ -12,6 +12,9 @@ namespace GroundWellDesign
         public LayerBaseParams()
         {
             YanXing = Document.YanXingOpt[1];
+            MiaoShu = "";
+            DataBaseKey = "";
+            WellNamePK = "";
         }
 
         public Object Clone()

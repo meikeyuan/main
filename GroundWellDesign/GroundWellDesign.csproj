@@ -183,7 +183,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataSaveAndRestore.cs" />
+    <Compile Include="Util\DataSaveAndRestore.cs" />
     <Compile Include="Model\KeyLayerParams.cs" />
     <Compile Include="Model\LayerBaseParams.cs" />
     <Compile Include="Document.cadauto.cs" />

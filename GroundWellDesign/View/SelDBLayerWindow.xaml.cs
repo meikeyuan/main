@@ -137,7 +137,7 @@ namespace GroundWellDesign
             
             if(count == 1)
             {
-                for (int j = 0; j < 17; ++j)
+                for (int j = 1; j <= 15; ++j)
                 {
                     WantedLayer[j] = existedLayers[selectedList[0]].LayerParams[j];
                 }
@@ -150,18 +150,19 @@ namespace GroundWellDesign
             foreach(int i in selectedList)
             {
                 LayerBaseParams layer = existedLayers[i].LayerParams;
-                for (int j = 0; j < 17; ++j)
+                for (int j = 1; j <= 15; ++j)
                 {
                     double res = (double)tmpLayer[j] + (double)layer[j];
                     tmpLayer[j] = res;
                 }
             }
-            for (int j = 0; j < 17; ++j)
+            for (int j = 1; j <= 15; ++j)
             {
                 double res = (double)tmpLayer[j] / count;
                 WantedLayer[j] = res;
             }
             WantedLayer.DataBaseKey = null;
+            WantedLayer.WellNamePK = null;
             this.Close();
         }
 

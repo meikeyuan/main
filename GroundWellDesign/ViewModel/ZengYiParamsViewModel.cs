@@ -35,23 +35,23 @@ namespace GroundWellDesign.ViewModel
 
         private void RaiseUI()
         {
-            Time = this.Time;
+            Time = this.zengYiParams.Time;
 
-            Ec = this.Ec;
-            Vc = this.Vc;
-            Es = this.Es;
-            Vs = this.Vs;
-            E = this.E;
-            V = this.V;
+            Ec = this.zengYiParams.Ec;
+            Vc = this.zengYiParams.Vc;
+            Es = this.zengYiParams.Es;
+            Vs = this.zengYiParams.Vs;
+            E = this.zengYiParams.E;
+            V = this.zengYiParams.V;
 
-            A0 = this.A0;
-            Aw = this.Aw;
-            A1 = this.A1;
-            B = this.B;
+            A0 = this.zengYiParams.A0;
+            Aw = this.zengYiParams.Aw;
+            A1 = this.zengYiParams.A1;
+            B = this.zengYiParams.B;
 
-            Kc = this.Kc;
-            Ks = this.Ks;
-            Psi = this.Psi;
+            Kc = this.zengYiParams.Kc;
+            Ks = this.zengYiParams.Ks;
+            Psi = this.zengYiParams.Psi;
         }
 
         public Document Window
