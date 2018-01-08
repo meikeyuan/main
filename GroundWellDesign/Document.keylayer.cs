@@ -23,7 +23,6 @@ namespace GroundWellDesign
 
             if (e.AddedCells.Count == 0)
                 return;
-            //进入编辑模式
             keyLayerDataGrid.BeginEdit();
         }
 

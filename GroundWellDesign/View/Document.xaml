@@ -498,10 +498,6 @@
 
             </TabItem>
 
-
-
-
-
             <TabItem x:Name="cutOffsetTabItem" Header="岩层剪切位移" >
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -583,9 +579,6 @@
 
 
             </TabItem>
-
-
-
 
             <TabItem x:Name="taoGuanTabItem" Header="套管安全系数" >
                 <Grid>

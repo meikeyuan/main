@@ -14,11 +14,12 @@ namespace GroundWellDesign
 {
     public partial class Document : Window
     {
+        // 实现Grid点击即进入编辑模式
         private void paramGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             if (e.AddedCells.Count == 0)
                 return;
-            paramGrid.BeginEdit();    //进入编辑模式
+            paramGrid.BeginEdit();
         }
 
 
@@ -117,7 +118,7 @@ namespace GroundWellDesign
         }
          
 
-        //下方增加行
+        // 下方增加行
         private void click_addRow(object sender, RoutedEventArgs e)
         {
             int selectedIndex = paramGrid.SelectedIndex;
@@ -135,7 +136,7 @@ namespace GroundWellDesign
         }
 
 
-        //删除选中行
+        // 删除选中行
         private void click_delRow(object sender, RoutedEventArgs e)
         {
             
@@ -166,7 +167,7 @@ namespace GroundWellDesign
         }
 
 
-        //上移
+        // 上移
         private void click_upRow(object sender, RoutedEventArgs e)
         {
             int selectedIndex = paramGrid.SelectedIndex;
@@ -186,7 +187,7 @@ namespace GroundWellDesign
             paramGrid.SelectedIndex = selectedIndex - 1;
         }
 
-        //下移
+        // 下移
         private void click_downRow(object sender, RoutedEventArgs e)
         {
             int selectedIndex = paramGrid.SelectedIndex;
@@ -207,7 +208,7 @@ namespace GroundWellDesign
             paramGrid.SelectedIndex = selectedIndex + 1;
         }
 
-        //计算关键层和竖三带
+        // 计算关键层和竖三带
         private void click_showKeyRow(object sender, RoutedEventArgs e)
         {
             //先撤销之前的变色
@@ -227,7 +228,7 @@ namespace GroundWellDesign
             }
             else if (biaoHaoList == null || pjxsList == null)
             {
-                MessageBox.Show("未计算出关键层，请检查数据合理性");
+                MessageBox.Show("未计算出关键层，请检查数据合理性。");
                 return;
             }
 
@@ -258,26 +259,9 @@ namespace GroundWellDesign
                 var array2 = (MWNumericArray)logic.calHl(CaiGao, 1);
                 double lieXiDai = array2.ToScalarDouble();
                 lieXiDaiTb.Text = lieXiDai.ToString("f3");
-
-
                 // 弯曲下沉带 = 煤层以上深度 - 裂隙带高度
-                bool bWanquDai = false;
-                for (int i = keyLayers.Count; i > 0; i--)
-                {
-                    if (keyLayers[i - 1].Ycsd > lieXiDai)
-                    {
-                        continue;
-                    }
-                    bWanquDai = true;
-                    wanQuDaiIndex = i - 1;
-                    double wanquDai = keyLayers[i - 1].Ycsd;
-                    wanQuDaiTb.Text = wanquDai.ToString("f3");
-                    break;
-                }
-                if(!bWanquDai)
-                {
-                    MessageBox.Show("没有找到弯曲带，请检查数据合理性");
-                }
+                double wanquDai = layers[0].JuLiMeiShenDu - lieXiDai;
+                wanQuDaiTb.Text = wanquDai.ToString("f3");
             }
             catch (Exception)
             {
@@ -290,21 +274,12 @@ namespace GroundWellDesign
         int wanQuDaiIndex = 0;
 
 
-        //模块一获取岩层参数的回调函数
-        public double[,] getParams()
+        // 获取岩层参数
+        private double[,] getParams(int meiIndex)
         {
+            double[,] res = new double[meiIndex + 2, 11];
 
-            int count = layers.Count;
-            for (count--; count > 0 && layers[count].YanXing != "煤"; count--) ;
-
-            //判断是否有煤层 或者 煤层是最后一层 或者第一层不是地表 则失败
-            if (count == 0 || count == layers.Count - 1 || !layers[0].YanXing.Equals("地表"))
-                return null;
-
-
-            double[,] res = new double[count + 2, 11];
-
-            for (int i = 0; i <= count + 1; i++)
+            for (int i = 0; i <= meiIndex + 1; i++)
             {
                 LayerBaseParams param = layers[i].LayerParams;
                 if (param.YanXing == "地表")
@@ -354,6 +329,7 @@ namespace GroundWellDesign
         }
 
 
+        // 二维转置
         private double[] arrayTrans(double[,] input)
         {
             int width = input.GetLength(0);
@@ -376,15 +352,23 @@ namespace GroundWellDesign
         //计算关键层接口
         private bool getKeyLayer(ref int[] bianHao, ref double[] pjxs)
         {
-
-            double[,] data = getParams();
-            if (data == null)
+            //判断是否有煤层 或者 煤层是最后一层 或者 第一层不是地表 则不能计算
+            int meiIndex = -1;
+            for (int i = layers.Count - 1; i >= 0; --i)
+            {
+                if(layers[i].YanXing.Equals("煤"))
+                {
+                    meiIndex = i;
+                    break;
+                }
+            }
+            if (meiIndex == -1 || meiIndex == layers.Count - 1 || !layers[0].YanXing.Equals("地表"))
             {
                 MessageBox.Show("数据录入有误，请检查。(第一层应为地表，煤层应有底板。)");
                 return false;
             }
 
-
+            double[,] data = getParams(meiIndex);
             double[] rowData = arrayTrans(data);
             MWNumericArray mwdata = new MWNumericArray(rowData.Length / 11, 11, rowData);
 
@@ -410,10 +394,8 @@ namespace GroundWellDesign
             }
             catch (Exception e)
             {
-                e.ToString();
-                MessageBox.Show("关键层计算出现错误，请检查数据合理性");
+                MessageBox.Show("关键层计算出现错误，请检查数据合理性。");
                 return false;
-
             }
 
         }

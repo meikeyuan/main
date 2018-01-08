@@ -156,6 +156,10 @@ namespace GroundWellDesign.ViewModel
             if (mainWindow == null)
                 return;
             int count = mainWindow.layers.Count;
+            if(count <= 0)
+            {
+                return;
+            }
             mainWindow.layers[0].LeiJiShenDu = 0;
             for (int i = 1; i < count; i++)
             {

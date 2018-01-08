@@ -42,9 +42,18 @@ namespace GroundWellDesign
                 {
                     ec = 2.050e11;
                 }
-                else
+                else if(editZengYi.Ec.Equals(TgtxmlOpt[1]))
                 {
                     ec = 2.070e11;
+                }
+                else
+                {
+                    bool valid = double.TryParse(editZengYi.Ec, out ec);
+                    if(!valid)
+                    {
+                        MessageBox.Show("套管弹性模量Ec格式不正确，请重新输入。");
+                        return;
+                    }
                 }
 
 

@@ -9,19 +9,21 @@ namespace GroundWellDesign
         // 提醒用户是否需要保存的判断
         private bool layer_equal(LayerBaseParams layer1, LayerBaseParams layer2)
         {
-            if(layer1 == null || layer2 == null)
+            if (layer1 == null || layer2 == null)
             {
                 return false;
             }
 
-            for(int i = 0; i < 17; ++i)
+            for (int i = 0; i < 17; ++i)
             {
-                if(layer1[i] != layer2[i] && !layer1[i].Equals(layer2[i]))
+                bool double_equal = layer1[i] == layer2[i];
+                bool str_equal = layer1[i] != null && layer2[i] != null && layer1[i].Equals(layer2[i]);
+                bool null_equal = layer1[i] == null && layer2[i] == null;
+                if (!double_equal && !str_equal && !null_equal)
                 {
                     return false;
                 }
             }
-
             return true;
         }
 
@@ -148,7 +150,7 @@ namespace GroundWellDesign
             if (index == layers.Count)
                 editLayer.reset();
             else
-                editLayer.LayerParams = layers[index].LayerParams;
+                editLayer.LayerParams = layers[index].LayerParams.Clone() as LayerBaseParams;
 
             guideBind(editLayer);
         }

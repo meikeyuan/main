@@ -44,7 +44,7 @@ namespace GroundWellDesign
             }
             if (meiIndex <= 0)
             {
-                MessageBox.Show("岩层数据有误，请修正再尝试自动设计");
+                MessageBox.Show("找不到煤层，请修正再尝试自动设计");
                 tabControl.SelectedItem = gridinputTabItem;
                 return;
             }
