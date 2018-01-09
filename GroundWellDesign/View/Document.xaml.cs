@@ -20,8 +20,6 @@ namespace GroundWellDesign
         public Document()
         {
             InitializeComponent();
-            if (logic == null)
-                logic = new MkyLogic();
             
             //岩层参数录入初始化
             LayerBaseParamsViewModel dibiao = new LayerBaseParamsViewModel(this);

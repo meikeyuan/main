@@ -15,7 +15,7 @@ namespace GroundWellDesign
     {
         //cad ActiveX控件和matlab函数类
         AxMxDrawX cadViewer, cadViewer2;
-        static MkyLogic logic;
+        public static MkyLogic logic;
 
 
         public ObservableCollection<LayerBaseParamsViewModel> layers = new ObservableCollection<LayerBaseParamsViewModel>();

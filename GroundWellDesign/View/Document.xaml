@@ -9,8 +9,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d" 
         x:Class="GroundWellDesign.Document"
-        x:Name="window"
-        Title="地面井设计程序" WindowStyle="None" >
+        Name="window"
+        Title="地面井设计平台"
+        WindowStyle="None" >
 
     <Window.Resources>
         <Style x:Key="elementStyle" TargetType="{x:Type TextBlock}"  >
@@ -95,15 +96,13 @@
     </Window.Resources>
 
     <Grid>
-
-
-
-        <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged" TabStripPlacement="Left">
+        <TabControl Name="tabControl" SelectionChanged="tabControl_SelectionChanged" TabStripPlacement="Left">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
             </TabControl.ItemContainerStyle>
+            
             <TabItem x:Name="gridinputTabItem" Header="岩层基本参数录入">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -755,7 +754,6 @@
 
             </TabItem >
 
-
             <TabItem x:Name="autoDesignTabItem" Header="井型自动设计" >
                 <Grid MaxWidth="500" MaxHeight="300">
                     <Grid.RowDefinitions>
@@ -876,7 +874,6 @@
 
             </TabItem>
 
-
             <TabItem x:Name="autoDesignCadTabItem" Header="井型自动设计Cad">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -888,7 +885,6 @@
                     <Button Name="saveAutoCadBtn" Content="保存设计图" Grid.Row="1" Click="saveAutoCadBtn_Click"/>
                 </Grid>
             </TabItem>
-            
 
             <TabItem x:Name="manuDesignTabItem" Header="井型人工设计" >
                 <!--Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" -->

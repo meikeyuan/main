@@ -1,4 +1,5 @@
-﻿using System;
+﻿using mky;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,39 +10,18 @@ namespace GroundWellDesign
     /// </summary>
     public partial class App : Application
     {
-        /// <summary>
-        /// Application Entry Point.
-        /// </summary>
-        /// 
-        [System.STAThreadAttribute()]
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
-        public static void Main(string[] args)
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
-            GroundWellDesign.App app = new GroundWellDesign.App();
-           
-           
+            // 加载公式接口，因为是耗时操作。
+            Document.logic = new MkyLogic();
+
             string filePath = null;
-            if (args.Length != 0)
+            if (e.Args.Length != 0)
             {
-                filePath = args[0];
+                filePath = e.Args[0];
             }
-
             LoginWindow loginWin = new LoginWindow(filePath);
-            app.initial();
-            app.Run(loginWin);
+            loginWin.Show();
         }
-
-        private void initial()
-        {
-            if (_contentLoaded)
-            {
-                return;
-            }
-            _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/GroundWellDesign;component/app.xaml", System.UriKind.Relative);
-            System.Windows.Application.LoadComponent(this, resourceLocater);
-        }
-
     }
 }
