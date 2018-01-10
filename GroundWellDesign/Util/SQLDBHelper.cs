@@ -79,8 +79,10 @@ namespace GroundWellDesign.Util
             //3新增岩层
             SQLiteCommand cmd3 = new SQLiteCommand(conn);
             cmd3.Transaction = trans;
-            cmd3.CommandText = "insert into yanceng values(@id, @wellName, @yanXing, @leiJiShenDu, @juLiMeiShenDu, @cengHou, @ziRanMiDu, " +
-            "@bianXingMoLiang, @kangLaQiangDu, @kangYaQiangDu, @tanXingMoLiang, @boSonBi, @neiMoCaJiao, @nianJuLi, @f, @q0, @q1, @q2, @miaoShu)";
+            cmd3.CommandText = "insert into yanceng (id, wellName, yanXing, leiJiShenDu, juLiMeiShenDu, cengHou, ziRanMiDu, " +
+            "bianXingMoLiang, kangLaQiangDu, kangYaQiangDu, tanXingMoLiang, boSonBi, neiMoCaJiao, nianJuLi, f, q0, q1, q2, miaoShu) " +
+            "values(@id, @wellName, @yanXing, @leiJiShenDu, @juLiMeiShenDu, @cengHou, @ziRanMiDu, @bianXingMoLiang, @kangLaQiangDu, " +
+            "@kangYaQiangDu, @tanXingMoLiang, @boSonBi, @neiMoCaJiao, @nianJuLi, @f, @q0, @q1, @q2, @miaoShu)";
 
             cmd3.Parameters.AddRange(new[]{
                 new SQLiteParameter("@id", uuid),
