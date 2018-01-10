@@ -95,7 +95,7 @@ namespace GroundWellDesign
         }
 
 
-        public static void restoreDocument(Document document, string path)
+        public static bool restoreDocument(Document document, string path)
         {
             //重新取回数据 
             IFormatter formatter = new BinaryFormatter();
@@ -108,12 +108,12 @@ namespace GroundWellDesign
                 stream2.Close();
                 if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
                 {
-                    return;
+                    return false;
                 }
             }
             catch (Exception)
             {
-                return;
+                return false;
             }
             DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
             //恢复基本参数
@@ -177,7 +177,9 @@ namespace GroundWellDesign
 
             //恢复人工设计数据
             document.manuDesignParams.Param = data.ManuDesignParams;
+
             document.FilePath = path;
+            return true;
         }
 
 

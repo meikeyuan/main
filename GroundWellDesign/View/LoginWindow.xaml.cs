@@ -47,7 +47,7 @@ namespace GroundWellDesign
             }
             else
             {
-                MessageBox.Show("用户名或密码错误!");
+                MessageBox.Show("用户名或密码错误。");
                 pwdBox.Clear();
             }
         }

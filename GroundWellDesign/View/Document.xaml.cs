@@ -196,20 +196,22 @@ namespace GroundWellDesign
         //打开文件
         public bool openFile(string filePath)
         {
-            if (filePath == null)
-            {
-                FilePath = filePath;
+            // 若已经为打开状态
+            if (this.FilePath != null)
+                return false;
+
+            if (filePath == null || filePath.Equals(""))
                 return true;
-            }
 
-            DataSaveAndRestore.restoreDocument(this, filePath);
-            return true;
-
+            return DataSaveAndRestore.restoreDocument(this, filePath);
         }
 
         //保存到文件
         public bool saveFile(string filePath)
         {
+            if (filePath == null || filePath.Equals(""))
+                return false;
+
             return DataSaveAndRestore.saveDocument(this, filePath);
         }
 

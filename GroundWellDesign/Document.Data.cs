@@ -13,6 +13,9 @@ namespace GroundWellDesign
 {
     partial class Document
     {
+        // 当前文档对应的磁盘文件路径
+        public string FilePath { set; get; }
+
         //cad ActiveX控件和matlab函数类
         AxMxDrawX cadViewer, cadViewer2;
         public static MkyLogic logic;
@@ -42,14 +45,8 @@ namespace GroundWellDesign
         public static List<String> JQDestOpt = new List<string> { "倾向剪切位移u(x)", "走向剪切位移u(z)", "剪切合位移u(p)"};
         public static List<String> LCDestOpt = new List<string> { "岩层最大下沉值W0", "计算点即时沉降位移Wt", "计算点即时离层位移△Wt" };
 
-        public string FilePath
-        {
-            set;
-            get;
-        }
 
-
-        //以下为横三带竖三代变量
+        //以下为横三带竖三带变量
         public double mcqj;
         public double Mcqj
         {
