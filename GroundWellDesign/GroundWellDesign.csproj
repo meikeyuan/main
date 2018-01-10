@@ -80,8 +80,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\GuiLabs.Undo.dll</HintPath>
     </Reference>
-    <Reference Include="mky">
-      <HintPath>lib\mky.dll</HintPath>
+    <Reference Include="mky, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\mky.dll</HintPath>
     </Reference>
     <Reference Include="MWArray, Version=2.14.0.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -126,6 +127,7 @@
     <Compile Include="Document.zengyi.cs" />
     <Compile Include="Util\ExcelHelper.cs" />
     <Compile Include="Util\FileDialogHelper.cs" />
+    <Compile Include="Util\SQLDBHelper.cs" />
     <Compile Include="ViewModel\ManuDesignParamsViewModel.cs" />
     <Compile Include="ViewModel\ZengYiParamsViewModel.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">
@@ -399,10 +401,10 @@
   <ItemGroup>
     <Content Include="Lib\Aspose.Cells.dll" />
     <Content Include="Lib\GuiLabs.Undo.dll" />
+    <Content Include="Lib\mky.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <SplashScreen Include="Resource\img\splash.jpg" />
     <Content Include="Lib\AxMxDrawXLib.dll" />
-    <None Include="Lib\mky.dll" />
     <Content Include="Lib\MWArray.dll" />
     <Content Include="Lib\MxDrawXLib.dll" />
   </ItemGroup>

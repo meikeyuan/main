@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GroundWellDesign.Util;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows;
@@ -18,7 +19,7 @@ namespace GroundWellDesign
             this.layer = layer;
 
             // 初始化矿井名下拉列表
-            DataSaveAndRestore.getAllWellName(items);
+            SQLDBHelper.getAllWellName(items);
             comboBox.ItemsSource = items;
             if(items.Count > 0)
                 comboBox.SelectedIndex = 0;
@@ -34,7 +35,7 @@ namespace GroundWellDesign
             }
 
             string uuid = Guid.NewGuid().ToString();
-            bool success = DataSaveAndRestore.saveToSqlite(layer, uuid, false, wellName, items.Contains(wellName));
+            bool success = SQLDBHelper.saveToSqlite(layer, uuid, false, wellName, items.Contains(wellName));
 
             if (success)
             {

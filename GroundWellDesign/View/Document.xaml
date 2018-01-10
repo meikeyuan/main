@@ -884,7 +884,7 @@
 
             <TabItem x:Name="manuDesignTabItem" Header="井型人工设计" >
                 <!--Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" -->
-                <Grid Name="manuDesignGrid" MaxWidth="500" MaxHeight="500">
+                <Grid Name="manuDesignGrid" MaxWidth="600" MaxHeight="500">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="50"/>

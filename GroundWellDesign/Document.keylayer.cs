@@ -149,8 +149,7 @@ namespace GroundWellDesign
                     keyLayers[i].Cdyxbj = r[i];
                 }
 
-
-                //拐点移动据S
+                // 拐点移动据S
                 S = (MWNumericArray)logic.calS(Type, Ll0, (MWNumericArray)H0);
                 double[] s = (double[])S.ToVector(MWArrayComponent.Real);
                 for (int i = 0; i < count; i++)
@@ -218,8 +217,6 @@ namespace GroundWellDesign
                 {
                     keyLayers[i].Jsdjscjwy = w[i];
                 }
-
-
 
                 //计算点即时离层位移1△Wt
                 DelW = (MWNumericArray)logic.caldeltaW(transpose(W));

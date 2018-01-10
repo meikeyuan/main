@@ -57,11 +57,9 @@ namespace GroundWellDesign
                 return ERRORCODE.没有关键层数据;
             }
 
-
             //需要修正的p
             if (pjxsxz == 0)
             {
-
                 return ERRORCODE.没有评价系数修正系数;
             }
 
@@ -97,52 +95,48 @@ namespace GroundWellDesign
                 Eta = (MWNumericArray)logic.calEta((MWNumericArray)Pxz);
 
                 //计算Wmax
-                //需要煤层倾角 煤层厚度
                 if (Mchd == 0)
                 {
                     return ERRORCODE.没有煤层倾角和煤层厚度;
                 }
                 Wmax = (MWNumericArray)logic.calWmax(m, Eta, alpha);
 
-                //走向l0/H0  倾向L0/H0
-                //需要走向倾向
+                // 计算 走向l0/H0  倾向L0/H0
                 if (HcqZXcd == 0 || HcqQXcd == 0)
                 {
-
                     return ERRORCODE.没有回采区长度;
                 }
                 Zx = (MWNumericArray)logic.caldiv(Ll0, (MWNumericArray)H0);
                 Qx = (MWNumericArray)logic.caldiv(L0, (MWNumericArray)H0);
 
-                //岩性影响系数D type
+                // 岩性影响系数D type
                 MWNumericArray p = (MWNumericArray)Pxz;
                 MWArray[] temp = logic.table4(2, (MWNumericArray)Pxz);
                 D = (MWNumericArray)temp[0];
                 Type = (MWNumericArray)temp[1];
                 Type = transpose(Type);
 
-                //tgbate
+                // tgbate
                 tgbeta = (MWNumericArray)logic.caltgbeta(alpha, D, (MWNumericArray)H);
 
-                //采动影响半径
+                // 采动影响半径
                 R = (MWNumericArray)logic.calr((MWNumericArray)H, tgbeta);
 
-                //拐点移动据S
+                // 拐点移动据S
                 S = (MWNumericArray)logic.calS(Type, Ll0, (MWNumericArray)H0);
 
-                //倾斜煤层倾向回采空间尺寸L'
+                // 倾斜煤层倾向回采空间尺寸L'
                 Lp = (MWNumericArray)logic.call((MWNumericArray)Ll0, S);
 
-                //采场充分开采空间距离lc
-
+                // 采场充分开采空间距离lc
                 MWArray[] temp2 = logic.callc(2, transpose(R), transpose(S));
                 Llc = (MWNumericArray)temp2[0];
                 Lc = (MWNumericArray)temp2[1];
 
-                //岩层最大下沉值W0
+                // 岩层最大下沉值W0
                 W0 = (MWNumericArray)logic.calW0(transpose(Wmax), Ll0, L0, transpose(Llc), transpose(Lc));
 
-                //岩层沉降迟滞系数C
+                // 岩层沉降迟滞系数C
                 C = (MWNumericArray)logic.calC(R, (MWNumericArray)H0);
 
 
@@ -150,7 +144,6 @@ namespace GroundWellDesign
                 //需要推进速度
                 if (Gzmsd == 0)
                 {
-
                     return ERRORCODE.没有工作面推进速度;
                 }
                 MWArray[] temp3 = logic.calW(4, x, transpose(W0), transpose(R), transpose(Lp), transpose(C), v, transpose((MWNumericArray)T));
@@ -159,7 +152,7 @@ namespace GroundWellDesign
                 P2 = (MWNumericArray)temp3[2];
                 P3 = (MWNumericArray)temp3[3];
 
-
+                // 计算倾向剪切位移 走向剪切位移 剪切和位移
                 MWArray[] temp5 = logic.calu(2, transpose((MWNumericArray)cengHou), transpose((MWNumericArray)keyIndex), transpose(R), transpose(W), transpose(P1), transpose(P2), transpose(P3));
                 Ux = (MWNumericArray)temp5[0];
                 Uz = (MWNumericArray)temp5[1];
@@ -177,13 +170,16 @@ namespace GroundWellDesign
                     var row = cutOffsetDataGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
                     row.Visibility = System.Windows.Visibility.Visible;
                 }
+
+
+                // 其他岩层隐藏
                 for (int i = up.Length; i < layers.Count; i++)
                 {
                     var row = cutOffsetDataGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
                     row.Visibility = System.Windows.Visibility.Collapsed;
                 }
-                return ERRORCODE.计算成功;
 
+                return ERRORCODE.计算成功;
             }
             catch (Exception)
             {

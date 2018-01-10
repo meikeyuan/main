@@ -66,6 +66,7 @@ namespace GroundWellDesign
                 return ERRORCODE.没有关键层数据;
             }
 
+            // 获取填写的参数
             double[] w0 = new double[keycount];
             double[] up = new double[keycount];
             double[] e = new double[keycount];
@@ -74,7 +75,6 @@ namespace GroundWellDesign
             double[] a = new double[keycount];
             double[] tlim = new double[keycount];
             double[] sigmaLim = new double[keycount];
-
             for (int i = 0; i < keycount; i++)
             {
                 w0[i] = keyLayers[i].Yczdxcz;
@@ -99,12 +99,10 @@ namespace GroundWellDesign
                 if(keyLayers[i].Klqd.Equals(KlqdOpt[0]))
                 {
                     sigmaLim[i] = 0.41;
-
                 }else{
                     sigmaLim[i] = 0.55;
                 }
             }
-
             for (int i = 0, j = 0; i < layers.Count; i++)
             {
                 if (layers[i].IsKeyLayer)
@@ -155,7 +153,6 @@ namespace GroundWellDesign
             }
 
         }
-
 
     }
 }

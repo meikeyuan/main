@@ -35,6 +35,11 @@ namespace GroundWellDesign
 
             for (int i = 0; i < dataGrid.Items.Count; i++)
             {
+                var dataGridRow = dataGrid.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                if (dataGridRow.Visibility != System.Windows.Visibility.Visible)
+                {
+                    continue;
+                }
                 DataRow row = dt.NewRow();
                 for (int j = 0; j < dataGrid.Columns.Count; j++)
                 {
@@ -111,7 +116,7 @@ namespace GroundWellDesign
                     workbook.Save(path);
                     succeed = true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     succeed = false;
                 }

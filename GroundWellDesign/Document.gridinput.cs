@@ -1,4 +1,5 @@
-﻿using GroundWellDesign.ViewModel;
+﻿using GroundWellDesign.Util;
+using GroundWellDesign.ViewModel;
 using MathWorks.MATLAB.NET.Arrays;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,7 @@ namespace GroundWellDesign
                         new SaveToDBWindow(layer).ShowDialog();
                         break;
                     case MessageBoxResult.Yes:
-                        bool success = DataSaveAndRestore.saveToSqlite(layer, layer.DataBaseKey, true, layer.WellNamePK, true);
+                        bool success = SQLDBHelper.saveToSqlite(layer, layer.DataBaseKey, true, layer.WellNamePK, true);
                         if (success)
                         {
                             MessageBox.Show("操作成功");

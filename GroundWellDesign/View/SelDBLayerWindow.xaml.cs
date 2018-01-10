@@ -1,4 +1,5 @@
-﻿using GroundWellDesign.ViewModel;
+﻿using GroundWellDesign.Util;
+using GroundWellDesign.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,14 +44,14 @@ namespace GroundWellDesign
 
 
             //加载矿井下拉选择列表
-            DataSaveAndRestore.getAllWellName(items);
+            SQLDBHelper.getAllWellName(items);
             items.Insert(0, cus);
             wellNameCombo.ItemsSource = items;
             wellNameCombo.SelectedIndex = 0;
 
 
             //加载所有数据库岩层
-            DataSaveAndRestore.getDBLayers(existedLayers, yanXing, null);
+            SQLDBHelper.getDBLayers(existedLayers, yanXing, null);
             if(existedLayers.Count == 0)
             {
                 Close();
@@ -75,9 +76,9 @@ namespace GroundWellDesign
         {
             //加载数据库岩层
             if(wellNameCombo.SelectedIndex == 0)
-                DataSaveAndRestore.getDBLayers(existedLayers, yanXing, null);
+                SQLDBHelper.getDBLayers(existedLayers, yanXing, null);
             else
-                DataSaveAndRestore.getDBLayers(existedLayers, yanXing, wellNameCombo.SelectedValue.ToString());
+                SQLDBHelper.getDBLayers(existedLayers, yanXing, wellNameCombo.SelectedValue.ToString());
             existedLayerGrid.DataContext = existedLayers;
         }
 

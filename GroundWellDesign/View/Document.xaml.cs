@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using AxMxDrawXLib;
 using System.Collections.ObjectModel;
-using mky;
 using System.IO;
 using System.Threading;
 using System.Runtime.InteropServices;
