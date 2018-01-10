@@ -22,6 +22,7 @@ namespace GroundWellDesign
 
 
         public ObservableCollection<LayerBaseParamsViewModel> layers = new ObservableCollection<LayerBaseParamsViewModel>();
+        LayerBaseParams copyedLayer;
         LayerBaseParamsViewModel editLayer;
 
         public ObservableCollection<KeyLayerParamsViewModel> keyLayers = new ObservableCollection<KeyLayerParamsViewModel>();

@@ -208,6 +208,48 @@ namespace GroundWellDesign
             paramGrid.SelectedIndex = selectedIndex + 1;
         }
 
+        // 复制行
+        private void click_copyRow(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = paramGrid.SelectedIndex;
+            if (selectedIndex == -1)
+            {
+                MessageBox.Show("请选中一行...");
+                return;
+            }
+
+            //下标超出已经录入范围
+            if (selectedIndex >= layers.Count)
+                return;
+
+            copyedLayer = layers[selectedIndex].LayerParams.Clone() as LayerBaseParams;
+        }
+
+        // 粘贴行
+        private void click_pasteRow(object sender, RoutedEventArgs e)
+        {
+            if(copyedLayer == null)
+            {
+                MessageBox.Show("粘贴板无数据。");
+                return;
+            }
+
+            LayerBaseParamsViewModel newLine = new LayerBaseParamsViewModel(this, copyedLayer);
+            int selectedIndex = paramGrid.SelectedIndex;
+            if (selectedIndex == -1) //未选择行
+            {
+                layers.Add(newLine);
+                return;
+            }
+            if (selectedIndex >= layers.Count)  //选择了空行
+            {
+                layers.Insert(selectedIndex, newLine);
+                return;
+            }
+            layers.Insert(selectedIndex + 1, newLine);  //选择了非空行
+        }
+        
+        
         // 计算关键层和竖三带
         private void click_showKeyRow(object sender, RoutedEventArgs e)
         {

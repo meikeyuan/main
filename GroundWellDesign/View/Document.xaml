@@ -229,10 +229,12 @@
                         <DataGrid.ContextMenu>
                             <ContextMenu x:Name="dgMenu" StaysOpen="true">
                                 <MenuItem Header="保存到数据库" Click="click_saveToDB" Visibility="{Binding BLogin,Source={x:Static local:ContainerWindow.loginInfo}, Converter={StaticResource loginToVisConvert}}" />
-                                <MenuItem Header="增行" Click="click_addRow"/>
+                                <MenuItem Header="下方增行" Click="click_addRow"/>
                                 <MenuItem Header="删除" Click="click_delRow"/>
                                 <MenuItem Header="上移" Click="click_upRow" />
                                 <MenuItem Header="下移" Click="click_downRow" />
+                                <MenuItem Header="复制" Click="click_copyRow" />
+                                <MenuItem Header="粘贴" Click="click_pasteRow" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
