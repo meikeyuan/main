@@ -192,6 +192,11 @@ namespace GroundWellDesign.ViewModel
                 //刷新
                 refreshLeiJiShenDu();
                 refreshJuLiMeiShenDu();
+                if(YanXing.Equals("煤"))
+                {
+                    mainWindow.Mchd = value;
+                    mainWindow.meiCengHouDuTb.Text = this.layerBaseParams.CengHou.ToString("f3");
+                }
                 RaisePropertyChanged("CengHou");
             }
         }

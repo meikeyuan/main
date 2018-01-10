@@ -249,8 +249,9 @@ namespace GroundWellDesign
                 trans.Commit();
                 success = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                layer.MiaoShu = e.Message;
                 trans.Rollback();
                 success = false;
             }
@@ -324,7 +325,10 @@ namespace GroundWellDesign
                 param.LayerParams.Q0 = (double)reader["q0"];
                 param.LayerParams.Q1 = (double)reader["q1"];
                 param.LayerParams.Q2 = (double)reader["q2"];
-                param.LayerParams.MiaoShu = (string)reader["miaoShu"];
+                if (reader["miaoShu"] != DBNull.Value)
+                    param.LayerParams.MiaoShu = (string)reader["miaoShu"];
+                else
+                    param.LayerParams.MiaoShu = "";
 
                 existedLayers.Add(param);
             }

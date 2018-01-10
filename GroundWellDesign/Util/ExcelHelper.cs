@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -180,6 +181,11 @@ namespace GroundWellDesign
             }
             catch (Exception e)
             {
+                var file = File.Open("C:\\log.txt", FileMode.OpenOrCreate, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(file, Encoding.Default);
+                sw.Write(e.Message);
+                sw.Close();
+
                 MessageBox.Show("保存出错。请检查是否有同名文件未关闭。");
             }
             finally
