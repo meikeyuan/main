@@ -90,7 +90,7 @@ namespace GroundWellDesign
             DataTable dt = null;
             if(filePath != null)
             {
-                dt = new ExcelHelper().LoadExcel(filePath);
+                dt = ExcelHelper.LoadExcelWithAspose(filePath);
                 if(dt == null || dt.Columns.Count != 17)
                 {
                     MessageBox.Show("读取文件失败，请检查格式。");

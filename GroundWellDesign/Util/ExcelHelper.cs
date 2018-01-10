@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Aspose.Cells;
+using GroundWellDesign.Properties;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
@@ -15,110 +17,14 @@ namespace GroundWellDesign
 {
     public class ExcelHelper
     {
-        private Excel.Application _excelApp = null;
-        private Excel.Workbooks _books = null;
-        private Excel._Workbook _book = null;
-        private Excel.Sheets _sheets = null;
-        private Excel._Worksheet _sheet = null;
-        private Excel.Range _range = null;
-        private Excel.Font _font = null;
-        // Optional argument variable
-        private object _optionalValue = Missing.Value;
+        #region ExportToExcel
 
-        /// <summary>
-        /// 读取Excel文件
-        /// </summary>
-        /// <param name="pPath"></param>
-        /// <returns></returns>
-        public DataTable LoadExcel(string pPath)
+        public static DataTable ExtractDataTable(DataGrid dataGrid)
         {
-            //Driver={Driver do Microsoft Excel(*.xls)} 这种连接写法不需要创建一个数据源DSN，DRIVERID表示驱动ID，Excel2003后都使用790，FIL表示Excel文件类型，Excel2007用excel 8.0，MaxBufferSize表示缓存大小，DBQ表示读取Excel的文件名（全路径）
+            if (dataGrid == null)
+                return null;
 
-            string connString = "Driver={Driver do Microsoft Excel(*.xls)};DriverId=790;SafeTransactions=0;ReadOnly=1;MaxScanRows=16;Threads=3;MaxBufferSize=2024;UserCommitSync=Yes;FIL=excel 8.0;PageTimeout=5;";
-            connString += "DBQ=" + pPath;
-            OdbcConnection conn = new OdbcConnection(connString);
-            OdbcCommand cmd = new OdbcCommand();
-            cmd.Connection = conn;
-            //获取Excel中第一个Sheet名称，作为查询时的表名
-            string sheetName = this.GetExcelSheetName(pPath);
-            string sql = "select * from [" + sheetName.Replace('.', '#') + "$]";
-            cmd.CommandText = sql;
-            OdbcDataAdapter da = new OdbcDataAdapter(cmd);
-            DataSet ds = new DataSet();
-            try
-            {
-                da.Fill(ds);
-                return ds.Tables[0];
-            }
-            catch (Exception x)
-            {
-                ds = null;
-                throw new Exception("从Excel文件中获取数据时发生错误！");
-            }
-            finally
-            {
-                cmd.Dispose();
-                cmd = null;
-                da.Dispose();
-                da = null;
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();
-                }
-                conn = null;
-            }
-        }
-        
-        private string GetExcelSheetName(string pPath)
-        {
-            //打开一个Excel应用
-
-            _excelApp = new Excel.Application();
-            if (_excelApp == null)
-            {
-                throw new Exception("打开Excel应用时发生错误！");
-            }
-            _books = _excelApp.Workbooks;
-            //打开一个现有的工作薄
-            _book = _books.Add(pPath);
-            _sheets = _book.Sheets;
-            //选择第一个Sheet页
-            _sheet = (Excel._Worksheet)_sheets.get_Item(1);
-            string sheetName = _sheet.Name;
-
-            ReleaseCOM(_sheet);
-            ReleaseCOM(_sheets);
-            ReleaseCOM(_book);
-            ReleaseCOM(_books);
-            _excelApp.Quit();
-            ReleaseCOM(_excelApp);
-            return sheetName;
-        }
-        
-        /// <summary>
-        /// 释放COM对象
-        /// </summary>
-        /// <param name="pObj"></param>
-        private void ReleaseCOM(object pObj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(pObj);
-            }
-            catch
-            {
-                throw new Exception("释放资源时发生错误！");
-            }
-            finally
-            {
-                pObj = null;
-            }
-        }
-
-
-        public void Export(DataGrid dataGrid, string excelTitle)
-        {
-            System.Data.DataTable dt = new System.Data.DataTable();
+            DataTable dt = new DataTable();
             for (int i = 0; i < dataGrid.Columns.Count; i++)
             {
                 if (dataGrid.Columns[i].Visibility == System.Windows.Visibility.Visible)//只导出可见列  
@@ -129,7 +35,7 @@ namespace GroundWellDesign
 
             for (int i = 0; i < dataGrid.Items.Count; i++)
             {
-                System.Data.DataRow row = dt.NewRow();
+                DataRow row = dt.NewRow();
                 for (int j = 0; j < dataGrid.Columns.Count; j++)
                 {
                     if (dataGrid.Columns[j].Visibility == System.Windows.Visibility.Visible)
@@ -139,169 +45,100 @@ namespace GroundWellDesign
                         {
                             row[j] = (obj as TextBlock).Text.ToString();
                         }
-                        else if((obj as ComboBox) != null)
+                        else if ((obj as System.Windows.Controls.ComboBox) != null)
                         {
-                            row[j] = (obj as ComboBox).Text.ToString();
+                            row[j] = (obj as System.Windows.Controls.ComboBox).Text.ToString();
                         }
                     }
                 }
                 dt.Rows.Add(row);
             }
 
-            SaveToExcel(excelTitle, dt);
+            return dt;
         }
 
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 保存到Excel
-        /// </summary>
-        /// <param name="excelName"></param>
-        private void SaveToExcel(string excelName, DataTable dataTable)
+        public static bool ExportExcelWithAspose(DataTable dt, string path)
         {
-            try
+            bool succeed = false;
+            if (dt != null)
             {
-                if (dataTable != null)
+                try
                 {
-                    if (dataTable.Rows.Count != 0)
+                    Aspose.Cells.License li = new Aspose.Cells.License();
+                    string lic = Resources.License;
+                    li.SetLicense(lic);
+
+                    Aspose.Cells.Workbook workbook = new Aspose.Cells.Workbook();
+                    Aspose.Cells.Worksheet cellSheet = workbook.Worksheets[0];
+
+                    cellSheet.Name = dt.TableName;
+
+                    int rowIndex = 0;
+                    int colIndex = 0;
+                    int colCount = dt.Columns.Count;
+                    int rowCount = dt.Rows.Count;
+
+                    //列名的处理
+                    for (int i = 0; i < colCount; i++)
                     {
-                        Mouse.SetCursor(Cursors.Wait);
-                        CreateExcelRef();
-                        FillSheet(dataTable);
-                        SaveExcel(excelName);
-                        Mouse.SetCursor(Cursors.Arrow);
+                        cellSheet.Cells[rowIndex, colIndex].PutValue(dt.Columns[i].ColumnName);
+                        cellSheet.Cells[rowIndex, colIndex].Style.Font.IsBold = true;
+                        cellSheet.Cells[rowIndex, colIndex].Style.Font.Name = "宋体";
+                        colIndex++;
                     }
+
+                    Aspose.Cells.Style style = workbook.Styles[workbook.Styles.Add()];
+                    style.Font.Name = "Arial";
+                    style.Font.Size = 10;
+                    Aspose.Cells.StyleFlag styleFlag = new Aspose.Cells.StyleFlag();
+                    cellSheet.Cells.ApplyStyle(style, styleFlag);
+
+                    rowIndex++;
+
+                    for (int i = 0; i < rowCount; i++)
+                    {
+                        colIndex = 0;
+                        for (int j = 0; j < colCount; j++)
+                        {
+                            cellSheet.Cells[rowIndex, colIndex].PutValue(dt.Rows[i][j].ToString());
+                            colIndex++;
+                        }
+                        rowIndex++;
+                    }
+                    cellSheet.AutoFitColumns();
+
+                    path = Path.GetFullPath(path);
+                    workbook.Save(path);
+                    succeed = true;
                 }
-            }
-            catch (Exception e)
-            {
-                var file = File.Open("C:\\log.txt", FileMode.OpenOrCreate, FileAccess.Write);
-                StreamWriter sw = new StreamWriter(file, Encoding.Default);
-                sw.Write(e.Message);
-                sw.Close();
-
-                MessageBox.Show("保存出错。请检查是否有同名文件未关闭。");
-            }
-            finally
-            {
-                ReleaseCOM(_sheet);
-                ReleaseCOM(_sheets);
-                ReleaseCOM(_book);
-                ReleaseCOM(_books);
-                ReleaseCOM(_excelApp);
-            }
-        }
-
-        /// <summary>
-        /// 将内存中Excel保存到本地路径
-        /// </summary>
-        /// <param name="excelName"></param>
-        private void SaveExcel(string excelName)
-        {
-            _excelApp.Visible = false;
-            //保存为Office2003和Office2007都兼容的格式
-            _book.SaveAs(excelName, Microsoft.Office.Interop.Excel.XlFileFormat.xlExcel8, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            _excelApp.Quit();
-
-        }
-
-        /// <summary>
-        /// 将数据填充到内存Excel的工作表
-        /// </summary>
-        /// <param name="dataTable"></param>
-        private void FillSheet(DataTable dataTable)
-        {
-            object[] header = CreateHeader(dataTable);
-            WriteData(header, dataTable);
-        }
-
-
-        private void WriteData(object[] header, DataTable dataTable)
-        {
-            object[,] objData = new object[dataTable.Rows.Count, header.Length];
-
-            for (int j = 0; j < dataTable.Rows.Count; j++)
-            {
-                var item = dataTable.Rows[j];
-                for (int i = 0; i < header.Length; i++)
+                catch (Exception ex)
                 {
-                    var y = dataTable.Rows[j][i];
-                    objData[j, i] = (y == null) ? "" : y.ToString();
+                    succeed = false;
                 }
             }
-            AddExcelRows("A2", dataTable.Rows.Count, header.Length, objData);
-            AutoFitColumns("A1", dataTable.Rows.Count + 1, header.Length);
+
+            return succeed;
         }
 
+        #endregion  // ExportToExcel
 
-        private void AutoFitColumns(string startRange, int rowCount, int colCount)
+
+        #region LoadFromExcel
+
+        public static DataTable LoadExcelWithAspose(string path, bool showTitle = true)
         {
-            _range = _sheet.get_Range(startRange, _optionalValue);
-            _range = _range.get_Resize(rowCount, colCount);
-            _range.Columns.AutoFit();
+            Aspose.Cells.License li = new Aspose.Cells.License();
+            string lic = Resources.License;
+            li.SetLicense(lic);
+
+            Workbook workbook = new Workbook();
+            workbook.Open(path);
+            Cells cells = workbook.Worksheets[0].Cells;
+            DataTable dt = cells.ExportDataTableAsString(0, 0, cells.MaxDataRow + 1, cells.MaxColumn + 1, showTitle);
+
+            return dt;
         }
 
-
-        private object[] CreateHeader(DataTable dataTable)
-        {
-
-            List<object> objHeaders = new List<object>();
-            for (int n = 0; n < dataTable.Columns.Count; n++)
-            {
-                objHeaders.Add(dataTable.Columns[n].ColumnName);
-            }
-
-            var headerToAdd = objHeaders.ToArray();
-            //工作表的单元是从“A1”开始
-            AddExcelRows("A1", 1, headerToAdd.Length, headerToAdd);
-            SetHeaderStyle();
-
-            return headerToAdd;
-        }
-
-        /// <summary>
-        /// 将表头加粗显示
-        /// </summary>
-        private void SetHeaderStyle()
-        {
-            _font = _range.Font;
-            _font.Bold = true;
-        }
-
-        /// <summary>
-        /// 将数据填充到Excel工作表的单元格中
-        /// </summary>
-        /// <param name="startRange"></param>
-        /// <param name="rowCount"></param>
-        /// <param name="colCount"></param>
-        /// <param name="values"></param>
-        private void AddExcelRows(string startRange, int rowCount, int colCount, object values)
-        {
-            _range = _sheet.get_Range(startRange, _optionalValue);
-            _range = _range.get_Resize(rowCount, colCount);
-            _range.set_Value(_optionalValue, values);
-        }
-        /// <summary>
-        /// 创建一个Excel程序实例
-        /// </summary>
-        private void CreateExcelRef()
-        {
-            _excelApp = new Excel.Application();
-            _books = (Excel.Workbooks)_excelApp.Workbooks;
-            _book = (Excel._Workbook)(_books.Add(_optionalValue));
-            _sheets = (Excel.Sheets)_book.Worksheets;
-            _sheet = (Excel._Worksheet)(_sheets.get_Item(1));
-        }
-
-
-
-
-
+        #endregion  // LoadFromExcel
     }
 }

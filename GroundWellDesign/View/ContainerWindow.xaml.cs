@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
@@ -428,29 +429,29 @@ namespace GroundWellDesign
             }
             Document curWindow = windows[index];
             Object selectedItem = curWindow.tabControl.SelectedItem;
-            DataGrid datagride = null;
+            DataGrid datagrid = null;
             if(selectedItem == curWindow.gridinputTabItem)
             {
-                datagride = curWindow.paramGrid;
+                datagrid = curWindow.paramGrid;
             }
             else if(selectedItem == curWindow.keyLayerTabItem)
             {
-                datagride = curWindow.keyLayerDataGrid;
+                datagrid = curWindow.keyLayerDataGrid;
             }
             else if(selectedItem == curWindow.cutOffsetTabItem)
             {
-                datagride = curWindow.cutOffsetDataGrid;
+                datagrid = curWindow.cutOffsetDataGrid;
             }
             else if(selectedItem == curWindow.lcOffsetTabItem)
             {
-                datagride = curWindow.lcOffsetDataGrid;
+                datagrid = curWindow.lcOffsetDataGrid;
             }
             else if(selectedItem == curWindow.taoGuanTabItem)
             {
-                datagride = curWindow.taoGuanDataGrid;
+                datagrid = curWindow.taoGuanDataGrid;
             }
 
-            if(datagride == null)
+            if(datagrid == null)
             {
                 MessageBox.Show("当前界面无表格。");
                 return;
@@ -460,7 +461,15 @@ namespace GroundWellDesign
             string filePath = FileDialogHelper.getSavePath(defaultName, "Excel文件(*.xls)|*.xls");
             if (filePath != null)
             {
-                new ExcelHelper().Export(datagride, filePath);
+                DataTable dt = ExcelHelper.ExtractDataTable(datagrid);
+                if(ExcelHelper.ExportExcelWithAspose(dt, filePath))
+                {
+                    MessageBox.Show("导出成功。");
+                }
+                else
+                {
+                    MessageBox.Show("导出失败。");
+                }
             }
         }
 
