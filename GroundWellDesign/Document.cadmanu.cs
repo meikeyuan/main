@@ -68,19 +68,19 @@ namespace GroundWellDesign
                     {
                         if (keyLayers[i].Jqaqxs < 1)
                         {
-                            keyLayers[i].IsDangerious = true;
+                            keyLayers[i].IsDangerious = 1;
                             dangerCnt++;
                             dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].Jqaqxs.ToString("f3");
                         }
                         else if (keyLayers[i].Lsaqxs < 1)
                         {
-                            keyLayers[i].IsDangerious = true;
+                            keyLayers[i].IsDangerious = 1;
                             dangerCnt++;
                             dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].Lsaqxs.ToString("f3");
                         }
                         else
                         {
-                            keyLayers[i].IsDangerious = false;
+                            keyLayers[i].IsDangerious = -1;
                         }
                     }
                     break;

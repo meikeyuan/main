@@ -127,6 +127,7 @@
     <Compile Include="Document.zengyi.cs" />
     <Compile Include="Util\ExcelHelper.cs" />
     <Compile Include="Util\FileDialogHelper.cs" />
+    <Compile Include="Util\FileHelper.cs" />
     <Compile Include="Util\SQLDBHelper.cs" />
     <Compile Include="ViewModel\ManuDesignParamsViewModel.cs" />
     <Compile Include="ViewModel\ZengYiParamsViewModel.cs" />
@@ -296,6 +297,36 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="CADComponent\Compare52.mrx" />
+    <None Include="CADComponent\ExApp52.mrx" />
+    <None Include="CADComponent\mx.lin" />
+    <None Include="CADComponent\mx.pat" />
+    <None Include="CADComponent\mxbrowner.mnu" />
+    <None Include="CADComponent\MxDraw-Browner_ToolBar.mxt" />
+    <None Include="CADComponent\MxDraw-ToolBar-Draw.mxt" />
+    <None Include="CADComponent\MxDraw-ToolBar-DrawParam.mxt" />
+    <None Include="CADComponent\MxDraw-ToolBar-Edit.mxt" />
+    <None Include="CADComponent\MxDraw-ToolBar-ET.mxt" />
+    <None Include="CADComponent\MxDraw-ToolBar.mxt" />
+    <None Include="CADComponent\MxEdit52.mrx" />
+    <None Include="CADComponent\MxExpressTools52.mrx" />
+    <None Include="CADComponent\mxiso.pat" />
+    <None Include="CADComponent\mxmenu.mnu" />
+    <None Include="CADComponent\MxMrxDbg52.mrx" />
+    <None Include="CADComponent\mxpopmenu.mnu" />
+    <None Include="CADComponent\mxpopmenuent.mnu" />
+    <None Include="CADComponent\mxuser.pat" />
+    <None Include="CADComponent\PropertyEditor52.mrx" />
+    <None Include="CADComponent\QuickCommand.ini" />
+    <None Include="CADComponent\RegMxDrawX.bat" />
+    <None Include="CADComponent\shx\hztxt.shx" />
+    <None Include="CADComponent\shx\hztxt\gbcbig.shx" />
+    <None Include="CADComponent\shx\intecad.shx" />
+    <None Include="CADComponent\shx\intecad\gbcbig.shx" />
+    <None Include="CADComponent\shx\isocp.shx" />
+    <None Include="CADComponent\shx\ltypeshp.shx" />
+    <None Include="CADComponent\shx\txt.shx" />
+    <None Include="CADComponent\UnRegMxDrawX.bat" />
     <None Include="cads\三开-一全固二全固三悬挂.dwg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -399,6 +430,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CADComponent\mfc100u.dll" />
+    <Content Include="CADComponent\msvcp100.dll" />
+    <Content Include="CADComponent\msvcr100.dll" />
+    <Content Include="CADComponent\MxArx52.dll" />
+    <Content Include="CADComponent\MxBase52.dll" />
+    <Content Include="CADComponent\MxDraw52.dll" />
+    <Content Include="CADComponent\MxDrawX.ocx" />
+    <Content Include="CADComponent\MxDwg52.dll" />
+    <Content Include="CADComponent\MxFile52.dll" />
+    <Content Include="CADComponent\MxGe52.dll" />
+    <Content Include="CADComponent\MxKernel52.dll" />
+    <Resource Include="CADComponent\Watermark.png" />
     <Content Include="Lib\Aspose.Cells.dll" />
     <Content Include="Lib\GuiLabs.Undo.dll" />
     <Content Include="Lib\mky.dll" />

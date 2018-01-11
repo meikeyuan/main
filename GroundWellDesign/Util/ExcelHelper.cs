@@ -132,16 +132,23 @@ namespace GroundWellDesign
 
         public static DataTable LoadExcelWithAspose(string path, bool showTitle = true)
         {
-            Aspose.Cells.License li = new Aspose.Cells.License();
-            string lic = Resources.License;
-            li.SetLicense(lic);
+            try
+            {
+                Aspose.Cells.License li = new Aspose.Cells.License();
+                string lic = Resources.License;
+                li.SetLicense(lic);
 
-            Workbook workbook = new Workbook();
-            workbook.Open(path);
-            Cells cells = workbook.Worksheets[0].Cells;
-            DataTable dt = cells.ExportDataTableAsString(0, 0, cells.MaxDataRow + 1, cells.MaxColumn + 1, showTitle);
+                Workbook workbook = new Workbook();
+                workbook.Open(path);
+                Cells cells = workbook.Worksheets[0].Cells;
+                DataTable dt = cells.ExportDataTableAsString(0, 0, cells.MaxDataRow + 1, cells.MaxColumn + 1, showTitle);
 
-            return dt;
+                return dt;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
         }
 
         #endregion  // LoadFromExcel

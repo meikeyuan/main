@@ -32,10 +32,10 @@ namespace GroundWellDesign
                     bool b3 = (bool)value;
                     return b3 ? new SolidColorBrush(Colors.Coral) : new SolidColorBrush(Colors.Black);
                 case "danger":
-                    bool? danger = (bool?)value;
-                    if (danger == true) return new SolidColorBrush(Colors.Red);
-                    if (danger == false) return new SolidColorBrush(Colors.Green);
-                    if (danger == null) return new SolidColorBrush(Colors.White);
+                    int danger = (int)value;
+                    if (danger > 0) return new SolidColorBrush(Colors.Red);
+                    if (danger < 0) return new SolidColorBrush(Colors.Green);
+                    if (danger == 0) return new SolidColorBrush(Colors.White);
                     break;
                 case "yanXing":
                     string s = value as string;

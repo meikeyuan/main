@@ -103,7 +103,7 @@ namespace GroundWellDesign
             gZMTJSDTb.DataContext = this;
             jswzjlTb.DataContext = this;
 
-           
+            //initialData();
         }
 
 

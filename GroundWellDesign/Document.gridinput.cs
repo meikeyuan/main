@@ -109,6 +109,8 @@ namespace GroundWellDesign
                             baseParam.LayerParams[col] = dt.Rows[rowIndex][col];
                         }
                         layers.Add(baseParam);
+                        // 因为层厚是影响前两个字段的字段，通过刷新层厚刷新前两个字段。
+                        baseParam.CengHou = baseParam.LayerParams.CengHou;
                     }
                 }
                 catch(Exception)

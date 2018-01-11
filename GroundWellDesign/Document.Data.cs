@@ -35,9 +35,16 @@ namespace GroundWellDesign
         public static ObservableCollection<int> LayerNbrs = new ObservableCollection<int>();
         public static List<String> YanXingOpt = new List<string> { "地表", "黄土", "泥岩", "砂质泥岩", "细粒砂岩", "中粒砂岩", "粗粒砂岩", "粉砂岩", "细砂岩", "中砂岩", "煤" };
         public static List<String> CaiDongOpt = new List<string> { "初次采动Q0", "重复采动Q1", "重复采动Q2" };
-        public static List<String> KjqdOpt = new List<string> { "J55(0.2378GPa)", "N80(0.319GPa)" };
-        public static List<String> TgtxmlOpt = new List<string> { "J55(2.050e11)", "N80(2.070e11)" };
-        public static List<String> KlqdOpt = new List<string> { "J55(0.41GPa)", "N80(0.55GPa)" };
+        
+        // 安全系数计算部分
+        public static List<String> TgxhOpt = new List<string> { "J55", "N80", "自定义" };
+        public static List<double> KjqdOpt = new List<double> { 0.2378, 0.319 };
+        public static List<double> TxmlOpt = new List<double> { 2.050e11, 2.070e11 };
+        public static List<double> KlqdOpt = new List<double> { 0.41, 0.55 };
+
+        // 增益计算部分
+        public static List<string> TgtxmlOpt = new List<string> { "J55(2.050e11)", "N80(2.070e11)" };
+
         public static List<String> TggjOpt = new List<string> { "J55", "N80" };
         public static List<String> GjfsOpt = new List<string> { "全固", "局固" };
         public static List<String> WjfsOpt = new List<string> { "悬挂", "自由", "裸孔" };

@@ -12,9 +12,8 @@ namespace GroundWellDesign
     {
         public KeyLayerParams()
         {
-            this.Kjqd = Document.KjqdOpt[0];
-            this.Klqd = Document.KlqdOpt[0];
-            this.Tgtxml = Document.TgtxmlOpt[0];
+            this.Tgxh = Document.TgxhOpt[0];
+            IsDangerious = 0;
         }
 
         public KeyLayerParams Clone()
@@ -48,19 +47,21 @@ namespace GroundWellDesign
         //套管安全系数部分
         public double Tgwj { get; set; }
         public double Tgbh { get; set; }
-        public string Tgtxml { get; set; }
+
+        public string Tgxh { get; set; }
+        public double Tgtxml { get; set; }
 
         public double Lsqycd { get; set; }
-        public string Klqd { get; set; }
+        public double Klqd { get; set; }
         public double Lsyl { get; set; }
         public double Lsaqxs { get; set; }
 
         public double Jqqycd { get; set; }
-        public string Kjqd { get; set; }
+        public double Kjqd { get; set; }
         public double Zdjqyl { get; set; }
         public double Zdjqyb { get; set; }
         public double Jqaqxs { get; set; }
 
-        public bool IsDangerious { get; set; }
+        public int IsDangerious { get; set; }
     }
 }

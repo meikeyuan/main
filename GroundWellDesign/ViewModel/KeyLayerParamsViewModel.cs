@@ -24,6 +24,7 @@ namespace GroundWellDesign.ViewModel
             {
                 keyParams = param.Clone() as KeyLayerParams;
             }
+            Tgtxml = keyParams.Tgtxml;
         }
 
         public Document Window
@@ -36,17 +37,6 @@ namespace GroundWellDesign.ViewModel
         {
             get { return this.keyParams; }
             set { this.keyParams = value; }
-        }
-
-
-        public bool IsDangerious
-        {
-            get { return this.keyParams.IsDangerious; }
-            set
-            {
-                this.keyParams.IsDangerious = value;
-                RaisePropertyChanged("IsDangerious");
-            }
         }
 
         public int Ycbh
@@ -254,7 +244,7 @@ namespace GroundWellDesign.ViewModel
             int keycount = mainWindow.keyLayers.Count;
             for (int i = 0; i < keycount; i++)
             {
-                mainWindow.keyLayers[i].IsDangerious = false;
+                mainWindow.keyLayers[i].IsDangerious = 0;
             }
         }
 
@@ -281,7 +271,30 @@ namespace GroundWellDesign.ViewModel
             }
         }
 
-        public string Tgtxml
+        public string Tgxh
+        {
+            get { return this.keyParams.Tgxh; }
+            set
+            {
+                this.keyParams.Tgxh = value;
+                InvalidDanger();
+                RaisePropertyChanged("Tgxh");
+                if(value.Equals(Document.TgxhOpt[0]))
+                {
+                    Tgtxml = Document.TxmlOpt[0];
+                    Kjqd = Document.KjqdOpt[0];
+                    Klqd = Document.KlqdOpt[0];
+                }
+                else if(value.Equals(Document.TgxhOpt[1]))
+                {
+                    Tgtxml = Document.TxmlOpt[1];
+                    Kjqd = Document.KjqdOpt[1];
+                    Klqd = Document.KlqdOpt[1];
+                }
+            }
+        }
+
+        public double Tgtxml
         {
             get { return this.keyParams.Tgtxml; }
             set
@@ -302,7 +315,7 @@ namespace GroundWellDesign.ViewModel
                 RaisePropertyChanged("Lsqycd");
             }
         }
-        public string Klqd
+        public double Klqd
         {
             get { return this.keyParams.Klqd; }
             set
@@ -341,7 +354,7 @@ namespace GroundWellDesign.ViewModel
                 RaisePropertyChanged("Jqqycd");
             }
         }
-        public string Kjqd
+        public double Kjqd
         {
             get { return this.keyParams.Kjqd; }
             set
@@ -376,6 +389,16 @@ namespace GroundWellDesign.ViewModel
             {
                 this.keyParams.Jqaqxs = value;
                 RaisePropertyChanged("Jqaqxs");
+            }
+        }
+
+        public int IsDangerious
+        {
+            get { return this.keyParams.IsDangerious; }
+            set
+            {
+                this.keyParams.IsDangerious = value;
+                RaisePropertyChanged("IsDangerious");
             }
         }
     }

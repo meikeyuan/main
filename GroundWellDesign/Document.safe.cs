@@ -42,11 +42,11 @@ namespace GroundWellDesign
                     {
                         if (keyLayers[i].Jqaqxs < 1 || keyLayers[i].Lsaqxs < 1)
                         {
-                            keyLayers[i].IsDangerious = true;
+                            keyLayers[i].IsDangerious = 1;
                         }
                         else
                         {
-                            keyLayers[i].IsDangerious = false;
+                            keyLayers[i].IsDangerious = -1;
                         }
                     }
                     break;
@@ -78,30 +78,27 @@ namespace GroundWellDesign
             for (int i = 0; i < keycount; i++)
             {
                 w0[i] = keyLayers[i].Yczdxcz;
-                if (keyLayers[i].Tgtxml.Equals(TgtxmlOpt[0]))
+                //if (keyLayers[i].Tgxh.Equals(TgxhOpt[0]))
+                //{
+                //    e[i] = TgtxmlOpt[0];
+                //    tlim[i] = KjqdOpt[0];
+                //    sigmaLim[i] = KlqdOpt[0];
+                //}
+                //else if (keyLayers[i].Tgxh.Equals(TgxhOpt[1]))
+                //{
+                //    e[i] = TgtxmlOpt[1];
+                //    tlim[i] = KjqdOpt[1];
+                //    sigmaLim[i] = KlqdOpt[1];
+                //}
+                //else  // 用户自定义
                 {
-                    e[i] = 2.050e11;
-                }
-                else
-                {
-                    e[i] = 2.070e11;
+                    e[i] = keyLayers[i].Tgtxml;
+                    tlim[i] = keyLayers[i].Kjqd;
+                    sigmaLim[i] = keyLayers[i].Klqd;
                 }
                 r1[i] = keyLayers[i].Tgwj / 1000; //毫米转米
                 t[i] = keyLayers[i].Tgbh / 1000;
                 a[i] = keyLayers[i].Jqqycd;
-                if(keyLayers[i].Kjqd.Equals(KjqdOpt[0]))
-                {
-                    tlim[i] = 0.2378;
-                }else{
-                    tlim[i] = 0.319;
-                }
-                
-                if(keyLayers[i].Klqd.Equals(KlqdOpt[0]))
-                {
-                    sigmaLim[i] = 0.41;
-                }else{
-                    sigmaLim[i] = 0.55;
-                }
             }
             for (int i = 0, j = 0; i < layers.Count; i++)
             {

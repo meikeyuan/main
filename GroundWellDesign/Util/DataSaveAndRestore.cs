@@ -1,4 +1,5 @@
-﻿using GroundWellDesign.ViewModel;
+﻿using GroundWellDesign.Util;
+using GroundWellDesign.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -105,16 +106,21 @@ namespace GroundWellDesign
             try
             {
                 obj = formatter.Deserialize(stream2);
-                stream2.Close();
                 if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
                 {
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                FileHelper.WriteFile("C:\\log.txt", e.Message);
                 return false;
             }
+            finally
+            {
+                stream2.Close();
+            }
+
             DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
             //恢复基本参数
             document.layers.Clear();

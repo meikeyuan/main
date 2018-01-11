@@ -598,15 +598,19 @@
 
                             <DataGridTextColumn Binding="{Binding Tgwj, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="套管外径/mm" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Tgbh, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="套管壁厚/mm" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.TgtxmlOpt}" SelectedItemBinding="{Binding Tgtxml, UpdateSourceTrigger=LostFocus}" Header="套管弹性模量/Pa" />
 
+                            <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.TgxhOpt}" SelectedItemBinding="{Binding Tgxh, UpdateSourceTrigger=LostFocus}" Header="套管类型" />
+                            <DataGridTextColumn Binding="{Binding Tgtxml, UpdateSourceTrigger=LostFocus}" Header="套管弹性模量/Pa" />
+                            <DataGridTextColumn Binding="{Binding Kjqd, UpdateSourceTrigger=LostFocus}" Header="套管抗剪强度/Gpa" />
+                            <DataGridTextColumn Binding="{Binding Klqd, UpdateSourceTrigger=LostFocus}" Header="套管抗拉强度/Gpa" />
+                            
                             <DataGridTextColumn Binding="{Binding Jqqycd, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="剪切区域长度/m" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.KjqdOpt}" SelectedItemBinding="{Binding Kjqd, UpdateSourceTrigger=LostFocus}" Header="抗剪强度/Gpa" />
+                            
                             <DataGridTextColumn Binding="{Binding Zdjqyl, StringFormat=n3}"   Header="最大剪切应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Jqaqxs, StringFormat=n3}"   Header="剪切安全系数" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
 
                             <DataGridTextColumn Binding="{Binding Lsqycd, UpdateSourceTrigger=LostFocus, StringFormat=n3}"   Header="拉伸区域长度/m" Foreground="Orange" ElementStyle="{StaticResource elementStyle}"/>
-                            <DataGridComboBoxColumn ItemsSource="{x:Static local:Document.KlqdOpt}" SelectedItemBinding="{Binding Klqd, UpdateSourceTrigger=LostFocus}" Header="抗拉强度/Gpa" />
+                            
                             <DataGridTextColumn Binding="{Binding Zdjqyb, StringFormat=e3}"   Header="最大剪切应变ε" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Lsyl, StringFormat=n3}"   Header="拉伸应力/GPa" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
                             <DataGridTextColumn Binding="{Binding Lsaqxs, StringFormat=n3}"   Header="拉伸安全系数" IsReadOnly="True" ElementStyle="{StaticResource elementStyle}"/>
