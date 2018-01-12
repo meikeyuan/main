@@ -13,7 +13,7 @@ namespace GroundWellDesign
         public KeyLayerParams()
         {
             this.Tgxh = Document.TgxhOpt[0];
-            IsDangerious = 0;
+            this.IsDangerious = 0;
         }
 
         public KeyLayerParams Clone()

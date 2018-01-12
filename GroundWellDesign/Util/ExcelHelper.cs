@@ -18,17 +18,19 @@ namespace GroundWellDesign
     {
         #region ExportToExcel
 
+        // 提取DataGrid数据到DataTable。
         public static DataTable ExtractDataTable(DataGrid dataGrid)
         {
             if (dataGrid == null)
                 return null;
 
             DataTable dt = new DataTable();
+            // 构建表头  
             for (int i = 0; i < dataGrid.Columns.Count; i++)
             {
-                if (dataGrid.Columns[i].Visibility == System.Windows.Visibility.Visible)//只导出可见列  
+                if (dataGrid.Columns[i].Visibility == System.Windows.Visibility.Visible)  // 只导出可见列  
                 {
-                    dt.Columns.Add(dataGrid.Columns[i].Header.ToString());//构建表头  
+                    dt.Columns.Add(dataGrid.Columns[i].Header.ToString());
                 }
             }
 
@@ -61,64 +63,68 @@ namespace GroundWellDesign
             return dt;
         }
 
+        // 将DataTable对象转为Excel文件。
         public static bool ExportExcelWithAspose(DataTable dt, string path)
         {
-            bool succeed = false;
-            if (dt != null)
+            if(dt == null || path == null)
             {
-                try
+                return false;
+            }
+
+            bool succeed = false;
+            try
+            {
+                Aspose.Cells.License li = new Aspose.Cells.License();
+                string lic = Resources.License;
+                li.SetLicense(lic);
+
+                Aspose.Cells.Workbook workbook = new Aspose.Cells.Workbook();
+                Aspose.Cells.Worksheet cellSheet = workbook.Worksheets[0];
+
+                cellSheet.Name = dt.TableName;
+
+                int rowIndex = 0;
+                int colIndex = 0;
+                int colCount = dt.Columns.Count;
+                int rowCount = dt.Rows.Count;
+
+                //列名的处理
+                for (int i = 0; i < colCount; i++)
                 {
-                    Aspose.Cells.License li = new Aspose.Cells.License();
-                    string lic = Resources.License;
-                    li.SetLicense(lic);
+                    cellSheet.Cells[rowIndex, colIndex].PutValue(dt.Columns[i].ColumnName);
+                    cellSheet.Cells[rowIndex, colIndex].Style.Font.IsBold = true;
+                    cellSheet.Cells[rowIndex, colIndex].Style.Font.Name = "宋体";
+                    colIndex++;
+                }
 
-                    Aspose.Cells.Workbook workbook = new Aspose.Cells.Workbook();
-                    Aspose.Cells.Worksheet cellSheet = workbook.Worksheets[0];
+                Aspose.Cells.Style style = workbook.Styles[workbook.Styles.Add()];
+                style.Font.Name = "Arial";
+                style.Font.Size = 10;
+                Aspose.Cells.StyleFlag styleFlag = new Aspose.Cells.StyleFlag();
+                cellSheet.Cells.ApplyStyle(style, styleFlag);
 
-                    cellSheet.Name = dt.TableName;
+                rowIndex++;
 
-                    int rowIndex = 0;
-                    int colIndex = 0;
-                    int colCount = dt.Columns.Count;
-                    int rowCount = dt.Rows.Count;
-
-                    //列名的处理
-                    for (int i = 0; i < colCount; i++)
+                for (int i = 0; i < rowCount; i++)
+                {
+                    colIndex = 0;
+                    for (int j = 0; j < colCount; j++)
                     {
-                        cellSheet.Cells[rowIndex, colIndex].PutValue(dt.Columns[i].ColumnName);
-                        cellSheet.Cells[rowIndex, colIndex].Style.Font.IsBold = true;
-                        cellSheet.Cells[rowIndex, colIndex].Style.Font.Name = "宋体";
+                        cellSheet.Cells[rowIndex, colIndex].PutValue(dt.Rows[i][j].ToString());
                         colIndex++;
                     }
-
-                    Aspose.Cells.Style style = workbook.Styles[workbook.Styles.Add()];
-                    style.Font.Name = "Arial";
-                    style.Font.Size = 10;
-                    Aspose.Cells.StyleFlag styleFlag = new Aspose.Cells.StyleFlag();
-                    cellSheet.Cells.ApplyStyle(style, styleFlag);
-
                     rowIndex++;
-
-                    for (int i = 0; i < rowCount; i++)
-                    {
-                        colIndex = 0;
-                        for (int j = 0; j < colCount; j++)
-                        {
-                            cellSheet.Cells[rowIndex, colIndex].PutValue(dt.Rows[i][j].ToString());
-                            colIndex++;
-                        }
-                        rowIndex++;
-                    }
-                    cellSheet.AutoFitColumns();
-
-                    path = Path.GetFullPath(path);
-                    workbook.Save(path);
-                    succeed = true;
                 }
-                catch (Exception)
-                {
-                    succeed = false;
-                }
+                cellSheet.AutoFitColumns();
+
+                path = Path.GetFullPath(path);
+                workbook.Save(path);
+                succeed = true;
+            }
+            catch (Exception ex)
+            {
+                App.logger.Fatal(Resources.ExportExcelError, ex);
+                succeed = false;
             }
 
             return succeed;
@@ -129,6 +135,7 @@ namespace GroundWellDesign
 
         #region LoadFromExcel
 
+        // 从Excel文件读取DataTable。
         public static DataTable LoadExcelWithAspose(string path, bool showTitle = true)
         {
             try
@@ -144,8 +151,9 @@ namespace GroundWellDesign
 
                 return dt;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                App.logger.Fatal(Resources.LoadExcelError, ex);
                 return null;
             }
         }

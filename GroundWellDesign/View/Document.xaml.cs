@@ -48,22 +48,30 @@ namespace GroundWellDesign
             AutoWjfs3 = WjfsOpt[0];
 
             //cad初始化
-            cadViewer = new AxMxDrawX();
-            cadViewer.BeginInit();
-            wfHost.Child = cadViewer;
-            Thread thread = new Thread(new ThreadStart(closeFuckDlg));
-            thread.Start();
-            cadViewer.EndInit();
-            cadViewer.ViewColor = Color.FromArgb(255, 255, 255);
-
-
-            cadViewer2 = new AxMxDrawX();
-            cadViewer2.BeginInit();
-            wfHost2.Child = cadViewer2;
-            Thread thread2 = new Thread(new ThreadStart(closeFuckDlg));
-            thread2.Start();
-            cadViewer2.EndInit();
-            cadViewer2.ViewColor = Color.FromArgb(255, 255, 255);
+            try
+            {
+                // 自动设计cad
+                cadViewer = new AxMxDrawX();
+                cadViewer.BeginInit();
+                wfHost.Child = cadViewer;
+                Thread thread = new Thread(new ThreadStart(closeFuckDlg));
+                thread.Start();
+                cadViewer.EndInit();
+                cadViewer.ViewColor = Color.FromArgb(255, 255, 255);
+                // 人工设计cad
+                cadViewer2 = new AxMxDrawX();
+                cadViewer2.BeginInit();
+                wfHost2.Child = cadViewer2;
+                Thread thread2 = new Thread(new ThreadStart(closeFuckDlg));
+                thread2.Start();
+                cadViewer2.EndInit();
+                cadViewer2.ViewColor = Color.FromArgb(255, 255, 255);
+            }
+            catch(Exception ex)
+            {
+                App.logger.Fatal(GroundWellDesign.Properties.Resources.CADNotRegisteredError, ex);
+                App.Current.Shutdown(-1);
+            }
 
             //自动更新层号 层号不保存在集合中
             paramGrid.LoadingRow += new EventHandler<DataGridRowEventArgs>(dataGrid_LoadingRow);
@@ -138,7 +146,7 @@ namespace GroundWellDesign
 
         
 
-        //一下代码用于自动消除cad弹出框
+        // 用于自动消除cad弹出框
         [StructLayout(LayoutKind.Sequential)]
         public struct CopyDataStruct
         {

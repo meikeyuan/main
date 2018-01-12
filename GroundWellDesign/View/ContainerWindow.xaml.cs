@@ -72,71 +72,12 @@ namespace GroundWellDesign
         public static LoginInfo loginInfo = new LoginInfo();
         private int newFileCount = 1;
 
-        // 岩层数据库相关
-        private static string DATABASE_DIR = "c:\\ProgramData\\GroundWellDesign";
-        public static string DATABASE_PATH = DATABASE_DIR + "\\yanceng.db";
-        
-
         public ContainerWindow(bool bLogin, string filepath)
         {
             InitializeComponent();
             loginInfo.BLogin = bLogin;
             if(filepath != null && !filepath.Equals(""))
                 openFileHelper(filepath);
-
-            // 创建岩层数据库目录
-            Directory.CreateDirectory(DATABASE_DIR);
-            string dbPath = "Data Source =" + DATABASE_PATH;
-            SQLiteConnection conn = new SQLiteConnection(dbPath);
-            conn.Open();
-            SQLiteCommand sqlCmd = new SQLiteCommand(conn);
-
-            // 创建well表
-            SQLDBHelper.CreateTable(sqlCmd, "well", "wellName text primary key");
-
-            // 创建yanceng表
-            SQLDBHelper.CreateTable(sqlCmd, "yanceng", "id char(36) primary key");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "wellName", "text references well(wellName)");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "yanXing", "text");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "leiJiShenDu", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "juLiMeiShenDu", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "cengHou", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "ziRanMiDu", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "bianXingMoLiang", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "kangLaQiangDu", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "kangYaQiangDu", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "tanXingMoLiang", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "boSonBi", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "neiMoCaJiao", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "nianJuLi", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "f", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "q0", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "q1", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "q2", "double");
-            SQLDBHelper.AddColumn(sqlCmd, "yanceng", "miaoShu", "Text");
-
-
-
-            // 创建矿井表和岩层表  1对多关系
-            //string sql2 = "CREATE TABLE IF NOT EXISTS yanceng(" +
-            //             "id char(36) primary key, wellName text references well(wellName), " +
-            //             "yanXing text, leiJiShenDu double, juLiMeiShenDu double, cengHou double, ziRanMiDu double, " +
-            //             "bianXingMoLiang double, kangLaQiangDu double, kangYaQiangDu double, tanXingMoLiang double, boSonBi double, " +
-            //             "neiMoCaJiao double, nianJuLi double, f double, q0 double, q1 double, q2 double, miaoShu Text" +
-            //             ");";
-
-            //string sql1 = "CREATE TABLE IF NOT EXISTS well(" +
-            //             "wellName text primary key" +
-            //             ");";
-
-            //SQLiteCommand cmdCreateTable = new SQLiteCommand(conn);
-            //cmdCreateTable.CommandText = sql1;
-            //cmdCreateTable.ExecuteNonQuery();
-
-            //cmdCreateTable.CommandText = sql2;
-            //cmdCreateTable.ExecuteNonQuery();
-
-            conn.Close();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -194,7 +135,7 @@ namespace GroundWellDesign
             Document window = windows[index];
             if(!window.saveFile(filePath))
             {
-                MessageBox.Show("保存失败。");
+                MessageBox.Show(GroundWellDesign.Properties.Resources.OperateNotOk);
                 return;
             }
             if(window.FilePath == null)
@@ -215,7 +156,7 @@ namespace GroundWellDesign
 
             if(!saveFileHelper(index))
             {
-                MessageBox.Show("保存失败。");
+                MessageBox.Show(GroundWellDesign.Properties.Resources.OperateNotOk);
             }
         }
 
@@ -230,10 +171,10 @@ namespace GroundWellDesign
 
                 if (!saveFileHelper(index))
                 {
-                    MessageBox.Show("保存失败。");
+                    MessageBox.Show(GroundWellDesign.Properties.Resources.OperateNotOk);
                 }
             }
-            MessageBox.Show("操作完成。");
+            MessageBox.Show(GroundWellDesign.Properties.Resources.OperateOk);
         }
 
 
@@ -311,7 +252,7 @@ namespace GroundWellDesign
                 {
                     if (!saveFileHelper(index))
                     {
-                        MessageBox.Show("保存失败。");
+                        MessageBox.Show(GroundWellDesign.Properties.Resources.OperateNotOk);
                         return;
                     }
                 }
@@ -491,11 +432,11 @@ namespace GroundWellDesign
                 DataTable dt = ExcelHelper.ExtractDataTable(datagrid);
                 if(ExcelHelper.ExportExcelWithAspose(dt, filePath))
                 {
-                    MessageBox.Show("导出成功。");
+                    MessageBox.Show(GroundWellDesign.Properties.Resources.OperateOk);
                 }
                 else
                 {
-                    MessageBox.Show("导出失败。");
+                    MessageBox.Show(GroundWellDesign.Properties.Resources.OperateNotOk);
                 }
             }
         }

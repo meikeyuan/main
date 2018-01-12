@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GroundWellDesign.Properties;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,10 +12,22 @@ namespace GroundWellDesign.Util
     {
         public static void WriteFile(string path, string content)
         {
-            var file = File.OpenWrite(path);
-            StreamWriter sw = new StreamWriter(file);
-            sw.Write(content);
-            sw.Close();
+            StreamWriter sw = null;
+            try
+            {
+                var file = File.OpenWrite(path);
+                sw = new StreamWriter(file);
+                sw.Write(content);
+            }
+            catch(Exception e)
+            {
+                App.logger.Fatal(Resources.WriteFileError, e);
+            }
+            finally
+            {
+                if(sw != null)
+                    sw.Close();
+            }
         }
     }
 }

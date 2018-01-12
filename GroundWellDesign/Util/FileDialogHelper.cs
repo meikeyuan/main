@@ -8,6 +8,7 @@ namespace GroundWellDesign
 {
     class FileDialogHelper
     {
+        // 通过打开文件对话框，获得保存路径。
         public static string getSavePath(string fileName, string filter)
         {
             System.Windows.Forms.SaveFileDialog fileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -25,6 +26,7 @@ namespace GroundWellDesign
             }
         }
 
+        // 通过打开文件对话框，获得打开路径。
         public static string getOpenPath(string filter)
         {
             System.Windows.Forms.OpenFileDialog fileDialog = new System.Windows.Forms.OpenFileDialog();

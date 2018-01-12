@@ -24,9 +24,8 @@ namespace GroundWellDesign
     public partial class SelectLayerWindow : Window
     {
 
-
-        public ObservableCollection<LayerBaseParamsViewModel> existedLayers = new ObservableCollection<LayerBaseParamsViewModel>();
-        private List<String> items = new List<string>();
+        public ObservableCollection<LayerBaseParamsViewModel> existedLayers = null;
+        private List<String> items = null;
         private string cus = "所有矿井";
 
         private string yanXing;
@@ -44,14 +43,14 @@ namespace GroundWellDesign
 
 
             //加载矿井下拉选择列表
-            SQLDBHelper.getAllWellName(items);
+            items = SQLDBHelper.getAllWellName();
             items.Insert(0, cus);
             wellNameCombo.ItemsSource = items;
-            wellNameCombo.SelectedIndex = 0;
+            //wellNameCombo.SelectedIndex = 0;
 
 
             //加载所有数据库岩层
-            SQLDBHelper.getDBLayers(existedLayers, yanXing, null);
+            existedLayers = SQLDBHelper.getDBLayers(yanXing, null);
             if(existedLayers.Count == 0)
             {
                 Close();
@@ -68,7 +67,7 @@ namespace GroundWellDesign
 
             if (e.AddedCells.Count == 0)
                 return;
-             //进入编辑模式  这样单击一次就可以打勾了
+             //进入编辑模式，这样单击一次就可以打勾了
              existedLayerGrid.BeginEdit();
         }
 
@@ -76,9 +75,9 @@ namespace GroundWellDesign
         {
             //加载数据库岩层
             if(wellNameCombo.SelectedIndex == 0)
-                SQLDBHelper.getDBLayers(existedLayers, yanXing, null);
+                existedLayers = SQLDBHelper.getDBLayers(yanXing, null);
             else
-                SQLDBHelper.getDBLayers(existedLayers, yanXing, wellNameCombo.SelectedValue.ToString());
+                existedLayers = SQLDBHelper.getDBLayers(yanXing, wellNameCombo.SelectedValue.ToString());
             existedLayerGrid.DataContext = existedLayers;
         }
 
@@ -132,38 +131,39 @@ namespace GroundWellDesign
             int count = selectedList.Count;
             if (count <= 0)
             {
-                MessageBox.Show("请至少选择一项");
+                MessageBox.Show(GroundWellDesign.Properties.Resources.SelectAtLeastOnePrompt);
                 return;
             }
-            
-            if(count == 1)
+
+            if (count == 1)
             {
                 for (int j = 1; j <= 15; ++j)
                 {
                     WantedLayer[j] = existedLayers[selectedList[0]].LayerParams[j];
                 }
-                this.Close();
-                return;
             }
-
-            //遍历编号list
-            LayerBaseParams tmpLayer = new LayerBaseParams();
-            foreach(int i in selectedList)
+            else  // 取平均值
             {
-                LayerBaseParams layer = existedLayers[i].LayerParams;
+                // 遍历list
+                LayerBaseParams tmpLayer = new LayerBaseParams();
+                foreach (int i in selectedList)
+                {
+                    LayerBaseParams layer = existedLayers[i].LayerParams;
+                    for (int j = 1; j <= 15; ++j)
+                    {
+                        double res = (double)tmpLayer[j] + (double)layer[j];
+                        tmpLayer[j] = res;
+                    }
+                }
                 for (int j = 1; j <= 15; ++j)
                 {
-                    double res = (double)tmpLayer[j] + (double)layer[j];
-                    tmpLayer[j] = res;
+                    double res = (double)tmpLayer[j] / count;
+                    WantedLayer[j] = res;
                 }
             }
-            for (int j = 1; j <= 15; ++j)
-            {
-                double res = (double)tmpLayer[j] / count;
-                WantedLayer[j] = res;
-            }
-            WantedLayer.DataBaseKey = null;
-            WantedLayer.WellNamePK = null;
+            // 清除其数据库状态
+            WantedLayer.DataBaseKey = "";
+            WantedLayer.WellNamePK = "";
             this.Close();
         }
 

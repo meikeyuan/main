@@ -17,8 +17,14 @@ namespace GroundWellDesign
 {
     class DataSaveAndRestore
     {
+        // 从Document中提取需要保存的数据到序列化对象。
         private static DataToSave dump_obj(Document document)
         {
+            if(document == null)
+            {
+                return null;
+            }
+
             try
             {
                 DataToSave data = new DataToSave();
@@ -39,7 +45,6 @@ namespace GroundWellDesign
                 {
                     data.KeyLayers.Add(layerParam.Params);
                 }
-
 
                 data.KeyLayerData = new List<double>();
                 //保存横三带竖三代数据
@@ -78,13 +83,13 @@ namespace GroundWellDesign
             }
         }
 
-
+        // 序列化Document到文件。
         public static bool saveDocument(Document document, string path)
         {
             DataToSave obj = dump_obj(document);
             if(obj == null)
             {
-                App.logger.Warn(Resources.DumpNull);
+                App.logger.Warn(Resources.DumpEmpty);
                 return false;
             }
 
@@ -99,7 +104,7 @@ namespace GroundWellDesign
             }
             catch (Exception e)
             {
-                FileHelper.WriteFile("C:\\log.txt", e.Message);
+                App.logger.Error(Resources.SerializeError, e);
                 return false;
             }
             finally
@@ -109,7 +114,7 @@ namespace GroundWellDesign
             
         }
 
-
+        // 从文件反序列化到Document。
         public static bool restoreDocument(Document document, string path)
         {
             //重新取回数据 
@@ -127,7 +132,7 @@ namespace GroundWellDesign
             }
             catch (Exception e)
             {
-                FileHelper.WriteFile("C:\\log.txt", e.Message);
+                App.logger.Error(Resources.DeserializeError, e);
                 return false;
             }
             finally
@@ -203,6 +208,7 @@ namespace GroundWellDesign
         }
 
 
+        // 序列化对象，用于存储Document数据。
         [Serializable]
         public class DataToSave
         {

@@ -35,44 +35,26 @@ namespace GroundWellDesign
             }
 
             LayerBaseParams layer = layers[selectedIndex].LayerParams;
-
-            //先检查该岩层是否已经已经存在于数据库中
-            bool exist = false;
-            if(layer.DataBaseKey != null)
+            if(SQLDBHelper.LayerExisted(layer.DataBaseKey))
             {
-                // 打开数据库,若文件不存在会自动创建
-                string dbPath = "Data Source =" + ContainerWindow.DATABASE_PATH;
-                SQLiteConnection conn = new SQLiteConnection(dbPath);
-                conn.Open();
-
-                SQLiteCommand cmd = new SQLiteCommand(conn);
-                cmd.CommandText = "select * from yanceng where id = '" + layer.DataBaseKey + "'";
-                var reader = cmd.ExecuteReader();
-                exist = reader.HasRows;
-                reader.Close();
-                conn.Close();
-            }
-
-            if(exist)
-            {
-                MessageBoxResult res = MessageBox.Show("该岩层记录已存在，是否覆盖旧记录？选择\"否\"可新增一条。", "警告", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                MessageBoxResult res = MessageBox.Show(Properties.Resources.LayerExistPrompt, "请注意", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
                 switch (res)
                 {
-                    case MessageBoxResult.Cancel:
-                        break;
                     case MessageBoxResult.No:
                         new SaveToDBWindow(layer).ShowDialog();
                         break;
                     case MessageBoxResult.Yes:
-                        bool success = SQLDBHelper.saveToSqlite(layer, layer.DataBaseKey, true, layer.WellNamePK, true);
+                        bool success = SQLDBHelper.SaveLayer(layer, layer.DataBaseKey, true, layer.WellNamePK, true);
                         if (success)
                         {
-                            MessageBox.Show("操作成功");
+                            MessageBox.Show(GroundWellDesign.Properties.Resources.OperateOk);
                         }
                         else
                         {
-                            MessageBox.Show("操作失败");
+                            MessageBox.Show(GroundWellDesign.Properties.Resources.OperateNotOk);
                         }
+                        break;
+                    default:
                         break;
                 }
             }
@@ -80,46 +62,10 @@ namespace GroundWellDesign
             {
                 new SaveToDBWindow(layer).ShowDialog();
             }
-            
         }
 
 
-        // 从Excel导入岩层参数
-        private void click_importExcel(object sender, RoutedEventArgs e)
-        {
-            string filePath = FileDialogHelper.getOpenPath("Excel文件(*.xls)|*.xls");
-            DataTable dt = null;
-            if(filePath != null)
-            {
-                dt = ExcelHelper.LoadExcelWithAspose(filePath);
-                if(dt == null || dt.Columns.Count != 17)
-                {
-                    MessageBox.Show("读取文件失败，请检查格式。");
-                    return;
-                }
-                int rowIndex = 0;
-                try
-                {
-                    layers.Clear();
-                    for (; rowIndex < dt.Rows.Count; ++rowIndex)
-                    {
-                        LayerBaseParamsViewModel baseParam = new LayerBaseParamsViewModel(this);
-                        for (int col = 0; col < 17; ++col)
-                        {
-                            baseParam.LayerParams[col] = dt.Rows[rowIndex][col];
-                        }
-                        layers.Add(baseParam);
-                        // 因为层厚是影响前两个字段的字段，通过刷新层厚刷新前两个字段。
-                        baseParam.CengHou = baseParam.LayerParams.CengHou;
-                    }
-                }
-                catch(Exception)
-                {
-                    MessageBox.Show("读取文件失败,请检查文件第" + rowIndex + "行数据的格式问题。");
-                }
-            }
-        }
-         
+ 
 
         // 下方增加行
         private void click_addRow(object sender, RoutedEventArgs e)
@@ -251,6 +197,46 @@ namespace GroundWellDesign
             }
             layers.Insert(selectedIndex + 1, newLine);  //选择了非空行
         }
+
+
+        // 从Excel导入岩层参数
+        private void click_importExcel(object sender, RoutedEventArgs e)
+        {
+            string filePath = FileDialogHelper.getOpenPath("Excel文件(*.xls)|*.xls");
+            DataTable dt = null;
+            if (filePath != null)
+            {
+                dt = ExcelHelper.LoadExcelWithAspose(filePath);
+                if (dt == null || dt.Columns.Count != 17)
+                {
+                    App.logger.Error("文件格式可能不正确。列数不对。");
+                    MessageBox.Show("读取文件失败，请检查格式。");
+                    return;
+                }
+                int rowIndex = 0;
+                try
+                {
+                    layers.Clear();
+                    for (; rowIndex < dt.Rows.Count; ++rowIndex)
+                    {
+                        LayerBaseParamsViewModel baseParam = new LayerBaseParamsViewModel(this);
+                        for (int col = 0; col < 17; ++col)
+                        {
+                            baseParam.LayerParams[col] = dt.Rows[rowIndex][col];
+                        }
+                        layers.Add(baseParam);
+                        // 因为层厚是影响前两个字段的字段，通过刷新层厚刷新前两个字段。
+                        baseParam.CengHou = baseParam.LayerParams.CengHou;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    App.logger.Error("文件格式可能不正确。数据格式不对。", ex);
+                    MessageBox.Show("读取文件失败,请检查文件第" + rowIndex + "行数据的格式问题。");
+                }
+            }
+        }
+         
         
         
         // 计算关键层和竖三带
@@ -308,10 +294,10 @@ namespace GroundWellDesign
                 double wanquDai = layers[0].JuLiMeiShenDu - lieXiDai;
                 wanQuDaiTb.Text = wanquDai.ToString("f3");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                e.ToString();
-                MessageBox.Show("竖三带计算出错，请检查数据合理性");
+                App.logger.Error(GroundWellDesign.Properties.Resources.ShuSanDaiError, ex);
+                MessageBox.Show(GroundWellDesign.Properties.Resources.ShuSanDaiError);
             }
 
         }
@@ -393,7 +379,6 @@ namespace GroundWellDesign
         }
 
 
-
         //计算关键层接口
         private bool getKeyLayer(ref int[] bianHao, ref double[] pjxs)
         {
@@ -413,12 +398,12 @@ namespace GroundWellDesign
                 return false;
             }
 
-            double[,] data = getParams(meiIndex);
-            double[] rowData = arrayTrans(data);
-            MWNumericArray mwdata = new MWNumericArray(rowData.Length / 11, 11, rowData);
-
             try
             {
+                double[,] data = getParams(meiIndex);
+                double[] rowData = arrayTrans(data);
+                MWNumericArray mwdata = new MWNumericArray(rowData.Length / 11, 11, rowData);
+
                 MWArray[] result = logic.yancengzuhe(2, mwdata, FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
                 MWNumericArray biaoHaoList = (MWNumericArray)result[0];
                 MWNumericArray pjxsList = (MWNumericArray)result[1];
@@ -430,16 +415,14 @@ namespace GroundWellDesign
                 {
                     bianHao[i] = (int)outBiaoHao[i];
                 }
-
-
                 pjxs = (double[])pjxsList.ToVector(MWArrayComponent.Real);
 
                 return true;
-
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show("关键层计算出现错误，请检查数据合理性。");
+                App.logger.Error(GroundWellDesign.Properties.Resources.KeyLayerError, ex);
+                MessageBox.Show(GroundWellDesign.Properties.Resources.KeyLayerError);
                 return false;
             }
 

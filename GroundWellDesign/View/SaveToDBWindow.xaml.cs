@@ -12,14 +12,14 @@ namespace GroundWellDesign
     public partial class SaveToDBWindow : Window
     {
         LayerBaseParams layer;
-        List<String> items = new List<string>();
+        List<String> items = null;
         public SaveToDBWindow(LayerBaseParams layer)
         {
             InitializeComponent();
             this.layer = layer;
 
             // 初始化矿井名下拉列表
-            SQLDBHelper.getAllWellName(items);
+            items = SQLDBHelper.getAllWellName();
             comboBox.ItemsSource = items;
             if(items.Count > 0)
                 comboBox.SelectedIndex = 0;
@@ -28,27 +28,27 @@ namespace GroundWellDesign
         private void saveOkBtn_Click(object sender, RoutedEventArgs e)
         {
             string wellName = comboBox.Text;
-            if(wellName.Equals(""))
+            if(wellName == null || wellName.Equals(""))
             {
-                MessageBox.Show("请输入矿井名称");
+                MessageBox.Show(GroundWellDesign.Properties.Resources.TypeWellNamePrompt);
                 return;
             }
 
             string uuid = Guid.NewGuid().ToString();
-            bool success = SQLDBHelper.saveToSqlite(layer, uuid, false, wellName, items.Contains(wellName));
+            bool success = SQLDBHelper.SaveLayer(layer, uuid, false, wellName, items.Contains(wellName));
 
             if (success)
             {
                 layer.DataBaseKey = uuid;
                 layer.WellNamePK = wellName;
-                MessageBox.Show("保存成功");
+                MessageBox.Show(GroundWellDesign.Properties.Resources.OperateOk);
+                Close();
             }
             else
             {
-                MessageBox.Show("保存失败");
+                MessageBox.Show(GroundWellDesign.Properties.Resources.OperateNotOk);
             }
             
-            Close();
         }
 
         private void saveCancelBtn_Click(object sender, RoutedEventArgs e)
