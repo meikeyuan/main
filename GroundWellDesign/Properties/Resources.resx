@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DumpError" xml:space="preserve">
+    <value>dump到对象异常。</value>
+  </data>
+  <data name="DumpNull" xml:space="preserve">
+    <value>dump到对象为空。</value>
+  </data>
   <data name="License" xml:space="preserve">
     <value>License.lic</value>
   </data>

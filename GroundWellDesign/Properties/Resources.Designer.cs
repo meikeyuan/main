@@ -61,6 +61,15 @@ namespace GroundWellDesign.Properties {
         }
         
         /// <summary>
+        ///   查找类似 文档dump到object为空。 的本地化字符串。
+        /// </summary>
+        internal static string DumpNull {
+            get {
+                return ResourceManager.GetString("DumpNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 License.lic 的本地化字符串。
         /// </summary>
         internal static string License {

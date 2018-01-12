@@ -1,4 +1,5 @@
-﻿using GroundWellDesign.Util;
+﻿using GroundWellDesign.Properties;
+using GroundWellDesign.Util;
 using GroundWellDesign.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -18,55 +19,63 @@ namespace GroundWellDesign
     {
         private static DataToSave dump_obj(Document document)
         {
-            DataToSave data = new DataToSave();
-
-            //基本参数
-            data.Layers = new List<LayerBaseParams>();
-            foreach (LayerBaseParamsViewModel layerParam in document.layers)
+            try
             {
-                data.Layers.Add(layerParam.LayerParams);
+                DataToSave data = new DataToSave();
+
+                //基本参数
+                data.Layers = new List<LayerBaseParams>();
+                foreach (LayerBaseParamsViewModel layerParam in document.layers)
+                {
+                    data.Layers.Add(layerParam.LayerParams);
+                }
+
+                //人工设计数据
+                data.ManuDesignParams = document.manuDesignParams.Param;
+
+                //关键层参数
+                data.KeyLayers = new List<KeyLayerParams>();
+                foreach (KeyLayerParamsViewModel layerParam in document.keyLayers)
+                {
+                    data.KeyLayers.Add(layerParam.Params);
+                }
+
+
+                data.KeyLayerData = new List<double>();
+                //保存横三带竖三代数据
+                data.KeyLayerData.Add(document.Mcqj);
+                data.KeyLayerData.Add(document.FuYanXCL);
+                data.KeyLayerData.Add(document.CaiGao);
+                data.KeyLayerData.Add(document.SuiZhangXS);
+                double maoLuoDai, lieXiDai, wanQuDai;
+                double.TryParse(document.maoLuoDaiTb.Text, out maoLuoDai);
+                double.TryParse(document.lieXiDaiTb.Text, out lieXiDai);
+                double.TryParse(document.wanQuDaiTb.Text, out wanQuDai);
+                data.KeyLayerData.Add(maoLuoDai);
+                data.KeyLayerData.Add(lieXiDai);
+                data.KeyLayerData.Add(wanQuDai);
+                //保存关键层计算相关数据
+                data.KeyLayerData.Add(document.Mchd);
+                data.KeyLayerData.Add(document.Pjxsxz);
+                data.KeyLayerData.Add(document.HcqZXcd);
+                data.KeyLayerData.Add(document.HcqQXcd);
+                data.KeyLayerData.Add(document.Gzmsd);
+                data.KeyLayerData.Add(document.Jswzjl);
+
+                //保存水泥环增益计算的数据
+                data.ZengYis = new List<ZengYiParams>();
+                foreach (ZengYiParamsViewModel param in document.zengYis)
+                {
+                    data.ZengYis.Add(param.Params);
+                }
+
+                return data;
             }
-
-            //人工设计数据
-            data.ManuDesignParams = document.manuDesignParams.Param;
-
-            //关键层参数
-            data.KeyLayers = new List<KeyLayerParams>();
-            foreach (KeyLayerParamsViewModel layerParam in document.keyLayers)
+            catch(Exception e)
             {
-                data.KeyLayers.Add(layerParam.Params);
+                App.logger.Error(Resources.DumpError, e);
+                return null;
             }
-
-
-            data.KeyLayerData = new List<double>();
-            //保存横三带竖三代数据
-            data.KeyLayerData.Add(document.Mcqj);
-            data.KeyLayerData.Add(document.FuYanXCL);
-            data.KeyLayerData.Add(document.CaiGao);
-            data.KeyLayerData.Add(document.SuiZhangXS);
-            double maoLuoDai, lieXiDai, wanQuDai;
-            double.TryParse(document.maoLuoDaiTb.Text, out maoLuoDai);
-            double.TryParse(document.lieXiDaiTb.Text, out lieXiDai);
-            double.TryParse(document.wanQuDaiTb.Text, out wanQuDai);
-            data.KeyLayerData.Add(maoLuoDai);
-            data.KeyLayerData.Add(lieXiDai);
-            data.KeyLayerData.Add(wanQuDai);
-            //保存关键层计算相关数据
-            data.KeyLayerData.Add(document.Mchd);
-            data.KeyLayerData.Add(document.Pjxsxz);
-            data.KeyLayerData.Add(document.HcqZXcd);
-            data.KeyLayerData.Add(document.HcqQXcd);
-            data.KeyLayerData.Add(document.Gzmsd);
-            data.KeyLayerData.Add(document.Jswzjl);
-
-            //保存水泥环增益计算的数据
-            data.ZengYis = new List<ZengYiParams>();
-            foreach (ZengYiParamsViewModel param in document.zengYis)
-            {
-                data.ZengYis.Add(param.Params);
-            }
-
-            return data;
         }
 
 
@@ -75,6 +84,7 @@ namespace GroundWellDesign
             DataToSave obj = dump_obj(document);
             if(obj == null)
             {
+                App.logger.Warn(Resources.DumpNull);
                 return false;
             }
 
