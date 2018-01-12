@@ -78,19 +78,23 @@ namespace GroundWellDesign
                 return false;
             }
 
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
-
             //通过formatter对象以二进制格式将obj对象序列化后到文件中
+            Stream stream = null;
             try
             {
+                stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+                IFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(stream, obj);
-                stream.Close();
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                FileHelper.WriteFile("C:\\log.txt", e.Message);
                 return false;
+            }
+            finally
+            {
+                stream.Close();
             }
             
         }
@@ -99,13 +103,13 @@ namespace GroundWellDesign
         public static bool restoreDocument(Document document, string path)
         {
             //重新取回数据 
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream2 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
-
+            Stream stream = null;
             object obj = null;
             try
             {
-                obj = formatter.Deserialize(stream2);
+                IFormatter formatter = new BinaryFormatter();
+                stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
+                obj = formatter.Deserialize(stream);
                 if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
                 {
                     return false;
@@ -118,7 +122,7 @@ namespace GroundWellDesign
             }
             finally
             {
-                stream2.Close();
+                stream.Close();
             }
 
             DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
