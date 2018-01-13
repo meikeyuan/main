@@ -1,4 +1,5 @@
-﻿using MvvmFoundation.Wpf;
+﻿using GroundWellDesign.Util;
+using MvvmFoundation.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,8 +104,8 @@ namespace GroundWellDesign.ViewModel
                 Gzmtjjl = Gzmtjsj * mainWindow.gzmsd;
 
                 RaisePropertyChanged("Gzmtjsj");
-
-                mainWindow.computeMidData(mainWindow.keyLayers.Count);
+                int upcount = 0;
+                ComputeHelper.computeKeyLayerOffset(mainWindow, ref upcount);
             }
         }
 

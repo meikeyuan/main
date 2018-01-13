@@ -1,4 +1,5 @@
 ﻿using AxMxDrawXLib;
+using GroundWellDesign.Util;
 using GroundWellDesign.ViewModel;
 using Mky;
 using System;
@@ -18,8 +19,6 @@ namespace GroundWellDesign
 
         //cad ActiveX控件和matlab函数类
         AxMxDrawX cadViewer, cadViewer2;
-        public static MkyLogic logic;
-
 
         public ObservableCollection<LayerBaseParamsViewModel> layers = new ObservableCollection<LayerBaseParamsViewModel>();
         LayerBaseParams copyedLayer;
@@ -28,7 +27,7 @@ namespace GroundWellDesign
         public ObservableCollection<KeyLayerParamsViewModel> keyLayers = new ObservableCollection<KeyLayerParamsViewModel>();
 
         public ObservableCollection<ZengYiParamsViewModel> zengYis = new ObservableCollection<ZengYiParamsViewModel>();
-        ZengYiParamsViewModel editZengYi;
+        public ZengYiParamsViewModel editZengYi;
 
         public ManuDesignParamsViewModel manuDesignParams;
 
@@ -55,18 +54,10 @@ namespace GroundWellDesign
 
 
         //以下为横三带竖三带变量
-        public double mcqj;
         public double Mcqj
         {
-            set
-            {
-                mcqj = value;
-                computeMidData(keyLayers.Count);
-            }
-            get
-            {
-                return mcqj;
-            }
+            set;
+            get;
         }
 
         public double FuYanXCL
@@ -89,18 +80,10 @@ namespace GroundWellDesign
 
 
         //以下为计算关键层中间数据需要的变量
-        public double mchd;
         public double Mchd
         {
-            set
-            {
-                mchd = value;
-                computeMidData(keyLayers.Count);
-            }
-            get
-            {
-                return mchd;
-            }
+            get;
+            set;
         }
 
         public double pjxsxz;
@@ -113,8 +96,8 @@ namespace GroundWellDesign
                 {
                     layer.Fypjxsxz = layer.Fypjxs * value;
                 }
-                computeMidData(keyLayers.Count);
-
+                //int upcount = 0;
+                //ComputeHelper.computeKeyLayerOffset(this, ref upcount);
             }
             get
             {
@@ -128,7 +111,8 @@ namespace GroundWellDesign
             set
             {
                 hcqZxcd = value;
-                computeMidData(keyLayers.Count);
+                //int upcount = 0;
+                //ComputeHelper.computeKeyLayerOffset(this, ref upcount);
             }
             get
             {
@@ -142,7 +126,8 @@ namespace GroundWellDesign
             set
             {
                 hcqQxcd = value;
-                computeMidData(keyLayers.Count);
+                //int upcount = 0;
+                //ComputeHelper.computeKeyLayerOffset(this, ref upcount);
             }
             get
             {

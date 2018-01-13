@@ -1,4 +1,5 @@
-﻿using MxDrawXLib;
+﻿using GroundWellDesign.Util;
+using MxDrawXLib;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -60,11 +61,10 @@ namespace GroundWellDesign
             //高位位置数量，破坏主因
             string dangerStr = "";
             int dangerCnt = 0;
-            ERRORCODE errcode = computeSafe(keyLayers.Count);
-            switch (errcode)
+            try
             {
-                case ERRORCODE.计算成功:
-                    for (int i = 0; i < keyLayers.Count; i++)
+                ComputeHelper.computeSafe(this);
+for (int i = 0; i < keyLayers.Count; i++)
                     {
                         if (keyLayers[i].Jqaqxs < 1)
                         {
@@ -83,17 +83,14 @@ namespace GroundWellDesign
                             keyLayers[i].IsDangerious = -1;
                         }
                     }
-                    break;
-                case ERRORCODE.计算异常:
-                    MessageBox.Show("因计算安全系数出错，未生成cad图，请检查数据合理性");
-                    return;
-                case ERRORCODE.没有关键层数据:
-                    MessageBox.Show("因没有关键层数据，未生成cad图");
-                    return;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("因计算安全系数出错，未生成cad图，请检查数据合理性。" + ex.Message);
+                return;
             }
 
             //显示cad
-            
             string gy = "";
             if(manuDesignParams.JieGou.Equals(JieGouOpt[0]))
             {

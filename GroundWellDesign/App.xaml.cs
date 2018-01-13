@@ -35,7 +35,7 @@ namespace GroundWellDesign
             // 加载公式接口，耗时操作。
             try
             {
-                Document.logic = new MkyLogic();
+                ComputeHelper.initLogic();
             }
             catch(Exception ex)
             {

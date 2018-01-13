@@ -117,91 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CADNotRegisteredError" xml:space="preserve">
-    <value>CAD初始化失败，请检查是否注册组件。</value>
+  <data name="BaseParamsError1" xml:space="preserve">
+    <value>岩层基本参数出错：第一层不为地表。</value>
   </data>
-  <data name="CreateTableError" xml:space="preserve">
-    <value>创建表异常。</value>
+  <data name="BaseParamsError2" xml:space="preserve">
+    <value>岩层基本参数出错：没有录入煤层。</value>
   </data>
-  <data name="DataBaseDirectory" xml:space="preserve">
-    <value>C:\\ProgramData\\GroundWellDesign\\</value>
+  <data name="BaseParamsError3" xml:space="preserve">
+    <value>岩层基本参数出错：煤层没有底板。</value>
   </data>
-  <data name="DataBaseName" xml:space="preserve">
-    <value>yanceng.db</value>
+  <data name="BaseParamsError4" xml:space="preserve">
+    <value>岩层基本参数出错：没有录入任何岩层。</value>
   </data>
-  <data name="DeserializeError" xml:space="preserve">
-    <value>序列化文件到对象异常。</value>
+  <data name="ComputeKeyLayerError" xml:space="preserve">
+    <value>计算寻找关键层出错，请检查数据合理性。</value>
   </data>
-  <data name="DumpEmpty" xml:space="preserve">
-    <value>dump到对象为空。</value>
+  <data name="ComputeKeyLayerOffsetError" xml:space="preserve">
+    <value>关键层相关计算出错，请检查数据合理性。</value>
   </data>
-  <data name="DumpError" xml:space="preserve">
-    <value>dump到对象异常。</value>
+  <data name="ComputeSafeError" xml:space="preserve">
+    <value>安全系数计算出错，请检查数据合理性。</value>
   </data>
-  <data name="ExportExcelError" xml:space="preserve">
-    <value>将DataGrid保存到Excel文件出现异常。</value>
+  <data name="ComputeZengYiError" xml:space="preserve">
+    <value>水泥环增益计算出错，请检查数据合理性。</value>
   </data>
-  <data name="InitDataBaseTablesError" xml:space="preserve">
-    <value>创建数据库表失败。</value>
+  <data name="NoGzmsd" xml:space="preserve">
+    <value>没有填写工作面推进速度。</value>
   </data>
-  <data name="InitLogicError" xml:space="preserve">
-    <value>初始化运行时公式库失败。</value>
+  <data name="NoHcqcdError" xml:space="preserve">
+    <value>没有填写回采区走向长度或倾向长度</value>
   </data>
-  <data name="InsertColumeError" xml:space="preserve">
-    <value>插入字段异常。</value>
+  <data name="NoKeyParamsError" xml:space="preserve">
+    <value>未计算关键层或没有关键层。</value>
   </data>
-  <data name="LayerExistPrompt" xml:space="preserve">
-    <value>该岩层记录已存在，是否更新数据库记录？选择\"否\"新增一条。</value>
+  <data name="NoMchdError" xml:space="preserve">
+    <value>没有填写煤层厚度。</value>
   </data>
-  <data name="License" xml:space="preserve">
-    <value>License.lic</value>
+  <data name="NoPjxsxzError" xml:space="preserve">
+    <value>没有填写评价系数修正系数。</value>
   </data>
-  <data name="LoadExcelError" xml:space="preserve">
-    <value>读取Excel失败。</value>
-  </data>
-  <data name="OpenDataBaseError" xml:space="preserve">
-    <value>打开数据库出现异常。</value>
-  </data>
-  <data name="OperateNotOk" xml:space="preserve">
-    <value>操作失败。</value>
-  </data>
-  <data name="OperateOk" xml:space="preserve">
-    <value>操作成功。</value>
-  </data>
-  <data name="QueryDBLayersError" xml:space="preserve">
-    <value>查询所有岩层时异常。</value>
-  </data>
-  <data name="QueryDBLayersInfoError" xml:space="preserve">
-    <value>查询所有岩层信息不全。</value>
-  </data>
-  <data name="QueryExistColumeError" xml:space="preserve">
-    <value>查询字段是否存在时出现异常。</value>
-  </data>
-  <data name="QueryExistTableError" xml:space="preserve">
-    <value>查询表是否存在时出现异常。</value>
-  </data>
-  <data name="QueryWellNamesError" xml:space="preserve">
-    <value>查询所有地面井名字出错。</value>
-  </data>
-  <data name="SaveToDBError" xml:space="preserve">
-    <value>保存到数据库出现异常。</value>
-  </data>
-  <data name="SaveToDBInfoError" xml:space="preserve">
-    <value>保存到数据库岩层信息不全。</value>
-  </data>
-  <data name="SelectAtLeastOnePrompt" xml:space="preserve">
-    <value>请至少选择一个岩层。</value>
-  </data>
-  <data name="SerializeError" xml:space="preserve">
-    <value>序列化对象到文件异常。</value>
-  </data>
-  <data name="ShuSanDaiError" xml:space="preserve">
-    <value>竖三带计算出错，请检查数据合理性。</value>
-  </data>
-  <data name="TypeWellNamePrompt" xml:space="preserve">
-    <value>请输入矿井名称。</value>
-  </data>
-  <data name="WriteFileError" xml:space="preserve">
-    <value>写入文件失败。</value>
+  <data name="TxmlSyntaxError" xml:space="preserve">
+    <value>套管弹性模量格式不正确，请重新输入。</value>
   </data>
 </root>

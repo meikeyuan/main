@@ -15,10 +15,10 @@ using System.Threading.Tasks;
 
 namespace GroundWellDesign
 {
-    class DataSaveAndRestore
+    class PersistenceHelper
     {
         // 从Document中提取需要保存的数据到序列化对象。
-        private static DataToSave dump_obj(Document document)
+        private static PersistenceObj DumpObj(Document document)
         {
             if(document == null)
             {
@@ -27,7 +27,7 @@ namespace GroundWellDesign
 
             try
             {
-                DataToSave data = new DataToSave();
+                PersistenceObj data = new PersistenceObj();
 
                 //基本参数
                 data.Layers = new List<LayerBaseParams>();
@@ -86,7 +86,7 @@ namespace GroundWellDesign
         // 序列化Document到文件。
         public static bool saveDocument(Document document, string path)
         {
-            DataToSave obj = dump_obj(document);
+            PersistenceObj obj = DumpObj(document);
             if(obj == null)
             {
                 App.logger.Warn(Resources.DumpEmpty);
@@ -125,7 +125,7 @@ namespace GroundWellDesign
                 IFormatter formatter = new BinaryFormatter();
                 stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
                 obj = formatter.Deserialize(stream);
-                if (obj == null || !(obj is DataSaveAndRestore.DataToSave))
+                if (obj == null || !(obj is PersistenceObj))
                 {
                     return false;
                 }
@@ -140,7 +140,7 @@ namespace GroundWellDesign
                 stream.Close();
             }
 
-            DataSaveAndRestore.DataToSave data = obj as DataSaveAndRestore.DataToSave;
+            PersistenceObj data = obj as PersistenceObj;
             //恢复基本参数
             document.layers.Clear();
             foreach (LayerBaseParams baseParam in data.Layers)
@@ -162,7 +162,7 @@ namespace GroundWellDesign
             if (data.KeyLayerData != null && data.KeyLayerData.Count == 13)
             {
                 int i = 0;
-                document.mcqj = data.KeyLayerData[i++];
+                document.Mcqj = data.KeyLayerData[i++];
                 document.FuYanXCL = data.KeyLayerData[i++];
                 document.CaiGao = data.KeyLayerData[i++];
                 document.SuiZhangXS = data.KeyLayerData[i++];
@@ -170,7 +170,7 @@ namespace GroundWellDesign
                 document.lieXiDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
                 document.wanQuDaiTb.Text = data.KeyLayerData[i++].ToString("f3");
 
-                document.mchd = data.KeyLayerData[i++];
+                document.Mchd = data.KeyLayerData[i++];
                 document.pjxsxz = data.KeyLayerData[i++];
                 document.hcqZxcd = data.KeyLayerData[i++];
                 document.hcqQxcd = data.KeyLayerData[i++];
@@ -179,12 +179,12 @@ namespace GroundWellDesign
 
 
                 // 刷新UI
-                document.meiCengQingJIaoTb.Text = document.mcqj + "";
+                document.meiCengQingJIaoTb.Text = document.Mcqj + "";
                 document.fuYanXCLTb.Text = document.FuYanXCL + "";
                 document.caiGaoTb.Text = document.CaiGao + "";
                 document.suiZhangXSTb.Text = document.SuiZhangXS + "";
 
-                document.meiCengHouDuTb.Text = document.mchd + "";
+                document.meiCengHouDuTb.Text = document.Mchd + "";
                 document.xiuZhengXishuTb.Text = document.pjxsxz + "";
                 document.hcqZXcdTb.Text = document.hcqZxcd + "";
                 document.hcqQXcdTb.Text = document.hcqQxcd + "";
@@ -210,7 +210,7 @@ namespace GroundWellDesign
 
         // 序列化对象，用于存储Document数据。
         [Serializable]
-        public class DataToSave
+        class PersistenceObj
         {
             public List<LayerBaseParams> Layers
             {

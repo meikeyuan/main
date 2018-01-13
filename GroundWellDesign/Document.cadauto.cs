@@ -1,4 +1,6 @@
-﻿using MxDrawXLib;
+﻿using GroundWellDesign.Util;
+using MxDrawXLib;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -65,37 +67,35 @@ namespace GroundWellDesign
             //高位位置数量，破坏主因
             string dangerStr = "";
             int dangerCnt = 0;
-            ERRORCODE errcode = computeSafe(keyLayers.Count);
-            switch (errcode)
+            try
             {
-                case ERRORCODE.计算成功:
-                    for (int i = 0; i < keyLayers.Count; i++)
+                ComputeHelper.computeSafe(this);
+                for (int i = 0; i < keyLayers.Count; i++)
+                {
+                    if (keyLayers[i].Jqaqxs < 1)
                     {
-                        if (keyLayers[i].Jqaqxs < 1)
-                        {
-                            keyLayers[i].IsDangerious = 1;
-                            dangerCnt++;
-                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].Jqaqxs.ToString("f3");
-                        }
-                        else if(keyLayers[i].Lsaqxs < 1)
-                        {
-                            keyLayers[i].IsDangerious = 1;
-                            dangerCnt++;
-                            dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].Lsaqxs.ToString("f3");
-                        }
-                        else
-                        {
-                            keyLayers[i].IsDangerious = -1;
-                        }
+                        keyLayers[i].IsDangerious = 1;
+                        dangerCnt++;
+                        dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  剪切安全系数低，值为：" + keyLayers[i].Jqaqxs.ToString("f3");
                     }
-                    break;
-                case ERRORCODE.计算异常:
-                    MessageBox.Show("因计算安全系数出错，未生成cad图，请检查数据合理性");
-                    return;
-                case ERRORCODE.没有关键层数据:
-                    MessageBox.Show("因没有关键层数据，未生成cad图");
-                    return;
+                    else if (keyLayers[i].Lsaqxs < 1)
+                    {
+                        keyLayers[i].IsDangerious = 1;
+                        dangerCnt++;
+                        dangerStr += "\\P" + dangerCnt + " 深度：" + keyLayers[i].Ycsd.ToString("f3") + "m  拉伸安全系数低，值为：" + keyLayers[i].Lsaqxs.ToString("f3");
+                    }
+                    else
+                    {
+                        keyLayers[i].IsDangerious = -1;
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            
 
 
             //显示cad

@@ -160,15 +160,6 @@ namespace GroundWellDesign.Properties {
         }
         
         /// <summary>
-        ///   查找类似 关键层计算出错，请检查数据合理性。 的本地化字符串。
-        /// </summary>
-        internal static string KeyLayerError {
-            get {
-                return ResourceManager.GetString("KeyLayerError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 该岩层记录已存在，是否更新数据库记录？选择\&quot;否\&quot;新增一条。 的本地化字符串。
         /// </summary>
         internal static string LayerExistPrompt {

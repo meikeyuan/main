@@ -210,7 +210,7 @@ namespace GroundWellDesign
             if (filePath == null || filePath.Equals(""))
                 return true;
 
-            return DataSaveAndRestore.restoreDocument(this, filePath);
+            return PersistenceHelper.restoreDocument(this, filePath);
         }
 
         //保存到文件
@@ -219,7 +219,7 @@ namespace GroundWellDesign
             if (filePath == null || filePath.Equals(""))
                 return false;
 
-            return DataSaveAndRestore.saveDocument(this, filePath);
+            return PersistenceHelper.saveDocument(this, filePath);
         }
 
 

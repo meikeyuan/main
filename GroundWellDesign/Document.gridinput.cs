@@ -248,185 +248,41 @@ namespace GroundWellDesign
                 layers[nbr.Params.Ycbh].IsKeyLayer = false;
             }
 
-            //当前关键层变色显示
-            int[] biaoHaoList = null;
-            double[] pjxsList = null;
-            bool isOk = getKeyLayer(ref biaoHaoList, ref pjxsList);
-
-            if(!isOk)
-            {
-                return;
-            }
-            else if (biaoHaoList == null || pjxsList == null)
-            {
-                MessageBox.Show("未计算出关键层，请检查数据合理性。");
-                return;
-            }
-
-            keyLayers.Clear();
-            int count = biaoHaoList.Length;
-            for (int i = 0; i < count; i++)
-            {
-                KeyLayerParamsViewModel layer = new KeyLayerParamsViewModel(this);
-                layer.Ycbh = biaoHaoList[i] - 1;
-                layer.Fypjxs = pjxsList[i];
-
-                layer.Ycsd = layers[biaoHaoList[i] - 1].LeiJiShenDu;
-                layer.Mcms = layers[biaoHaoList[i] - 1].JuLiMeiShenDu;
-                layer.Fypjxsxz = layer.Fypjxs * pjxsxz;
-                keyLayers.Add(layer);
-
-                layers[biaoHaoList[i] - 1].IsKeyLayer = true;
-            }
-
-            //竖三带计算
+            // 计算关键层
             try
             {
-                // 冒落带
-                var array1 = (MWNumericArray)logic.calHm(FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
-                double maoLuoDai = array1.ToScalarDouble();
-                maoLuoDaiTb.Text = maoLuoDai.ToString("f3");
-                // 裂隙带
-                var array2 = (MWNumericArray)logic.calHl(CaiGao, 1);
-                double lieXiDai = array2.ToScalarDouble();
-                lieXiDaiTb.Text = lieXiDai.ToString("f3");
-                // 弯曲下沉带 = 煤层以上深度 - 裂隙带高度
-                double wanquDai = layers[0].JuLiMeiShenDu - lieXiDai;
-                wanQuDaiTb.Text = wanquDai.ToString("f3");
-            }
-            catch (Exception ex)
-            {
-                App.logger.Error(GroundWellDesign.Properties.Resources.ShuSanDaiError, ex);
-                MessageBox.Show(GroundWellDesign.Properties.Resources.ShuSanDaiError);
-            }
+                int[] biaoHaoList = null;
+                double[] pjxsList = null;
+                ComputeHelper.computeKeyLayer(this, ref biaoHaoList, ref pjxsList);
+                if (biaoHaoList == null || pjxsList == null)
+                {
+                    MessageBox.Show("未计算出关键层，请检查数据合理性。");
+                    return;
+                }
 
+                keyLayers.Clear();
+                int count = biaoHaoList.Length;
+                for (int i = 0; i < count; i++)
+                {
+                    KeyLayerParamsViewModel layer = new KeyLayerParamsViewModel(this);
+                    layer.Ycbh = biaoHaoList[i] - 1;
+                    layer.Fypjxs = pjxsList[i];
+
+                    layer.Ycsd = layers[biaoHaoList[i] - 1].LeiJiShenDu;
+                    layer.Mcms = layers[biaoHaoList[i] - 1].JuLiMeiShenDu;
+                    layer.Fypjxsxz = layer.Fypjxs * pjxsxz;
+                    keyLayers.Add(layer);
+                    layers[biaoHaoList[i] - 1].IsKeyLayer = true;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
         }
         // 地面井设计需要用到该参数
         int wanQuDaiIndex = 0;
-
-
-        // 获取岩层参数
-        private double[,] getParams(int meiIndex)
-        {
-            double[,] res = new double[meiIndex + 2, 11];
-
-            for (int i = 0; i <= meiIndex + 1; i++)
-            {
-                LayerBaseParams param = layers[i].LayerParams;
-                if (param.YanXing == "地表")
-                {
-                    res[i, 0] = 1;
-                }
-                else if (param.YanXing == "黄土")
-                {
-                    res[i, 0] = 2;
-                }
-                else if (param.YanXing == "煤")
-                {
-                    res[i, 0] = 9;
-                }
-                else
-                {
-                    res[i, 0] = 0;
-                }
-
-                res[i, 1] = param.LeiJiShenDu;
-                res[i, 2] = param.ZiRanMiDu;
-                res[i, 3] = param.BianXingMoLiang;
-                res[i, 4] = param.KangLaQiangDu;
-                res[i, 5] = param.KangYaQiangDu;
-                res[i, 6] = param.TanXingMoLiang;
-                res[i, 7] = param.BoSonBi;
-                res[i, 8] = param.NeiMoCaJiao;
-                res[i, 9] = param.NianJuLi;
-
-                if (caiDongComBox.SelectedIndex == 0)
-                {
-                    res[i, 10] = param.Q0;
-
-                }
-                else if (caiDongComBox.SelectedIndex == 1)
-                {
-                    res[i, 10] = param.Q1;
-                }
-                else
-                {
-                    res[i, 10] = param.Q2;
-                }
-            }
-
-            return res;
-
-        }
-
-
-        // 二维转置
-        private double[] arrayTrans(double[,] input)
-        {
-            int width = input.GetLength(0);
-            int length = input.GetLength(1);
-
-            double[] output = new double[length * width];
-
-            for (int i = 0; i < width; i++)
-                for (int j = 0; j < length; j++)
-                {
-                    output[i * length + j] = input[i, j];
-                }
-
-            return output;
-
-        }
-
-
-        //计算关键层接口
-        private bool getKeyLayer(ref int[] bianHao, ref double[] pjxs)
-        {
-            //判断是否有煤层 或者 煤层是最后一层 或者 第一层不是地表 则不能计算
-            int meiIndex = -1;
-            for (int i = layers.Count - 1; i >= 0; --i)
-            {
-                if(layers[i].YanXing.Equals("煤"))
-                {
-                    meiIndex = i;
-                    break;
-                }
-            }
-            if (meiIndex == -1 || meiIndex == layers.Count - 1 || !layers[0].YanXing.Equals("地表"))
-            {
-                MessageBox.Show("数据录入有误，请检查。(第一层应为地表，煤层应有底板。)");
-                return false;
-            }
-
-            try
-            {
-                double[,] data = getParams(meiIndex);
-                double[] rowData = arrayTrans(data);
-                MWNumericArray mwdata = new MWNumericArray(rowData.Length / 11, 11, rowData);
-
-                MWArray[] result = logic.yancengzuhe(2, mwdata, FuYanXCL, CaiGao, SuiZhangXS, Mcqj);
-                MWNumericArray biaoHaoList = (MWNumericArray)result[0];
-                MWNumericArray pjxsList = (MWNumericArray)result[1];
-
-                double[] outBiaoHao = (double[])biaoHaoList.ToVector(MWArrayComponent.Real);
-                int length = outBiaoHao.Length;
-                bianHao = new int[length];
-                for (int i = 0; i < length; i++)
-                {
-                    bianHao[i] = (int)outBiaoHao[i];
-                }
-                pjxs = (double[])pjxsList.ToVector(MWArrayComponent.Real);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                App.logger.Error(GroundWellDesign.Properties.Resources.KeyLayerError, ex);
-                MessageBox.Show(GroundWellDesign.Properties.Resources.KeyLayerError);
-                return false;
-            }
-
-        }
 
 
         private void yancengListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

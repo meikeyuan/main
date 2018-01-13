@@ -122,12 +122,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\ErrorInfo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorInfo.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Util\Converter.cs" />
+    <Compile Include="Util\ComputeHelper.cs" />
+    <Compile Include="ViewModel\Converter.cs" />
     <Compile Include="Document.offsetcut.cs" />
     <Compile Include="Document.data.cs" />
     <Compile Include="Document.offsetlc.cs" />
@@ -204,7 +210,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Util\DataSaveAndRestore.cs" />
+    <Compile Include="Util\PersistenceHelper.cs" />
     <Compile Include="Model\KeyLayerParams.cs" />
     <Compile Include="Model\LayerBaseParams.cs" />
     <Compile Include="Document.cadauto.cs" />
@@ -297,6 +303,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\ErrorInfo.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorInfo.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
