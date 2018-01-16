@@ -147,7 +147,7 @@ namespace GroundWellDesign
                 Workbook workbook = new Workbook();
                 workbook.Open(path);
                 Cells cells = workbook.Worksheets[0].Cells;
-                DataTable dt = cells.ExportDataTableAsString(0, 0, cells.MaxDataRow + 1, cells.MaxColumn + 1, showTitle);
+                DataTable dt = cells.ExportDataTableAsString(cells.Start.Row, cells.Start.Column, cells.Rows.Count, cells.Columns.Count, showTitle);
 
                 return dt;
             }
